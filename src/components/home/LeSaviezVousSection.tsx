@@ -1,127 +1,134 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { SectionTitle } from '@/components/ui/SectionTitle';
-import { TIPS, Tip } from '@/data/tips';
-import { Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TIPS } from '@/data/tips';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const LeSaviezVousSection = () => {
   const { theme, darkMode } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const nextTip = () => {
+  const nextTip = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % TIPS.length);
-  };
+  }, []);
 
   const prevTip = () => {
     setCurrentIndex((prev) => (prev - 1 + TIPS.length) % TIPS.length);
   };
 
+  // Auto-scroll every 5 seconds
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      nextTip();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, nextTip]);
+
   const currentTip = TIPS[currentIndex];
 
-  const categoryColors: Record<Tip['categorie'], string> = {
-    eco: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)',
-    astuce: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
-    sante: darkMode ? 'rgba(236, 72, 153, 0.2)' : 'rgba(236, 72, 153, 0.15)',
-    economie: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)'
-  };
-
-  const categoryTextColors: Record<Tip['categorie'], string> = {
-    eco: '#22C55E',
-    astuce: '#8B5CF6',
-    sante: '#EC4899',
-    economie: '#FBBF24'
-  };
-
-  const categoryLabels: Record<Tip['categorie'], string> = {
-    eco: 'Écologie',
-    astuce: 'Astuce',
-    sante: 'Santé',
-    economie: 'Économie'
-  };
-
   return (
-    <div className="mb-5">
-      <SectionTitle
-        icon={Lightbulb}
-        iconColor="text-amber-500"
-      >
-        Le saviez-vous ?
-      </SectionTitle>
-
-      {/* Card */}
+    <div className="mb-6">
+      {/* Card with pink gradient */}
       <div
-        className="relative p-5 rounded-2xl overflow-hidden"
+        className="relative p-5 rounded-3xl overflow-hidden"
         style={{
           background: darkMode
-            ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)'
-            : 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
-          border: darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)'
+            ? 'linear-gradient(135deg, rgba(236,72,153,0.25) 0%, rgba(255,182,193,0.15) 50%, rgba(200,220,240,0.1) 100%)'
+            : 'linear-gradient(135deg, rgba(255,182,193,0.5) 0%, rgba(255,218,225,0.4) 50%, rgba(220,240,250,0.3) 100%)',
+          border: darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,182,193,0.3)'
         }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
       >
-        {/* Category badge */}
-        <span
-          className="inline-block text-[10px] px-2.5 py-1 rounded-full font-semibold mb-3"
-          style={{
-            background: categoryColors[currentTip.categorie],
-            color: categoryTextColors[currentTip.categorie]
-          }}
-        >
-          {categoryLabels[currentTip.categorie]}
-        </span>
-
-        {/* Content */}
-        <div className="flex items-start gap-3 mb-4">
-          <span className="text-3xl">{currentTip.emoji}</span>
-          <div className="flex-1">
-            <h3 className="font-bold text-sm mb-1" style={{ color: theme.textPrimary }}>
-              {currentTip.titre}
-            </h3>
-            <p className="text-xs leading-relaxed" style={{ color: theme.textSecondary }}>
-              {currentTip.contenu}
-            </p>
+        {/* Header row */}
+        <div className="flex items-center justify-between mb-4">
+          {/* Icon + Title */}
+          <div className="flex items-center gap-2">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, #A855F7 0%, #EC4899 100%)'
+                  : 'linear-gradient(135deg, #A855F7 0%, #EC4899 100%)'
+              }}
+            >
+              <span className="text-base">💡</span>
+            </div>
+            <span
+              className="text-xs font-bold tracking-wide uppercase"
+              style={{ color: '#EC4899' }}
+            >
+              Le saviez-vous ?
+            </span>
           </div>
+
+          {/* Counter */}
+          <span
+            className="text-xs font-medium px-2 py-1 rounded-full"
+            style={{
+              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(236,72,153,0.1)',
+              color: darkMode ? 'rgba(255,255,255,0.6)' : '#EC4899'
+            }}
+          >
+            {currentIndex + 1}/{TIPS.length}
+          </span>
         </div>
+
+        {/* Content - Large text */}
+        <p
+          className="text-base font-medium leading-relaxed mb-6 min-h-[60px]"
+          style={{ color: theme.textPrimary }}
+        >
+          {currentTip.contenu}
+        </p>
 
         {/* Navigation */}
         <div className="flex items-center justify-between">
+          {/* Left arrow */}
           <button
             onClick={prevTip}
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
             style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+              background: darkMode ? 'rgba(236,72,153,0.2)' : 'rgba(236,72,153,0.15)'
             }}
           >
-            <ChevronLeft className="w-4 h-4" style={{ color: theme.textMuted }} />
+            <ChevronLeft className="w-5 h-5" style={{ color: '#EC4899' }} />
           </button>
 
           {/* Dots */}
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5 items-center">
             {TIPS.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex ? 'w-4' : ''
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? 'w-4' : 'w-2'
                 }`}
                 style={{
                   background: index === currentIndex
-                    ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
-                    : darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
+                    ? '#EC4899'
+                    : darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(236,72,153,0.25)'
                 }}
               />
             ))}
           </div>
 
+          {/* Right arrow */}
           <button
             onClick={nextTip}
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
+            className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
             style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+              background: darkMode ? 'rgba(236,72,153,0.2)' : 'rgba(236,72,153,0.15)'
             }}
           >
-            <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
+            <ChevronRight className="w-5 h-5" style={{ color: '#EC4899' }} />
           </button>
         </div>
       </div>

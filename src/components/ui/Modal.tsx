@@ -1,6 +1,6 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { X, ArrowLeft } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -11,6 +11,9 @@ interface ModalProps {
   headerGradient?: string;
   headerContent?: ReactNode;
 }
+
+// Default pastel gradient (pink to mint with teal accents)
+const DEFAULT_GRADIENT = 'linear-gradient(135deg, #FFB6C1 0%, #E8D5E0 25%, #B5E8E3 50%, #98D4C8 75%, #7FCEC5 100%)';
 
 export function Modal({ isOpen, onClose, children, headerGradient, headerContent }: ModalProps) {
   const { theme } = useTheme();
@@ -46,22 +49,29 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
         {/* Header with gradient */}
         {headerContent && (
           <div
-            className="relative px-6 pt-6 pb-8 flex-shrink-0"
-            style={{ background: headerGradient || 'linear-gradient(135deg, #F472B6 0%, #8B5CF6 50%, #06B6D4 100%)' }}
+            className="relative px-6 pt-6 pb-8 flex-shrink-0 overflow-hidden"
+            style={{ background: headerGradient || DEFAULT_GRADIENT }}
           >
-            {/* Decorative circles */}
-            <div className="absolute top-4 right-16 w-20 h-20 bg-white/10 rounded-full blur-xl" />
-            <div className="absolute bottom-0 left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+            {/* Decorative circles - mint/teal */}
+            <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-40"
+              style={{ background: 'radial-gradient(circle, rgba(127,206,197,0.6) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }}
+            />
+            <div className="absolute bottom-0 right-1/4 w-24 h-24 rounded-full opacity-30"
+              style={{ background: 'radial-gradient(circle, rgba(181,232,227,0.8) 0%, transparent 70%)', transform: 'translateY(30%)' }}
+            />
+            <div className="absolute top-1/2 left-0 w-20 h-20 rounded-full opacity-25"
+              style={{ background: 'radial-gradient(circle, rgba(152,212,200,0.6) 0%, transparent 70%)', transform: 'translate(-30%, -50%)' }}
+            />
 
-            {/* Close button */}
+            {/* Back/Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute top-4 left-4 p-2 rounded-full bg-white/30 hover:bg-white/40 transition-colors"
             >
-              <X className="w-5 h-5 text-white" />
+              <ArrowLeft className="w-5 h-5 text-white" />
             </button>
 
-            <div className="relative z-10">
+            <div className="relative z-10 mt-8">
               {headerContent}
             </div>
           </div>
