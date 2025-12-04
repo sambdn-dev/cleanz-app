@@ -20,7 +20,7 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
       >
         <span className="text-base mr-2">✨</span>Astuces du jour
       </SectionTitle>
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+      <div className="flex gap-3 overflow-x-auto pt-2 pb-4 -mx-4 px-4 scrollbar-hide">
         {ASTUCES_DU_JOUR.map((astuce) => (
           <button
             key={astuce.id}

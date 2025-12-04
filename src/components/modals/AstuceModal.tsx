@@ -14,7 +14,7 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
       {/* Backdrop */}
@@ -22,13 +22,13 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-t-3xl animate-slide-up"
+        className="relative w-full max-w-md max-h-[85vh] overflow-hidden rounded-3xl shadow-2xl flex flex-col animate-slideUp"
         style={{ background: theme.bgModal }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header with gradient */}
         <div
-          className="relative p-6 pb-8 rounded-t-3xl"
+          className="relative p-6 pb-8 rounded-t-3xl flex-shrink-0"
           style={{ background: astuce.gradient }}
         >
           {/* Close button */}
@@ -63,8 +63,8 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-5 space-y-5">
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto overscroll-contain p-5 space-y-5">
           {/* Resume */}
           <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
             {astuce.resume}
@@ -127,8 +127,6 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
           </div>
         </div>
 
-        {/* Bottom padding for safe area */}
-        <div className="h-6" />
       </div>
     </div>
   );
