@@ -18,6 +18,7 @@ import { SurfaceModal } from '@/components/modals/SurfaceModal';
 import { IngredientModal } from '@/components/modals/IngredientModal';
 import { ElectromenagerModal } from '@/components/modals/ElectromenagerModal';
 import { AstuceModal } from '@/components/modals/AstuceModal';
+import { AccountMenu } from '@/components/layout/AccountMenu';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { Surface, Spray, Ingredient, Electromenager, Astuce } from '@/types';
 
@@ -179,6 +180,19 @@ export default function HomePage() {
       {selectedAstuce && (
         <AstuceModal astuce={selectedAstuce} onClose={() => setSelectedAstuce(null)} />
       )}
+
+      {/* Account Menu */}
+      <AccountMenu
+        isOpen={showAccountMenu}
+        onClose={() => setShowAccountMenu(false)}
+        onNavigate={(page) => {
+          // Handle navigation based on page
+          if (page === 'favoris') {
+            // TODO: Navigate to favorites when implemented
+            console.log('Navigate to favorites');
+          }
+        }}
+      />
     </div>
   );
 }
