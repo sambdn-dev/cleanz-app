@@ -63,6 +63,8 @@ export interface Electromenager {
   nom: string;
   emoji: string;
   conso: string;
+  consoPct: number; // Pourcentage de la consommation électrique du foyer
+  piece: string;
   color: string;
   nettoyer: ElectromenagerNettoyage;
   entretien: ElectromenagerEntretien;
