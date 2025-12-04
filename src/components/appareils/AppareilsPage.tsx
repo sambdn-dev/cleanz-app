@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ELECTROMENAGERS, PIECES, ENERGY_TIPS, EnergyTip, Piece } from '@/data/electromenager';
 import { Electromenager } from '@/types';
-import { Zap, Sparkles, Home, ChevronLeft, ChevronRight, TrendingDown, Clock, MapPin } from 'lucide-react';
+import { Zap, Sparkles, Home, ChevronLeft, ChevronRight, TrendingDown, Clock } from 'lucide-react';
 
 interface AppareilsPageProps {
   onApplianceClick: (appliance: Electromenager) => void;
@@ -142,16 +142,6 @@ const ApplianceCard = ({
 }) => {
   const { theme, darkMode } = useTheme();
 
-  // Couleurs pour l'indicateur de consommation
-  const getConsoColor = (pct: number) => {
-    if (pct >= 20) return { bg: 'rgba(239, 68, 68, 0.15)', text: '#EF4444', label: 'Élevée' };
-    if (pct >= 10) return { bg: 'rgba(251, 191, 36, 0.15)', text: '#FBBF24', label: 'Moyenne' };
-    if (pct >= 5) return { bg: 'rgba(59, 130, 246, 0.15)', text: '#3B82F6', label: 'Modérée' };
-    return { bg: 'rgba(34, 197, 94, 0.15)', text: '#22C55E', label: 'Faible' };
-  };
-
-  const consoStyle = getConsoColor(appliance.consoPct);
-
   // Mapping des couleurs de fond pour chaque appareil
   const colorMap: Record<string, string> = {
     'bg-blue-500': darkMode ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.1)',
@@ -172,7 +162,7 @@ const ApplianceCard = ({
     <Card
       hoverable
       onClick={onClick}
-      className="p-3 relative overflow-hidden"
+      className="p-4 relative overflow-hidden"
     >
       {/* Decorative gradient background */}
       <div
@@ -184,38 +174,13 @@ const ApplianceCard = ({
 
       <div className="relative z-10">
         {/* Emoji and name */}
-        <div className="text-center mb-2">
-          <span className="text-3xl block mb-1">{appliance.emoji}</span>
+        <div className="text-center">
+          <span className="text-3xl block mb-2">{appliance.emoji}</span>
           <span
             className="text-xs font-semibold line-clamp-1"
             style={{ color: theme.textPrimary }}
           >
             {appliance.nom}
-          </span>
-        </div>
-
-        {/* Energy indicator */}
-        <div
-          className="flex items-center justify-center gap-1 px-2 py-1 rounded-full"
-          style={{ background: consoStyle.bg }}
-        >
-          <Zap className="w-3 h-3" style={{ color: consoStyle.text }} />
-          <span
-            className="text-[10px] font-bold"
-            style={{ color: consoStyle.text }}
-          >
-            {appliance.consoPct}%
-          </span>
-        </div>
-
-        {/* Room indicator */}
-        <div className="flex items-center justify-center gap-1 mt-2">
-          <MapPin className="w-3 h-3" style={{ color: theme.textMuted }} />
-          <span
-            className="text-[9px]"
-            style={{ color: theme.textMuted }}
-          >
-            {appliance.piece}
           </span>
         </div>
       </div>
