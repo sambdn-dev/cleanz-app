@@ -1,65 +1,157 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { Header } from '@/components/layout/Header';
+import { BottomNav, NavTab } from '@/components/layout/BottomNav';
+import { SearchBar } from '@/components/layout/SearchBar';
+import { CategoryTabs } from '@/components/layout/CategoryTabs';
+import { SpraysSection } from '@/components/home/SpraysSection';
+import { SurfacesGrid } from '@/components/home/SurfacesGrid';
+import { EssentielsSection } from '@/components/home/EssentielsSection';
+import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
+import { Surface, Spray, Ingredient } from '@/types';
+
+export default function HomePage() {
+  const { theme, darkMode } = useTheme();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
+  const [activeCategory, setActiveCategory] = useState('Tout');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showAllSurfaces, setShowAllSurfaces] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+
+  // États pour les modals (à implémenter)
+  const [selectedSurface, setSelectedSurface] = useState<Surface | null>(null);
+  const [selectedSpray, setSelectedSpray] = useState<Spray | null>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  // Filtrage des surfaces
+  const getFilteredSurfaces = () => {
+    let surfaces = showAllSurfaces ? SURFACES : SURFACES_POPULAIRES;
+
+    if (activeCategory !== 'Tout') {
+      surfaces = SURFACES.filter(s => s.categorie === activeCategory);
+    }
+
+    if (searchQuery) {
+      surfaces = SURFACES.filter(s =>
+        s.nom.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.piece?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return surfaces;
+  };
+
+  const handleCategoryChange = (tab: string) => {
+    setActiveCategory(tab);
+    if (tab !== 'Tout') setShowAllSurfaces(true);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="min-h-screen relative overflow-hidden" style={{ background: theme.bgPrimary }}>
+      {/* Background decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {!darkMode && (
+          <>
+            <div
+              className="absolute -top-20 -left-20 w-64 h-64 rounded-full"
+              style={{ background: 'radial-gradient(circle, rgba(255,182,193,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <div
+              className="absolute -top-10 right-0 w-48 h-48 rounded-full"
+              style={{ background: 'radial-gradient(circle, rgba(173,216,230,0.5) 0%, transparent 70%)', filter: 'blur(35px)' }}
+            />
+            <div
+              className="absolute top-20 left-1/2 w-56 h-56 rounded-full"
+              style={{ background: 'radial-gradient(circle, rgba(221,160,221,0.4) 0%, transparent 70%)', filter: 'blur(45px)' }}
+            />
+          </>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-md mx-auto px-4 pb-24">
+        {/* Header */}
+        <div className={`transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+          <Header onAccountClick={() => setShowAccountMenu(true)} />
         </div>
-      </main>
+
+        {activeNavTab === 'Accueil' && (
+          <>
+            {/* Search Bar */}
+            <div className={`mb-4 transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            </div>
+
+            {/* Category Tabs */}
+            <div className={`mb-4 transition-all duration-700 delay-150 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <CategoryTabs activeTab={activeCategory} onTabChange={handleCategoryChange} />
+            </div>
+
+            {/* Sprays Section */}
+            <SpraysSection onSprayClick={setSelectedSpray} />
+
+            {/* Surfaces Grid */}
+            <SurfacesGrid
+              surfaces={getFilteredSurfaces()}
+              showAll={showAllSurfaces}
+              onToggleShowAll={() => setShowAllSurfaces(!showAllSurfaces)}
+              onSurfaceClick={setSelectedSurface}
+            />
+
+            {/* Les 7 Essentiels */}
+            <EssentielsSection
+              onIngredientClick={setSelectedIngredient}
+              onViewAll={() => setActiveNavTab('Ingrédients')}
+            />
+          </>
+        )}
+
+        {activeNavTab === 'Appareils' && (
+          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
+            <p>Page Appareils - À venir</p>
+          </div>
+        )}
+
+        {activeNavTab === 'Scan IA' && (
+          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
+            <p>Page Scan IA - À venir</p>
+          </div>
+        )}
+
+        {activeNavTab === 'Recettes' && (
+          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
+            <p>Page Recettes - À venir</p>
+          </div>
+        )}
+
+        {activeNavTab === 'Ingrédients' && (
+          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
+            <p>Page Ingrédients - À venir</p>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Navigation */}
+      <BottomNav activeTab={activeNavTab} onTabChange={setActiveNavTab} />
+
+      {/* TODO: Modals */}
+      {selectedSurface && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setSelectedSurface(null)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full" onClick={e => e.stopPropagation()}>
+            <p className="text-2xl mb-2">{selectedSurface.emoji}</p>
+            <h3 className="font-bold text-lg">{selectedSurface.nom}</h3>
+            <p className="text-gray-500 text-sm">{selectedSurface.piece} • {selectedSurface.frequence}</p>
+            <button onClick={() => setSelectedSurface(null)} className="mt-4 w-full py-2 bg-gray-100 rounded-xl">Fermer</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
