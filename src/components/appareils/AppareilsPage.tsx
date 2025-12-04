@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ELECTROMENAGERS, PIECES, ENERGY_TIPS, EnergyTip, Piece } from '@/data/electromenager';
 import { Electromenager } from '@/types';
-import { Zap, Sparkles, Home, ChevronLeft, ChevronRight, TrendingDown, Clock } from 'lucide-react';
+import { Zap, Home, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface AppareilsPageProps {
   onApplianceClick: (appliance: Electromenager) => void;
@@ -199,15 +199,6 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
     return ELECTROMENAGERS.filter(a => a.piece === selectedPiece);
   }, [selectedPiece]);
 
-  // Calculer les stats
-  const totalConso = useMemo(() => {
-    return ELECTROMENAGERS.reduce((acc, a) => acc + a.consoPct, 0);
-  }, []);
-
-  const topConsumer = useMemo(() => {
-    return ELECTROMENAGERS.reduce((max, a) => a.consoPct > max.consoPct ? a : max);
-  }, []);
-
   // Emojis pour les pièces
   const pieceEmojis: Record<string, string> = {
     'Toutes': '🏠',
@@ -221,83 +212,6 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
 
   return (
     <div className="pt-2">
-      {/* Hero section with stats */}
-      <div
-        className="relative p-5 rounded-2xl mb-6 overflow-hidden"
-        style={{
-          background: darkMode
-            ? 'linear-gradient(135deg, rgba(255, 105, 180, 0.15) 0%, rgba(79, 209, 197, 0.15) 100%)'
-            : 'linear-gradient(135deg, rgba(255, 105, 180, 0.2) 0%, rgba(79, 209, 197, 0.2) 100%)',
-          border: darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)'
-        }}
-      >
-        {/* Decorative circles */}
-        <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-pink-400/20 blur-2xl" />
-        <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-cyan-400/20 blur-2xl" />
-
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-            <div
-              className="w-12 h-12 rounded-2xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, #FF69B4 0%, #4FD1C5 100%)'
-              }}
-            >
-              <Sparkles className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold" style={{ color: theme.textPrimary }}>
-                Vos appareils
-              </h2>
-              <p className="text-xs" style={{ color: theme.textSecondary }}>
-                12 appareils à entretenir
-              </p>
-            </div>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-2 gap-3">
-            <div
-              className="p-3 rounded-xl"
-              style={{ background: darkMode ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.6)' }}
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <TrendingDown className="w-4 h-4 text-emerald-500" />
-                <span className="text-[10px] font-medium" style={{ color: theme.textMuted }}>
-                  Plus gros poste
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg">{topConsumer.emoji}</span>
-                <div>
-                  <span className="text-sm font-bold block" style={{ color: theme.textPrimary }}>
-                    {topConsumer.nom}
-                  </span>
-                  <span className="text-xs text-red-500 font-semibold">
-                    {topConsumer.consoPct}% de la conso
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="p-3 rounded-xl"
-              style={{ background: darkMode ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.6)' }}
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <Clock className="w-4 h-4 text-violet-500" />
-                <span className="text-[10px] font-medium" style={{ color: theme.textMuted }}>
-                  Conseil du jour
-                </span>
-              </div>
-              <p className="text-xs" style={{ color: theme.textPrimary }}>
-                <span className="font-semibold">Nettoyez vos filtres</span> pour économiser jusqu'à <span className="text-emerald-500 font-bold">30%</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Room filter tabs */}
       <div className="mb-4">
         <div className="flex gap-2 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
