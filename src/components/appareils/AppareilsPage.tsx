@@ -300,7 +300,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
 
       {/* Room filter tabs */}
       <div className="mb-4">
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-hide">
           {PIECES.map((piece) => {
             const isActive = selectedPiece === piece;
             const count = piece === 'Toutes'
@@ -312,7 +312,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
                 key={piece}
                 onClick={() => setSelectedPiece(piece)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-full whitespace-nowrap transition-all ${
-                  isActive ? 'shadow-lg' : ''
+                  isActive ? 'shadow-sm' : ''
                 }`}
                 style={{
                   background: isActive
