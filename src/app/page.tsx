@@ -14,7 +14,7 @@ import { Surface, Spray, Ingredient } from '@/types';
 
 export default function HomePage() {
   const { theme, darkMode } = useTheme();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true); // Visible immédiatement
   const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
   const [activeCategory, setActiveCategory] = useState('Tout');
   const [searchQuery, setSearchQuery] = useState('');
