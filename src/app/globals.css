@@ -109,6 +109,22 @@ body {
   animation: slideDown 0.2s ease-out forwards;
 }
 
+/* Search bar placeholder styling */
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.search-input-light::placeholder {
+  color: #9B8AAB;
+  opacity: 1;
+}
+
+.search-input-dark::placeholder {
+  color: #B8A0CC;
+  opacity: 1;
+}
+
 /* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;
