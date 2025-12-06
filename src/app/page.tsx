@@ -18,9 +18,11 @@ import { SurfaceModal } from '@/components/modals/SurfaceModal';
 import { IngredientModal } from '@/components/modals/IngredientModal';
 import { ElectromenagerModal } from '@/components/modals/ElectromenagerModal';
 import { AstuceModal } from '@/components/modals/AstuceModal';
+import { RecipeModal } from '@/components/modals/RecipeModal';
 import { AccountMenu } from '@/components/layout/AccountMenu';
+import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
-import { Surface, Spray, Ingredient, Electromenager, Astuce } from '@/types';
+import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete } from '@/types';
 
 export default function HomePage() {
   const { theme, darkMode } = useTheme();
@@ -37,6 +39,7 @@ export default function HomePage() {
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
   const [selectedAppliance, setSelectedAppliance] = useState<Electromenager | null>(null);
   const [selectedAstuce, setSelectedAstuce] = useState<Astuce | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<RecetteComplete | null>(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -145,9 +148,7 @@ export default function HomePage() {
         )}
 
         {activeNavTab === 'Recettes' && (
-          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
-            <p>Page Recettes - À venir</p>
-          </div>
+          <RecipesPage onRecipeClick={setSelectedRecipe} />
         )}
 
         {activeNavTab === 'Ingrédients' && (
@@ -166,7 +167,14 @@ export default function HomePage() {
       )}
 
       {selectedSurface && (
-        <SurfaceModal surface={selectedSurface} onClose={() => setSelectedSurface(null)} />
+        <SurfaceModal
+          surface={selectedSurface}
+          onClose={() => setSelectedSurface(null)}
+          onRecipeClick={(recipe) => {
+            setSelectedSurface(null);
+            setSelectedRecipe(recipe);
+          }}
+        />
       )}
 
       {selectedIngredient && (
@@ -179,6 +187,10 @@ export default function HomePage() {
 
       {selectedAstuce && (
         <AstuceModal astuce={selectedAstuce} onClose={() => setSelectedAstuce(null)} />
+      )}
+
+      {selectedRecipe && (
+        <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
       )}
 
       {/* Account Menu */}

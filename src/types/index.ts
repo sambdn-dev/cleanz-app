@@ -92,6 +92,31 @@ export interface Recette {
   efficacite: string;
 }
 
+export interface RecetteIngredient {
+  nom: string;
+  quantite: string;
+  emoji?: string;
+}
+
+export interface RecetteComplete {
+  id: number;
+  nom: string;
+  emoji: string;
+  categorie: 'Indispensable' | 'Salle de bain' | 'Cuisine' | 'Linge' | 'Multi-usage' | 'Sol' | 'Entretien';
+  badge?: string;
+  gradient: string;
+  temps: string;
+  difficulte: 'Facile' | 'Moyen' | 'Avancé';
+  efficacite: number; // 1 à 5
+  ingredients: RecetteIngredient[];
+  materiel?: string[];
+  instructions: string[];
+  surfaces: string[];
+  precautions: string[];
+  astuces: string[];
+  conservation: string;
+}
+
 export interface Theme {
   bgPrimary: string;
   bgCard: string;
