@@ -21,8 +21,10 @@ import { AstuceModal } from '@/components/modals/AstuceModal';
 import { RecipeModal } from '@/components/modals/RecipeModal';
 import { AccountMenu } from '@/components/layout/AccountMenu';
 import { RecipesPage } from '@/components/recipes/RecipesPage';
+import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
+import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
-import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete } from '@/types';
+import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
 
 export default function HomePage() {
   const { theme, darkMode } = useTheme();
@@ -37,6 +39,7 @@ export default function HomePage() {
   const [selectedSurface, setSelectedSurface] = useState<Surface | null>(null);
   const [selectedSpray, setSelectedSpray] = useState<Spray | null>(null);
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+  const [selectedIngredientComplet, setSelectedIngredientComplet] = useState<IngredientComplet | null>(null);
   const [selectedAppliance, setSelectedAppliance] = useState<Electromenager | null>(null);
   const [selectedAstuce, setSelectedAstuce] = useState<Astuce | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<RecetteComplete | null>(null);
@@ -152,9 +155,7 @@ export default function HomePage() {
         )}
 
         {activeNavTab === 'Ingrédients' && (
-          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
-            <p>Page Ingrédients - À venir</p>
-          </div>
+          <IngredientsPage onIngredientClick={setSelectedIngredientComplet} />
         )}
       </div>
 
@@ -191,6 +192,17 @@ export default function HomePage() {
 
       {selectedRecipe && (
         <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
+      )}
+
+      {selectedIngredientComplet && (
+        <IngredientDetailModal
+          ingredient={selectedIngredientComplet}
+          onClose={() => setSelectedIngredientComplet(null)}
+          onRecipeClick={(recipe) => {
+            setSelectedIngredientComplet(null);
+            setSelectedRecipe(recipe);
+          }}
+        />
       )}
 
       {/* Account Menu */}

@@ -25,6 +25,27 @@ export interface Ingredient {
   description: string;
 }
 
+export interface IngredientComplet {
+  id: number;
+  nom: string;
+  emoji: string;
+  gradient: string;
+  badge?: string;
+  fonctions: string[];
+  description: string;
+  bienfaits: string[];
+  utilisations: string[];
+  surfaces: string[];
+  recettesIds: number[]; // IDs des recettes associées
+  prix: string;
+  prixMoyen: string; // Ex: "~2€/kg"
+  scoreEcologique: number; // 1 à 5
+  conservation: string;
+  precautions: string[];
+  origineNaturelle: string;
+  essentiel: boolean;
+}
+
 export interface SprayIngredient {
   nom: string;
   quantite: string;
