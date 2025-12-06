@@ -1,78 +1,21 @@
 'use client';
 
 import { useTheme } from '@/contexts/ThemeContext';
-import { Surface, Recette } from '@/types';
-import { Clock, FolderOpen, Sparkles } from 'lucide-react';
+import { Surface, RecetteComplete } from '@/types';
+import { Clock, FolderOpen, Sparkles, ChevronRight, Star } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
 
 interface SurfaceModalProps {
   surface: Surface;
   onClose: () => void;
+  onRecipeClick?: (recipe: RecetteComplete) => void;
 }
 
-// Recettes par surface (à enrichir)
-const RECETTES_PAR_SURFACE: Record<number, Recette[]> = {
-  1: [ // Four
-    {
-      nom: 'Pâte dégraissante',
-      ingredients: ['Bicarbonate', 'Eau', 'Savon noir'],
-      instructions: 'Mélanger pour obtenir une pâte, appliquer et laisser agir 2h',
-      temps: '2h',
-      efficacite: '⭐⭐⭐⭐⭐'
-    },
-    {
-      nom: 'Spray dégraissant',
-      ingredients: ['Vinaigre', 'Cristaux de soude', 'Eau chaude'],
-      instructions: 'Pulvériser, laisser agir 30min, frotter et rincer',
-      temps: '30min',
-      efficacite: '⭐⭐⭐⭐'
-    }
-  ],
-  17: [ // WC
-    {
-      nom: 'Gel WC maison',
-      ingredients: ['Acide citrique', 'Eau', 'HE tea tree'],
-      instructions: 'Dissoudre acide citrique dans eau chaude, ajouter HE',
-      temps: '15min',
-      efficacite: '⭐⭐⭐⭐⭐'
-    }
-  ],
-  30: [ // Lave-linge
-    {
-      nom: 'Nettoyage tambour',
-      ingredients: ['Vinaigre blanc', 'Bicarbonate'],
-      instructions: 'Verser 1L vinaigre + 100g bicarbonate, cycle 90°C à vide',
-      temps: '1h30',
-      efficacite: '⭐⭐⭐⭐⭐'
-    }
-  ],
-  58: [ // Vitres
-    {
-      nom: 'Spray vitres',
-      ingredients: ['Vinaigre', 'Eau', 'Alcool ménager'],
-      instructions: 'Mélanger à parts égales, vaporiser et essuyer en S',
-      temps: '5min',
-      efficacite: '⭐⭐⭐⭐⭐'
-    }
-  ],
-  60: [ // Écrans
-    {
-      nom: 'Lingette écran',
-      ingredients: ['Eau déminéralisée', 'Vinaigre blanc'],
-      instructions: 'Mélanger 70% eau + 30% vinaigre, imbiber microfibre',
-      temps: '2min',
-      efficacite: '⭐⭐⭐⭐'
-    }
-  ],
-  62: [ // Baskets
-    {
-      nom: 'Pâte blanchissante',
-      ingredients: ['Bicarbonate', 'Eau oxygénée', 'Liquide vaisselle'],
-      instructions: 'Mélanger, appliquer à la brosse, laisser sécher au soleil',
-      temps: '1h',
-      efficacite: '⭐⭐⭐⭐⭐'
-    }
-  ]
+// Fonction helper pour obtenir les recettes d'une surface
+const getRecettesForSurface = (surfaceId: number): RecetteComplete[] => {
+  const recipeIds = RECETTES_PAR_SURFACE[surfaceId] || [];
+  return recipeIds.map(id => RECETTES.find(r => r.id === id)).filter(Boolean) as RecetteComplete[];
 };
 
 // Ingrédients recommandés par catégorie
@@ -124,10 +67,24 @@ const INGREDIENTS_RECOMMANDES: Record<string, { nom: string; emoji: string }[]> 
   ]
 };
 
-export const SurfaceModal = ({ surface, onClose }: SurfaceModalProps) => {
+export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalProps) => {
   const { theme, darkMode } = useTheme();
-  const recettes = RECETTES_PAR_SURFACE[surface.id] || [];
+  const recettes = getRecettesForSurface(surface.id);
   const ingredients = INGREDIENTS_RECOMMANDES[surface.piece] || INGREDIENTS_RECOMMANDES['Cuisine'];
+
+  // Rendu des étoiles d'efficacité
+  const renderEfficacite = (note: number) => {
+    return (
+      <div className="flex items-center gap-0.5">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            className={`w-3 h-3 ${star <= note ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+          />
+        ))}
+      </div>
+    );
+  };
 
   const headerGradient = darkMode
     ? 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)'
@@ -179,10 +136,11 @@ export const SurfaceModal = ({ surface, onClose }: SurfaceModalProps) => {
             <span className="text-base">🧪</span> Recettes maison
           </h3>
           <div className="space-y-3">
-            {recettes.map((recette, index) => (
+            {recettes.map((recette) => (
               <div
-                key={index}
-                className="p-4 rounded-2xl"
+                key={recette.id}
+                onClick={() => onRecipeClick?.(recette)}
+                className={`p-4 rounded-2xl transition-all duration-200 ${onRecipeClick ? 'cursor-pointer hover:scale-[1.02] active:scale-[0.98]' : ''}`}
                 style={{
                   background: darkMode
                     ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)'
@@ -190,13 +148,21 @@ export const SurfaceModal = ({ surface, onClose }: SurfaceModalProps) => {
                 }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-bold text-sm" style={{ color: theme.textPrimary }}>{recette.nom}</h4>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/50 font-medium" style={{ color: theme.textSecondary }}>
-                    {recette.temps}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{recette.emoji}</span>
+                    <h4 className="font-bold text-sm" style={{ color: theme.textPrimary }}>{recette.nom}</h4>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-white/50 font-medium" style={{ color: theme.textSecondary }}>
+                      {recette.temps}
+                    </span>
+                    {onRecipeClick && (
+                      <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-1 mb-2">
-                  {recette.ingredients.map((ing, i) => (
+                  {recette.ingredients.slice(0, 4).map((ing, i) => (
                     <span
                       key={i}
                       className="text-[10px] px-2 py-0.5 rounded-full font-medium"
@@ -205,13 +171,34 @@ export const SurfaceModal = ({ surface, onClose }: SurfaceModalProps) => {
                         color: theme.textSecondary
                       }}
                     >
-                      {ing}
+                      {ing.nom}
                     </span>
                   ))}
+                  {recette.ingredients.length > 4 && (
+                    <span
+                      className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+                      style={{
+                        background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+                        color: theme.textSecondary
+                      }}
+                    >
+                      +{recette.ingredients.length - 4}
+                    </span>
+                  )}
                 </div>
-                <p className="text-xs" style={{ color: theme.textMuted }}>{recette.instructions}</p>
-                <div className="mt-2 text-xs" style={{ color: theme.textSecondary }}>
-                  Efficacité: {recette.efficacite}
+                <p className="text-xs line-clamp-2" style={{ color: theme.textMuted }}>
+                  {recette.instructions[0]}
+                </p>
+                <div className="mt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[10px]" style={{ color: theme.textMuted }}>Efficacité:</span>
+                    {renderEfficacite(recette.efficacite)}
+                  </div>
+                  {onRecipeClick && (
+                    <span className="text-[10px] font-medium" style={{ color: theme.accentPink }}>
+                      Voir détails
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
