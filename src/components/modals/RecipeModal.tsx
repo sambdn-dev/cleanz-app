@@ -4,6 +4,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { RecetteComplete } from '@/types';
 import { Clock, ChefHat, Star, AlertTriangle, Lightbulb, Archive, CheckCircle2, Beaker } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { Disclaimer } from '@/components/ui/Disclaimer';
 
 interface RecipeModalProps {
   recipe: RecetteComplete;
@@ -254,6 +255,11 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
           <span className="text-xs font-semibold block" style={{ color: theme.textMuted }}>Conservation</span>
           <span className="text-sm font-medium" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
         </div>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="mt-4">
+        <Disclaimer variant="compact" />
       </div>
     </Modal>
   );

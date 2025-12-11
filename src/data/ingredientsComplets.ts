@@ -373,7 +373,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Tenir éloigné des flammes'
     ],
     origineNaturelle: 'Distillation et dénaturation d\'alcool de betterave',
-    essentiel: false
+    essentiel: true
   },
   {
     id: 12,

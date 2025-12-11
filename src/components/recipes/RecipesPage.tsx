@@ -5,6 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
 import { Clock, Star, Search, ChevronRight, Sparkles } from 'lucide-react';
+import { Disclaimer } from '@/components/ui/Disclaimer';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
@@ -283,6 +284,11 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
           Sans produits chimiques nocifs
         </p>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="mt-4">
+        <Disclaimer variant="compact" />
       </div>
     </div>
   );

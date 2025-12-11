@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredientsComplets';
-import { Search, ChevronRight, Leaf, Euro, Sparkles } from 'lucide-react';
+import { Search, Sparkles } from 'lucide-react';
 import { PinkStuffSection } from './PinkStuffSection';
+import { Disclaimer } from '@/components/ui/Disclaimer';
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
@@ -62,35 +63,6 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
   const essentiels = filteredIngredients.filter(i => i.essentiel);
   const autres = filteredIngredients.filter(i => !i.essentiel);
 
-  // Rendu du score écologique
-  const renderEcoScore = (score: number) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4, 5].map((leaf) => (
-          <Leaf
-            key={leaf}
-            className={`w-2.5 h-2.5 ${leaf <= score ? 'text-green-500 fill-green-500' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  // Rendu du prix
-  const renderPrix = (prix: string) => {
-    const count = prix.length;
-    return (
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3].map((euro) => (
-          <Euro
-            key={euro}
-            className={`w-2.5 h-2.5 ${euro <= count ? 'text-amber-500' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-    );
-  };
-
   // Carte d'ingrédient (compacte, 2 par ligne)
   const IngredientCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
     <div
@@ -117,26 +89,20 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         {ingredient.nom}
       </h3>
 
-      {/* Badge */}
-      {ingredient.badge && (
-        <div className="text-center mb-2">
+      {/* Tags fonctions */}
+      <div className="flex flex-wrap justify-center gap-1">
+        {ingredient.fonctions.slice(0, 4).map((fonction, index) => (
           <span
-            className="inline-block text-[8px] px-1.5 py-0.5 rounded-full font-medium"
+            key={index}
+            className="text-[8px] px-1.5 py-0.5 rounded-full"
             style={{
-              background: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
-              color: darkMode ? '#A78BFA' : '#7C3AED'
+              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+              color: theme.textMuted
             }}
           >
-            {ingredient.badge}
+            {fonction}
           </span>
-        </div>
-      )}
-
-      {/* Infos compactes */}
-      <div className="flex items-center justify-center gap-2">
-        {renderPrix(ingredient.prix)}
-        <span className="text-gray-300">|</span>
-        {renderEcoScore(ingredient.scoreEcologique)}
+        ))}
       </div>
     </div>
   );
@@ -290,6 +256,11 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
           Pour un ménage écologique et économique
         </p>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="mt-4">
+        <Disclaimer variant="compact" />
       </div>
     </div>
   );
