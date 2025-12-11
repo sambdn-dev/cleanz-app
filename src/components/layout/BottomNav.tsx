@@ -57,7 +57,11 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                   <Icon className="w-5 h-5 text-white" />
                 </div>
               ) : (
-                <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
+                <Icon
+                  className="w-5 h-5"
+                  strokeWidth={isActive ? 2.5 : 2}
+                  fill={isActive ? 'currentColor' : 'none'}
+                />
               )}
               <span className={`text-[10px] font-medium ${isScan ? 'mt-1' : ''}`}>{item.label}</span>
             </button>
