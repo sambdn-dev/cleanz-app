@@ -17,11 +17,17 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
           <h1
             className="text-3xl font-black tracking-tight"
             style={{
-              color: theme.accentPink,
-              textShadow: darkMode ? '0 0 20px rgba(255,133,192,0.4)' : 'none',
+              background: darkMode
+                ? 'linear-gradient(135deg, #FF85C0 0%, #A78BFA 50%, #4FD1C5 100%)'
+                : 'linear-gradient(135deg, #FF69B4 0%, #8B5CF6 50%, #06B6D4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: 'none',
+              filter: darkMode ? 'drop-shadow(0 0 20px rgba(255,133,192,0.3))' : 'none',
             }}
           >
-            clean<span style={{ color: theme.accentCyan }}>z</span>
+            Cleanz
           </h1>
           <p
             className="text-[11px] font-medium tracking-wide uppercase mt-0.5"
