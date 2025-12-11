@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
-import { Clock, Star, Search, ChevronRight, Sparkles } from 'lucide-react';
+import { Clock, Star, Search, ChevronRight, Sparkles, Heart } from 'lucide-react';
+import { Disclaimer } from '@/components/ui/Disclaimer';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
@@ -12,6 +15,7 @@ interface RecipesPageProps {
 
 export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   const { theme, darkMode } = useTheme();
+  const { isFavorite, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -56,35 +60,99 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   };
 
   // Carte de recette
-  const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => (
-    <div
-      onClick={() => onRecipeClick(recipe)}
-      className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-      style={{
-        background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode
-          ? '0 4px 15px rgba(0,0,0,0.2)'
-          : '0 4px 15px rgba(0,0,0,0.05)'
-      }}
-    >
-      <div className="flex items-start gap-3">
-        {/* Emoji avec gradient */}
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ background: recipe.gradient }}
-        >
-          <span className="text-2xl">{recipe.emoji}</span>
-        </div>
+  const RecipeCard = ({ recipe, index }: { recipe: RecetteComplete; index: number }) => {
+    const favorite = isFavorite(recipe.id);
+    const userRating = getRating(recipe.id);
 
-        {/* Contenu */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
-              {recipe.nom}
-            </h3>
-            <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: theme.textMuted }} />
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      toggleFavorite(recipe.id);
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          delay: index * 0.08,
+          type: 'spring',
+          stiffness: 200,
+          damping: 20,
+          mass: 0.8
+        }}
+        onClick={() => onRecipeClick(recipe)}
+        className="p-4 rounded-2xl cursor-pointer relative group"
+        style={{
+          background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+          boxShadow: darkMode
+            ? '0 4px 15px rgba(0,0,0,0.2)'
+            : '0 4px 15px rgba(0,0,0,0.05)'
+        }}
+        whileHover={{
+          scale: 1.02,
+          y: -4,
+          boxShadow: darkMode
+            ? '0 12px 30px rgba(0,0,0,0.3)'
+            : '0 12px 30px rgba(0,0,0,0.1)',
+          transition: {
+            type: 'spring',
+            stiffness: 300,
+            damping: 20
+          }
+        }}
+        whileTap={{
+          scale: 0.98,
+          transition: { type: 'spring', stiffness: 400, damping: 25 }
+        }}
+      >
+        {/* Bouton favori */}
+        <motion.button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm"
+          style={{
+            background: favorite
+              ? 'rgba(236, 72, 153, 0.2)'
+              : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.8)'
+          }}
+          whileHover={{
+            scale: 1.15,
+            transition: { type: 'spring', stiffness: 400, damping: 15 }
+          }}
+          whileTap={{ scale: 0.85 }}
+        >
+          <motion.div
+            animate={favorite ? {
+              scale: [1, 1.3, 0.9, 1.1, 1],
+            } : { scale: 1 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
+          >
+            <Heart
+              className={`w-5 h-5 transition-colors duration-300 ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
+            />
+          </motion.div>
+        </motion.button>
+
+        <div className="flex items-start gap-3">
+          {/* Emoji avec gradient */}
+          <div
+            className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+            style={{ background: recipe.gradient }}
+          >
+            <span className="text-2xl">{recipe.emoji}</span>
           </div>
+
+          {/* Contenu */}
+          <div className="flex-1 min-w-0 pr-6">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
+                {recipe.nom}
+              </h3>
+            </div>
 
           {/* Badge */}
           {recipe.badge && (
@@ -136,8 +204,9 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </motion.div>
+    );
+  };
 
   return (
     <div className="pt-2 pb-4">
@@ -165,13 +234,13 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
       {/* Category Tabs */}
       <div className="mb-5 overflow-x-auto scrollbar-hide -mx-4 px-4">
         <div className="flex gap-2">
-          {CATEGORIES_RECETTES.map((cat) => {
+          {CATEGORIES_RECETTES.map((cat, index) => {
             const isActive = activeCategory === cat.id;
             return (
-              <button
+              <motion.button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-shrink-0 relative"
                 style={{
                   background: isActive
                     ? darkMode
@@ -181,12 +250,27 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                       ? 'rgba(255,255,255,0.05)'
                       : 'rgba(255,255,255,0.7)',
                   color: isActive ? 'white' : theme.textSecondary,
-                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
+                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+                  boxShadow: isActive ? '0 4px 15px rgba(139, 92, 246, 0.3)' : 'none'
                 }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.04,
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  transition: { type: 'spring', stiffness: 400, damping: 15 }
+                }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="text-sm">{cat.emoji}</span>
-                <span className="text-xs font-medium">{cat.nom}</span>
-              </button>
+                <span className="text-base">{cat.emoji}</span>
+                <span className="text-sm font-medium">{cat.nom}</span>
+              </motion.button>
             );
           })}
         </div>
@@ -221,8 +305,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                 </span>
               </div>
               <div className="space-y-3">
-                {indispensables.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                {indispensables.map((recipe, index) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} index={index} />
                 ))}
               </div>
             </div>
@@ -249,8 +333,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                 </div>
               )}
               <div className="space-y-3">
-                {autresRecettes.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                {autresRecettes.map((recipe, index) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} index={index} />
                 ))}
               </div>
             </div>
@@ -283,6 +367,11 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
           Sans produits chimiques nocifs
         </p>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="mt-4">
+        <Disclaimer variant="compact" />
       </div>
     </div>
   );
