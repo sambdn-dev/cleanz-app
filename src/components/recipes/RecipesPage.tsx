@@ -71,16 +71,17 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
 
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{
-          delay: index * 0.05,
+          delay: index * 0.08,
           type: 'spring',
-          stiffness: 300,
-          damping: 24,
+          stiffness: 200,
+          damping: 20,
+          mass: 0.8
         }}
         onClick={() => onRecipeClick(recipe)}
-        className="p-4 rounded-2xl cursor-pointer relative"
+        className="p-4 rounded-2xl cursor-pointer relative group"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
           border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -88,30 +89,49 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
             ? '0 4px 15px rgba(0,0,0,0.2)'
             : '0 4px 15px rgba(0,0,0,0.05)'
         }}
-        whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-        whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
+        whileHover={{
+          scale: 1.02,
+          y: -4,
+          boxShadow: darkMode
+            ? '0 12px 30px rgba(0,0,0,0.3)'
+            : '0 12px 30px rgba(0,0,0,0.1)',
+          transition: {
+            type: 'spring',
+            stiffness: 300,
+            damping: 20
+          }
+        }}
+        whileTap={{
+          scale: 0.98,
+          transition: { type: 'spring', stiffness: 400, damping: 25 }
+        }}
       >
         {/* Bouton favori */}
         <motion.button
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-1.5 rounded-full"
+          className="absolute top-3 right-3 p-2 rounded-full backdrop-blur-sm"
           style={{
             background: favorite
-              ? 'rgba(236, 72, 153, 0.15)'
-              : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+              ? 'rgba(236, 72, 153, 0.2)'
+              : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.8)'
           }}
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{
+            scale: 1.15,
+            transition: { type: 'spring', stiffness: 400, damping: 15 }
+          }}
+          whileTap={{ scale: 0.85 }}
         >
           <motion.div
             animate={favorite ? {
-              scale: [1, 1.4, 1],
-              rotate: [0, -10, 10, 0]
+              scale: [1, 1.3, 0.9, 1.1, 1],
             } : { scale: 1 }}
-            transition={{ duration: 0.4 }}
+            transition={{
+              duration: 0.5,
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
           >
             <Heart
-              className={`w-4 h-4 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+              className={`w-5 h-5 transition-colors duration-300 ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
               style={{ color: favorite ? '#EC4899' : theme.textMuted }}
             />
           </motion.div>
@@ -220,7 +240,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
               <motion.button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap relative overflow-hidden"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl flex-shrink-0 relative"
                 style={{
                   background: isActive
                     ? darkMode
@@ -230,28 +250,26 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                       ? 'rgba(255,255,255,0.05)'
                       : 'rgba(255,255,255,0.7)',
                   color: isActive ? 'white' : theme.textSecondary,
-                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
+                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+                  boxShadow: isActive ? '0 4px 15px rgba(139, 92, 246, 0.3)' : 'none'
                 }}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.03, duration: 0.2 }}
-                whileHover={{ scale: 1.05 }}
+                transition={{
+                  delay: index * 0.04,
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -2,
+                  transition: { type: 'spring', stiffness: 400, damping: 15 }
+                }}
                 whileTap={{ scale: 0.95 }}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTabBg"
-                    className="absolute inset-0 rounded-xl"
-                    style={{
-                      background: darkMode
-                        ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
-                        : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
-                    }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                  />
-                )}
-                <span className="text-sm relative z-10">{cat.emoji}</span>
-                <span className="text-xs font-medium relative z-10">{cat.nom}</span>
+                <span className="text-base">{cat.emoji}</span>
+                <span className="text-sm font-medium">{cat.nom}</span>
               </motion.button>
             );
           })}

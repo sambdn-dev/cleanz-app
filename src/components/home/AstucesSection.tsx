@@ -11,16 +11,46 @@ interface AstucesSectionProps {
   onAstuceClick: (astuce: Astuce) => void;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 25,
+    scale: 0.98
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 180,
+      damping: 20,
+      mass: 0.8
+    }
+  }
+};
+
 export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
   const { theme, darkMode } = useTheme();
 
   return (
     <motion.div
       className="mb-5"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-30px' }}
+      transition={{ duration: 0.4 }}
     >
       <SectionTitle
         badge="Recettes express"
@@ -28,35 +58,57 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
         <span className="text-base mr-2">✨</span>Astuces du jour
       </SectionTitle>
 
-      <div className="space-y-3">
-        {ASTUCES_DU_JOUR.map((astuce, index) => (
+      <motion.div
+        className="space-y-3"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-30px' }}
+      >
+        {ASTUCES_DU_JOUR.map((astuce) => (
           <motion.button
             key={astuce.id}
             onClick={() => onAstuceClick(astuce)}
-            className="w-full rounded-2xl overflow-hidden text-left"
+            className="w-full rounded-2xl overflow-hidden text-left group"
             style={{
-              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
+              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
               border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
               boxShadow: darkMode
                 ? '0 4px 15px rgba(0,0,0,0.2)'
-                : '0 4px 15px rgba(0,0,0,0.05)'
+                : '0 4px 20px rgba(0,0,0,0.06)'
             }}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
-            whileHover={{ scale: 1.01, x: 5 }}
-            whileTap={{ scale: 0.99 }}
+            variants={cardVariants}
+            whileHover={{
+              scale: 1.015,
+              y: -3,
+              boxShadow: darkMode
+                ? '0 10px 30px rgba(0,0,0,0.3)'
+                : '0 10px 35px rgba(0,0,0,0.1)',
+              transition: {
+                type: 'spring',
+                stiffness: 300,
+                damping: 20
+              }
+            }}
+            whileTap={{
+              scale: 0.99,
+              transition: { type: 'spring', stiffness: 400, damping: 25 }
+            }}
           >
             <div className="flex items-stretch">
               {/* Gradient accent bar */}
               <motion.div
-                className="w-2 flex-shrink-0"
+                className="w-1.5 flex-shrink-0 origin-top"
                 style={{ background: astuce.gradient }}
                 initial={{ scaleY: 0 }}
                 whileInView={{ scaleY: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 + 0.2, duration: 0.3 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 200,
+                  damping: 20,
+                  delay: 0.15
+                }}
               />
 
               {/* Content */}
@@ -66,8 +118,11 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
                   <motion.div
                     className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: astuce.gradient }}
-                    whileHover={{ rotate: [0, -5, 5, 0], scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: 5,
+                      transition: { type: 'spring', stiffness: 400, damping: 15 }
+                    }}
                   >
                     <span className="text-2xl">{astuce.emoji}</span>
                   </motion.div>
@@ -116,13 +171,15 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
                     </div>
                   </div>
 
-                  {/* Arrow */}
+                  {/* Arrow with smooth animation */}
                   <motion.div
                     className="flex-shrink-0 self-center"
-                    whileHover={{ x: 3 }}
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   >
                     <ChevronRight
-                      className="w-5 h-5"
+                      className="w-5 h-5 transition-colors group-hover:text-purple-500"
                       style={{ color: theme.textMuted }}
                     />
                   </motion.div>
@@ -131,7 +188,7 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
             </div>
           </motion.button>
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
