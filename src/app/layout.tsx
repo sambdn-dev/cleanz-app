@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { RecipeInteractionsProvider } from "@/contexts/RecipeInteractionsContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,7 +31,9 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
-          {children}
+          <RecipeInteractionsProvider>
+            {children}
+          </RecipeInteractionsProvider>
         </ThemeProvider>
       </body>
     </html>

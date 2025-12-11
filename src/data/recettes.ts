@@ -201,7 +201,7 @@ export const RECETTES: RecetteComplete[] = [
       'Laissez sécher 24h avant démoulage',
       'Pour utiliser : déposez une pastille dans la cuvette, vaporisez un peu d\'eau et laissez mousser'
     ],
-    surfaces: ['Cuvette WC', 'Urinoir'],
+    surfaces: ['Cuvette WC', 'Urinoir', 'Siphons', 'Canalisations'],
     precautions: ['Conserver au sec', 'Ne pas mélanger avec de la javel', 'Éviter contact avec les yeux'],
     astuces: ['La réaction effervescente décolle le calcaire', 'Frottez avec la brosse pour plus d\'efficacité', 'Utilisez 1 à 2 fois par semaine'],
     conservation: '6 mois dans une boîte hermétique'
@@ -287,7 +287,7 @@ export const RECETTES: RecetteComplete[] = [
       'Utilisez 1 c.à.s par lavage dans le compartiment poudre',
       'Ajoutez du vinaigre blanc dans le compartiment rinçage'
     ],
-    surfaces: ['Lave-vaisselle'],
+    surfaces: ['Lave-vaisselle', 'Vaisselle', 'Couverts', 'Verres'],
     precautions: ['Stocker au sec impérativement', 'Ne pas utiliser pour la vaisselle à la main', 'Peut ne pas convenir aux eaux très calcaires'],
     astuces: ['Ajustez la quantité selon la dureté de votre eau', 'Le vinaigre en rinçage évite les traces'],
     conservation: '6 mois au sec'
@@ -317,7 +317,7 @@ export const RECETTES: RecetteComplete[] = [
       'Laissez refroidir en remuant de temps en temps',
       'Transvasez dans le bidon (secouez avant chaque usage)'
     ],
-    surfaces: ['Lave-linge', 'Lavage main'],
+    surfaces: ['Lave-linge', 'Lavage main', 'Vêtements', 'Linge de maison', 'Draps'],
     precautions: ['La lessive peut épaissir : secouez bien', 'Ne pas utiliser sur soie et laine', 'Attention aux tissus très colorés'],
     astuces: ['Utilisez 1/2 verre par machine', 'Ajoutez du percarbonate pour le linge blanc', 'Quelques gouttes d\'HE pour le parfum'],
     conservation: '1 mois'
@@ -520,7 +520,7 @@ export const RECETTES: RecetteComplete[] = [
       'C\'est prêt !',
       'Utilisez 2-3 c.à.s dans le bac assouplissant'
     ],
-    surfaces: ['Lave-linge'],
+    surfaces: ['Lave-linge', 'Serviettes', 'Draps', 'Vêtements', 'Linge délicat'],
     precautions: ['L\'odeur de vinaigre disparaît au séchage', 'Ne pas utiliser sur soie et laine délicate', 'HE à éviter pour le linge de bébé'],
     astuces: ['Adoucit le linge naturellement', 'Élimine les résidus de lessive', 'Préserve les couleurs'],
     conservation: '6 mois'

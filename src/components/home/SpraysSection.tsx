@@ -11,7 +11,7 @@ interface SpraysSectionProps {
 export const SpraysSection = ({ onSprayClick }: SpraysSectionProps) => {
   return (
     <div className="mb-5">
-      <SectionTitle badge="Sprays maison">
+      <SectionTitle badge="Recettes maison">
         <span className="text-base mr-2">🧴</span>Les Indispensables
       </SectionTitle>
       <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">

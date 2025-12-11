@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
-import { Clock, Star, Search, ChevronRight, Sparkles } from 'lucide-react';
+import { Clock, Star, Search, ChevronRight, Sparkles, Heart } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 
 interface RecipesPageProps {
@@ -13,6 +14,7 @@ interface RecipesPageProps {
 
 export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   const { theme, darkMode } = useTheme();
+  const { isFavorite, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -57,35 +59,59 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   };
 
   // Carte de recette
-  const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => (
-    <div
-      onClick={() => onRecipeClick(recipe)}
-      className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-      style={{
-        background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode
-          ? '0 4px 15px rgba(0,0,0,0.2)'
-          : '0 4px 15px rgba(0,0,0,0.05)'
-      }}
-    >
-      <div className="flex items-start gap-3">
-        {/* Emoji avec gradient */}
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ background: recipe.gradient }}
-        >
-          <span className="text-2xl">{recipe.emoji}</span>
-        </div>
+  const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => {
+    const favorite = isFavorite(recipe.id);
+    const userRating = getRating(recipe.id);
 
-        {/* Contenu */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
-              {recipe.nom}
-            </h3>
-            <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: theme.textMuted }} />
+    const handleFavoriteClick = (e: React.MouseEvent) => {
+      e.stopPropagation();
+      toggleFavorite(recipe.id);
+    };
+
+    return (
+      <div
+        onClick={() => onRecipeClick(recipe)}
+        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative"
+        style={{
+          background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+          boxShadow: darkMode
+            ? '0 4px 15px rgba(0,0,0,0.2)'
+            : '0 4px 15px rgba(0,0,0,0.05)'
+        }}
+      >
+        {/* Bouton favori */}
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95"
+          style={{
+            background: favorite
+              ? 'rgba(236, 72, 153, 0.15)'
+              : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+          }}
+        >
+          <Heart
+            className={`w-4 h-4 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+            style={{ color: favorite ? '#EC4899' : theme.textMuted }}
+          />
+        </button>
+
+        <div className="flex items-start gap-3">
+          {/* Emoji avec gradient */}
+          <div
+            className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
+            style={{ background: recipe.gradient }}
+          >
+            <span className="text-2xl">{recipe.emoji}</span>
           </div>
+
+          {/* Contenu */}
+          <div className="flex-1 min-w-0 pr-6">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
+                {recipe.nom}
+              </h3>
+            </div>
 
           {/* Badge */}
           {recipe.badge && (
@@ -138,7 +164,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="pt-2 pb-4">
