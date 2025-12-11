@@ -5,127 +5,53 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
 import { Astuce } from '@/types';
 import { Star, Clock, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface AstucesSectionProps {
   onAstuceClick: (astuce: Astuce) => void;
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 25,
-    scale: 0.98
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 180,
-      damping: 20,
-      mass: 0.8
-    }
-  }
-};
-
 export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
   const { theme, darkMode } = useTheme();
 
   return (
-    <motion.div
-      className="mb-5"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.4 }}
-    >
+    <div className="mb-5">
       <SectionTitle
         badge="Recettes express"
       >
         <span className="text-base mr-2">✨</span>Astuces du jour
       </SectionTitle>
 
-      <motion.div
-        className="space-y-3"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-30px' }}
-      >
+      <div className="space-y-3">
         {ASTUCES_DU_JOUR.map((astuce) => (
-          <motion.button
+          <button
             key={astuce.id}
             onClick={() => onAstuceClick(astuce)}
-            className="w-full rounded-2xl overflow-hidden text-left group"
+            className="w-full rounded-2xl overflow-hidden text-left transition-all hover:scale-[1.01] active:scale-[0.99]"
             style={{
-              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)',
+              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
               border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
               boxShadow: darkMode
                 ? '0 4px 15px rgba(0,0,0,0.2)'
-                : '0 4px 20px rgba(0,0,0,0.06)'
-            }}
-            variants={cardVariants}
-            whileHover={{
-              scale: 1.015,
-              y: -3,
-              boxShadow: darkMode
-                ? '0 10px 30px rgba(0,0,0,0.3)'
-                : '0 10px 35px rgba(0,0,0,0.1)',
-              transition: {
-                type: 'spring',
-                stiffness: 300,
-                damping: 20
-              }
-            }}
-            whileTap={{
-              scale: 0.99,
-              transition: { type: 'spring', stiffness: 400, damping: 25 }
+                : '0 4px 15px rgba(0,0,0,0.05)'
             }}
           >
             <div className="flex items-stretch">
               {/* Gradient accent bar */}
-              <motion.div
-                className="w-1.5 flex-shrink-0 origin-top"
+              <div
+                className="w-2 flex-shrink-0"
                 style={{ background: astuce.gradient }}
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 200,
-                  damping: 20,
-                  delay: 0.15
-                }}
               />
 
               {/* Content */}
               <div className="flex-1 p-4">
                 <div className="flex items-start gap-3">
                   {/* Emoji with gradient background */}
-                  <motion.div
+                  <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: astuce.gradient }}
-                    whileHover={{
-                      scale: 1.1,
-                      rotate: 5,
-                      transition: { type: 'spring', stiffness: 400, damping: 15 }
-                    }}
                   >
                     <span className="text-2xl">{astuce.emoji}</span>
-                  </motion.div>
+                  </div>
 
                   {/* Text content */}
                   <div className="flex-1 min-w-0">
@@ -171,24 +97,17 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
                     </div>
                   </div>
 
-                  {/* Arrow with smooth animation */}
-                  <motion.div
-                    className="flex-shrink-0 self-center"
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 5 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  >
-                    <ChevronRight
-                      className="w-5 h-5 transition-colors group-hover:text-purple-500"
-                      style={{ color: theme.textMuted }}
-                    />
-                  </motion.div>
+                  {/* Arrow */}
+                  <ChevronRight
+                    className="w-5 h-5 flex-shrink-0 self-center"
+                    style={{ color: theme.textMuted }}
+                  />
                 </div>
               </div>
             </div>
-          </motion.button>
+          </button>
         ))}
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
