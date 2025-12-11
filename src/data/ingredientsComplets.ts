@@ -361,8 +361,8 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Dégraissant rapide',
       'Nettoyant électronique (dilué)'
     ],
-    surfaces: ['Vitres', 'Miroirs', 'Inox', 'Surfaces lisses'],
-    recettesIds: [3],
+    surfaces: ['Vitres', 'Miroirs', 'Inox', 'Surfaces lisses', 'Écrans', 'Électronique'],
+    recettesIds: [3, 22, 23],
     prix: '€',
     prixMoyen: '~3€/L',
     scoreEcologique: 3,

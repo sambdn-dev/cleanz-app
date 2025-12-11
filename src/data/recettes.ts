@@ -610,6 +610,61 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Ne pas utiliser sur surfaces fragiles', 'Éviter sur inox brossé', 'Rincer abondamment'],
     astuces: ['Le bicarbonate est un abrasif doux qui ne raye pas', 'Idéal pour faire briller l\'évier'],
     conservation: '3 mois en pot fermé'
+  },
+  {
+    id: 22,
+    nom: 'Spray Désinfectant Express',
+    emoji: '🧴',
+    categorie: 'Multi-usage',
+    badge: 'Rapide',
+    gradient: 'linear-gradient(135deg, #4DD0E1 0%, #26C6DA 100%)',
+    temps: '2min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Alcool ménager', quantite: '250ml', emoji: '🔬' },
+      { nom: 'Eau', quantite: '250ml', emoji: '💧' },
+      { nom: 'HE tea tree', quantite: '15 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray 500ml'],
+    instructions: [
+      'Versez l\'alcool ménager dans le flacon spray',
+      'Ajoutez l\'eau',
+      'Incorporez l\'huile essentielle de tea tree',
+      'Secouez bien avant chaque utilisation',
+      'Vaporisez et laissez sécher (pas besoin de rincer)'
+    ],
+    surfaces: ['Poignées de porte', 'Interrupteurs', 'Téléphones', 'Claviers', 'Télécommandes', 'Plans de travail'],
+    precautions: ['Très inflammable - éloigner des flammes', 'Bien aérer la pièce', 'Ne pas utiliser sur écrans'],
+    astuces: ['Sèche très vite sans laisser de traces', 'Idéal en période de grippe/gastro', 'L\'alcool tue 99.9% des germes'],
+    conservation: '6 mois'
+  },
+  {
+    id: 23,
+    nom: 'Nettoyant Écrans & Électronique',
+    emoji: '📱',
+    categorie: 'Multi-usage',
+    badge: 'High-tech',
+    gradient: 'linear-gradient(135deg, #90CAF9 0%, #42A5F5 100%)',
+    temps: '2min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '100ml', emoji: '💧' },
+      { nom: 'Alcool ménager', quantite: '100ml', emoji: '🔬' }
+    ],
+    materiel: ['Petit flacon spray 200ml', 'Chiffon microfibre doux'],
+    instructions: [
+      'Mélangez l\'eau déminéralisée et l\'alcool ménager',
+      'Versez dans le flacon spray',
+      'Vaporisez sur le chiffon microfibre (JAMAIS sur l\'écran)',
+      'Essuyez délicatement l\'écran en mouvements circulaires',
+      'Laissez sécher quelques secondes'
+    ],
+    surfaces: ['Écrans TV', 'Écrans ordinateur', 'Tablettes', 'Smartphones', 'Lunettes'],
+    precautions: ['Ne JAMAIS vaporiser directement sur l\'écran', 'Éteindre l\'appareil avant nettoyage', 'Éviter l\'excès de produit'],
+    astuces: ['L\'eau déminéralisée évite les traces de calcaire', 'Le mélange 50/50 est idéal pour les écrans', 'Utiliser un chiffon très doux pour ne pas rayer'],
+    conservation: '1 an'
   }
 ];
 
