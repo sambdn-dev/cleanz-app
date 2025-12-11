@@ -5,6 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredientsComplets';
 import { Search, ChevronRight, Leaf, Euro, Sparkles } from 'lucide-react';
+import { PinkStuffSection } from './PinkStuffSection';
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
@@ -264,6 +265,11 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                 ))}
               </div>
             </div>
+          )}
+
+          {/* Section Partenaire Pink Stuff */}
+          {activeCategory === 'all' && !searchQuery && (
+            <PinkStuffSection />
           )}
 
           {/* Autres ingrédients */}
