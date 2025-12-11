@@ -5,6 +5,7 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
 import { Astuce } from '@/types';
 import { Star, Clock, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface AstucesSectionProps {
   onAstuceClick: (astuce: Astuce) => void;
@@ -14,7 +15,13 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
   const { theme, darkMode } = useTheme();
 
   return (
-    <div className="mb-5">
+    <motion.div
+      className="mb-5"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
       <SectionTitle
         badge="Recettes express"
       >
@@ -22,11 +29,11 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
       </SectionTitle>
 
       <div className="space-y-3">
-        {ASTUCES_DU_JOUR.map((astuce) => (
-          <button
+        {ASTUCES_DU_JOUR.map((astuce, index) => (
+          <motion.button
             key={astuce.id}
             onClick={() => onAstuceClick(astuce)}
-            className="w-full rounded-2xl overflow-hidden text-left transition-all hover:scale-[1.01] active:scale-[0.99]"
+            className="w-full rounded-2xl overflow-hidden text-left"
             style={{
               background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
               border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -34,24 +41,36 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
                 ? '0 4px 15px rgba(0,0,0,0.2)'
                 : '0 4px 15px rgba(0,0,0,0.05)'
             }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
+            whileHover={{ scale: 1.01, x: 5 }}
+            whileTap={{ scale: 0.99 }}
           >
             <div className="flex items-stretch">
               {/* Gradient accent bar */}
-              <div
+              <motion.div
                 className="w-2 flex-shrink-0"
                 style={{ background: astuce.gradient }}
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 + 0.2, duration: 0.3 }}
               />
 
               {/* Content */}
               <div className="flex-1 p-4">
                 <div className="flex items-start gap-3">
                   {/* Emoji with gradient background */}
-                  <div
+                  <motion.div
                     className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: astuce.gradient }}
+                    whileHover={{ rotate: [0, -5, 5, 0], scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
                   >
                     <span className="text-2xl">{astuce.emoji}</span>
-                  </div>
+                  </motion.div>
 
                   {/* Text content */}
                   <div className="flex-1 min-w-0">
@@ -98,16 +117,21 @@ export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
                   </div>
 
                   {/* Arrow */}
-                  <ChevronRight
-                    className="w-5 h-5 flex-shrink-0 self-center"
-                    style={{ color: theme.textMuted }}
-                  />
+                  <motion.div
+                    className="flex-shrink-0 self-center"
+                    whileHover={{ x: 3 }}
+                  >
+                    <ChevronRight
+                      className="w-5 h-5"
+                      style={{ color: theme.textMuted }}
+                    />
+                  </motion.div>
                 </div>
               </div>
             </div>
-          </button>
+          </motion.button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };

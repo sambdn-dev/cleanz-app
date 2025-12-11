@@ -7,6 +7,7 @@ import { RecetteComplete } from '@/types';
 import { Clock, ChefHat, Star, AlertTriangle, Lightbulb, Archive, CheckCircle2, Beaker, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface RecipeModalProps {
   recipe: RecetteComplete;
@@ -96,53 +97,81 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       >
         <div className="flex items-center justify-between">
           {/* Favori */}
-          <button
+          <motion.button
             onClick={() => toggleFavorite(recipe.id)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl"
             style={{
               background: favorite
                 ? 'rgba(236, 72, 153, 0.15)'
                 : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
             }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Heart
-              className={`w-5 h-5 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
-              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
-            />
+            <motion.div
+              animate={favorite ? {
+                scale: [1, 1.4, 1],
+                rotate: [0, -10, 10, 0]
+              } : { scale: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Heart
+                className={`w-5 h-5 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+                style={{ color: favorite ? '#EC4899' : theme.textMuted }}
+              />
+            </motion.div>
             <span className="text-xs font-medium" style={{ color: favorite ? '#EC4899' : theme.textMuted }}>
               {favorite ? 'Favori' : 'Ajouter'}
             </span>
-          </button>
+          </motion.button>
 
           {/* Note utilisateur */}
           <div className="flex items-center gap-1">
             <span className="text-[10px] mr-1" style={{ color: theme.textMuted }}>Ma note:</span>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
+            {[1, 2, 3, 4, 5].map((star, index) => (
+              <motion.button
                 key={star}
                 onClick={() => handleRatingClick(star)}
-                className="transition-transform hover:scale-110 active:scale-95"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  delay: index * 0.05,
+                  type: 'spring',
+                  stiffness: 500,
+                  damping: 15,
+                }}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
               >
-                <Star
-                  className={`w-5 h-5 ${
-                    userRating && star <= userRating
-                      ? 'text-yellow-400 fill-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
-              </button>
+                <motion.div
+                  animate={userRating && star <= userRating ? {
+                    scale: [1, 1.3, 1],
+                  } : {}}
+                  transition={{ duration: 0.2, delay: (star - 1) * 0.05 }}
+                >
+                  <Star
+                    className={`w-5 h-5 ${
+                      userRating && star <= userRating
+                        ? 'text-yellow-400 fill-yellow-400'
+                        : 'text-gray-300'
+                    }`}
+                  />
+                </motion.div>
+              </motion.button>
             ))}
           </div>
 
           {/* Partager */}
-          <button
+          <motion.button
             onClick={handleShare}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl"
             style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Share2 className="w-4 h-4" style={{ color: theme.textMuted }} />
             <span className="text-xs font-medium" style={{ color: theme.textMuted }}>Partager</span>
-          </button>
+          </motion.button>
         </div>
 
         {/* Zone commentaire (optionnel) */}

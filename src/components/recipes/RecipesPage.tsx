@@ -7,6 +7,7 @@ import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
 import { Clock, Star, Search, ChevronRight, Sparkles, Heart } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
@@ -59,7 +60,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   };
 
   // Carte de recette
-  const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => {
+  const RecipeCard = ({ recipe, index }: { recipe: RecetteComplete; index: number }) => {
     const favorite = isFavorite(recipe.id);
     const userRating = getRating(recipe.id);
 
@@ -69,9 +70,17 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
     };
 
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: index * 0.05,
+          type: 'spring',
+          stiffness: 300,
+          damping: 24,
+        }}
         onClick={() => onRecipeClick(recipe)}
-        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative"
+        className="p-4 rounded-2xl cursor-pointer relative"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
           border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -79,22 +88,34 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
             ? '0 4px 15px rgba(0,0,0,0.2)'
             : '0 4px 15px rgba(0,0,0,0.05)'
         }}
+        whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+        whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
       >
         {/* Bouton favori */}
-        <button
+        <motion.button
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95"
+          className="absolute top-3 right-3 p-1.5 rounded-full"
           style={{
             background: favorite
               ? 'rgba(236, 72, 153, 0.15)'
               : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
           }}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
         >
-          <Heart
-            className={`w-4 h-4 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
-            style={{ color: favorite ? '#EC4899' : theme.textMuted }}
-          />
-        </button>
+          <motion.div
+            animate={favorite ? {
+              scale: [1, 1.4, 1],
+              rotate: [0, -10, 10, 0]
+            } : { scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Heart
+              className={`w-4 h-4 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
+            />
+          </motion.div>
+        </motion.button>
 
         <div className="flex items-start gap-3">
           {/* Emoji avec gradient */}
@@ -163,7 +184,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
     );
   };
 
@@ -193,13 +214,13 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
       {/* Category Tabs */}
       <div className="mb-5 overflow-x-auto scrollbar-hide -mx-4 px-4">
         <div className="flex gap-2">
-          {CATEGORIES_RECETTES.map((cat) => {
+          {CATEGORIES_RECETTES.map((cat, index) => {
             const isActive = activeCategory === cat.id;
             return (
-              <button
+              <motion.button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap transition-all"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap relative overflow-hidden"
                 style={{
                   background: isActive
                     ? darkMode
@@ -211,10 +232,27 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                   color: isActive ? 'white' : theme.textSecondary,
                   border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
                 }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.03, duration: 0.2 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="text-sm">{cat.emoji}</span>
-                <span className="text-xs font-medium">{cat.nom}</span>
-              </button>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTabBg"
+                    className="absolute inset-0 rounded-xl"
+                    style={{
+                      background: darkMode
+                        ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
+                        : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
+                    }}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  />
+                )}
+                <span className="text-sm relative z-10">{cat.emoji}</span>
+                <span className="text-xs font-medium relative z-10">{cat.nom}</span>
+              </motion.button>
             );
           })}
         </div>
@@ -249,8 +287,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                 </span>
               </div>
               <div className="space-y-3">
-                {indispensables.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                {indispensables.map((recipe, index) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} index={index} />
                 ))}
               </div>
             </div>
@@ -277,8 +315,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                 </div>
               )}
               <div className="space-y-3">
-                {autresRecettes.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                {autresRecettes.map((recipe, index) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} index={index} />
                 ))}
               </div>
             </div>
