@@ -27,7 +27,7 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
               filter: darkMode ? 'drop-shadow(0 0 20px rgba(255,133,192,0.3))' : 'none',
             }}
           >
-            Cleanz
+            cleanz
           </h1>
           <p
             className="text-[11px] font-medium tracking-wide uppercase mt-0.5"
