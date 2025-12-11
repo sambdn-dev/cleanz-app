@@ -91,11 +91,11 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
     );
   };
 
-  // Carte d'ingrédient
+  // Carte d'ingrédient (compacte, 2 par ligne)
   const IngredientCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
     <div
       onClick={() => onIngredientClick(ingredient)}
-      className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+      className="p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
       style={{
         background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
         border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -104,76 +104,39 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
           : '0 4px 15px rgba(0,0,0,0.05)'
       }}
     >
-      <div className="flex items-start gap-3">
-        {/* Emoji avec gradient */}
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ background: ingredient.gradient }}
-        >
-          <span className="text-2xl">{ingredient.emoji}</span>
+      {/* Emoji avec gradient */}
+      <div
+        className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2"
+        style={{ background: ingredient.gradient }}
+      >
+        <span className="text-xl">{ingredient.emoji}</span>
+      </div>
+
+      {/* Nom */}
+      <h3 className="font-bold text-xs leading-tight text-center line-clamp-2 mb-1" style={{ color: theme.textPrimary }}>
+        {ingredient.nom}
+      </h3>
+
+      {/* Badge */}
+      {ingredient.badge && (
+        <div className="text-center mb-2">
+          <span
+            className="inline-block text-[8px] px-1.5 py-0.5 rounded-full font-medium"
+            style={{
+              background: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
+              color: darkMode ? '#A78BFA' : '#7C3AED'
+            }}
+          >
+            {ingredient.badge}
+          </span>
         </div>
+      )}
 
-        {/* Contenu */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
-              {ingredient.nom}
-            </h3>
-            <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: theme.textMuted }} />
-          </div>
-
-          {/* Badge */}
-          {ingredient.badge && (
-            <span
-              className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
-                color: darkMode ? '#A78BFA' : '#7C3AED'
-              }}
-            >
-              {ingredient.badge}
-            </span>
-          )}
-
-          {/* Infos */}
-          <div className="flex items-center gap-4 mt-2">
-            <div className="flex items-center gap-1">
-              <span className="text-[9px]" style={{ color: theme.textMuted }}>Prix:</span>
-              {renderPrix(ingredient.prix)}
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-[9px]" style={{ color: theme.textMuted }}>Éco:</span>
-              {renderEcoScore(ingredient.scoreEcologique)}
-            </div>
-          </div>
-
-          {/* Fonctions preview */}
-          <div className="flex flex-wrap gap-1 mt-2">
-            {ingredient.fonctions.slice(0, 3).map((fonction, index) => (
-              <span
-                key={index}
-                className="text-[9px] px-1.5 py-0.5 rounded-full"
-                style={{
-                  background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                  color: theme.textMuted
-                }}
-              >
-                {fonction}
-              </span>
-            ))}
-            {ingredient.fonctions.length > 3 && (
-              <span
-                className="text-[9px] px-1.5 py-0.5 rounded-full"
-                style={{
-                  background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                  color: theme.textMuted
-                }}
-              >
-                +{ingredient.fonctions.length - 3}
-              </span>
-            )}
-          </div>
-        </div>
+      {/* Infos compactes */}
+      <div className="flex items-center justify-center gap-2">
+        {renderPrix(ingredient.prix)}
+        <span className="text-gray-300">|</span>
+        {renderEcoScore(ingredient.scoreEcologique)}
       </div>
     </div>
   );
@@ -259,7 +222,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                   Kit de base
                 </span>
               </div>
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
                 {essentiels.map((ingredient) => (
                   <IngredientCard key={ingredient.id} ingredient={ingredient} />
                 ))}
@@ -292,7 +255,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                   </span>
                 </div>
               )}
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
                 {autres.map((ingredient) => (
                   <IngredientCard key={ingredient.id} ingredient={ingredient} />
                 ))}
