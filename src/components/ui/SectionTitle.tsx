@@ -21,7 +21,7 @@ export const SectionTitle = ({
   action,
   onAction
 }: SectionTitleProps) => {
-  const { theme } = useTheme();
+  const { theme, darkMode } = useTheme();
 
   return (
     <div className="flex items-center justify-between mb-3">
@@ -29,7 +29,13 @@ export const SectionTitle = ({
         {Icon && <Icon className={`w-4 h-4 ${iconColor}`} />}
         {children}
         {badge && (
-          <span className="text-[10px] px-2 py-0.5 bg-pink-100 text-pink-600 rounded-full font-medium">
+          <span
+            className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+            style={{
+              background: darkMode ? 'rgba(236, 72, 153, 0.25)' : 'rgba(236, 72, 153, 0.15)',
+              color: darkMode ? '#F472B6' : '#DB2777'
+            }}
+          >
             {badge}
           </span>
         )}
