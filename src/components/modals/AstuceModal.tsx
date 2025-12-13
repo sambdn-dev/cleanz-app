@@ -107,7 +107,6 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
 
           {/* Note utilisateur */}
           <div className="flex items-center gap-1">
-            <span className="text-[10px] mr-1" style={{ color: theme.textMuted }}>Ma note:</span>
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
