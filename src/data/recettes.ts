@@ -756,6 +756,66 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Résiste jusqu\'à -10°C environ', 'Pour grand froid, augmentez la proportion d\'alcool', 'Stockez à l\'abri de la chaleur (alcool inflammable)'],
     astuces: ['Le vinaigre nettoie insectes et résidus', 'L\'alcool assure l\'anti-gel et le séchage rapide', 'Formule équilibrée pour usage toute l\'année'],
     conservation: '1 an'
+  },
+  {
+    id: 27,
+    nom: 'Spray Dégivrant Auto',
+    emoji: '🧊',
+    categorie: 'Voiture',
+    badge: 'Hiver',
+    gradient: 'linear-gradient(135deg, #74EBD5 0%, #9FACE6 100%)',
+    temps: '2min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '200ml (2 parts)', emoji: '🧴' },
+      { nom: 'Alcool ménager', quantite: '100ml (1 part)', emoji: '🔬' },
+      { nom: 'Eau froide ou tiède', quantite: '100ml (1 part)', emoji: '💧' }
+    ],
+    materiel: ['Flacon spray 500ml', 'Entonnoir'],
+    instructions: [
+      'Versez le vinaigre blanc dans le flacon spray',
+      'Ajoutez l\'alcool ménager',
+      'Complétez avec l\'eau FROIDE ou légèrement tiède',
+      'Fermez et secouez pour bien mélanger',
+      'Vaporisez généreusement sur le pare-brise givré',
+      'Attendez 30 secondes puis essuyez avec un chiffon ou la raclette'
+    ],
+    surfaces: ['Pare-brise givré', 'Vitres voiture', 'Rétroviseurs', 'Serrures gelées'],
+    precautions: ['JAMAIS d\'eau chaude sur un pare-brise froid = risque de fissures !', 'Utiliser uniquement de l\'eau froide ou tiède', 'L\'alcool est inflammable - éloigner des flammes', 'Ne pas utiliser sur plastiques sensibles'],
+    astuces: ['L\'alcool abaisse le point de congélation et fait fondre le givre', 'Le vinaigre empêche la reformation du givre', 'Vaporisez la veille au soir sur le pare-brise pour éviter le givre du matin'],
+    conservation: '1 an'
+  },
+  {
+    id: 28,
+    nom: 'Spray Parois de Douche',
+    emoji: '🚿',
+    categorie: 'Salle de bain',
+    badge: 'Ultra-puissant',
+    gradient: 'linear-gradient(135deg, #43E97B 0%, #38F9D7 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Sel d\'oseille (acide oxalique)', quantite: '1 c.à.s', emoji: '🧪' },
+      { nom: 'Liquide vaisselle', quantite: '1 c.à.s', emoji: '🫧' }
+    ],
+    materiel: ['Flacon spray 500ml', 'Éponge inoxydable', 'Raclette', 'Gants'],
+    instructions: [
+      'Versez l\'eau chaude dans le flacon spray',
+      'Ajoutez le sel d\'oseille et secouez jusqu\'à dissolution',
+      'Incorporez le liquide vaisselle',
+      'Vaporisez généreusement sur les parois de douche',
+      'Laissez agir 1 minute',
+      'Frottez avec une éponge inoxydable',
+      'Rincez abondamment à l\'eau froide',
+      'Passez un coup de raclette pour un résultat impeccable'
+    ],
+    surfaces: ['Parois de douche', 'Carrelage salle de bain', 'Baignoire', 'Faïence'],
+    precautions: ['Porter des gants obligatoirement', 'Ne pas utiliser sur marbre ou pierre naturelle', 'Bien ventiler la pièce', 'Rincer abondamment après usage', 'Éviter le contact avec les yeux'],
+    astuces: ['Le sel d\'oseille est un acide beaucoup plus puissant que le vinaigre ou l\'acide citrique', 'Élimine calcaire et traces de savon en profondeur', 'L\'éponge inoxydable ne raye pas le verre'],
+    conservation: '3 mois'
   }
 ];
 
