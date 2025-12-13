@@ -176,7 +176,7 @@ export default function HomePage() {
                 <span className="text-xs px-2 py-0.5 rounded-full" style={{
                   background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(139, 92, 246, 0.15)'
                 }}>
-                  26
+                  28
                 </span>
               </button>
             </div>
