@@ -27,19 +27,33 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
     setRating(astuceId, rating);
   };
 
+  // Génère un slug URL-friendly à partir du titre
+  const generateSlug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  };
+
   const handleShare = async () => {
+    const baseUrl = window.location.origin;
+    const slug = generateSlug(astuce.titre);
+    const shareUrl = `${baseUrl}/?astuce=${slug}`;
+
     if (navigator.share) {
       try {
         await navigator.share({
           title: astuce.titre,
           text: `Découvre cette astuce de nettoyage naturel : ${astuce.titre}`,
-          url: window.location.href,
+          url: shareUrl,
         });
       } catch {
         // User cancelled or error
       }
     } else {
-      navigator.clipboard.writeText(`${astuce.titre} - Astuce de nettoyage naturel sur Cleanz`);
+      await navigator.clipboard.writeText(shareUrl);
     }
   };
 

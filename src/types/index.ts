@@ -123,7 +123,7 @@ export interface RecetteComplete {
   id: number;
   nom: string;
   emoji: string;
-  categorie: 'Indispensable' | 'Salle de bain' | 'Cuisine' | 'Linge' | 'Multi-usage' | 'Sol' | 'Entretien';
+  categorie: 'Indispensable' | 'Salle de bain' | 'Cuisine' | 'Linge' | 'Multi-usage' | 'Sol' | 'Entretien' | 'Voiture';
   badge?: string;
   gradient: string;
   temps: string;

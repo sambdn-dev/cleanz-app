@@ -25,7 +25,29 @@ import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
+import { RECETTES } from '@/data/recettes';
+import { ASTUCES_DU_JOUR } from '@/data/astuces';
 import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
+
+// Fonction pour générer un slug à partir du nom
+const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove accents
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+};
+
+// Fonction pour trouver une recette par slug
+const findRecipeBySlug = (slug: string): RecetteComplete | undefined => {
+  return RECETTES.find(r => generateSlug(r.nom) === slug);
+};
+
+// Fonction pour trouver une astuce par slug
+const findAstuceBySlug = (slug: string): Astuce | undefined => {
+  return ASTUCES_DU_JOUR.find(a => generateSlug(a.titre) === slug);
+};
 
 export default function HomePage() {
   const { theme, darkMode } = useTheme();
@@ -47,6 +69,26 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsLoaded(true);
+
+    // Check URL for recipe or astuce parameter
+    const params = new URLSearchParams(window.location.search);
+
+    const recipeSlug = params.get('recette');
+    if (recipeSlug) {
+      const recipe = findRecipeBySlug(recipeSlug);
+      if (recipe) {
+        setSelectedRecipe(recipe);
+        return;
+      }
+    }
+
+    const astuceSlug = params.get('astuce');
+    if (astuceSlug) {
+      const astuce = findAstuceBySlug(astuceSlug);
+      if (astuce) {
+        setSelectedAstuce(astuce);
+      }
+    }
   }, []);
 
   // Filtrage des surfaces
@@ -134,7 +176,7 @@ export default function HomePage() {
                 <span className="text-xs px-2 py-0.5 rounded-full" style={{
                   background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(139, 92, 246, 0.15)'
                 }}>
-                  23
+                  26
                 </span>
               </button>
             </div>
