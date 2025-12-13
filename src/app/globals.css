@@ -3,6 +3,7 @@
 
 :root {
   --bg-primary: linear-gradient(180deg, #FFE5F1 0%, #E8D5F2 25%, #D4E5F7 50%, #E5F7F3 75%, #FFF5E5 100%);
+  --bg-overscroll: #FFE5F1;
   --bg-card: rgba(255,255,255,0.75);
   --bg-card-solid: rgba(255,255,255,0.92);
   --bg-input: rgba(255,255,255,0.85);
@@ -18,6 +19,7 @@
 
 .dark {
   --bg-primary: linear-gradient(180deg, #1A0A2E 0%, #2D1B4E 30%, #1E3A5F 60%, #0D2137 100%);
+  --bg-overscroll: #1A0A2E;
   --bg-card: rgba(45,27,78,0.7);
   --bg-card-solid: rgba(45,27,78,0.92);
   --bg-input: rgba(45,27,78,0.85);
@@ -34,8 +36,10 @@
 html {
   height: 100%;
   min-height: 100%;
-  /* Background on html covers entire viewport including safe areas */
-  background: var(--bg-primary);
+  /* Background color for overscroll effect on iOS */
+  background-color: var(--bg-overscroll);
+  /* Gradient background */
+  background-image: var(--bg-primary);
   background-attachment: fixed;
 }
 
