@@ -35,13 +35,17 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
       ingredients = ingredients.filter(i =>
         i.fonctions.some(f => f.toLowerCase().includes('désinfectant') || f.toLowerCase().includes('antibactérien') || f.toLowerCase().includes('antiseptique'))
       );
-    } else if (activeCategory === 'parfumant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('parfumant'))
-      );
     } else if (activeCategory === 'abrasif') {
       ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('abrasif'))
+        i.fonctions.some(f => f.toLowerCase().includes('abrasif') || f.toLowerCase().includes('polissant'))
+      );
+    } else if (activeCategory === 'blanchissant') {
+      ingredients = ingredients.filter(i =>
+        i.fonctions.some(f => f.toLowerCase().includes('blanchissant') || f.toLowerCase().includes('détachant'))
+      );
+    } else if (activeCategory === 'parfumant') {
+      ingredients = ingredients.filter(i =>
+        i.fonctions.some(f => f.toLowerCase().includes('parfumant') || f.toLowerCase().includes('assainissant'))
       );
     }
 
@@ -170,72 +174,93 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         </div>
       ) : (
         <>
-          {/* Section Les Essentiels */}
-          {(activeCategory === 'all' || activeCategory === 'essentiel') && essentiels.length > 0 && (
-            <div className="mb-6">
+          {/* Mode catégorie spécifique (pas "all" ni "essentiel") - afficher tous les résultats */}
+          {activeCategory !== 'all' && activeCategory !== 'essentiel' ? (
+            <>
               <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-5 h-5 text-yellow-500" />
+                <span className="text-base">
+                  {CATEGORIES_INGREDIENTS.find(c => c.id === activeCategory)?.emoji || '📋'}
+                </span>
                 <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-                  Les Essentiels
+                  {CATEGORIES_INGREDIENTS.find(c => c.id === activeCategory)?.nom || 'Résultats'}
                 </h2>
                 <span
                   className="text-xs px-2 py-0.5 rounded-full"
                   style={{
-                    background: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)',
-                    color: darkMode ? '#FCD34D' : '#D97706'
+                    background: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)',
+                    color: darkMode ? '#4ADE80' : '#16A34A'
                   }}
                 >
-                  Kit de base
+                  {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                {essentiels.map((ingredient) => (
+                {filteredIngredients.map((ingredient) => (
                   <IngredientCard key={ingredient.id} ingredient={ingredient} />
                 ))}
               </div>
-            </div>
-          )}
-
-          {/* Section Partenaire Pink Stuff */}
-          {activeCategory === 'all' && !searchQuery && (
-            <PinkStuffSection />
-          )}
-
-          {/* Autres ingrédients */}
-          {autres.length > 0 && (
-            <div>
-              {(activeCategory === 'all' || activeCategory === 'essentiel') && essentiels.length > 0 && (
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-base">🧪</span>
-                  <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-                    Autres ingrédients
-                  </h2>
-                  <span
-                    className="text-xs px-2 py-0.5 rounded-full"
-                    style={{
-                      background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                      color: darkMode ? '#5EEAD4' : '#14B8A6'
-                    }}
-                  >
-                    {autres.length} ingrédients
-                  </span>
+            </>
+          ) : (
+            <>
+              {/* Section Les Essentiels */}
+              {essentiels.length > 0 && (
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-5 h-5 text-yellow-500" />
+                    <h2 className="font-bold" style={{ color: theme.textPrimary }}>
+                      Les Essentiels
+                    </h2>
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{
+                        background: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)',
+                        color: darkMode ? '#FCD34D' : '#D97706'
+                      }}
+                    >
+                      Kit de base
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {essentiels.map((ingredient) => (
+                      <IngredientCard key={ingredient.id} ingredient={ingredient} />
+                    ))}
+                  </div>
                 </div>
               )}
-              <div className="grid grid-cols-2 gap-3">
-                {autres.map((ingredient) => (
-                  <IngredientCard key={ingredient.id} ingredient={ingredient} />
-                ))}
-              </div>
-            </div>
-          )}
 
-          {/* Si on n'affiche que les autres (pas les essentiels) */}
-          {activeCategory !== 'all' && activeCategory !== 'essentiel' && (
-            <div className="text-center mt-6 pt-4" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` }}>
-              <p className="text-xs" style={{ color: theme.textMuted }}>
-                {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''} dans cette catégorie
-              </p>
-            </div>
+              {/* Section Partenaire Pink Stuff */}
+              {activeCategory === 'all' && !searchQuery && (
+                <PinkStuffSection />
+              )}
+
+              {/* Autres ingrédients */}
+              {autres.length > 0 && (
+                <div>
+                  {essentiels.length > 0 && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-base">🧪</span>
+                      <h2 className="font-bold" style={{ color: theme.textPrimary }}>
+                        Autres ingrédients
+                      </h2>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{
+                          background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
+                          color: darkMode ? '#5EEAD4' : '#14B8A6'
+                        }}
+                      >
+                        {autres.length} ingrédients
+                      </span>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-3">
+                    {autres.map((ingredient) => (
+                      <IngredientCard key={ingredient.id} ingredient={ingredient} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </>
       )}
