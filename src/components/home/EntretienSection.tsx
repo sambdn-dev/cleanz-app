@@ -39,7 +39,7 @@ export const EntretienSection = ({ onApplianceClick }: EntretienSectionProps) =>
 
       {/* Stories horizontales */}
       <div
-        className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4"
+        className="flex gap-4 overflow-x-auto pt-1 pb-4 -mx-4 px-4"
         style={{ scrollbarWidth: 'none' }}
       >
         {ELECTROMENAGERS.map((appliance) => {

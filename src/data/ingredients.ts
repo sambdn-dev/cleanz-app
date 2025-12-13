@@ -9,6 +9,6 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 6, nom: 'Savon de Marseille', emoji: '🧼', fonctions: ['Détachant', 'Hypoallergénique', 'Lessive'], essentiel: true, prix: '5-10€', description: 'Trésor de Provence, le savon de Marseille authentique est hypoallergénique.' },
   { id: 7, nom: 'Pierre blanche', emoji: '🪨', fonctions: ['Désincrustant', 'Polissant', 'Protecteur'], essentiel: true, prix: '8-15€', description: 'La pierre blanche nettoie, dégraisse, polit et protège.' },
   { id: 8, nom: 'Cristaux de soude', emoji: '💎', fonctions: ['Dégraissant puissant', 'Déboucheur'], essentiel: false, prix: '3-5€/kg', description: 'Les cristaux de soude sont le dégraissant ultime.' },
-  { id: 9, nom: 'Alcool ménager', emoji: '🔬', fonctions: ['Désinfectant', 'Vitres', 'Anti-traces'], essentiel: false, prix: '3-5€/L', description: "L'alcool ménager désinfecte et s'évapore sans traces." },
+  { id: 9, nom: 'Alcool ménager', emoji: '🔬', fonctions: ['Désinfectant', 'Vitres', 'Anti-traces'], essentiel: true, prix: '3-5€/L', description: "L'alcool ménager désinfecte et s'évapore sans traces." },
   { id: 10, nom: 'Terre de Sommières', emoji: '🟤', fonctions: ['Absorbant', 'Détachant sec'], essentiel: false, prix: '6-10€/kg', description: 'Cette argile naturelle absorbe les taches grasses sans eau.' },
 ];
