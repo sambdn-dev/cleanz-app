@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from '@/contexts/ThemeContext';
 import { CATEGORIES } from '@/data/categories';
 
 interface CategoryTabsProps {
@@ -8,6 +9,7 @@ interface CategoryTabsProps {
 }
 
 export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
+  const { theme, darkMode } = useTheme();
   const tabs = ['Tout', ...CATEGORIES.map(c => c.nom)];
 
   return (
@@ -20,7 +22,7 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
           <button
             key={tab}
             onClick={() => onTabChange(tab)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all flex-shrink-0"
             style={isActive
               ? {
                   background: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 50%, #4FD1C5 100%)',
@@ -28,8 +30,16 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
                   boxShadow: '0 4px 15px rgba(255,105,180,0.35)'
                 }
               : {
-                  background: 'rgba(255,255,255,0.7)',
-                  color: '#8B7A9E'
+                  background: darkMode
+                    ? 'rgba(255,255,255,0.08)'
+                    : 'rgba(255,255,255,0.85)',
+                  color: darkMode ? theme.textSecondary : '#6B5B7A',
+                  border: darkMode
+                    ? '1px solid rgba(255,255,255,0.1)'
+                    : '1px solid rgba(0,0,0,0.05)',
+                  boxShadow: darkMode
+                    ? 'none'
+                    : '0 2px 8px rgba(0,0,0,0.04)'
                 }
             }
           >
