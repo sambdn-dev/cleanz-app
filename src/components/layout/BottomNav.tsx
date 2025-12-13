@@ -28,10 +28,11 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
         background: theme.bgNav,
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 -4px 30px rgba(255,105,180,0.1)'
+        boxShadow: '0 -4px 30px rgba(255,105,180,0.1)',
+        paddingBottom: 'env(safe-area-inset-bottom)'
       }}
     >
-      <div className="max-w-md mx-auto px-4 py-3 flex justify-around">
+      <div className="max-w-md mx-auto px-6 pt-3 pb-2 flex justify-around">
         {navItems.map((item) => {
           const isActive = activeTab === item.label;
           const isFavoris = item.label === 'Favoris';
@@ -41,15 +42,22 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
             <button
               key={item.label}
               onClick={() => onTabChange(item.label)}
-              className="flex flex-col items-center gap-0.5 transition-all"
+              className="flex flex-col items-center gap-1 transition-all relative min-w-[56px]"
               style={{ color: isActive ? (isFavoris ? '#EC4899' : '#FF69B4') : '#9B8AAB' }}
             >
               <Icon
-                className="w-5 h-5"
+                className="w-6 h-6"
                 strokeWidth={isActive ? 2.5 : 2}
                 fill={isActive ? 'currentColor' : 'none'}
               />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-[11px] font-medium">{item.label}</span>
+              {/* Active indicator line */}
+              {isActive && (
+                <div
+                  className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full"
+                  style={{ background: isFavoris ? '#EC4899' : '#FF69B4' }}
+                />
+              )}
             </button>
           );
         })}

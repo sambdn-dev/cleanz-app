@@ -31,10 +31,19 @@
   --shadow-card: 0 4px 25px rgba(182,130,255,0.15);
 }
 
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: system-ui, -apple-system, sans-serif;
+  /* Support iOS safe areas */
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 /* Glassmorphism cards */
