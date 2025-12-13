@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF69B4"/>
+      <stop offset="50%" style="stop-color:#8B5CF6"/>
+      <stop offset="100%" style="stop-color:#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f0f0f0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)"/>
+  <!-- Water drop / cleaning symbol -->
+  <path d="M256 120 C256 120 160 220 160 300 C160 355 203 400 256 400 C309 400 352 355 352 300 C352 220 256 120 256 120 Z" fill="url(#dropGrad)" opacity="0.95"/>
+  <!-- Sparkle 1 -->
+  <path d="M380 140 L390 160 L410 150 L390 165 L400 185 L385 170 L365 180 L380 165 L370 145 L385 158 Z" fill="white" opacity="0.9"/>
+  <!-- Sparkle 2 -->
+  <path d="M130 180 L140 195 L155 188 L142 200 L150 215 L138 205 L122 212 L135 200 L128 185 L140 195 Z" fill="white" opacity="0.8"/>
+  <!-- Sparkle 3 -->
+  <circle cx="320" cy="380" r="12" fill="white" opacity="0.7"/>
+  <!-- Leaf accent -->
+  <ellipse cx="290" cy="280" rx="25" ry="40" fill="#4ADE80" opacity="0.6" transform="rotate(-30 290 280)"/>
+</svg>
