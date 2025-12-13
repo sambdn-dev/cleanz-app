@@ -73,9 +73,17 @@ function HomePageContent() {
   useEffect(() => {
     setIsLoaded(true);
 
+    // Clean slug: extract only the valid slug part (before any space or invalid characters)
+    const cleanSlug = (slug: string): string => {
+      // Take only the part that matches a valid slug pattern (letters, numbers, hyphens)
+      const match = slug.match(/^[a-z0-9-]+/);
+      return match ? match[0] : slug;
+    };
+
     const recipeSlug = searchParams.get('recette');
     if (recipeSlug) {
-      const recipe = findRecipeBySlug(recipeSlug);
+      const cleanedSlug = cleanSlug(recipeSlug.toLowerCase());
+      const recipe = findRecipeBySlug(cleanedSlug);
       if (recipe) {
         setSelectedRecipe(recipe);
         return;
@@ -84,7 +92,8 @@ function HomePageContent() {
 
     const astuceSlug = searchParams.get('astuce');
     if (astuceSlug) {
-      const astuce = findAstuceBySlug(astuceSlug);
+      const cleanedSlug = cleanSlug(astuceSlug.toLowerCase());
+      const astuce = findAstuceBySlug(cleanedSlug);
       if (astuce) {
         setSelectedAstuce(astuce);
       }
