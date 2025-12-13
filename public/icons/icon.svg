@@ -7,19 +7,21 @@
     </linearGradient>
     <linearGradient id="dropGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#ffffff"/>
-      <stop offset="100%" style="stop-color:#f0f0f0"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
     </linearGradient>
   </defs>
-  <!-- Background circle -->
-  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)"/>
-  <!-- Water drop / cleaning symbol -->
-  <path d="M256 120 C256 120 160 220 160 300 C160 355 203 400 256 400 C309 400 352 355 352 300 C352 220 256 120 256 120 Z" fill="url(#dropGrad)" opacity="0.95"/>
-  <!-- Sparkle 1 -->
-  <path d="M380 140 L390 160 L410 150 L390 165 L400 185 L385 170 L365 180 L380 165 L370 145 L385 158 Z" fill="white" opacity="0.9"/>
-  <!-- Sparkle 2 -->
-  <path d="M130 180 L140 195 L155 188 L142 200 L150 215 L138 205 L122 212 L135 200 L128 185 L140 195 Z" fill="white" opacity="0.8"/>
-  <!-- Sparkle 3 -->
-  <circle cx="320" cy="380" r="12" fill="white" opacity="0.7"/>
-  <!-- Leaf accent -->
-  <ellipse cx="290" cy="280" rx="25" ry="40" fill="#4ADE80" opacity="0.6" transform="rotate(-30 290 280)"/>
+  <!-- Square background that fills entire icon -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#bgGrad)"/>
+  <!-- Water drop / cleaning symbol - larger and centered -->
+  <path d="M256 80 C256 80 130 210 130 320 C130 390 186 450 256 450 C326 450 382 390 382 320 C382 210 256 80 256 80 Z" fill="url(#dropGrad)" opacity="0.95"/>
+  <!-- Sparkle 1 - top right -->
+  <path d="M420 100 L432 125 L458 112 L435 130 L448 155 L425 140 L400 152 L420 135 L408 110 L428 125 Z" fill="white" opacity="0.9"/>
+  <!-- Sparkle 2 - top left -->
+  <path d="M90 130 L102 150 L122 140 L105 155 L115 175 L98 163 L78 172 L95 158 L85 138 L100 150 Z" fill="white" opacity="0.85"/>
+  <!-- Sparkle 3 - bottom right -->
+  <circle cx="400" cy="400" r="15" fill="white" opacity="0.7"/>
+  <!-- Sparkle 4 - small top -->
+  <circle cx="340" cy="70" r="8" fill="white" opacity="0.6"/>
+  <!-- Leaf accent inside drop -->
+  <ellipse cx="300" cy="300" rx="30" ry="50" fill="#4ADE80" opacity="0.5" transform="rotate(-30 300 300)"/>
 </svg>
