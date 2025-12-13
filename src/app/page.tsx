@@ -212,11 +212,11 @@ function HomePageContent() {
               onViewAll={() => setActiveNavTab('Ingrédients')}
             />
 
-            {/* Le saviez-vous ? */}
-            <LeSaviezVousSection />
-
             {/* Astuces du jour */}
             <AstucesSection onAstuceClick={setSelectedAstuce} />
+
+            {/* Le saviez-vous ? */}
+            <LeSaviezVousSection />
 
             {/* Widget Pourquoi passer au naturel */}
             {!searchQuery && <EconomiesWidget />}
