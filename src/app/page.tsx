@@ -25,6 +25,7 @@ import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
+import { PullToRefresh } from '@/components/ui/PullToRefresh';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
@@ -124,9 +125,10 @@ function HomePageContent() {
   };
 
   return (
-    <div className="min-h-screen relative">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <PullToRefresh>
+      <div className="min-h-screen relative">
+        {/* Background decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {!darkMode && (
           <>
             <div
@@ -293,7 +295,8 @@ function HomePageContent() {
           }
         }}
       />
-    </div>
+      </div>
+    </PullToRefresh>
   );
 }
 
