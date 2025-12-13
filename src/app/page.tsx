@@ -22,6 +22,7 @@ import { RecipeModal } from '@/components/modals/RecipeModal';
 import { AccountMenu } from '@/components/layout/AccountMenu';
 import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
+import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
@@ -167,18 +168,16 @@ export default function HomePage() {
           <AppareilsPage onApplianceClick={setSelectedAppliance} />
         )}
 
-        {activeNavTab === 'Scan IA' && (
-          <div className="pt-4 text-center" style={{ color: theme.textMuted }}>
-            <p>Page Scan IA - À venir</p>
-          </div>
-        )}
-
         {activeNavTab === 'Recettes' && (
           <RecipesPage onRecipeClick={setSelectedRecipe} />
         )}
 
         {activeNavTab === 'Ingrédients' && (
           <IngredientsPage onIngredientClick={setSelectedIngredientComplet} />
+        )}
+
+        {activeNavTab === 'Favoris' && (
+          <FavoritesPage onRecipeClick={setSelectedRecipe} />
         )}
       </div>
 
@@ -235,8 +234,8 @@ export default function HomePage() {
         onNavigate={(page) => {
           // Handle navigation based on page
           if (page === 'favoris') {
-            // TODO: Navigate to favorites when implemented
-            console.log('Navigate to favorites');
+            setActiveNavTab('Favoris');
+            setShowAccountMenu(false);
           }
         }}
       />
