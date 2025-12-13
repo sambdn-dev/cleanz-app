@@ -124,7 +124,7 @@ function HomePageContent() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: theme.bgPrimary }}>
+    <div className="min-h-screen relative">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {!darkMode && (
@@ -145,8 +145,11 @@ function HomePageContent() {
         )}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-md mx-auto px-4 pb-24">
+      {/* Content with safe area padding */}
+      <div
+        className="relative z-10 max-w-md mx-auto px-4 pb-24"
+        style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+      >
         {/* Header */}
         <div className={`transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
           <Header onAccountClick={() => setShowAccountMenu(true)} />
