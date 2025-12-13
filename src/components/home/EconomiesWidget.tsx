@@ -245,7 +245,7 @@ export const EconomiesWidget = () => {
         <p className="text-[11px] leading-relaxed" style={{ color: theme.textSecondary }}>
           <span className="font-bold" style={{ color: theme.textPrimary }}>1 foyer français</span> utilise en moyenne{' '}
           <span className="font-bold text-pink-500">50+ produits chimiques</span> différents. Avec Cleanz,{' '}
-          <span className="font-bold text-green-500">7 ingrédients naturels</span> suffisent ! 🌿
+          <span className="font-bold text-green-500">10 ingrédients naturels</span> suffisent ! 🌿
         </p>
       </div>
     </div>
