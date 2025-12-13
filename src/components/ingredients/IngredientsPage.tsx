@@ -7,6 +7,7 @@ import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredients
 import { Search, Sparkles } from 'lucide-react';
 import { PinkStuffSection } from './PinkStuffSection';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
@@ -166,12 +167,12 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
 
       {/* Résultats */}
       {filteredIngredients.length === 0 ? (
-        <div className="text-center py-12">
-          <span className="text-4xl block mb-3">🔍</span>
-          <p className="text-sm" style={{ color: theme.textMuted }}>
-            Aucun ingrédient trouvé
-          </p>
-        </div>
+        <EmptyState
+          title="Aucun ingrédient trouvé"
+          message="Essayez avec d'autres mots-clés ou changez de catégorie"
+          emoji="🧪"
+          searchQuery={searchQuery}
+        />
       ) : (
         <>
           {/* Mode catégorie spécifique (pas "all" ni "essentiel") - afficher tous les résultats */}

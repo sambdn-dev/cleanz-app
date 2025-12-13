@@ -163,7 +163,7 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
             <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
           </button>
 
-          {/* Mon compte - Bientot */}
+          {/* Mon compte - Bientôt */}
           <button
             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors cursor-default"
             style={menuItemBaseStyle}
@@ -180,11 +180,11 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
               className="text-[9px] px-2 py-0.5 rounded-full font-semibold"
               style={bientotBadgeStyle}
             >
-              Bientot
+              Bientôt
             </span>
           </button>
 
-          {/* Ma liste de courses - Bientot */}
+          {/* Ma liste de courses - Bientôt */}
           <button
             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors cursor-default"
             style={menuItemBaseStyle}
@@ -201,11 +201,11 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
               className="text-[9px] px-2 py-0.5 rounded-full font-semibold"
               style={bientotBadgeStyle}
             >
-              Bientot
+              Bientôt
             </span>
           </button>
 
-          {/* Mes appareils - Bientot */}
+          {/* Mes appareils - Bientôt */}
           <button
             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors cursor-default"
             style={menuItemBaseStyle}
@@ -222,7 +222,7 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
               className="text-[9px] px-2 py-0.5 rounded-full font-semibold"
               style={bientotBadgeStyle}
             >
-              Bientot
+              Bientôt
             </span>
           </button>
         </div>
