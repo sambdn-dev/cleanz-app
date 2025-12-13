@@ -17,7 +17,8 @@ const bgColors = [
   'bg-violet-500',
   'bg-emerald-400',
   'bg-pink-400',
-  'bg-cyan-500'
+  'bg-cyan-500',
+  'bg-indigo-500'
 ];
 
 export const EssentielsSection = ({ onIngredientClick, onViewAll }: EssentielsSectionProps) => {
@@ -31,9 +32,9 @@ export const EssentielsSection = ({ onIngredientClick, onViewAll }: EssentielsSe
         action="Tout voir →"
         onAction={onViewAll}
       >
-        Les 7 essentiels
+        Les 8 essentiels
       </SectionTitle>
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+      <div className="flex gap-2 overflow-x-auto pt-1 pb-4 -mx-4 px-4 scrollbar-hide">
         {essentiels.map((ing, index) => (
           <button
             key={ing.id}

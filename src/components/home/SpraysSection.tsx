@@ -14,7 +14,7 @@ export const SpraysSection = ({ onSprayClick }: SpraysSectionProps) => {
       <SectionTitle badge="Recettes maison">
         <span className="text-base mr-2">🧴</span>Les Indispensables
       </SectionTitle>
-      <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+      <div className="flex gap-2.5 overflow-x-auto pt-1 pb-5 -mx-4 px-4 scrollbar-hide">
         {SPRAYS_INDISPENSABLES.map((spray) => (
           <button
             key={spray.id}
