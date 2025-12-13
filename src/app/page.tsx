@@ -25,7 +25,6 @@ import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
-import { PullToRefresh } from '@/components/ui/PullToRefresh';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
@@ -126,7 +125,6 @@ function HomePageContent() {
 
   return (
     <>
-    <PullToRefresh>
       <div className="min-h-screen relative">
         {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -238,9 +236,8 @@ function HomePageContent() {
         )}
       </div>
       </div>
-    </PullToRefresh>
 
-      {/* Bottom Navigation - outside PullToRefresh to stay fixed */}
+      {/* Bottom Navigation */}
       <BottomNav activeTab={activeNavTab} onTabChange={setActiveNavTab} />
 
       {/* Modals */}
