@@ -22,6 +22,6 @@
   <circle cx="400" cy="400" r="15" fill="white" opacity="0.7"/>
   <!-- Sparkle 4 - small top -->
   <circle cx="340" cy="70" r="8" fill="white" opacity="0.6"/>
-  <!-- Leaf accent inside drop -->
-  <ellipse cx="300" cy="300" rx="30" ry="50" fill="#4ADE80" opacity="0.5" transform="rotate(-30 300 300)"/>
+  <!-- Inner shine on drop -->
+  <ellipse cx="210" cy="280" rx="25" ry="45" fill="white" opacity="0.3" transform="rotate(-20 210 280)"/>
 </svg>
