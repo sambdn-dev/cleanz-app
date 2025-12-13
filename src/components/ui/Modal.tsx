@@ -30,16 +30,7 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed z-50 flex items-center justify-center p-4"
-      style={{
-        top: 'calc(-1 * env(safe-area-inset-top, 0px))',
-        left: 'calc(-1 * env(safe-area-inset-left, 0px))',
-        right: 'calc(-1 * env(safe-area-inset-right, 0px))',
-        bottom: 0,
-        paddingTop: 'env(safe-area-inset-top, 0px)'
-      }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
