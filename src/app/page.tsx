@@ -128,7 +128,10 @@ function HomePageContent() {
   // Handle nav tab change with scroll to top
   const handleNavTabChange = (tab: NavTab) => {
     setActiveNavTab(tab);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to top - use both methods for better iOS compatibility
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   return (
