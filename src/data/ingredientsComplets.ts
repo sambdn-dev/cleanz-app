@@ -690,6 +690,7 @@ export const CATEGORIES_INGREDIENTS = [
   { id: 'detartrant', nom: 'Détartrants', emoji: '💎' },
   { id: 'degraissant', nom: 'Dégraissants', emoji: '💪' },
   { id: 'desinfectant', nom: 'Désinfectants', emoji: '🦠' },
-  { id: 'parfumant', nom: 'Parfumants', emoji: '🌸' },
-  { id: 'abrasif', nom: 'Abrasifs', emoji: '✨' }
+  { id: 'abrasif', nom: 'Abrasifs', emoji: '✨' },
+  { id: 'blanchissant', nom: 'Blanchissants', emoji: '🤍' },
+  { id: 'parfumant', nom: 'Parfumants', emoji: '🌸' }
 ];
