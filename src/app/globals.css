@@ -138,3 +138,13 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Gentle bounce animation for floating particles */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
