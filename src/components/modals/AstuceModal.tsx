@@ -80,9 +80,108 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
         </div>
       }
     >
+      {/* Info cards */}
+      <div className="grid grid-cols-2 gap-2 mb-5">
+        <div
+          className="p-3 rounded-2xl text-center"
+          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+        >
+          <Clock className="w-4 h-4 mx-auto mb-1 text-pink-500" />
+          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Temps</span>
+          <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>{astuce.duree}</span>
+        </div>
+        <div
+          className="p-3 rounded-2xl text-center"
+          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+        >
+          <Star className="w-4 h-4 mx-auto mb-1 text-yellow-500" />
+          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Note</span>
+          <div className="flex justify-center items-center gap-1">
+            <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+            <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>{astuce.note}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Résumé */}
+      <p className="text-sm leading-relaxed mb-5" style={{ color: theme.textSecondary }}>
+        {astuce.resume}
+      </p>
+
+      {/* Ingrédients */}
+      <div className="mb-5">
+        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
+          <Beaker className="w-4 h-4 text-purple-500" /> Ingrédients nécessaires
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {astuce.ingredients.map((ing, index) => (
+            <span
+              key={index}
+              className="text-xs px-3 py-1.5 rounded-full font-medium"
+              style={{
+                background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
+                color: darkMode ? '#5EEAD4' : '#14B8A6'
+              }}
+            >
+              {ing}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Instructions étape par étape */}
+      <div className="mb-5">
+        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
+          <CheckCircle2 className="w-4 h-4 text-green-500" /> Instructions
+        </h3>
+        <div className="space-y-3">
+          {instructionSteps.map((instruction, index) => (
+            <div
+              key={index}
+              className="flex gap-3 items-start"
+            >
+              <div
+                className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
+                style={{
+                  background: darkMode
+                    ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
+                    : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
+                  color: 'white'
+                }}
+              >
+                {index + 1}
+              </div>
+              <p className="text-sm flex-1 pt-0.5" style={{ color: theme.textSecondary }}>
+                {instruction}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Conseil Pro */}
+      <div
+        className="p-4 rounded-2xl mb-5"
+        style={{
+          background: darkMode
+            ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)'
+            : 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)'
+        }}
+      >
+        <div className="flex items-start gap-3">
+          <Lightbulb className="w-5 h-5 text-violet-500 mt-0.5" />
+          <div>
+            <span className="text-xs font-bold block mb-1" style={{ color: theme.textPrimary }}>Conseil Pro</span>
+            <span className="text-sm" style={{ color: theme.textSecondary }}>
+              {astuce.conseil}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Actions utilisateur : Favori, Note, Partage */}
       <div
-        className="mb-5 p-4 rounded-2xl"
+        className="p-4 rounded-2xl"
         style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
       >
         <div className="flex items-center justify-between">
@@ -184,105 +283,6 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
               </p>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Info cards */}
-      <div className="grid grid-cols-2 gap-2 mb-5">
-        <div
-          className="p-3 rounded-2xl text-center"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <Clock className="w-4 h-4 mx-auto mb-1 text-pink-500" />
-          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Temps</span>
-          <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>{astuce.duree}</span>
-        </div>
-        <div
-          className="p-3 rounded-2xl text-center"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <Star className="w-4 h-4 mx-auto mb-1 text-yellow-500" />
-          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Note</span>
-          <div className="flex justify-center items-center gap-1">
-            <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-            <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>{astuce.note}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Résumé */}
-      <p className="text-sm leading-relaxed mb-5" style={{ color: theme.textSecondary }}>
-        {astuce.resume}
-      </p>
-
-      {/* Ingrédients */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <Beaker className="w-4 h-4 text-purple-500" /> Ingrédients nécessaires
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {astuce.ingredients.map((ing, index) => (
-            <span
-              key={index}
-              className="text-xs px-3 py-1.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                color: darkMode ? '#5EEAD4' : '#14B8A6'
-              }}
-            >
-              {ing}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Instructions étape par étape */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <CheckCircle2 className="w-4 h-4 text-green-500" /> Instructions
-        </h3>
-        <div className="space-y-3">
-          {instructionSteps.map((instruction, index) => (
-            <div
-              key={index}
-              className="flex gap-3 items-start"
-            >
-              <div
-                className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
-                style={{
-                  background: darkMode
-                    ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
-                    : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
-                  color: 'white'
-                }}
-              >
-                {index + 1}
-              </div>
-              <p className="text-sm flex-1 pt-0.5" style={{ color: theme.textSecondary }}>
-                {instruction}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Conseil Pro */}
-      <div
-        className="p-4 rounded-2xl"
-        style={{
-          background: darkMode
-            ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)'
-            : 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)'
-        }}
-      >
-        <div className="flex items-start gap-3">
-          <Lightbulb className="w-5 h-5 text-violet-500 mt-0.5" />
-          <div>
-            <span className="text-xs font-bold block mb-1" style={{ color: theme.textPrimary }}>Conseil Pro</span>
-            <span className="text-sm" style={{ color: theme.textSecondary }}>
-              {astuce.conseil}
-            </span>
-          </div>
         </div>
       </div>
     </Modal>

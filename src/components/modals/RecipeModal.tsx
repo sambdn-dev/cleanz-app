@@ -104,114 +104,6 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         </div>
       }
     >
-      {/* Actions utilisateur : Favori, Note, Partage */}
-      <div
-        className="mb-5 p-4 rounded-2xl"
-        style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-      >
-        <div className="flex items-center justify-between">
-          {/* Favori */}
-          <button
-            onClick={() => toggleFavorite(recipe.id)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
-            style={{
-              background: favorite
-                ? 'rgba(236, 72, 153, 0.15)'
-                : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-            }}
-          >
-            <Heart
-              className={`w-5 h-5 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
-              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
-            />
-            <span className="text-xs font-medium" style={{ color: favorite ? '#EC4899' : theme.textMuted }}>
-              {favorite ? 'Favori' : 'Ajouter'}
-            </span>
-          </button>
-
-          {/* Note utilisateur */}
-          <div className="flex items-center gap-1">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                onClick={() => handleRatingClick(star)}
-                className="transition-transform hover:scale-110 active:scale-95"
-              >
-                <Star
-                  className={`w-5 h-5 ${
-                    userRating && star <= userRating
-                      ? 'text-yellow-400 fill-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
-
-          {/* Partager */}
-          <button
-            onClick={handleShare}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
-            style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
-          >
-            <Share2 className="w-4 h-4" style={{ color: theme.textMuted }} />
-            <span className="text-xs font-medium" style={{ color: theme.textMuted }}>Partager</span>
-          </button>
-        </div>
-
-        {/* Zone commentaire (optionnel) */}
-        <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` }}>
-          {!showCommentInput ? (
-            <button
-              onClick={() => setShowCommentInput(true)}
-              className="flex items-center gap-2 text-xs"
-              style={{ color: theme.textMuted }}
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Ajouter un commentaire...</span>
-            </button>
-          ) : (
-            <div className="space-y-2">
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Partagez votre expérience avec cette recette..."
-                className="w-full p-3 rounded-xl text-sm resize-none outline-none"
-                style={{
-                  background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-                  color: theme.textPrimary,
-                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                }}
-                rows={3}
-              />
-              <div className="flex gap-2 justify-end">
-                <button
-                  onClick={() => setShowCommentInput(false)}
-                  className="px-3 py-1.5 text-xs rounded-lg"
-                  style={{ color: theme.textMuted }}
-                >
-                  Annuler
-                </button>
-                <button
-                  onClick={() => {
-                    // TODO: Save comment when Supabase is integrated
-                    setShowCommentInput(false);
-                    setComment('');
-                  }}
-                  className="px-3 py-1.5 text-xs rounded-lg text-white"
-                  style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)' }}
-                >
-                  Publier
-                </button>
-              </div>
-              <p className="text-[10px]" style={{ color: theme.textMuted }}>
-                💡 Les commentaires seront disponibles prochainement avec la version collaborative
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Info cards */}
       <div className="grid grid-cols-3 gap-2 mb-5">
         <div
@@ -399,13 +291,121 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
 
       {/* Conservation */}
       <div
-        className="p-4 rounded-2xl flex items-center gap-3"
+        className="p-4 rounded-2xl flex items-center gap-3 mb-5"
         style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
       >
         <Archive className="w-5 h-5 text-blue-500" />
         <div>
           <span className="text-xs font-semibold block" style={{ color: theme.textMuted }}>Conservation</span>
           <span className="text-sm font-medium" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
+        </div>
+      </div>
+
+      {/* Actions utilisateur : Favori, Note, Partage */}
+      <div
+        className="mb-5 p-4 rounded-2xl"
+        style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+      >
+        <div className="flex items-center justify-between">
+          {/* Favori */}
+          <button
+            onClick={() => toggleFavorite(recipe.id)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: favorite
+                ? 'rgba(236, 72, 153, 0.15)'
+                : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+            }}
+          >
+            <Heart
+              className={`w-5 h-5 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
+              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
+            />
+            <span className="text-xs font-medium" style={{ color: favorite ? '#EC4899' : theme.textMuted }}>
+              {favorite ? 'Favori' : 'Ajouter'}
+            </span>
+          </button>
+
+          {/* Note utilisateur */}
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => handleRatingClick(star)}
+                className="transition-transform hover:scale-110 active:scale-95"
+              >
+                <Star
+                  className={`w-5 h-5 ${
+                    userRating && star <= userRating
+                      ? 'text-yellow-400 fill-yellow-400'
+                      : 'text-gray-300'
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Partager */}
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
+            style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+          >
+            <Share2 className="w-4 h-4" style={{ color: theme.textMuted }} />
+            <span className="text-xs font-medium" style={{ color: theme.textMuted }}>Partager</span>
+          </button>
+        </div>
+
+        {/* Zone commentaire (optionnel) */}
+        <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` }}>
+          {!showCommentInput ? (
+            <button
+              onClick={() => setShowCommentInput(true)}
+              className="flex items-center gap-2 text-xs"
+              style={{ color: theme.textMuted }}
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Ajouter un commentaire...</span>
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Partagez votre expérience avec cette recette..."
+                className="w-full p-3 rounded-xl text-sm resize-none outline-none"
+                style={{
+                  background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
+                  color: theme.textPrimary,
+                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                }}
+                rows={3}
+              />
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={() => setShowCommentInput(false)}
+                  className="px-3 py-1.5 text-xs rounded-lg"
+                  style={{ color: theme.textMuted }}
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={() => {
+                    // TODO: Save comment when Supabase is integrated
+                    setShowCommentInput(false);
+                    setComment('');
+                  }}
+                  className="px-3 py-1.5 text-xs rounded-lg text-white"
+                  style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)' }}
+                >
+                  Publier
+                </button>
+              </div>
+              <p className="text-[10px]" style={{ color: theme.textMuted }}>
+                💡 Les commentaires seront disponibles prochainement avec la version collaborative
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
