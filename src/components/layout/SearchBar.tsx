@@ -10,7 +10,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ value, onChange, placeholder = "Que voulez-vous nettoyer ?" }: SearchBarProps) => {
-  const { theme } = useTheme();
+  const { theme, darkMode } = useTheme();
 
   return (
     <div
@@ -29,7 +29,9 @@ export const SearchBar = ({ value, onChange, placeholder = "Que voulez-vous nett
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full py-3.5 pl-12 pr-4 bg-transparent outline-none text-sm font-medium"
+        className={`w-full py-3.5 pl-12 pr-4 bg-transparent outline-none text-sm font-medium ${
+          darkMode ? 'placeholder:text-gray-400' : 'placeholder:text-gray-500'
+        }`}
         style={{ color: theme.textPrimary }}
       />
     </div>

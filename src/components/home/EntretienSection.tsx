@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from '@/contexts/ThemeContext';
 import { ELECTROMENAGERS } from '@/data/electromenager';
 import { Electromenager } from '@/types';
 
@@ -24,12 +25,16 @@ const STORY_COLORS: Record<string, string> = {
 };
 
 export const EntretienSection = ({ onApplianceClick }: EntretienSectionProps) => {
+  const { theme, darkMode } = useTheme();
+
   return (
     <div className="mb-5">
       {/* Titre de la section */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-base">🔌</span>
-        <h2 className="text-sm font-bold text-gray-800">Entretien électroménager</h2>
+        <h2 className="text-sm font-bold" style={{ color: theme.textPrimary }}>
+          Entretien électroménager
+        </h2>
       </div>
 
       {/* Stories horizontales */}
@@ -51,13 +56,19 @@ export const EntretienSection = ({ onApplianceClick }: EntretienSectionProps) =>
                 className="w-16 h-16 rounded-full p-0.5"
                 style={{ background: `linear-gradient(135deg, ${color} 0%, ${color}60 100%)` }}
               >
-                {/* Cercle intérieur blanc avec emoji */}
-                <div className="w-full h-full rounded-full flex items-center justify-center bg-white">
+                {/* Cercle intérieur avec emoji */}
+                <div
+                  className="w-full h-full rounded-full flex items-center justify-center"
+                  style={{ background: darkMode ? '#1a0a2e' : 'white' }}
+                >
                   <span className="text-2xl">{appliance.emoji}</span>
                 </div>
               </div>
               {/* Nom en dessous */}
-              <span className="text-[10px] font-semibold text-center leading-tight w-16 text-gray-600">
+              <span
+                className="text-[10px] font-semibold text-center leading-tight w-16"
+                style={{ color: theme.textSecondary }}
+              >
                 {appliance.nom}
               </span>
             </button>
