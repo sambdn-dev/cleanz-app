@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from '@/contexts/ThemeContext';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 interface SearchBarProps {
   value: string;
@@ -30,11 +30,20 @@ export const SearchBar = ({ value, onChange, placeholder = "Que voulez-vous nett
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full py-3.5 pl-12 pr-4 bg-transparent outline-none text-sm font-medium ${
+        className={`w-full py-3.5 pl-12 pr-10 bg-transparent outline-none text-sm font-medium ${
           darkMode ? 'placeholder:text-gray-400' : 'placeholder:text-gray-500'
         }`}
         style={{ color: theme.textPrimary }}
       />
+      {value && (
+        <button
+          onClick={() => onChange('')}
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors hover:bg-black/10"
+          style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+        >
+          <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+        </button>
+      )}
     </div>
   );
 };
