@@ -665,6 +665,97 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Ne JAMAIS vaporiser directement sur l\'écran', 'Éteindre l\'appareil avant nettoyage', 'Éviter l\'excès de produit'],
     astuces: ['L\'eau déminéralisée évite les traces de calcaire', 'Le mélange 50/50 est idéal pour les écrans', 'Utiliser un chiffon très doux pour ne pas rayer'],
     conservation: '1 an'
+  },
+
+  // === RECETTES VOITURE ===
+  {
+    id: 24,
+    nom: 'Lave-Glace Été',
+    emoji: '☀️',
+    categorie: 'Voiture',
+    badge: 'Anti-insectes',
+    gradient: 'linear-gradient(135deg, #FFD93D 0%, #FF9A3C 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '3L', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '500ml', emoji: '🧴' },
+      { nom: 'Liquide vaisselle écologique', quantite: '1 c.à.s', emoji: '🫧' },
+      { nom: 'Alcool ménager', quantite: '50ml', emoji: '🔬' }
+    ],
+    materiel: ['Bidon 5L propre', 'Entonnoir'],
+    instructions: [
+      'Versez l\'eau déminéralisée dans le bidon',
+      'Ajoutez le vinaigre blanc',
+      'Incorporez l\'alcool ménager (aide au séchage)',
+      'Ajoutez le liquide vaisselle (très peu !)',
+      'Fermez et secouez doucement pour mélanger',
+      'Versez dans le réservoir de lave-glace'
+    ],
+    surfaces: ['Pare-brise', 'Vitres voiture', 'Rétroviseurs', 'Phares'],
+    precautions: ['Ne pas utiliser en hiver (peut geler)', 'Très peu de liquide vaisselle pour éviter la mousse', 'Utiliser de l\'eau déminéralisée pour éviter le calcaire'],
+    astuces: ['Le vinaigre dissout les insectes écrasés', 'L\'alcool aide le séchage rapide sans traces', 'Idéal de mai à septembre'],
+    conservation: '6 mois'
+  },
+  {
+    id: 25,
+    nom: 'Lave-Glace Hiver',
+    emoji: '❄️',
+    categorie: 'Voiture',
+    badge: 'Anti-gel -20°C',
+    gradient: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '2L', emoji: '💧' },
+      { nom: 'Alcool ménager 90°', quantite: '1L', emoji: '🔬' },
+      { nom: 'Liquide vaisselle écologique', quantite: '1 c.à.c', emoji: '🫧' }
+    ],
+    materiel: ['Bidon 5L propre', 'Entonnoir'],
+    instructions: [
+      'Versez l\'eau déminéralisée dans le bidon',
+      'Ajoutez l\'alcool ménager (1/3 du volume = -20°C)',
+      'Incorporez une goutte de liquide vaisselle',
+      'Fermez et secouez doucement',
+      'Versez dans le réservoir vide (ne pas mélanger avec l\'ancien)',
+      'Testez les gicleurs avant de prendre la route'
+    ],
+    surfaces: ['Pare-brise', 'Vitres voiture', 'Rétroviseurs'],
+    precautions: ['L\'alcool est inflammable - stocker à l\'abri de la chaleur', 'Plus il fait froid, plus il faut d\'alcool (jusqu\'à 50%)', 'Videz l\'ancien lave-glace été avant remplissage'],
+    astuces: ['1/3 alcool = -20°C, 1/2 alcool = -30°C', 'L\'alcool ménager 90° est plus efficace que le 70°', 'Fonctionne aussi pour dégivrer le pare-brise'],
+    conservation: '1 an'
+  },
+  {
+    id: 26,
+    nom: 'Lave-Glace 4 Saisons',
+    emoji: '🚗',
+    categorie: 'Voiture',
+    badge: 'Toute l\'année',
+    gradient: 'linear-gradient(135deg, #11998E 0%, #38EF7D 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '2.5L', emoji: '💧' },
+      { nom: 'Alcool ménager 90°', quantite: '500ml', emoji: '🔬' },
+      { nom: 'Vinaigre blanc', quantite: '200ml', emoji: '🧴' },
+      { nom: 'Liquide vaisselle écologique', quantite: '1 c.à.c', emoji: '🫧' }
+    ],
+    materiel: ['Bidon 5L propre', 'Entonnoir'],
+    instructions: [
+      'Versez l\'eau déminéralisée dans le bidon',
+      'Ajoutez l\'alcool ménager',
+      'Incorporez le vinaigre blanc',
+      'Ajoutez très peu de liquide vaisselle',
+      'Fermez et secouez pour bien mélanger',
+      'Versez dans le réservoir de lave-glace'
+    ],
+    surfaces: ['Pare-brise', 'Vitres voiture', 'Rétroviseurs', 'Phares'],
+    precautions: ['Résiste jusqu\'à -10°C environ', 'Pour grand froid, augmentez la proportion d\'alcool', 'Stockez à l\'abri de la chaleur (alcool inflammable)'],
+    astuces: ['Le vinaigre nettoie insectes et résidus', 'L\'alcool assure l\'anti-gel et le séchage rapide', 'Formule équilibrée pour usage toute l\'année'],
+    conservation: '1 an'
   }
 ];
 
@@ -677,7 +768,8 @@ export const CATEGORIES_RECETTES = [
   { id: 'Linge', nom: 'Linge', emoji: '🧺' },
   { id: 'Multi-usage', nom: 'Multi-usage', emoji: '✨' },
   { id: 'Sol', nom: 'Sols', emoji: '🧹' },
-  { id: 'Entretien', nom: 'Entretien', emoji: '🔧' }
+  { id: 'Entretien', nom: 'Entretien', emoji: '🔧' },
+  { id: 'Voiture', nom: 'Voiture', emoji: '🚗' }
 ];
 
 // Mapping des recettes par surface pour le modal surface

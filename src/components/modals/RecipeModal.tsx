@@ -26,20 +26,35 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
     setRating(recipe.id, rating);
   };
 
+  // Génère un slug URL-friendly à partir du nom
+  const generateSlug = (name: string): string => {
+    return name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  };
+
   const handleShare = async () => {
+    const baseUrl = window.location.origin;
+    const slug = generateSlug(recipe.nom);
+    const shareUrl = `${baseUrl}/?recette=${slug}`;
+
     if (navigator.share) {
       try {
         await navigator.share({
           title: recipe.nom,
           text: `Découvre cette recette de nettoyage naturel : ${recipe.nom}`,
-          url: window.location.href,
+          url: shareUrl,
         });
       } catch {
         // User cancelled or error
       }
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(`${recipe.nom} - Recette de nettoyage naturel sur Cleanz`);
+      await navigator.clipboard.writeText(shareUrl);
+      // Could add a toast notification here
     }
   };
 
