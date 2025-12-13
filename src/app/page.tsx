@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/layout/Header';
 import { BottomNav, NavTab } from '@/components/layout/BottomNav';
@@ -49,8 +50,9 @@ const findAstuceBySlug = (slug: string): Astuce | undefined => {
   return ASTUCES_DU_JOUR.find(a => generateSlug(a.titre) === slug);
 };
 
-export default function HomePage() {
+function HomePageContent() {
   const { theme, darkMode } = useTheme();
+  const searchParams = useSearchParams();
   const [isLoaded, setIsLoaded] = useState(true);
   const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
   const [activeCategory, setActiveCategory] = useState('Tout');
@@ -67,13 +69,11 @@ export default function HomePage() {
   const [selectedAstuce, setSelectedAstuce] = useState<Astuce | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<RecetteComplete | null>(null);
 
+  // Handle URL parameters for shared links
   useEffect(() => {
     setIsLoaded(true);
 
-    // Check URL for recipe or astuce parameter
-    const params = new URLSearchParams(window.location.search);
-
-    const recipeSlug = params.get('recette');
+    const recipeSlug = searchParams.get('recette');
     if (recipeSlug) {
       const recipe = findRecipeBySlug(recipeSlug);
       if (recipe) {
@@ -82,14 +82,14 @@ export default function HomePage() {
       }
     }
 
-    const astuceSlug = params.get('astuce');
+    const astuceSlug = searchParams.get('astuce');
     if (astuceSlug) {
       const astuce = findAstuceBySlug(astuceSlug);
       if (astuce) {
         setSelectedAstuce(astuce);
       }
     }
-  }, []);
+  }, [searchParams]);
 
   // Filtrage des surfaces
   const getFilteredSurfaces = () => {
@@ -282,5 +282,13 @@ export default function HomePage() {
         }}
       />
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Chargement...</div>}>
+      <HomePageContent />
+    </Suspense>
   );
 }
