@@ -13,7 +13,7 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
   const tabs = ['Tout', ...CATEGORIES.map(c => c.nom)];
 
   return (
-    <div className="flex gap-2 overflow-x-auto pt-1 pb-5 -mx-4 px-4 scrollbar-hide">
+    <div className="flex gap-2 overflow-x-auto pt-4 pb-5 -mx-4 px-4 scrollbar-hide">
       {tabs.map((tab) => {
         const cat = CATEGORIES.find(c => c.nom === tab);
         const isActive = activeTab === tab;
