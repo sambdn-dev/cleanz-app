@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, ReactNode } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Check } from 'lucide-react';
 
 interface PullToRefreshProps {
   children: ReactNode;
@@ -12,16 +12,21 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
   const [pullDistance, setPullDistance] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isPulling, setIsPulling] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const startY = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const PULL_THRESHOLD = 80;
   const MAX_PULL = 120;
 
-  // Haptic feedback
+  // Haptic feedback (works on Android, not iOS)
   const vibrate = (pattern: number | number[]) => {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(pattern);
+    try {
+      if ('vibrate' in navigator) {
+        navigator.vibrate(pattern);
+      }
+    } catch {
+      // Vibration not supported
     }
   };
 
@@ -45,9 +50,13 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
       const distance = Math.min(diff * resistance, MAX_PULL);
       setPullDistance(distance);
 
-      // Light vibration when crossing threshold
-      if (distance >= PULL_THRESHOLD && pullDistance < PULL_THRESHOLD) {
-        vibrate(10);
+      // Update ready state when crossing threshold
+      const nowReady = distance >= PULL_THRESHOLD;
+      if (nowReady && !isReady) {
+        setIsReady(true);
+        vibrate(15);
+      } else if (!nowReady && isReady) {
+        setIsReady(false);
       }
     }
   };
@@ -58,7 +67,8 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
     if (pullDistance >= PULL_THRESHOLD && !isRefreshing) {
       // Trigger refresh
       setIsRefreshing(true);
-      vibrate([10, 50, 10]); // Double vibration
+      setIsReady(false);
+      vibrate([15, 30, 15]);
 
       // Call onRefresh or reload page
       if (onRefresh) {
@@ -75,6 +85,7 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
       }
     } else {
       setPullDistance(0);
+      setIsReady(false);
     }
 
     setIsPulling(false);
@@ -86,6 +97,7 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
       if (document.visibilityState === 'visible') {
         setIsRefreshing(false);
         setPullDistance(0);
+        setIsReady(false);
       }
     };
 
@@ -106,7 +118,7 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
     >
       {/* Pull indicator */}
       <div
-        className="fixed left-1/2 -translate-x-1/2 z-50 flex items-center justify-center transition-all duration-200"
+        className="fixed left-1/2 -translate-x-1/2 z-50 flex flex-col items-center justify-center transition-all duration-200"
         style={{
           top: `calc(env(safe-area-inset-top, 0px) + ${Math.max(pullDistance - 20, 0)}px)`,
           opacity: shouldShowIndicator ? 1 : 0,
@@ -114,18 +126,37 @@ export function PullToRefresh({ children, onRefresh }: PullToRefreshProps) {
         }}
       >
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+          className={`w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
+            isReady ? 'scale-110' : ''
+          }`}
           style={{
-            background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+            background: isReady || isRefreshing
+              ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
+              : 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+            boxShadow: isReady ? '0 0 20px rgba(16, 185, 129, 0.5)' : '0 4px 15px rgba(139, 92, 246, 0.4)',
           }}
         >
-          <RefreshCw
-            className={`w-5 h-5 text-white ${isRefreshing ? 'animate-spin' : ''}`}
-            style={{
-              transform: isRefreshing ? undefined : `rotate(${progress * 180}deg)`,
-            }}
-          />
+          {isReady && !isRefreshing ? (
+            <Check className="w-5 h-5 text-white" strokeWidth={3} />
+          ) : (
+            <RefreshCw
+              className={`w-5 h-5 text-white ${isRefreshing ? 'animate-spin' : ''}`}
+              style={{
+                transform: isRefreshing ? undefined : `rotate(${progress * 360}deg)`,
+              }}
+            />
+          )}
         </div>
+        {/* Status text */}
+        <span
+          className="mt-2 text-xs font-medium transition-opacity duration-200"
+          style={{
+            color: isReady || isRefreshing ? '#10B981' : '#8B5CF6',
+            opacity: pullDistance > 30 ? 1 : 0,
+          }}
+        >
+          {isRefreshing ? 'Actualisation...' : isReady ? 'Relâcher' : 'Tirer pour actualiser'}
+        </span>
       </div>
 
       {/* Content with pull transform */}
