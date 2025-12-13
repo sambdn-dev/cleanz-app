@@ -56,9 +56,9 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              className="absolute top-2 right-2 p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 transition-colors"
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-6 h-6 text-white" />
             </button>
 
             <div className="relative z-10">
