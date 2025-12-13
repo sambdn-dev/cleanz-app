@@ -15,16 +15,13 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
         <div className="w-10" />
         <div className="text-center">
           <h1
-            className="text-3xl font-black tracking-tight"
+            className="text-3xl font-black tracking-tight bg-clip-text text-transparent"
             style={{
-              background: darkMode
+              backgroundImage: darkMode
                 ? 'linear-gradient(135deg, #FF85C0 0%, #A78BFA 50%, #4FD1C5 100%)'
                 : 'linear-gradient(135deg, #FF69B4 0%, #8B5CF6 50%, #06B6D4 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              textShadow: 'none',
-              filter: darkMode ? 'drop-shadow(0 0 20px rgba(255,133,192,0.3))' : 'none',
             }}
           >
             cleanz
