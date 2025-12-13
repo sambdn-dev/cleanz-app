@@ -125,6 +125,7 @@ function HomePageContent() {
   };
 
   return (
+    <>
     <PullToRefresh>
       <div className="min-h-screen relative">
         {/* Background decorations */}
@@ -236,8 +237,10 @@ function HomePageContent() {
           <FavoritesPage onRecipeClick={setSelectedRecipe} />
         )}
       </div>
+      </div>
+    </PullToRefresh>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - outside PullToRefresh to stay fixed */}
       <BottomNav activeTab={activeNavTab} onTabChange={setActiveNavTab} />
 
       {/* Modals */}
@@ -295,8 +298,7 @@ function HomePageContent() {
           }
         }}
       />
-      </div>
-    </PullToRefresh>
+    </>
   );
 }
 
