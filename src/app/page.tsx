@@ -13,6 +13,7 @@ import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { AstucesSection } from '@/components/home/AstucesSection';
+import { EconomiesWidget } from '@/components/home/EconomiesWidget';
 import { AppareilsPage } from '@/components/appareils/AppareilsPage';
 import { SprayModal } from '@/components/modals/SprayModal';
 import { SurfaceModal } from '@/components/modals/SurfaceModal';
@@ -216,6 +217,9 @@ function HomePageContent() {
 
             {/* Astuces du jour */}
             <AstucesSection onAstuceClick={setSelectedAstuce} />
+
+            {/* Widget Pourquoi passer au naturel */}
+            {!searchQuery && <EconomiesWidget />}
           </>
         )}
 

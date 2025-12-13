@@ -53,12 +53,14 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
             <div className="absolute top-4 right-16 w-20 h-20 bg-white/10 rounded-full blur-xl" />
             <div className="absolute bottom-0 left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
 
-            {/* Close button */}
+            {/* Close button - larger touch area with smaller visible icon */}
             <button
               onClick={onClose}
-              className="absolute top-2 right-2 p-4 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 transition-colors"
+              className="absolute top-0 right-0 p-5 group"
             >
-              <X className="w-6 h-6 text-white" />
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 group-active:bg-white/40 transition-colors">
+                <X className="w-5 h-5 text-white" />
+              </span>
             </button>
 
             <div className="relative z-10">
