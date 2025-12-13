@@ -10,7 +10,7 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
   const { theme, darkMode } = useTheme();
 
   return (
-    <header className="pt-8 pb-4 mb-2">
+    <header className="pt-2 pb-2 mb-1">
       <div className="flex items-center justify-between">
         <div className="w-10" />
         <div className="text-center">
