@@ -11,7 +11,7 @@ interface AccountMenuProps {
 }
 
 export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) => {
-  const { darkMode, theme, toggleTheme } = useTheme();
+  const { darkMode, theme, themeMode, setThemeMode } = useTheme();
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Close on escape key
@@ -101,38 +101,50 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
 
         {/* Menu Items */}
         <div className="p-2">
-          {/* Mode sombre - with toggle */}
-          <button
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors"
+          {/* Theme selector */}
+          <div
+            className="px-3 py-3 rounded-xl"
             style={menuItemBaseStyle}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleTheme();
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = theme.bgHover;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-            }}
           >
-            <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
-            <span className="flex-1 text-left text-sm font-medium">Mode sombre</span>
-            {/* Toggle switch */}
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xl">{darkMode ? '🌙' : '☀️'}</span>
+              <span className="text-sm font-medium">Apparence</span>
+            </div>
+            {/* Theme options */}
             <div
-              className="w-10 h-6 rounded-full p-0.5 transition-colors duration-200"
+              className="flex rounded-lg p-1 gap-1"
               style={{
-                background: darkMode ? '#4FD1C5' : '#E5E7EB',
+                background: darkMode ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.08)',
               }}
             >
-              <div
-                className="w-5 h-5 rounded-full bg-white shadow transition-transform duration-200"
-                style={{
-                  transform: darkMode ? 'translateX(16px)' : 'translateX(0)',
-                }}
-              />
+              {[
+                { mode: 'system' as const, label: 'Système', icon: '💻' },
+                { mode: 'light' as const, label: 'Clair', icon: '☀️' },
+                { mode: 'dark' as const, label: 'Sombre', icon: '🌙' },
+              ].map(({ mode, label, icon }) => (
+                <button
+                  key={mode}
+                  className="flex-1 py-2 px-2 rounded-md text-xs font-medium transition-all duration-200 flex items-center justify-center gap-1"
+                  style={{
+                    background: themeMode === mode
+                      ? (darkMode ? 'rgba(79,209,197,0.3)' : 'white')
+                      : 'transparent',
+                    color: themeMode === mode ? theme.textPrimary : theme.textMuted,
+                    boxShadow: themeMode === mode
+                      ? (darkMode ? '0 2px 8px rgba(0,0,0,0.3)' : '0 2px 8px rgba(0,0,0,0.1)')
+                      : 'none',
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setThemeMode(mode);
+                  }}
+                >
+                  <span className="text-sm">{icon}</span>
+                  <span>{label}</span>
+                </button>
+              ))}
             </div>
-          </button>
+          </div>
 
           {/* Mes favoris - with navigation */}
           <button
