@@ -214,7 +214,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
     <div className="pt-2">
       {/* Room filter tabs */}
       <div className="mb-4">
-        <div className="flex gap-2 overflow-x-auto pt-1 pb-5 -mx-4 px-4 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto py-2 -mx-4 px-4 scrollbar-hide">
           {PIECES.map((piece) => {
             const isActive = selectedPiece === piece;
             const count = piece === 'Toutes'

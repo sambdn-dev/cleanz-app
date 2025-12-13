@@ -13,7 +13,7 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
   const tabs = ['Tout', ...CATEGORIES.map(c => c.nom)];
 
   return (
-    <div className="flex gap-2 overflow-x-auto pt-4 pb-5 -mx-4 px-4 scrollbar-hide">
+    <div className="flex gap-2 overflow-x-auto py-2 -mx-4 px-4 scrollbar-hide">
       {tabs.map((tab) => {
         const cat = CATEGORIES.find(c => c.nom === tab);
         const isActive = activeTab === tab;
@@ -27,7 +27,7 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
               ? {
                   background: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 50%, #4FD1C5 100%)',
                   color: 'white',
-                  boxShadow: '0 4px 15px rgba(255,105,180,0.35)'
+                  boxShadow: '0 2px 8px rgba(255,105,180,0.3)'
                 }
               : {
                   background: darkMode
@@ -39,7 +39,7 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
                     : '1px solid rgba(0,0,0,0.05)',
                   boxShadow: darkMode
                     ? 'none'
-                    : '0 2px 8px rgba(0,0,0,0.04)'
+                    : '0 1px 4px rgba(0,0,0,0.04)'
                 }
             }
           >

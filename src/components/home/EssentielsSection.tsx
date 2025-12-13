@@ -34,7 +34,7 @@ export const EssentielsSection = ({ onIngredientClick, onViewAll }: EssentielsSe
       >
         Les 8 essentiels
       </SectionTitle>
-      <div className="flex gap-2 overflow-x-auto pt-1 pb-4 -mx-4 px-4 scrollbar-hide">
+      <div className="flex gap-2 overflow-x-auto py-1 -mx-4 px-4 scrollbar-hide">
         {essentiels.map((ing, index) => (
           <button
             key={ing.id}
