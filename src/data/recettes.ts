@@ -853,4 +853,5 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   59: [1],         // Meubles -> Spray Multi-usage
   60: [3],         // Écrans -> Anti-traces Vitres (dilué)
   62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
+  41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
 };
