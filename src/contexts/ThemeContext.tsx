@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Theme } from '@/types';
 
+export type ThemeMode = 'system' | 'light' | 'dark';
+
 const themes: { light: Theme; dark: Theme } = {
   light: {
     bgPrimary: 'linear-gradient(180deg, #FFE5F1 0%, #E8D5F2 25%, #D4E5F7 50%, #E5F7F3 75%, #FFF5E5 100%)',
@@ -45,6 +47,8 @@ const themes: { light: Theme; dark: Theme } = {
 interface ThemeContextType {
   darkMode: boolean;
   theme: Theme;
+  themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
   toggleTheme: () => void;
 }
 
@@ -57,33 +61,61 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [themeMode, setThemeModeState] = useState<ThemeMode>('system');
+  const [systemPrefersDark, setSystemPrefersDark] = useState(false);
 
+  // Detect system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('cleanz-theme');
-    if (savedTheme === 'dark') {
-      setDarkMode(true);
-      document.documentElement.classList.add('dark');
+    // Check initial system preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setSystemPrefersDark(mediaQuery.matches);
+
+    // Listen for system preference changes
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemPrefersDark(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // Load saved theme mode from localStorage
+  useEffect(() => {
+    const savedMode = localStorage.getItem('cleanz-theme-mode') as ThemeMode | null;
+    if (savedMode && ['system', 'light', 'dark'].includes(savedMode)) {
+      setThemeModeState(savedMode);
     }
   }, []);
 
+  // Calculate actual dark mode based on themeMode and system preference
+  const darkMode = themeMode === 'system' ? systemPrefersDark : themeMode === 'dark';
+
+  // Update document class when darkMode changes
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const setThemeMode = (mode: ThemeMode) => {
+    setThemeModeState(mode);
+    localStorage.setItem('cleanz-theme-mode', mode);
+  };
+
+  // Legacy toggle function (cycles through: system -> light -> dark -> system)
   const toggleTheme = () => {
-    setDarkMode(prev => {
-      const newMode = !prev;
-      localStorage.setItem('cleanz-theme', newMode ? 'dark' : 'light');
-      if (newMode) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      return newMode;
-    });
+    const modes: ThemeMode[] = ['system', 'light', 'dark'];
+    const currentIndex = modes.indexOf(themeMode);
+    const nextMode = modes[(currentIndex + 1) % modes.length];
+    setThemeMode(nextMode);
   };
 
   const theme = darkMode ? themes.dark : themes.light;
 
   return (
-    <ThemeContext.Provider value={{ darkMode, theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ darkMode, theme, themeMode, setThemeMode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -20,7 +20,8 @@ export const SearchBar = ({ value, onChange, placeholder = "Que voulez-vous nett
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderRadius: '16px',
-        boxShadow: theme.shadowCard
+        boxShadow: darkMode ? 'none' : theme.shadowCard,
+        border: darkMode ? '1px solid rgba(255,255,255,0.15)' : 'none',
       }}
     >
       <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: theme.textMuted }} />
