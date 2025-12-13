@@ -26,6 +26,7 @@ import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
+import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
@@ -124,6 +125,12 @@ function HomePageContent() {
     if (tab !== 'Tout') setShowAllSurfaces(true);
   };
 
+  // Handle nav tab change with scroll to top
+  const handleNavTabChange = (tab: NavTab) => {
+    setActiveNavTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       <div className="min-h-screen relative">
@@ -201,6 +208,7 @@ function HomePageContent() {
               showAll={showAllSurfaces}
               onToggleShowAll={() => setShowAllSurfaces(!showAllSurfaces)}
               onSurfaceClick={setSelectedSurface}
+              searchQuery={searchQuery}
             />
 
             {/* Entretien électroménager */}
@@ -242,7 +250,10 @@ function HomePageContent() {
       </div>
 
       {/* Bottom Navigation */}
-      <BottomNav activeTab={activeNavTab} onTabChange={setActiveNavTab} />
+      <BottomNav activeTab={activeNavTab} onTabChange={handleNavTabChange} />
+
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
 
       {/* Modals */}
       {selectedSpray && (

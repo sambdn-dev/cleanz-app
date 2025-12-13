@@ -7,6 +7,7 @@ import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
 import { Clock, Star, Search, ChevronRight, Sparkles, Heart } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
@@ -222,12 +223,12 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
 
       {/* Résultats */}
       {filteredRecipes.length === 0 ? (
-        <div className="text-center py-12">
-          <span className="text-4xl block mb-3">🔍</span>
-          <p className="text-sm" style={{ color: theme.textMuted }}>
-            Aucune recette trouvée
-          </p>
-        </div>
+        <EmptyState
+          title="Aucune recette trouvée"
+          message="Essayez avec d'autres mots-clés ou changez de catégorie"
+          emoji="📋"
+          searchQuery={searchQuery}
+        />
       ) : (
         <>
           {/* Section Les Indispensables */}

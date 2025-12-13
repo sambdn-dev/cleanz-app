@@ -2,6 +2,7 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Surface } from '@/types';
 
 interface SurfacesGridProps {
@@ -9,10 +10,25 @@ interface SurfacesGridProps {
   showAll: boolean;
   onToggleShowAll: () => void;
   onSurfaceClick: (surface: Surface) => void;
+  searchQuery?: string;
 }
 
-export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClick }: SurfacesGridProps) => {
+export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClick, searchQuery }: SurfacesGridProps) => {
   const { theme } = useTheme();
+
+  // Show empty state if no results and there's a search query
+  if (surfaces.length === 0 && searchQuery) {
+    return (
+      <div className="mb-5">
+        <EmptyState
+          title="Aucune surface trouvée"
+          message="Essayez avec d'autres mots-clés ou explorez nos catégories"
+          emoji="🧹"
+          searchQuery={searchQuery}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-5">
