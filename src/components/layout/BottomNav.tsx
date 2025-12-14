@@ -23,13 +23,14 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40"
+      className="fixed bottom-0 left-0 right-0 z-50"
       style={{
         background: theme.bgNav,
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         boxShadow: '0 -4px 30px rgba(255,105,180,0.1)',
-        paddingBottom: 'env(safe-area-inset-bottom)'
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        transform: 'translateZ(0)', // Force GPU layer for better fixed positioning on iOS
       }}
     >
       <div className="max-w-md mx-auto px-6 pt-3 pb-2 flex justify-around">
