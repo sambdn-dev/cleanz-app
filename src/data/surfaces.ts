@@ -103,4 +103,10 @@ export const SURFACES: Surface[] = [
   { id: 83, nom: 'Jouets', emoji: '🧸', piece: 'Chambre', categorie: 'Maison', frequence: '1x/mois' },
   { id: 84, nom: 'Autocollants', emoji: '🏷️', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
   { id: 85, nom: 'Charnières', emoji: '🚪', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
+  // Surfaces supplémentaires
+  { id: 86, nom: 'Plaques vitrocéramique', emoji: '🔥', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/semaine' },
+  { id: 87, nom: 'Fer à repasser', emoji: '👔', piece: 'Buanderie', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 88, nom: 'Baignoire', emoji: '🛁', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
+  { id: 89, nom: 'Sommier', emoji: '🛏️', piece: 'Chambre', categorie: 'Maison', frequence: '2x/an' },
+  { id: 90, nom: 'Murs & Papier peint', emoji: '🏠', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
 ];

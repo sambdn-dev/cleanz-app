@@ -2287,6 +2287,528 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Uniquement sur textiles blancs ou très clairs', 'Tester sur zone cachée', 'JAMAIS d\'eau chaude sur le sang'],
     astuces: ['L\'eau oxygénée décompose l\'hémoglobine', 'Très efficace sur taches fraîches', 'Alternative : savon au fiel de bœuf'],
     conservation: '6 mois après ouverture'
+  },
+  // === PIERRE BLANCHE - RECETTES SPÉCIFIQUES ===
+  {
+    id: 82,
+    nom: 'Vitrocéramique Pierre Blanche',
+    emoji: '🔥',
+    categorie: 'Cuisine',
+    badge: 'Sans rayure',
+    gradient: 'linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '1 noisette', emoji: '⚪' }
+    ],
+    materiel: ['Chiffon microfibre', 'Éponge douce'],
+    instructions: [
+      'Attendez que la plaque soit froide',
+      'Prélevez une noisette de pierre blanche',
+      'Étalez sur la surface avec l\'éponge humide',
+      'Frottez délicatement en mouvements circulaires',
+      'Laissez sécher quelques minutes',
+      'Lustrez avec un chiffon microfibre sec'
+    ],
+    surfaces: ['Plaques vitrocéramique', 'Plaques induction'],
+    precautions: ['Ne jamais utiliser sur plaque chaude', 'Ne pas frotter trop fort', 'Éviter les éponges abrasives'],
+    astuces: ['La pierre blanche ne raye pas le verre', 'Élimine les traces de brûlé', 'Fait briller comme au premier jour'],
+    conservation: 'Plusieurs années'
+  },
+  {
+    id: 83,
+    nom: 'Semelle Fer à Repasser',
+    emoji: '👔',
+    categorie: 'Entretien',
+    badge: 'Rénovation',
+    gradient: 'linear-gradient(135deg, #ECEFF1 0%, #CFD8DC 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '1 noisette', emoji: '⚪' }
+    ],
+    materiel: ['Chiffon doux'],
+    instructions: [
+      'Débranchez le fer et laissez-le tiédir (pas froid)',
+      'Appliquez la pierre blanche sur la semelle',
+      'Frottez délicatement sur toute la surface',
+      'Insistez sur les zones encrassées',
+      'Essuyez avec un chiffon humide',
+      'Lustrez avec un chiffon sec'
+    ],
+    surfaces: ['Fer à repasser', 'Centrale vapeur'],
+    precautions: ['Fer tiède, pas brûlant ni froid', 'Ne pas obstruer les trous vapeur', 'Bien essuyer avant réutilisation'],
+    astuces: ['Élimine les dépôts de calcaire et de tissu brûlé', 'Redonne la glisse à la semelle', 'À faire régulièrement'],
+    conservation: 'Plusieurs années'
+  },
+  {
+    id: 84,
+    nom: 'Chaussures Blanches Cuir',
+    emoji: '👟',
+    categorie: 'Multi-usage',
+    badge: 'Blancheur',
+    gradient: 'linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '1 noisette', emoji: '⚪' }
+    ],
+    materiel: ['Chiffon doux', 'Brosse douce'],
+    instructions: [
+      'Dépoussiérez les chaussures avec la brosse',
+      'Prélevez une noisette de pierre blanche',
+      'Appliquez sur le cuir blanc avec le chiffon',
+      'Frottez délicatement en mouvements circulaires',
+      'Laissez sécher',
+      'Lustrez avec un chiffon propre'
+    ],
+    surfaces: ['Chaussures cuir blanc', 'Baskets blanches', 'Sacs blancs'],
+    precautions: ['Tester sur zone cachée', 'Ne pas détremper le cuir', 'Éviter les coutures colorées'],
+    astuces: ['Redonne l\'éclat du blanc', 'N\'altère pas le cuir', 'Idéal pour les sneakers blanches'],
+    conservation: 'Plusieurs années'
+  },
+  {
+    id: 85,
+    nom: 'Baignoire & Lavabo Pierre Blanche',
+    emoji: '🛁',
+    categorie: 'Salle de bain',
+    badge: 'Éclat',
+    gradient: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '2 noisettes', emoji: '⚪' }
+    ],
+    materiel: ['Éponge', 'Chiffon microfibre'],
+    instructions: [
+      'Mouillez légèrement la surface',
+      'Prélevez de la pierre blanche avec l\'éponge humide',
+      'Frottez la baignoire ou le lavabo',
+      'Insistez sur les traces de calcaire',
+      'Rincez abondamment',
+      'Séchez avec le chiffon microfibre'
+    ],
+    surfaces: ['Baignoire', 'Lavabo', 'Évier céramique', 'Douche'],
+    precautions: ['Ne raye pas l\'émail ni l\'acrylique', 'Bien rincer', 'Éviter sur surfaces peintes'],
+    astuces: ['Élimine calcaire et savon', 'Fait briller sans rayer', 'Alternative douce aux produits chimiques'],
+    conservation: 'Plusieurs années'
+  },
+  {
+    id: 86,
+    nom: 'Joints Carrelage Pierre Blanche',
+    emoji: '⬜',
+    categorie: 'Salle de bain',
+    badge: 'Blancheur',
+    gradient: 'linear-gradient(135deg, #EEEEEE 0%, #E0E0E0 100%)',
+    temps: '20min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '2 noisettes', emoji: '⚪' }
+    ],
+    materiel: ['Brosse à dents', 'Chiffon'],
+    instructions: [
+      'Mouillez les joints',
+      'Appliquez la pierre blanche sur la brosse à dents',
+      'Frottez les joints en longueur',
+      'Insistez sur les zones noircies',
+      'Laissez agir 5 minutes',
+      'Rincez et essuyez'
+    ],
+    surfaces: ['Joints carrelage', 'Joints salle de bain', 'Joints cuisine'],
+    precautions: ['Frotter dans le sens du joint', 'Ne pas utiliser sur joints colorés', 'Rincer abondamment'],
+    astuces: ['Redonne la blancheur aux joints ternis', 'Action mécanique douce', 'Compléter avec anti-moisissures si besoin'],
+    conservation: 'Plusieurs années'
+  },
+  {
+    id: 87,
+    nom: 'Plastiques Jaunis',
+    emoji: '🔌',
+    categorie: 'Entretien',
+    badge: 'Rénovation',
+    gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Pierre blanche', quantite: '1 noisette', emoji: '⚪' }
+    ],
+    materiel: ['Éponge douce', 'Chiffon microfibre'],
+    instructions: [
+      'Nettoyez d\'abord la surface à l\'eau savonneuse',
+      'Appliquez la pierre blanche avec l\'éponge humide',
+      'Frottez délicatement les zones jaunies',
+      'Laissez agir quelques minutes',
+      'Rincez à l\'eau claire',
+      'Séchez avec le chiffon'
+    ],
+    surfaces: ['Interrupteurs', 'Prises électriques', 'Électroménager blanc', 'Plastiques'],
+    precautions: ['Débrancher les appareils électriques', 'Ne pas mouiller les parties électriques', 'Tester sur zone cachée'],
+    astuces: ['Atténue le jaunissement du plastique', 'Pour jaunissement intense, préférer l\'eau oxygénée + soleil', 'Entretien régulier = meilleur résultat'],
+    conservation: 'Plusieurs années'
+  },
+  // === VAPEUR - RECETTES SPÉCIFIQUES ===
+  {
+    id: 88,
+    nom: 'Four Vapeur Sans Produit',
+    emoji: '🔥',
+    categorie: 'Cuisine',
+    badge: 'Zéro produit',
+    gradient: 'linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%)',
+    temps: '45min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur', 'Chiffon microfibre'],
+    instructions: [
+      'Préchauffez légèrement le four (tiède)',
+      'Passez le nettoyeur vapeur sur les parois',
+      'La vapeur ramollit les graisses cuites',
+      'Insistez sur les zones encrassées',
+      'Essuyez avec le chiffon microfibre',
+      'Répétez si nécessaire sur les zones tenaces'
+    ],
+    surfaces: ['Four', 'Parois four', 'Grilles four'],
+    precautions: ['Four tiède, pas brûlant', 'Attention aux brûlures vapeur', 'Bien aérer'],
+    astuces: ['Aucun produit chimique nécessaire', 'La chaleur + vapeur = dégraissage naturel', 'Idéal pour entretien régulier'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 89,
+    nom: 'Joints Carrelage Vapeur',
+    emoji: '⬜',
+    categorie: 'Salle de bain',
+    badge: 'Désinfectant',
+    gradient: 'linear-gradient(135deg, #B3E5FC 0%, #81D4FA 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec buse fine', 'Brosse (optionnel)'],
+    instructions: [
+      'Utilisez la buse fine du nettoyeur vapeur',
+      'Passez lentement sur les joints',
+      'La vapeur haute température tue moisissures et bactéries',
+      'Brossez les joints pendant le passage vapeur',
+      'Essuyez l\'excédent d\'eau',
+      'Laissez sécher, aérez la pièce'
+    ],
+    surfaces: ['Joints carrelage', 'Joints salle de bain', 'Joints douche'],
+    precautions: ['Ne pas rester trop longtemps au même endroit', 'Attention aux projections chaudes', 'Laisser sécher pour éviter moisissures'],
+    astuces: ['Tue 99% des germes sans produit', 'Idéal contre moisissures naissantes', 'Combiner avec traitement anti-moisissures si tenace'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 90,
+    nom: 'Décoller Papier Peint',
+    emoji: '🏠',
+    categorie: 'Entretien',
+    badge: 'Rénovation',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
+    temps: '30min/m²',
+    difficulte: 'Moyen',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur', 'Spatule large', 'Bâche de protection'],
+    instructions: [
+      'Protégez le sol avec une bâche',
+      'Passez la vapeur sur une zone du papier peint',
+      'Maintenez quelques secondes pour bien humidifier',
+      'La vapeur pénètre et ramollit la colle',
+      'Décollez immédiatement avec la spatule',
+      'Procédez zone par zone'
+    ],
+    surfaces: ['Murs', 'Papier peint'],
+    precautions: ['Protéger les prises électriques', 'Attention aux murs en plâtre fragiles', 'Travailler par petites zones'],
+    astuces: ['Beaucoup plus rapide que la décolleuse traditionnelle', 'Pas besoin de produit décolleur', 'Fonctionne sur tous types de papiers peints'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 91,
+    nom: 'Vitres Vapeur Sans Traces',
+    emoji: '🪟',
+    categorie: 'Multi-usage',
+    badge: 'Zéro trace',
+    gradient: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec raclette', 'Chiffon microfibre'],
+    instructions: [
+      'Utilisez l\'embout raclette du nettoyeur vapeur',
+      'Passez la vapeur sur la vitre de haut en bas',
+      'La raclette évacue l\'eau immédiatement',
+      'Essuyez les bords avec le chiffon microfibre',
+      'Aucun produit nécessaire',
+      'Résultat sans traces garanti'
+    ],
+    surfaces: ['Vitres', 'Miroirs', 'Parois de douche', 'Baies vitrées'],
+    precautions: ['Ne pas utiliser sur vitres fissurées (choc thermique)', 'Éviter par temps très froid', 'Bien essuyer les bords'],
+    astuces: ['La vapeur dissout les graisses et saletés', 'Aucun produit = aucune trace', 'Plus rapide que le nettoyage classique'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 92,
+    nom: 'Jouets Enfants Vapeur',
+    emoji: '🧸',
+    categorie: 'Entretien',
+    badge: 'Hygiène bébé',
+    gradient: 'linear-gradient(135deg, #F8BBD9 0%, #F48FB1 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec petite buse', 'Chiffon propre'],
+    instructions: [
+      'Sélectionnez les jouets résistants à la chaleur',
+      'Passez la vapeur sur toutes les surfaces',
+      'Insistez sur les zones de préhension',
+      'La vapeur désinfecte sans produit chimique',
+      'Essuyez immédiatement',
+      'Laissez sécher complètement avant usage'
+    ],
+    surfaces: ['Jouets plastique', 'Jouets bois verni', 'Hochets', 'Jouets de bain'],
+    precautions: ['Pas sur jouets électroniques', 'Pas sur peluches (lavage machine)', 'Vérifier résistance à la chaleur', 'Laisser refroidir avant de donner à l\'enfant'],
+    astuces: ['Élimine 99,9% des bactéries', 'Aucun résidu chimique', 'Idéal pour bébés qui mettent tout à la bouche'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 93,
+    nom: 'Anti-Punaises de Lit Vapeur',
+    emoji: '🛏️',
+    categorie: 'Entretien',
+    badge: 'Anti-nuisibles',
+    gradient: 'linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%)',
+    temps: '1h+',
+    difficulte: 'Avancé',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur puissant (+100°C)', 'Aspirateur'],
+    instructions: [
+      'Aspirez d\'abord matelas, sommier et alentours',
+      'Réglez le nettoyeur sur température maximale',
+      'Passez lentement sur toutes les coutures du matelas',
+      'Traitez le sommier, les lattes, la tête de lit',
+      'Insistez sur les recoins et coutures',
+      'Passez également les plinthes et prises proches',
+      'Répétez le traitement après 10 jours'
+    ],
+    surfaces: ['Matelas', 'Sommier', 'Tête de lit', 'Plinthes chambre'],
+    precautions: ['La vapeur doit dépasser 60°C pour tuer les punaises', 'Passer lentement (3-4 sec/zone)', 'Traitement à répéter', 'Consulter un professionnel si infestation importante'],
+    astuces: ['La chaleur tue punaises et œufs instantanément', 'Méthode 100% naturelle', 'Combiner avec housse anti-punaises'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 94,
+    nom: 'Canapé Tissu Vapeur',
+    emoji: '🛋️',
+    categorie: 'Multi-usage',
+    badge: 'Rafraîchissant',
+    gradient: 'linear-gradient(135deg, #D1C4E9 0%, #B39DDB 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec embout tissu', 'Chiffon microfibre'],
+    instructions: [
+      'Aspirez le canapé au préalable',
+      'Testez sur une zone cachée',
+      'Passez la vapeur sur le tissu en mouvements réguliers',
+      'N\'insistez pas trop au même endroit',
+      'Essuyez l\'humidité excédentaire',
+      'Laissez sécher fenêtres ouvertes'
+    ],
+    surfaces: ['Canapé tissu', 'Fauteuils', 'Chaises rembourrées', 'Poufs'],
+    precautions: ['Tester d\'abord sur zone cachée', 'Ne pas détremper', 'Certains tissus délicats à éviter', 'Bien laisser sécher'],
+    astuces: ['Élimine odeurs et acariens', 'Rafraîchit les couleurs', 'Désinfecte en profondeur'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 95,
+    nom: 'Poubelles Vapeur',
+    emoji: '🗑️',
+    categorie: 'Entretien',
+    badge: 'Désodorisant',
+    gradient: 'linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur'],
+    instructions: [
+      'Videz complètement la poubelle',
+      'Sortez-la à l\'extérieur ou dans la douche',
+      'Passez la vapeur sur toutes les parois intérieures',
+      'Insistez sur le fond et les recoins',
+      'La vapeur tue les bactéries responsables des odeurs',
+      'Laissez sécher complètement avant utilisation'
+    ],
+    surfaces: ['Poubelles cuisine', 'Poubelles salle de bain', 'Bacs de tri'],
+    precautions: ['Bien laisser sécher', 'Ne pas refermer le couvercle tant qu\'humide'],
+    astuces: ['Élimine 100% des odeurs', 'Tue les bactéries sans produit', 'À faire 1x/mois'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 96,
+    nom: 'WC Vapeur Désinfection',
+    emoji: '🚽',
+    categorie: 'Salle de bain',
+    badge: 'Hygiène totale',
+    gradient: 'linear-gradient(135deg, #B2EBF2 0%, #80DEEA 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec différentes buses'],
+    instructions: [
+      'Commencez par la cuvette intérieure',
+      'Passez sous les rebords avec la buse fine',
+      'Nettoyez l\'abattant dessus et dessous',
+      'Traitez le réservoir et la chasse d\'eau',
+      'Passez la vapeur sur le sol autour des WC',
+      'Essuyez les surfaces avec un chiffon'
+    ],
+    surfaces: ['WC', 'Cuvette', 'Abattant', 'Sol WC'],
+    precautions: ['Attention aux projections d\'eau chaude', 'Bien aérer après'],
+    astuces: ['Désinfection totale sans produit chimique', 'Élimine calcaire léger', 'La vapeur atteint les zones inaccessibles'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 97,
+    nom: 'Tapis & Moquette Vapeur',
+    emoji: '🧶',
+    categorie: 'Multi-usage',
+    badge: 'Anti-acariens',
+    gradient: 'linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec embout sol/moquette'],
+    instructions: [
+      'Aspirez soigneusement le tapis ou la moquette',
+      'Passez le nettoyeur vapeur lentement',
+      'Procédez par bandes parallèles',
+      'N\'insistez pas trop au même endroit',
+      'La vapeur tue acariens et bactéries',
+      'Laissez sécher complètement (ouvrez les fenêtres)'
+    ],
+    surfaces: ['Tapis', 'Moquette', 'Descentes de lit'],
+    precautions: ['Tester sur zone cachée', 'Ne pas détremper', 'Certaines fibres délicates à éviter', 'Bien laisser sécher'],
+    astuces: ['Élimine 90% des acariens', 'Ravive les couleurs', 'Idéal pour les allergiques'],
+    conservation: 'Méthode sans produit'
+  },
+  // === EAU CHAUDE/BOUILLANTE - RECETTES SPÉCIFIQUES ===
+  {
+    id: 98,
+    nom: 'Détachant Graisse Eau Chaude',
+    emoji: '👕',
+    categorie: 'Linge',
+    badge: 'SOS taches',
+    gradient: 'linear-gradient(135deg, #FFECB3 0%, #FFE082 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau très chaude', quantite: '1L', emoji: '💧' },
+      { nom: 'Liquide vaisselle', quantite: '1 c.à.s', emoji: '🫧' }
+    ],
+    materiel: ['Bassine', 'Brosse douce'],
+    instructions: [
+      'Agissez le plus vite possible sur la tache fraîche',
+      'Faites chauffer l\'eau (pas bouillante pour les textiles)',
+      'Ajoutez le liquide vaisselle dégraissant',
+      'Immergez la partie tachée',
+      'Frottez délicatement avec la brosse',
+      'Laissez tremper 30 minutes',
+      'Lavez normalement en machine'
+    ],
+    surfaces: ['Vêtements', 'Nappes', 'Torchons', 'Textiles'],
+    precautions: ['Vérifier l\'étiquette du textile', 'Pas d\'eau bouillante sur tissus délicats', 'Traiter rapidement pour meilleur résultat'],
+    astuces: ['La chaleur liquéfie les graisses', 'Le liquide vaisselle est un excellent dégraissant', 'Plus la tache est fraîche, plus c\'est efficace'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 99,
+    nom: 'Planches à Découper Eau Bouillante',
+    emoji: '🪵',
+    categorie: 'Cuisine',
+    badge: 'Désinfectant',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau bouillante', quantite: '1L', emoji: '💧' },
+      { nom: 'Gros sel', quantite: '2 c.à.s', emoji: '🧂' },
+      { nom: 'Citron', quantite: '1/2', emoji: '🍋' }
+    ],
+    materiel: ['Bouilloire'],
+    instructions: [
+      'Saupoudrez le gros sel sur la planche',
+      'Frottez avec le demi-citron (côté chair)',
+      'Le sel agit comme abrasif doux, le citron désodorise',
+      'Versez l\'eau bouillante sur toute la surface',
+      'Laissez agir 2-3 minutes',
+      'Rincez et laissez sécher à la verticale'
+    ],
+    surfaces: ['Planches à découper bois', 'Planches à découper plastique'],
+    precautions: ['Attention aux éclaboussures d\'eau bouillante', 'Ne pas laisser tremper les planches en bois', 'Sécher à la verticale'],
+    astuces: ['L\'eau bouillante tue les bactéries', 'Le citron neutralise les odeurs (poisson, oignon)', 'Le sel nettoie les fibres du bois'],
+    conservation: 'À faire après chaque usage viande/poisson'
+  },
+  {
+    id: 100,
+    nom: 'Débouchage Express Eau Bouillante',
+    emoji: '🚿',
+    categorie: 'Entretien',
+    badge: 'SOS',
+    gradient: 'linear-gradient(135deg, #B3E5FC 0%, #81D4FA 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau bouillante', quantite: '2L', emoji: '💧' },
+      { nom: 'Liquide vaisselle', quantite: '2 c.à.s', emoji: '🫧' }
+    ],
+    materiel: ['Grande casserole ou bouilloire'],
+    instructions: [
+      'Faites bouillir 2 litres d\'eau',
+      'Versez le liquide vaisselle dans la canalisation',
+      'Attendez 5 minutes',
+      'Versez l\'eau bouillante en une seule fois',
+      'L\'eau chaude dissout les graisses, le savon les émulsionne',
+      'Répétez si nécessaire'
+    ],
+    surfaces: ['Évier', 'Lavabo', 'Douche', 'Baignoire'],
+    precautions: ['Ne pas utiliser sur canalisations PVC fragiles', 'Attention aux éclaboussures', 'Pour bouchons légers uniquement'],
+    astuces: ['Méthode préventive hebdomadaire idéale', 'Pour bouchons importants, ajouter bicarbonate + vinaigre avant', 'L\'eau bouillante seule fonctionne sur bouchons de graisse'],
+    conservation: 'À préparer à chaque usage'
   }
 ];
 
@@ -2305,7 +2827,7 @@ export const CATEGORIES_RECETTES = [
 
 // Mapping des recettes par surface pour le modal surface
 export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
-  1: [2, 15],      // Four -> Dégraissant Puissant, Pâte Nettoyante Four
+  1: [2, 15, 88],  // Four -> Dégraissant Puissant, Pâte Nettoyante Four, Four Vapeur
   2: [9],          // Lave-vaisselle -> Nettoyant Sol Carrelage
   3: [1, 40, 57, 71], // Réfrigérateur -> Spray Multi-usage, Désodorisant Frigo, Désodorisant Placards, Spray Désinfectant Tea Tree
   4: [49],         // Micro-ondes -> Nettoyant Micro-ondes
@@ -2313,24 +2835,24 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   6: [2],          // Airfryer -> Dégraissant Puissant
   7: [36, 39, 58], // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
   8: [35, 12, 32, 33], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
-  9: [41],         // Poubelles -> Désodorisant Poubelle
+  9: [41, 95],     // Poubelles -> Désodorisant Poubelle, Poubelles Vapeur
   11: [9, 30, 32, 75], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray, Nettoyant Sol Pin
-  12: [35, 3, 29, 68], // Miroirs -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs, Nettoyant Vitres Cendre
-  13: [8, 32, 33], // Lavabo sdb -> Spray Anti-Calcaire, Nettoyant WC Spray, Déboucheur Canalisations
-  14: [35, 8, 28, 33, 72], // Parois de douche -> + Anti-Moisissures Tea Tree
+  12: [35, 3, 29, 68, 91], // Miroirs -> + Vitres Vapeur
+  13: [8, 32, 33, 85], // Lavabo sdb -> + Baignoire Pierre Blanche
+  14: [35, 8, 28, 33, 72, 91], // Parois de douche -> + Vitres Vapeur
   16: [35, 8],     // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire
-  17: [35, 7, 6, 31, 32, 34], // WC -> Spray Alcool Ménager, Mousse Active WC, Désinfectant Naturel, Poudre Effervescente WC, Nettoyant WC Spray, Détartrant WC Express
-  18: [8, 20, 72], // Joints -> Spray Anti-Calcaire, Nettoyant Joints Carrelage, Anti-Moisissures Tea Tree
+  17: [35, 7, 6, 31, 32, 34, 96], // WC -> + WC Vapeur Désinfection
+  18: [8, 20, 72, 86, 89], // Joints -> + Joints Pierre Blanche, Joints Vapeur
   19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
   20: [11, 45, 65, 81], // Draps -> Lessive Maison, Blanchisseur Linge, Détachant Sang, Détachant Sang Textile
   21: [4, 73, 79], // Rideaux -> Détachant Textile, Spray Textile Lavande, Défroissage Vapeur
   22: [3, 8],      // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire
-  25: [42, 59, 73], // Tapis -> Désodorisant Tapis, Détachant Gras Textile, Spray Textile Lavande
-  26: [42, 59],    // Moquette -> Désodorisant Tapis, Détachant Gras Textile
-  27: [59, 73, 78], // Canapé -> Détachant Gras Textile, Spray Textile Lavande, Nettoyage Matelas Vapeur
+  25: [42, 59, 73, 97], // Tapis -> + Tapis Vapeur
+  26: [42, 59, 97], // Moquette -> + Tapis Vapeur
+  27: [59, 73, 78, 94], // Canapé -> + Canapé Tissu Vapeur
   28: [35, 6, 71], // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel, Spray Désinfectant Tea Tree
   30: [11],        // Lave-linge -> Lessive Maison
-  32: [35, 11, 45, 59, 65, 67, 79, 81], // Linge -> + Blanchisseur, Détachant Gras, Détachant Sang, Blanchisseur Textiles, Défroissage, Détachant Sang Textile
+  32: [35, 11, 45, 59, 65, 67, 79, 81, 98], // Linge -> + Détachant Graisse Eau Chaude
   33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
   34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
   38: [54],        // Carrosserie -> Nettoyant Carrosserie
@@ -2338,11 +2860,11 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   42: [47, 64],    // Sièges auto -> Nettoyant Sièges Auto Tissu, Détachant Cuir (cuir)
   43: [35],        // Plastiques voiture -> Spray Alcool Ménager
   48: [46, 66, 69], // Terrasse -> Anti-Mousses Terrasse, Raviveur Bois, Dégivrant Écologique
-  58: [35, 3, 29, 68], // Vitres -> + Nettoyant Vitres Cendre
+  58: [35, 3, 29, 68, 91], // Vitres -> + Vitres Vapeur
   59: [35, 1, 71], // Poignées -> + Spray Désinfectant Tea Tree
   60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
-  61: [13, 33],    // Canalisations -> Déboucheur Naturel, Déboucheur Canalisations
-  62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
+  61: [13, 33, 100], // Canalisations -> + Débouchage Express Eau Bouillante
+  62: [4, 19, 84], // Baskets -> + Chaussures Blanches Cuir
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
   // Porcelaine / Vaisselle
   63: [36, 37],    // Tasses & Mugs -> Pierre Blanche, Vaisselle Impeccable
@@ -2356,7 +2878,7 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   69: [48],        // Bouilloire -> Détartrant Bouilloire
   70: [51],        // Cafetière -> Détartrant Cafetière
   71: [2, 43],     // Hotte -> Dégraissant Puissant, Dégraissant Hotte
-  72: [37],        // Planches à découper -> Vaisselle Impeccable
+  72: [37, 99],    // Planches à découper -> + Planches Eau Bouillante
   // Meubles et bois
   73: [56, 62, 66], // Meubles en bois -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
   74: [56, 62, 66], // Parquet -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
@@ -2371,8 +2893,14 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   80: [50, 80],    // Mauvaises herbes -> Désherbant Naturel, Désherbage Eau Bouillante
   81: [52, 63],    // Outils de jardin -> Anti-Rouille Naturel, Protection Outils Jardin
   // Autres
-  82: [73, 78],    // Matelas -> Spray Textile Lavande, Nettoyage Matelas Vapeur
-  83: [],          // Jouets -> (général)
+  82: [73, 78, 93], // Matelas -> + Anti-Punaises Vapeur
+  83: [92],        // Jouets -> Jouets Enfants Vapeur
   84: [61],        // Autocollants -> Décollant Autocollants
   85: [60],        // Charnières -> Lubrifiant Charnières
+  // Surfaces supplémentaires
+  86: [82],        // Plaques vitrocéramique -> Vitrocéramique Pierre Blanche
+  87: [83],        // Fer à repasser -> Semelle Fer à Repasser
+  88: [85],        // Baignoire -> Baignoire Pierre Blanche
+  89: [93],        // Sommier -> Anti-Punaises Vapeur
+  90: [90],        // Murs & Papier peint -> Décoller Papier Peint
 };
