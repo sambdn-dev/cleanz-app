@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
-import { Search, X } from 'lucide-react';
+import { Search, X, Heart } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -208,27 +208,26 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                   )}
                 </div>
 
-                {/* Favori à droite */}
+                {/* Favori à droite - même design que RecipesPage */}
                 <button
                   onClick={(e) => toggleFavorite(ingredient.id, e)}
-                  className="p-1"
+                  className="p-1.5 rounded-full transition-colors"
+                  style={{
+                    background: favorites.includes(ingredient.id)
+                      ? 'rgba(236, 72, 153, 0.15)'
+                      : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+                  }}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill={favorites.includes(ingredient.id) ? "#a855f7" : "none"}
-                    stroke={favorites.includes(ingredient.id) ? "#a855f7" : "#9ca3af"}
-                    strokeWidth="2"
-                  >
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
+                  <Heart
+                    className={`w-4 h-4 transition-colors ${favorites.includes(ingredient.id) ? 'text-pink-500 fill-pink-500' : ''}`}
+                    style={{ color: favorites.includes(ingredient.id) ? '#EC4899' : theme.textMuted }}
+                  />
                 </button>
               </div>
 
-              {/* Emoji centré */}
-              <div className="flex justify-center mb-4">
-                <span className="text-5xl">{ingredient.emoji}</span>
+              {/* Emoji à gauche */}
+              <div className="mb-3">
+                <span className="text-4xl">{ingredient.emoji}</span>
               </div>
 
               {/* Nom */}
