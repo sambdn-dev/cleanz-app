@@ -169,10 +169,10 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
         }}
       >
         <div className="flex items-start gap-3">
-          <Lightbulb className="w-5 h-5 text-violet-500 mt-0.5" />
+          <Lightbulb className="w-5 h-5 text-violet-500 flex-shrink-0" />
           <div>
             <span className="text-xs font-bold block mb-1" style={{ color: theme.textPrimary }}>Conseil Pro</span>
-            <span className="text-sm" style={{ color: theme.textSecondary }}>
+            <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
               {astuce.conseil}
             </span>
           </div>

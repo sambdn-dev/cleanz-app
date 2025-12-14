@@ -91,17 +91,19 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
         <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
           <AlertTriangle className="w-4 h-4 text-amber-500" /> Précautions
         </h3>
-        <div className="space-y-2">
+        <div
+          className="p-3 rounded-xl space-y-2"
+          style={{
+            background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.1)'
+          }}
+        >
           {spray.precautions.map((precaution, index) => (
             <div
               key={index}
-              className="flex items-start gap-2 p-3 rounded-xl"
-              style={{
-                background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.1)'
-              }}
+              className="flex items-baseline gap-2"
             >
-              <span className="text-amber-500 text-xs mt-0.5">⚠️</span>
-              <span className="text-sm" style={{ color: theme.textSecondary }}>{precaution}</span>
+              <span className="text-amber-500 text-sm leading-none">•</span>
+              <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{precaution}</span>
             </div>
           ))}
         </div>
@@ -110,19 +112,21 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
       {/* Astuces Pro */}
       <div className="mb-5">
         <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <Lightbulb className="w-4 h-4 text-violet-500" /> Astuces Pro
+          <Lightbulb className="w-4 h-4 text-violet-500" /> Astuces pro
         </h3>
-        <div className="space-y-2">
+        <div
+          className="p-3 rounded-xl space-y-2"
+          style={{
+            background: darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.1)'
+          }}
+        >
           {spray.astuces.map((astuce, index) => (
             <div
               key={index}
-              className="flex items-start gap-2 p-3 rounded-xl"
-              style={{
-                background: darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.1)'
-              }}
+              className="flex items-baseline gap-2"
             >
-              <span className="text-violet-500 text-xs mt-0.5">💡</span>
-              <span className="text-sm" style={{ color: theme.textSecondary }}>{astuce}</span>
+              <span className="text-base leading-none">💡</span>
+              <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</span>
             </div>
           ))}
         </div>

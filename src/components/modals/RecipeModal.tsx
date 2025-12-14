@@ -256,9 +256,9 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
             }}
           >
             {recipe.precautions.map((precaution, index) => (
-              <div key={index} className="flex items-start gap-2">
-                <span className="text-amber-500">•</span>
-                <p className="text-xs" style={{ color: theme.textSecondary }}>{precaution}</p>
+              <div key={index} className="flex items-baseline gap-2">
+                <span className="text-amber-500 text-sm leading-none">•</span>
+                <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{precaution}</p>
               </div>
             ))}
           </div>
@@ -280,9 +280,9 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
             }}
           >
             {recipe.astuces.map((astuce, index) => (
-              <div key={index} className="flex items-start gap-2">
-                <span className="text-purple-500">💡</span>
-                <p className="text-xs" style={{ color: theme.textSecondary }}>{astuce}</p>
+              <div key={index} className="flex items-baseline gap-2">
+                <span className="text-base leading-none">💡</span>
+                <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</p>
               </div>
             ))}
           </div>
