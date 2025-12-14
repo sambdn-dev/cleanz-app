@@ -4,9 +4,16 @@ import { useState, useMemo } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
-import { Search, X, Grid3X3, List, Heart, ChevronRight, Sparkles } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
+
+// 15 fonctions principales uniquement
+const MAIN_FUNCTIONS = [
+  'Détartrant', 'Désinfectant', 'Dégraissant', 'Nettoyant', 'Détachant',
+  'Désodorisant', 'Blanchissant', 'Antibactérien', 'Antifongique', 'Polissant',
+  'Absorbant', 'Insecticide', 'Déboucheur', 'Parfumant', 'Purifiant'
+];
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
@@ -14,26 +21,16 @@ interface IngredientsPageProps {
 
 export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => {
   const { theme, darkMode } = useTheme();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFunctions, setSelectedFunctions] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<number[]>([]);
 
-  // Extraire toutes les fonctions uniques des ingrédients
-  const allFunctions = useMemo(() => {
-    const functionsSet = new Set<string>();
-    INGREDIENTS_COMPLETS.forEach(ing => {
-      ing.fonctions.forEach(f => functionsSet.add(f));
-    });
-    return Array.from(functionsSet).sort();
-  }, []);
-
-  // Toggle fonction filter
-  const toggleFunction = (fn: string) => {
-    setSelectedFunctions(prev =>
-      prev.includes(fn)
-        ? prev.filter(f => f !== fn)
-        : [...prev, fn]
+  // Toggle filter
+  const toggleFilter = (func: string) => {
+    setActiveFilters(prev =>
+      prev.includes(func)
+        ? prev.filter(f => f !== func)
+        : [...prev, func]
     );
   };
 
@@ -47,246 +44,20 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
     );
   };
 
-  // Filtrage des ingrédients
+  // Compteur par fonction
+  const getCountForFunction = (func: string) => {
+    return INGREDIENTS_COMPLETS.filter(ing => ing.fonctions.includes(func)).length;
+  };
+
+  // Filtrage des ingrédients (multi-sélection OR)
   const filteredIngredients = useMemo(() => {
-    let ingredients = INGREDIENTS_COMPLETS;
-
-    // Filtrage par fonctions sélectionnées (OR logic)
-    if (selectedFunctions.length > 0) {
-      ingredients = ingredients.filter(ing =>
-        ing.fonctions.some(f => selectedFunctions.includes(f))
-      );
-    }
-
-    // Recherche
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      ingredients = ingredients.filter(ing =>
-        ing.nom.toLowerCase().includes(query) ||
-        ing.fonctions.some(f => f.toLowerCase().includes(query)) ||
-        ing.surfaces.some(s => s.toLowerCase().includes(query))
-      );
-    }
-
-    return ingredients;
-  }, [selectedFunctions, searchQuery]);
-
-  // Kit de base (essentiels) - visible uniquement sans filtres ni recherche
-  const kitDeBase = useMemo(() => {
-    return INGREDIENTS_COMPLETS.filter(ing => ing.essentiel);
-  }, []);
-
-  const showKitDeBase = selectedFunctions.length === 0 && !searchQuery;
-
-  // Carte Ingrédient - Vue Grille
-  const GridCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
-    <div
-      onClick={() => onIngredientClick(ingredient)}
-      className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative"
-      style={{
-        background: darkMode
-          ? 'rgba(255,255,255,0.05)'
-          : 'rgba(255,255,255,0.9)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.04)'
-      }}
-    >
-      {/* Badge en haut à gauche */}
-      {ingredient.badge && (
-        <span
-          className="absolute top-2 left-2 text-[10px] px-2 py-0.5 rounded-full font-semibold"
-          style={{
-            background: darkMode ? 'rgba(251, 191, 36, 0.3)' : 'rgba(251, 191, 36, 0.2)',
-            color: darkMode ? '#FCD34D' : '#D97706'
-          }}
-        >
-          {ingredient.badge}
-        </span>
-      )}
-
-      {/* Bouton favoris en haut à droite */}
-      <button
-        onClick={(e) => toggleFavorite(ingredient.id, e)}
-        className="absolute top-2 right-2 p-1.5 rounded-full transition-colors"
-        style={{
-          background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-        }}
-      >
-        <Heart
-          className="w-4 h-4"
-          fill={favorites.includes(ingredient.id) ? '#ef4444' : 'none'}
-          stroke={favorites.includes(ingredient.id) ? '#ef4444' : theme.textMuted}
-        />
-      </button>
-
-      {/* Grande zone emoji avec gradient */}
-      <div
-        className="w-full aspect-square rounded-xl flex items-center justify-center mb-3 mt-4"
-        style={{
-          background: ingredient.gradient,
-          boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-        }}
-      >
-        <span className="text-4xl">{ingredient.emoji}</span>
-      </div>
-
-      {/* Nom du produit */}
-      <h3
-        className="font-bold text-sm mb-2 line-clamp-2"
-        style={{ color: theme.textPrimary }}
-      >
-        {ingredient.nom}
-      </h3>
-
-      {/* Tags fonctions (max 4) */}
-      <div className="flex flex-wrap gap-1">
-        {ingredient.fonctions.slice(0, 4).map((fonction, index) => (
-          <span
-            key={index}
-            className="text-[9px] px-1.5 py-0.5 rounded-full font-medium"
-            style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
-              color: theme.textMuted
-            }}
-          >
-            {fonction}
-          </span>
-        ))}
-      </div>
-
-      {/* Compteur de recettes */}
-      {ingredient.recettesIds.length > 0 && (
-        <div className="mt-2 flex items-center gap-1">
-          <span
-            className="text-[10px] font-medium"
-            style={{ color: theme.textMuted }}
-          >
-            {ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}
-          </span>
-        </div>
-      )}
-    </div>
-  );
-
-  // Carte Ingrédient - Vue Liste
-  const ListCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
-    <div
-      onClick={() => onIngredientClick(ingredient)}
-      className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99]"
-      style={{
-        background: darkMode
-          ? 'rgba(255,255,255,0.05)'
-          : 'rgba(255,255,255,0.9)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.04)'
-      }}
-    >
-      {/* Emoji avec gradient */}
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-        style={{
-          background: ingredient.gradient,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}
-      >
-        <span className="text-2xl">{ingredient.emoji}</span>
-      </div>
-
-      {/* Contenu */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <h3
-            className="font-bold text-sm truncate"
-            style={{ color: theme.textPrimary }}
-          >
-            {ingredient.nom}
-          </h3>
-          {ingredient.badge && (
-            <span
-              className="text-[9px] px-1.5 py-0.5 rounded-full font-medium flex-shrink-0"
-              style={{
-                background: darkMode ? 'rgba(251, 191, 36, 0.3)' : 'rgba(251, 191, 36, 0.2)',
-                color: darkMode ? '#FCD34D' : '#D97706'
-              }}
-            >
-              {ingredient.badge}
-            </span>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-1 mt-1">
-          {ingredient.fonctions.slice(0, 3).map((fonction, index) => (
-            <span
-              key={index}
-              className="text-[9px] px-1.5 py-0.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
-                color: theme.textMuted
-              }}
-            >
-              {fonction}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Actions à droite */}
-      <div className="flex items-center gap-2 flex-shrink-0">
-        {ingredient.recettesIds.length > 0 && (
-          <span
-            className="text-[10px] font-medium"
-            style={{ color: theme.textMuted }}
-          >
-            {ingredient.recettesIds.length}
-          </span>
-        )}
-        <button
-          onClick={(e) => toggleFavorite(ingredient.id, e)}
-          className="p-1.5 rounded-full transition-colors"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-          }}
-        >
-          <Heart
-            className="w-4 h-4"
-            fill={favorites.includes(ingredient.id) ? '#ef4444' : 'none'}
-            stroke={favorites.includes(ingredient.id) ? '#ef4444' : theme.textMuted}
-          />
-        </button>
-        <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
-      </div>
-    </div>
-  );
-
-  // Carte Kit de Base (horizontale)
-  const KitDeBaseCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
-    <div
-      onClick={() => onIngredientClick(ingredient)}
-      className="flex-shrink-0 w-28 p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-      style={{
-        background: darkMode
-          ? 'rgba(255,255,255,0.08)'
-          : 'rgba(255,255,255,0.95)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode ? 'none' : '0 2px 10px rgba(0,0,0,0.06)'
-      }}
-    >
-      <div
-        className="w-full aspect-square rounded-lg flex items-center justify-center mb-2"
-        style={{
-          background: ingredient.gradient,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-        }}
-      >
-        <span className="text-2xl">{ingredient.emoji}</span>
-      </div>
-      <h4
-        className="font-semibold text-xs text-center line-clamp-2"
-        style={{ color: theme.textPrimary }}
-      >
-        {ingredient.nom}
-      </h4>
-    </div>
-  );
+    return INGREDIENTS_COMPLETS.filter(ing => {
+      const matchesSearch = ing.nom.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesFilters = activeFilters.length === 0 ||
+        activeFilters.some(f => ing.fonctions.includes(f));
+      return matchesSearch && matchesFilters;
+    });
+  }, [activeFilters, searchQuery]);
 
   return (
     <div className="pb-4">
@@ -298,148 +69,83 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         Ingrédients
       </h1>
 
-      {/* Barre de recherche avec toggle vue */}
-      <div className="flex items-center gap-2 mb-4">
-        <div
-          className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`
-          }}
-        >
-          <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
-          <input
-            type="text"
-            placeholder="Rechercher un ingrédient..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: theme.textPrimary }}
-          />
-          {searchQuery && (
+      {/* Barre de recherche */}
+      <div
+        className="flex items-center gap-3 px-4 py-3 rounded-2xl mb-4"
+        style={{
+          background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`
+        }}
+      >
+        <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
+        <input
+          type="text"
+          placeholder="Rechercher un ingrédient..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-1 bg-transparent outline-none text-sm"
+          style={{ color: theme.textPrimary }}
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="p-1 rounded-full transition-colors"
+            style={{
+              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+            }}
+          >
+            <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+          </button>
+        )}
+      </div>
+
+      {/* Filtres par fonction */}
+      <div className="py-4 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            Filtrer par fonction
+          </p>
+          {activeFilters.length > 0 && (
             <button
-              onClick={() => setSearchQuery('')}
-              className="p-1 rounded-full transition-colors"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
-              }}
+              onClick={() => setActiveFilters([])}
+              className="text-purple-400 text-xs"
             >
-              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+              ✕ Effacer ({activeFilters.length})
             </button>
           )}
         </div>
-
-        {/* Toggle Vue */}
-        <div
-          className="flex items-center gap-1 p-1 rounded-xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`
-          }}
-        >
-          <button
-            onClick={() => setViewMode('grid')}
-            className="p-2 rounded-lg transition-all"
-            style={{
-              background: viewMode === 'grid'
-                ? darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)'
-                : 'transparent',
-              color: viewMode === 'grid' ? theme.textPrimary : theme.textMuted
-            }}
-          >
-            <Grid3X3 className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className="p-2 rounded-lg transition-all"
-            style={{
-              background: viewMode === 'list'
-                ? darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)'
-                : 'transparent',
-              color: viewMode === 'list' ? theme.textPrimary : theme.textMuted
-            }}
-          >
-            <List className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Filtres par fonction (multi-select) */}
-      <div className="mb-5">
         <div className="flex flex-wrap gap-2">
-          {allFunctions.map((fn) => {
-            const isSelected = selectedFunctions.includes(fn);
+          {MAIN_FUNCTIONS.map(func => {
+            const count = getCountForFunction(func);
+            const isActive = activeFilters.includes(func);
             return (
               <button
-                key={fn}
-                onClick={() => toggleFunction(fn)}
-                className="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
-                style={{
-                  background: isSelected
-                    ? darkMode ? 'rgba(255,255,255,0.9)' : '#1a1a2e'
-                    : darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.8)',
-                  color: isSelected
-                    ? darkMode ? '#1a1a2e' : 'white'
-                    : theme.textSecondary,
-                  border: `1px solid ${isSelected ? 'transparent' : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'}`
-                }}
+                key={func}
+                onClick={() => toggleFilter(func)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
+                  isActive
+                    ? 'bg-purple-500 text-white'
+                    : 'bg-white/10 text-white/60'
+                }`}
               >
-                {fn}
+                {func}
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">
+                  {count}
+                </span>
               </button>
             );
           })}
-          {selectedFunctions.length > 0 && (
-            <button
-              onClick={() => setSelectedFunctions([])}
-              className="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
-              style={{
-                background: darkMode ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.1)',
-                color: '#ef4444',
-                border: `1px solid ${darkMode ? 'rgba(239, 68, 68, 0.3)' : 'rgba(239, 68, 68, 0.2)'}`
-              }}
-            >
-              Effacer filtres
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Section Kit de Base */}
-      {showKitDeBase && (
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-5 h-5 text-yellow-500" />
-            <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-              Kit de Base
-            </h2>
-            <span
-              className="text-xs px-2 py-0.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)',
-                color: darkMode ? '#FCD34D' : '#D97706'
-              }}
-            >
-              {kitDeBase.length} essentiels
-            </span>
-          </div>
-          <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-2">
-            {kitDeBase.map((ingredient) => (
-              <KitDeBaseCard key={ingredient.id} ingredient={ingredient} />
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Compteur de résultats */}
+      <div className="mb-4">
+        <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
+          {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
+        </p>
+      </div>
 
-      {/* Section titre avec compteur */}
-      {!showKitDeBase && (
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-            {selectedFunctions.length > 0 ? 'Résultats' : 'Tous les ingrédients'}
-          </h2>
-        </div>
-      )}
-
-      {/* Résultats */}
+      {/* Grille d'ingrédients */}
       {filteredIngredients.length === 0 ? (
         <EmptyState
           title="Aucun ingrédient trouvé"
@@ -447,32 +153,79 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
           emoji="🧪"
           searchQuery={searchQuery}
         />
-      ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-2 gap-3">
-          {filteredIngredients.map((ingredient) => (
-            <GridCard key={ingredient.id} ingredient={ingredient} />
-          ))}
-        </div>
       ) : (
-        <div className="flex flex-col gap-2">
-          {filteredIngredients.map((ingredient) => (
-            <ListCard key={ingredient.id} ingredient={ingredient} />
+        <div className="grid grid-cols-2 gap-4">
+          {filteredIngredients.map(ingredient => (
+            <div
+              key={ingredient.id}
+              onClick={() => onIngredientClick(ingredient)}
+              className="relative bg-white/5 rounded-2xl p-4 border border-white/10 cursor-pointer transition-all duration-200 hover:bg-white/[0.08] active:scale-[0.98]"
+            >
+              {/* Ligne du haut : Badges + Favori */}
+              <div className="flex items-start justify-between mb-3">
+                {/* Badges à gauche */}
+                <div className="flex flex-wrap gap-1">
+                  {ingredient.essentiel && (
+                    <span className="text-[10px] bg-amber-400/20 text-amber-300 px-2 py-1 rounded-md flex items-center gap-1">
+                      <span>⭐</span> Essentiel
+                    </span>
+                  )}
+                  {ingredient.badge && ingredient.badge !== 'Incontournable' && (
+                    <span className="text-[10px] bg-orange-400/20 text-orange-300 px-2 py-1 rounded-md flex items-center gap-1">
+                      <span>🔥</span> {ingredient.badge}
+                    </span>
+                  )}
+                </div>
+
+                {/* Favori à droite */}
+                <button
+                  onClick={(e) => toggleFavorite(ingredient.id, e)}
+                  className="p-1"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill={favorites.includes(ingredient.id) ? "#a855f7" : "none"}
+                    stroke={favorites.includes(ingredient.id) ? "#a855f7" : "#6b7280"}
+                    strokeWidth="2"
+                  >
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                </button>
+              </div>
+
+              {/* Emoji centré */}
+              <div className="flex justify-center mb-4">
+                <span className="text-5xl">{ingredient.emoji}</span>
+              </div>
+
+              {/* Nom */}
+              <h3 className="text-white font-semibold text-sm mb-3">
+                {ingredient.nom}
+              </h3>
+
+              {/* Tags (4 max) */}
+              <div className="flex flex-wrap gap-1 mb-3">
+                {ingredient.fonctions.slice(0, 4).map((tag, i) => (
+                  <span
+                    key={i}
+                    className="text-[10px] bg-white/10 text-white/50 px-2 py-1 rounded-md"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Nombre de recettes */}
+              <div className="flex items-center gap-1.5 text-white/40 text-xs">
+                <span>📖</span>
+                <span>{ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}</span>
+              </div>
+            </div>
           ))}
         </div>
       )}
-
-      {/* Compteur total */}
-      <div className="mt-6 flex justify-center">
-        <span
-          className="text-sm px-4 py-2 rounded-full font-medium"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-            color: theme.textMuted
-          }}
-        >
-          {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
-        </span>
-      </div>
 
       {/* Disclaimer */}
       <div className="mt-6">
