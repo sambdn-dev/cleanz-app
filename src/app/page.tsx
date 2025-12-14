@@ -217,7 +217,10 @@ function HomePageContent() {
             {/* Entretien électroménager */}
             <EntretienSection onApplianceClick={setSelectedAppliance} />
 
-            {/* Les 7 Essentiels */}
+            {/* Le saviez-vous ? - Tips carousel */}
+            <LeSaviezVousSection />
+
+            {/* Les 8 Essentiels */}
             <EssentielsSection
               onIngredientClick={setSelectedIngredient}
               onViewAll={() => setActiveNavTab('Ingrédients')}
@@ -225,9 +228,6 @@ function HomePageContent() {
 
             {/* Astuces du jour */}
             <AstucesSection onAstuceClick={setSelectedAstuce} />
-
-            {/* Le saviez-vous ? */}
-            <LeSaviezVousSection />
 
             {/* Widget Pourquoi passer au naturel */}
             {!searchQuery && <EconomiesWidget />}
