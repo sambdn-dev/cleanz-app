@@ -10,9 +10,10 @@ interface ModalProps {
   children: ReactNode;
   headerGradient?: string;
   headerContent?: ReactNode;
+  useDarkHeaderText?: boolean;
 }
 
-export function Modal({ isOpen, onClose, children, headerGradient, headerContent }: ModalProps) {
+export function Modal({ isOpen, onClose, children, headerGradient, headerContent, useDarkHeaderText = false }: ModalProps) {
   const { theme } = useTheme();
 
   // Block body scroll when modal is open
@@ -58,8 +59,16 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
               onClick={onClose}
               className="absolute top-0 right-0 p-5 group"
             >
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 group-active:bg-white/40 transition-colors">
-                <X className="w-5 h-5 text-white" />
+              <span
+                className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
+                style={{
+                  background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+                }}
+              >
+                <X
+                  className="w-5 h-5"
+                  style={{ color: useDarkHeaderText ? '#374151' : '#FFFFFF' }}
+                />
               </span>
             </button>
 
