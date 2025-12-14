@@ -22,7 +22,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Désinfection des surfaces'
     ],
     surfaces: ['Carrelage', 'Vitres', 'Robinetterie', 'Électroménager', 'Joints'],
-    recettesIds: [1, 2, 3, 6, 8, 9, 13, 14, 17, 18],
+    recettesIds: [1, 2, 3, 6, 9, 12, 13, 14, 17, 18, 24, 26, 27, 29, 33, 38, 48, 49, 50, 71, 72],
     prix: '€',
     prixMoyen: '~0.50€/L',
     scoreEcologique: 5,
@@ -56,7 +56,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Nettoyant pour four'
     ],
     surfaces: ['Évier', 'Four', 'Joints', 'Tapis', 'Matelas', 'Frigo'],
-    recettesIds: [7, 13, 14, 15, 16, 20, 21],
+    recettesIds: [7, 11, 13, 15, 16, 20, 21, 30, 31, 33, 38, 39, 40, 41, 42],
     prix: '€',
     prixMoyen: '~3€/kg',
     scoreEcologique: 5,
@@ -90,7 +90,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Entretien du bois'
     ],
     surfaces: ['Sols', 'Cuisine', 'Bois', 'Cuir', 'Terrasse', 'Textile'],
-    recettesIds: [1, 2, 7, 9, 15, 16, 21],
+    recettesIds: [1, 2, 7, 9, 15, 16, 21, 30, 39, 44, 53, 54, 58, 75],
     prix: '€€',
     prixMoyen: '~8€/L',
     scoreEcologique: 5,
@@ -124,7 +124,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Nettoyant pinceaux et brosses'
     ],
     surfaces: ['Textile', 'Brosses', 'Outils', 'Sol'],
-    recettesIds: [4, 11, 19],
+    recettesIds: [4, 11, 19, 37, 47],
     prix: '€',
     prixMoyen: '~6€/400g',
     scoreEcologique: 5,
@@ -158,7 +158,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Décrassage poêles et casseroles'
     ],
     surfaces: ['Four', 'Hotte', 'Casseroles', 'Canalisations', 'BBQ'],
-    recettesIds: [2, 10, 11],
+    recettesIds: [2, 10, 11, 31, 43, 44],
     prix: '€',
     prixMoyen: '~4€/kg',
     scoreEcologique: 5,
@@ -192,7 +192,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Raviveur d\'inox'
     ],
     surfaces: ['Robinetterie', 'Bouilloire', 'Cafetière', 'WC', 'Inox', 'Parois douche'],
-    recettesIds: [7, 8, 10],
+    recettesIds: [7, 8, 10, 31, 32, 34, 51, 52],
     prix: '€€',
     prixMoyen: '~8€/kg',
     scoreEcologique: 5,
@@ -226,7 +226,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Désinfection des surfaces'
     ],
     surfaces: ['Textile blanc', 'Joints', 'Terrasse', 'Mobilier jardin'],
-    recettesIds: [4, 10, 19],
+    recettesIds: [4, 10, 19, 37, 45, 46, 47],
     prix: '€€',
     prixMoyen: '~6€/kg',
     scoreEcologique: 5,
@@ -260,7 +260,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Désodoriser naturellement'
     ],
     surfaces: ['Toutes surfaces', 'Air ambiant'],
-    recettesIds: [1, 9, 16, 17, 21],
+    recettesIds: [9, 16, 17, 21],
     prix: '€€',
     prixMoyen: '~5€/10ml',
     scoreEcologique: 4,
@@ -294,7 +294,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Assainisseur d\'air'
     ],
     surfaces: ['WC', 'Salle de bain', 'Joints', 'Poubelle'],
-    recettesIds: [6, 7, 14],
+    recettesIds: [6, 7, 14, 22, 71, 72],
     prix: '€€',
     prixMoyen: '~7€/10ml',
     scoreEcologique: 4,
@@ -328,7 +328,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Nettoyant multi-surface'
     ],
     surfaces: ['Linge', 'Armoires', 'Toutes surfaces'],
-    recettesIds: [5, 18],
+    recettesIds: [5, 18, 73],
     prix: '€€',
     prixMoyen: '~6€/10ml',
     scoreEcologique: 4,
@@ -362,7 +362,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Nettoyant électronique (dilué)'
     ],
     surfaces: ['Vitres', 'Miroirs', 'Inox', 'Surfaces lisses', 'Écrans', 'Électronique'],
-    recettesIds: [3, 22, 23],
+    recettesIds: [3, 22, 23, 24, 25, 26, 27, 73, 76, 77],
     prix: '€',
     prixMoyen: '~3€/L',
     scoreEcologique: 3,
@@ -634,7 +634,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Détachant textile'
     ],
     surfaces: ['Toutes surfaces', 'Vaisselle', 'Textile'],
-    recettesIds: [8, 20],
+    recettesIds: [8, 20, 24, 25, 26, 28, 29, 98, 100],
     prix: '€€',
     prixMoyen: '~5€/L',
     scoreEcologique: 4,
