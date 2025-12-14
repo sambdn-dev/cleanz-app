@@ -816,6 +816,178 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Porter des gants obligatoirement', 'Ne pas utiliser sur marbre ou pierre naturelle', 'Bien ventiler la pièce', 'Rincer abondamment après usage', 'Éviter le contact avec les yeux'],
     astuces: ['Le sel d\'oseille est un acide beaucoup plus puissant que le vinaigre ou l\'acide citrique', 'Élimine calcaire et traces de savon en profondeur', 'L\'éponge inoxydable ne raye pas le verre'],
     conservation: '3 mois'
+  },
+  // === NOUVELLES RECETTES ===
+  {
+    id: 29,
+    nom: 'Nettoyant Vitres & Miroirs',
+    emoji: '🪟',
+    categorie: 'Multi-usage',
+    badge: 'Sans traces',
+    gradient: 'linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '250ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '250ml', emoji: '🧴' },
+      { nom: 'Liquide vaisselle', quantite: '1 c.à.s', emoji: '🫧' },
+      { nom: 'Alcool ménager (optionnel)', quantite: '1 c.à.s', emoji: '🔬' }
+    ],
+    materiel: ['Flacon pulvérisateur', 'Chiffon microfibre propre'],
+    instructions: [
+      'Mélangez tous les ingrédients dans un flacon pulvérisateur',
+      'Agitez doucement pour éviter la formation excessive de mousse',
+      'Pulvérisez sur les surfaces vitrées ou brillantes',
+      'Essuyez immédiatement avec un chiffon en microfibre propre pour éviter les traces'
+    ],
+    surfaces: ['Vitres', 'Miroirs', 'Surfaces brillantes'],
+    precautions: ['Préférer le liquide vaisselle écologique et sans colorant pour éviter les traces'],
+    astuces: ['Utiliser le mouilleur et le nettoyeur de vitres Karcher pour un résultat rapide et sans traces', 'L\'alcool ménager accélère le séchage'],
+    conservation: '6 mois'
+  },
+  {
+    id: 30,
+    nom: 'Nettoyant Sols Universel',
+    emoji: '🧹',
+    categorie: 'Sol',
+    badge: 'Multi-surfaces',
+    gradient: 'linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '3 litres', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' },
+      { nom: 'Huiles essentielles (optionnel)', quantite: 'Quelques gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Seau', 'Serpillière ou balai microfibre'],
+    instructions: [
+      'Versez l\'eau chaude dans un seau',
+      'Ajoutez le savon noir et le bicarbonate',
+      'Agitez doucement pour mélanger',
+      'Pulvérisez ou appliquez au sol',
+      'Laissez agir 10 minutes',
+      'Rincez si nécessaire'
+    ],
+    surfaces: ['Carrelage', 'Lino', 'Sols stratifiés'],
+    precautions: ['Pas adapté au bois brut'],
+    astuces: ['Une fois tous les 15 jours, passer le Nettoyeur vapeur Karcher afin de désincruster en profondeur les sols', 'Les huiles essentielles apportent une odeur agréable et un pouvoir désinfectant'],
+    conservation: 'À utiliser immédiatement'
+  },
+  {
+    id: 31,
+    nom: 'Poudre Effervescente WC',
+    emoji: '🚽',
+    categorie: 'Salle de bain',
+    badge: 'Entretien hebdo',
+    gradient: 'linear-gradient(135deg, #34D399 0%, #6EE7B7 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '100g', emoji: '⚪' },
+      { nom: 'Acide citrique', quantite: '280g', emoji: '🍋' },
+      { nom: 'Cristaux de soude', quantite: '100g', emoji: '💎' }
+    ],
+    materiel: ['Bocal en verre hermétique', 'Cuillère à soupe'],
+    instructions: [
+      'Mettre les ingrédients dans un bocal en verre',
+      'Mélanger soigneusement',
+      '2 cuillères à soupe dans les WC toutes les semaines en entretien',
+      'Laisser poser toute une nuit',
+      'Frotter avec la brosse',
+      'Tirer la chasse'
+    ],
+    surfaces: ['Cuvette des toilettes'],
+    precautions: ['Conserver au sec dans un bocal hermétique', 'Ne pas mélanger avec du vinaigre dans un contenant fermé'],
+    astuces: ['Répéter l\'opération si le tartre ne part pas totalement', 'La réaction effervescente décolle le tartre'],
+    conservation: '1 an au sec'
+  },
+  {
+    id: 32,
+    nom: 'Nettoyant WC Spray',
+    emoji: '🚽',
+    categorie: 'Salle de bain',
+    badge: 'Détartrant',
+    gradient: 'linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Acide citrique', quantite: '3 c.à.s', emoji: '🍋' },
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon noir (optionnel)', quantite: '1 c.à.s', emoji: '⚫' }
+    ],
+    materiel: ['Flacon spray', 'Brosse WC'],
+    instructions: [
+      'Ajouter l\'acide citrique dans l\'eau chaude',
+      'Mélanger dans un spray jusqu\'à dissolution',
+      'Frotter les parois avec la brosse',
+      'Tirer la chasse',
+      'Verser le mélange',
+      'Laisser agir 30 minutes',
+      'Frotter avec la brosse et tirer de nouveau la chasse d\'eau'
+    ],
+    surfaces: ['WC', 'Évier', 'Lavabo', 'Baignoire', 'Carrelage'],
+    precautions: ['Bien ventiler la pièce', 'Éviter le contact avec les yeux'],
+    astuces: ['Si la cuvette est trop encrassée, laisser agir le mélange une heure, voire toute la nuit et brosser'],
+    conservation: '3 mois'
+  },
+  {
+    id: 33,
+    nom: 'Déboucheur Canalisations',
+    emoji: '🔧',
+    categorie: 'Entretien',
+    badge: 'Naturel',
+    gradient: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)',
+    temps: '35min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '1/2 tasse', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '1/2 tasse', emoji: '🧴' }
+    ],
+    materiel: ['Rien de spécial'],
+    instructions: [
+      'Versez le bicarbonate de soude dans la canalisation',
+      'Versez ensuite le vinaigre blanc',
+      'Les deux produits créent une réaction chimique et mécanique qui décolle les saletés',
+      'Laisser agir 30 minutes',
+      'Rincer à l\'eau très chaude (⚠️ pas bouillante pour les canalisations en PVC)'
+    ],
+    surfaces: ['Lavabo', 'Douche', 'Évier'],
+    precautions: ['JAMAIS d\'eau bouillante sur des canalisations en PVC - risque de déformation', 'Utiliser uniquement de l\'eau très chaude'],
+    astuces: ['Si les odeurs persistent, mélangez 1/4 tasse de sel fin au bicarbonate avant de l\'ajouter à la canalisation. Le sel agit comme un abrasif doux pour éliminer les dépôts.', 'Cette recette désodorisante est naturelle, efficace, et laisse une agréable sensation de fraîcheur dans vos canalisations !'],
+    conservation: 'À utiliser immédiatement'
+  },
+  {
+    id: 34,
+    nom: 'Détartrant WC Express',
+    emoji: '⚡',
+    categorie: 'Salle de bain',
+    badge: 'Rapide',
+    gradient: 'linear-gradient(135deg, #EC4899 0%, #F472B6 100%)',
+    temps: '2h',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Acide citrique', quantite: '3 c.à.s', emoji: '🍋' },
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' }
+    ],
+    materiel: ['Brosse WC'],
+    instructions: [
+      'Dissoudre l\'acide citrique dans l\'eau chaude',
+      'Verser dans la cuvette des WC',
+      'Laisser agir 2 heures minimum',
+      'Frotter avec la brosse',
+      'Tirer la chasse'
+    ],
+    surfaces: ['WC'],
+    precautions: ['Ne pas mélanger avec de l\'eau de javel', 'Bien aérer la pièce'],
+    astuces: ['Pour un tartre très incrusté, laisser agir toute la nuit', 'L\'acide citrique est un détartrant naturel très efficace'],
+    conservation: 'À utiliser immédiatement'
   }
 ];
 
@@ -841,17 +1013,22 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   5: [2],          // Hotte -> Dégraissant Puissant
   6: [2],          // Plaques -> Dégraissant Puissant
   7: [10],         // Lave-vaisselle -> Poudre Lave-Vaisselle
-  8: [12],         // Frigo -> Nettoyant Inox
-  17: [7, 6],      // WC -> Mousse Active WC, Désinfectant Naturel
-  18: [8],         // Lavabo sdb -> Spray Anti-Calcaire
-  19: [8, 14],     // Douche -> Spray Anti-Calcaire, Anti-Moisissures
-  20: [8],         // Baignoire -> Spray Anti-Calcaire
-  21: [20],        // Carrelage sdb -> Nettoyant Joints
-  22: [3, 8],      // Miroir -> Anti-traces Vitres, Spray Anti-Calcaire
+  8: [12, 32, 33], // Évier -> Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
+  11: [9, 30, 32], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray
+  12: [3, 29],     // Miroirs -> Anti-traces Vitres, Nettoyant Vitres & Miroirs
+  13: [8, 32, 33], // Lavabo sdb -> Spray Anti-Calcaire, Nettoyant WC Spray, Déboucheur Canalisations
+  14: [8, 28, 33], // Parois de douche -> Spray Anti-Calcaire, Spray Parois de Douche, Déboucheur Canalisations
+  17: [7, 6, 31, 32, 34], // WC -> Mousse Active WC, Désinfectant Naturel, Poudre Effervescente WC, Nettoyant WC Spray, Détartrant WC Express
+  18: [8, 20],     // Joints -> Spray Anti-Calcaire, Nettoyant Joints Carrelage
+  19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
+  20: [11],        // Draps -> Lessive Maison
+  21: [4],         // Rideaux -> Détachant Textile
+  22: [3, 8],      // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire
   30: [11],        // Lave-linge -> Lessive Maison
-  58: [3],         // Vitres -> Anti-traces Vitres
-  59: [1],         // Meubles -> Spray Multi-usage
-  60: [3],         // Écrans -> Anti-traces Vitres (dilué)
+  58: [3, 29],     // Vitres -> Anti-traces Vitres, Nettoyant Vitres & Miroirs
+  59: [1],         // Poignées -> Spray Multi-usage
+  60: [3, 23],     // Écrans -> Anti-traces Vitres (dilué), Nettoyant Écrans
+  61: [13, 33],    // Canalisations -> Déboucheur Naturel, Déboucheur Canalisations
   62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
 };
