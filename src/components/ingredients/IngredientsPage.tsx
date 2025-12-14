@@ -1,12 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
-import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredientsComplets';
-import { Search, Sparkles, X } from 'lucide-react';
+import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
+import { Search, X, Heart } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
+
+// 15 fonctions principales uniquement
+const MAIN_FUNCTIONS = [
+  'Détartrant', 'Désinfectant', 'Dégraissant', 'Nettoyant', 'Détachant',
+  'Désodorisant', 'Blanchissant', 'Antibactérien', 'Antifongique', 'Polissant',
+  'Absorbant', 'Insecticide', 'Déboucheur', 'Parfumant', 'Purifiant'
+];
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
@@ -14,283 +21,250 @@ interface IngredientsPageProps {
 
 export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => {
   const { theme, darkMode } = useTheme();
-  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([]);
 
-  // Filtrage des ingrédients
-  const getFilteredIngredients = () => {
-    let ingredients = INGREDIENTS_COMPLETS;
-
-    if (activeCategory === 'essentiel') {
-      ingredients = ingredients.filter(i => i.essentiel);
-    } else if (activeCategory === 'detartrant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('détartrant') || f.toLowerCase().includes('anti-calcaire'))
-      );
-    } else if (activeCategory === 'degraissant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('dégraissant'))
-      );
-    } else if (activeCategory === 'desinfectant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('désinfectant') || f.toLowerCase().includes('antibactérien') || f.toLowerCase().includes('antiseptique'))
-      );
-    } else if (activeCategory === 'abrasif') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('abrasif') || f.toLowerCase().includes('polissant'))
-      );
-    } else if (activeCategory === 'blanchissant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('blanchissant') || f.toLowerCase().includes('détachant'))
-      );
-    } else if (activeCategory === 'parfumant') {
-      ingredients = ingredients.filter(i =>
-        i.fonctions.some(f => f.toLowerCase().includes('parfumant') || f.toLowerCase().includes('assainissant'))
-      );
-    }
-
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      ingredients = ingredients.filter(i =>
-        i.nom.toLowerCase().includes(query) ||
-        i.fonctions.some(f => f.toLowerCase().includes(query)) ||
-        i.surfaces.some(s => s.toLowerCase().includes(query))
-      );
-    }
-
-    return ingredients;
+  // Toggle filter
+  const toggleFilter = (func: string) => {
+    setActiveFilters(prev =>
+      prev.includes(func)
+        ? prev.filter(f => f !== func)
+        : [...prev, func]
+    );
   };
 
-  const filteredIngredients = getFilteredIngredients();
+  // Toggle favoris
+  const toggleFavorite = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFavorites(prev =>
+      prev.includes(id)
+        ? prev.filter(fid => fid !== id)
+        : [...prev, id]
+    );
+  };
 
-  // Séparer les essentiels du reste
-  const essentiels = filteredIngredients.filter(i => i.essentiel);
-  const autres = filteredIngredients.filter(i => !i.essentiel);
+  // Compteur par fonction
+  const getCountForFunction = (func: string) => {
+    return INGREDIENTS_COMPLETS.filter(ing => ing.fonctions.includes(func)).length;
+  };
 
-  // Carte d'ingrédient (compacte, 2 par ligne)
-  const IngredientCard = ({ ingredient }: { ingredient: IngredientComplet }) => (
-    <div
-      onClick={() => onIngredientClick(ingredient)}
-      className="p-3 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-      style={{
-        background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
-        boxShadow: darkMode
-          ? '0 4px 15px rgba(0,0,0,0.2)'
-          : '0 4px 15px rgba(0,0,0,0.05)'
-      }}
-    >
-      {/* Emoji avec gradient */}
-      <div
-        className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-2"
-        style={{ background: ingredient.gradient }}
-      >
-        <span className="text-xl">{ingredient.emoji}</span>
-      </div>
-
-      {/* Nom */}
-      <h3 className="font-bold text-xs leading-tight text-center line-clamp-2 mb-1" style={{ color: theme.textPrimary }}>
-        {ingredient.nom}
-      </h3>
-
-      {/* Tags fonctions */}
-      <div className="flex flex-wrap justify-center gap-1">
-        {ingredient.fonctions.slice(0, 4).map((fonction, index) => (
-          <span
-            key={index}
-            className="text-[8px] px-1.5 py-0.5 rounded-full"
-            style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-              color: theme.textMuted
-            }}
-          >
-            {fonction}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
+  // Filtrage des ingrédients (multi-sélection OR)
+  const filteredIngredients = useMemo(() => {
+    return INGREDIENTS_COMPLETS.filter(ing => {
+      const matchesSearch = ing.nom.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesFilters = activeFilters.length === 0 ||
+        activeFilters.some(f => ing.fonctions.includes(f));
+      return matchesSearch && matchesFilters;
+    });
+  }, [activeFilters, searchQuery]);
 
   return (
-    <div className="pt-2 pb-4">
-      {/* Search Bar */}
-      <div className="mb-4">
-        <div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
-          }}
-        >
-          <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
-          <input
-            type="text"
-            placeholder="Rechercher un ingrédient, fonction..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: theme.textPrimary }}
-          />
-          {searchQuery && (
+    <div className="pb-4">
+      {/* Titre */}
+      <h1
+        className="text-2xl font-bold mb-4"
+        style={{ color: theme.textPrimary }}
+      >
+        Ingrédients
+      </h1>
+
+      {/* Barre de recherche */}
+      <div
+        className="flex items-center gap-3 px-4 py-3 rounded-2xl mb-4"
+        style={{
+          background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+        }}
+      >
+        <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
+        <input
+          type="text"
+          placeholder="Rechercher un ingrédient..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-1 bg-transparent outline-none text-sm"
+          style={{ color: theme.textPrimary }}
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="p-1 rounded-full transition-colors"
+            style={{
+              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+            }}
+          >
+            <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+          </button>
+        )}
+      </div>
+
+      {/* Filtres par fonction */}
+      <div className="py-4 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs uppercase tracking-wider" style={{ color: theme.textMuted }}>
+            Filtrer par fonction
+          </p>
+          {activeFilters.length > 0 && (
             <button
-              onClick={() => setSearchQuery('')}
-              className="p-1 rounded-full transition-colors"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
-              }}
+              onClick={() => setActiveFilters([])}
+              className="text-purple-400 text-xs"
             >
-              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+              ✕ Effacer ({activeFilters.length})
             </button>
           )}
         </div>
-      </div>
-
-      {/* Category Tabs */}
-      <div className="mb-5 overflow-x-auto scrollbar-hide -mx-4 px-4">
-        <div className="flex gap-2">
-          {CATEGORIES_INGREDIENTS.map((cat) => {
-            const isActive = activeCategory === cat.id;
+        <div className="flex flex-wrap gap-2">
+          {MAIN_FUNCTIONS.map(func => {
+            const count = getCountForFunction(func);
+            const isActive = activeFilters.includes(func);
             return (
               <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap transition-all"
+                key={func}
+                onClick={() => toggleFilter(func)}
+                className="px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5"
                 style={{
                   background: isActive
-                    ? darkMode
-                      ? 'linear-gradient(135deg, #22C55E 0%, #10B981 100%)'
-                      : 'linear-gradient(135deg, #34D399 0%, #10B981 100%)'
-                    : darkMode
-                      ? 'rgba(255,255,255,0.05)'
-                      : 'rgba(255,255,255,0.7)',
-                  color: isActive ? 'white' : theme.textSecondary,
-                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
+                    ? '#a855f7'
+                    : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                  color: isActive
+                    ? 'white'
+                    : theme.textSecondary
                 }}
               >
-                <span className="text-sm">{cat.emoji}</span>
-                <span className="text-xs font-medium">{cat.nom}</span>
+                {func}
+                <span
+                  className="text-[10px] px-1.5 py-0.5 rounded-full"
+                  style={{
+                    background: isActive
+                      ? 'rgba(255,255,255,0.2)'
+                      : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                    color: isActive ? 'white' : theme.textMuted
+                  }}
+                >
+                  {count}
+                </span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Résultats */}
+      {/* Compteur de résultats */}
+      <div className="mb-4">
+        <p style={{ color: theme.textMuted }} className="text-sm">
+          {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
+        </p>
+      </div>
+
+      {/* Grille d'ingrédients */}
       {filteredIngredients.length === 0 ? (
         <EmptyState
           title="Aucun ingrédient trouvé"
-          message="Essayez avec d'autres mots-clés ou changez de catégorie"
+          message="Essayez avec d'autres mots-clés ou changez de filtres"
           emoji="🧪"
           searchQuery={searchQuery}
         />
       ) : (
-        <>
-          {/* Mode catégorie spécifique (pas "all" ni "essentiel") - afficher tous les résultats */}
-          {activeCategory !== 'all' && activeCategory !== 'essentiel' ? (
-            <>
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-base">
-                  {CATEGORIES_INGREDIENTS.find(c => c.id === activeCategory)?.emoji || '📋'}
-                </span>
-                <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-                  {CATEGORIES_INGREDIENTS.find(c => c.id === activeCategory)?.nom || 'Résultats'}
-                </h2>
-                <span
-                  className="text-xs px-2 py-0.5 rounded-full"
-                  style={{
-                    background: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)',
-                    color: darkMode ? '#4ADE80' : '#16A34A'
-                  }}
-                >
-                  {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {filteredIngredients.map((ingredient) => (
-                  <IngredientCard key={ingredient.id} ingredient={ingredient} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Section Les Essentiels */}
-              {essentiels.length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-5 h-5 text-yellow-500" />
-                    <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-                      Les Essentiels
-                    </h2>
+        <div className="grid grid-cols-2 gap-4">
+          {filteredIngredients.map(ingredient => (
+            <div
+              key={ingredient.id}
+              onClick={() => onIngredientClick(ingredient)}
+              className="relative rounded-2xl p-4 cursor-pointer transition-all duration-200 active:scale-[0.98]"
+              style={{
+                background: darkMode
+                  ? 'rgba(139, 92, 246, 0.15)'
+                  : 'rgba(255,255,255,0.9)',
+                border: `1px solid ${darkMode ? 'rgba(139, 92, 246, 0.3)' : 'rgba(0,0,0,0.08)'}`,
+                boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)'
+              }}
+            >
+              {/* Ligne du haut : Badges + Favori */}
+              <div className="flex items-start justify-between mb-3">
+                {/* Badges à gauche */}
+                <div className="flex flex-wrap gap-1">
+                  {ingredient.essentiel && (
                     <span
-                      className="text-xs px-2 py-0.5 rounded-full"
+                      className="text-[10px] px-2 py-1 rounded-md flex items-center gap-1 font-medium"
                       style={{
-                        background: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)',
-                        color: darkMode ? '#FCD34D' : '#D97706'
+                        background: darkMode ? 'rgba(251, 191, 36, 0.25)' : 'rgba(251, 191, 36, 0.2)',
+                        color: darkMode ? '#fcd34d' : '#b45309'
                       }}
                     >
-                      Kit de base
+                      <span>⭐</span> Essentiel
                     </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    {essentiels.map((ingredient) => (
-                      <IngredientCard key={ingredient.id} ingredient={ingredient} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Autres ingrédients */}
-              {autres.length > 0 && (
-                <div>
-                  {essentiels.length > 0 && (
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-base">🧪</span>
-                      <h2 className="font-bold" style={{ color: theme.textPrimary }}>
-                        Autres ingrédients
-                      </h2>
-                      <span
-                        className="text-xs px-2 py-0.5 rounded-full"
-                        style={{
-                          background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                          color: darkMode ? '#5EEAD4' : '#14B8A6'
-                        }}
-                      >
-                        {autres.length} ingrédients
-                      </span>
-                    </div>
                   )}
-                  <div className="grid grid-cols-2 gap-3">
-                    {autres.map((ingredient) => (
-                      <IngredientCard key={ingredient.id} ingredient={ingredient} />
-                    ))}
-                  </div>
+                  {ingredient.badge && (
+                    <span
+                      className="text-[10px] px-2 py-1 rounded-md flex items-center gap-1 font-medium"
+                      style={{
+                        background: darkMode ? 'rgba(251, 146, 60, 0.25)' : 'rgba(251, 146, 60, 0.2)',
+                        color: darkMode ? '#fdba74' : '#c2410c'
+                      }}
+                    >
+                      <span>🔥</span> {ingredient.badge}
+                    </span>
+                  )}
                 </div>
-              )}
-            </>
-          )}
-        </>
+
+                {/* Favori à droite - même design que RecipesPage */}
+                <button
+                  onClick={(e) => toggleFavorite(ingredient.id, e)}
+                  className="p-1.5 rounded-full transition-colors"
+                  style={{
+                    background: favorites.includes(ingredient.id)
+                      ? 'rgba(236, 72, 153, 0.15)'
+                      : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+                  }}
+                >
+                  <Heart
+                    className={`w-4 h-4 transition-colors ${favorites.includes(ingredient.id) ? 'text-pink-500 fill-pink-500' : ''}`}
+                    style={{ color: favorites.includes(ingredient.id) ? '#EC4899' : theme.textMuted }}
+                  />
+                </button>
+              </div>
+
+              {/* Emoji à gauche */}
+              <div className="mb-3">
+                <span className="text-4xl">{ingredient.emoji}</span>
+              </div>
+
+              {/* Nom */}
+              <h3
+                className="font-semibold text-sm mb-3"
+                style={{ color: theme.textPrimary }}
+              >
+                {ingredient.nom}
+              </h3>
+
+              {/* Tags (4 max) */}
+              <div className="flex flex-wrap gap-1 mb-3">
+                {ingredient.fonctions.slice(0, 4).map((tag, i) => (
+                  <span
+                    key={i}
+                    className="text-[10px] px-2 py-1 rounded-md"
+                    style={{
+                      background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                      color: theme.textMuted
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Nombre de recettes */}
+              <div className="text-xs" style={{ color: theme.textMuted }}>
+                {ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
-      {/* Footer info */}
-      <div
-        className="mt-8 p-4 rounded-2xl text-center"
-        style={{
-          background: darkMode
-            ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)'
-            : 'linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%)'
-        }}
-      >
-        <span className="text-2xl block mb-2">🌱</span>
-        <p className="text-xs font-medium" style={{ color: theme.textPrimary }}>
-          {INGREDIENTS_COMPLETS.length} ingrédients 100% naturels
-        </p>
-        <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
-          Pour un ménage écologique et économique
-        </p>
-      </div>
-
       {/* Disclaimer */}
-      <div className="mt-4">
+      <div className="mt-6">
         <Disclaimer variant="compact" />
       </div>
     </div>
