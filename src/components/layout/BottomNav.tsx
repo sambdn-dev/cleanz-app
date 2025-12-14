@@ -3,7 +3,7 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Home, Zap, Sparkles, FlaskConical, Heart } from 'lucide-react';
 
-export type NavTab = 'Accueil' | 'Appareils' | 'Recettes' | 'Ingrédients' | 'Favoris';
+export type NavTab = 'Accueil' | 'Appareils' | 'Astuces' | 'Ingrédients' | 'Favoris';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -13,7 +13,7 @@ interface BottomNavProps {
 const navItems: { icon: typeof Home; label: NavTab }[] = [
   { icon: Home, label: 'Accueil' },
   { icon: Zap, label: 'Appareils' },
-  { icon: Sparkles, label: 'Recettes' },
+  { icon: Sparkles, label: 'Astuces' },
   { icon: FlaskConical, label: 'Ingrédients' },
   { icon: Heart, label: 'Favoris' },
 ];

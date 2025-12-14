@@ -67,10 +67,29 @@ const INGREDIENTS_RECOMMANDES: Record<string, { nom: string; emoji: string }[]> 
   ]
 };
 
+// Fonction pour extraire les ingrédients uniques des recettes
+const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string; emoji: string }[] => {
+  const ingredientsMap = new Map<string, string>();
+
+  recettes.forEach(recette => {
+    recette.ingredients.forEach(ing => {
+      if (!ingredientsMap.has(ing.nom) && ing.emoji) {
+        ingredientsMap.set(ing.nom, ing.emoji);
+      }
+    });
+  });
+
+  return Array.from(ingredientsMap.entries()).map(([nom, emoji]) => ({ nom, emoji }));
+};
+
 export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalProps) => {
   const { theme, darkMode } = useTheme();
   const recettes = getRecettesForSurface(surface.id);
-  const ingredients = INGREDIENTS_RECOMMANDES[surface.piece] || INGREDIENTS_RECOMMANDES['Cuisine'];
+
+  // Si des recettes existent, utiliser leurs ingrédients, sinon utiliser les recommandations par défaut
+  const ingredients = recettes.length > 0
+    ? getIngredientsFromRecettes(recettes)
+    : INGREDIENTS_RECOMMANDES[surface.piece] || INGREDIENTS_RECOMMANDES['Cuisine'];
 
   // Rendu des étoiles d'efficacité
   const renderEfficacite = (note: number) => {
@@ -186,9 +205,6 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
                     </span>
                   )}
                 </div>
-                <p className="text-xs line-clamp-2" style={{ color: theme.textMuted }}>
-                  {recette.instructions[0]}
-                </p>
                 <div className="mt-2 flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="text-[10px]" style={{ color: theme.textMuted }}>Efficacité:</span>
