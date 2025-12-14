@@ -11,4 +11,12 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 8, nom: 'Cristaux de soude', emoji: '💎', fonctions: ['Dégraissant puissant', 'Déboucheur'], essentiel: false, prix: '3-5€/kg', description: 'Les cristaux de soude sont le dégraissant ultime.' },
   { id: 9, nom: 'Alcool ménager', emoji: '🔬', fonctions: ['Désinfectant', 'Vitres', 'Anti-traces'], essentiel: true, prix: '3-5€/L', description: "L'alcool ménager désinfecte et s'évapore sans traces." },
   { id: 10, nom: 'Terre de Sommières', emoji: '🟤', fonctions: ['Absorbant', 'Détachant sec'], essentiel: false, prix: '6-10€/kg', description: 'Cette argile naturelle absorbe les taches grasses sans eau.' },
+  { id: 11, nom: 'Marc de café', emoji: '☕', fonctions: ['Désodorisant', 'Abrasif', 'Engrais'], essentiel: false, prix: 'Gratuit', description: 'Récupéré après le café, il désodorise et nettoie naturellement.' },
+  { id: 12, nom: 'Terre de diatomées', emoji: '🪨', fonctions: ['Anti-insectes', 'Absorbant'], essentiel: false, prix: '8-15€/kg', description: 'Poudre de fossiles microscopiques, efficace contre les insectes rampants.' },
+  { id: 13, nom: 'Huile de coco', emoji: '🥥', fonctions: ['Lubrifiant', 'Polissant', 'Nourrissant'], essentiel: false, prix: '10-15€/L', description: "L'huile de coco lubrifie, polit et nourrit le bois." },
+  { id: 14, nom: 'Huile de lin', emoji: '🌾', fonctions: ['Nourrissant', 'Protecteur', 'Anti-rouille'], essentiel: false, prix: '8-12€/L', description: "L'huile de lin nourrit le bois et protège le métal de la rouille." },
+  { id: 15, nom: 'Blanc de Meudon', emoji: '⚪', fonctions: ['Polissant', 'Nettoyant', 'Abrasif doux'], essentiel: false, prix: '5-8€/kg', description: 'Craie naturelle pour polir argenterie et métaux.' },
+  { id: 16, nom: 'Savon au fiel de bœuf', emoji: '🧼', fonctions: ['Détachant', 'Dégraissant'], essentiel: false, prix: '5-8€', description: 'Le spécialiste des taches tenaces sur textiles et cuir.' },
+  { id: 17, nom: 'Sel d\'oseille', emoji: '🧂', fonctions: ['Blanchissant', 'Détachant', 'Raviveur bois'], essentiel: false, prix: '8-12€/kg', description: 'Puissant détachant et raviveur de couleur pour bois.' },
+  { id: 18, nom: 'Cendre de bois', emoji: '🔥', fonctions: ['Nettoyant', 'Engrais', 'Dégivrant'], essentiel: false, prix: 'Gratuit', description: 'Récupérée de la cheminée, elle nettoie les vitres et enrichit le sol.' },
 ];

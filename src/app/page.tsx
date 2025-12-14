@@ -201,7 +201,7 @@ function HomePageContent() {
                 <span className="text-xs px-2 py-0.5 rounded-full" style={{
                   background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(139, 92, 246, 0.15)'
                 }}>
-                  39
+                  81
                 </span>
               </button>
             </div>

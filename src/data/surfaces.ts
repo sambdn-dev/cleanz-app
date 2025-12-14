@@ -80,4 +80,27 @@ export const SURFACES: Surface[] = [
   { id: 66, nom: 'Poêles', emoji: '🍳', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
   { id: 67, nom: 'Casseroles inox', emoji: '🥘', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
   { id: 68, nom: 'Poêles inox', emoji: '🥘', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  // Électroménager supplémentaire
+  { id: 69, nom: 'Bouilloire', emoji: '🫖', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 70, nom: 'Cafetière', emoji: '☕', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 71, nom: 'Hotte', emoji: '🌀', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 72, nom: 'Planches à découper', emoji: '🪵', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  // Meubles et bois
+  { id: 73, nom: 'Meubles en bois', emoji: '🪑', piece: 'Salon', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 74, nom: 'Parquet', emoji: '🟫', piece: 'Salon', categorie: 'Maison', frequence: '1x/semaine' },
+  // Cuir
+  { id: 75, nom: 'Cuir', emoji: '👜', piece: 'Chambre', categorie: 'Maison', frequence: '1x/mois' },
+  // Métaux précieux
+  { id: 76, nom: 'Argenterie', emoji: '🥄', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 77, nom: 'Cuivre & Laiton', emoji: '🔔', piece: 'Salon', categorie: 'Maison', frequence: '1x/mois' },
+  // Jardin & Extérieur
+  { id: 78, nom: 'Mobilier de jardin', emoji: '🪴', piece: 'Extérieur', categorie: 'Jardin', frequence: '1x/saison' },
+  { id: 79, nom: 'Plantes', emoji: '🌱', piece: 'Extérieur', categorie: 'Jardin', frequence: 'Selon besoin' },
+  { id: 80, nom: 'Mauvaises herbes', emoji: '🌿', piece: 'Extérieur', categorie: 'Jardin', frequence: 'Selon besoin' },
+  { id: 81, nom: 'Outils de jardin', emoji: '🧑‍🌾', piece: 'Extérieur', categorie: 'Jardin', frequence: '1x/saison' },
+  // Autres
+  { id: 82, nom: 'Matelas', emoji: '🛏️', piece: 'Chambre', categorie: 'Maison', frequence: '2x/an' },
+  { id: 83, nom: 'Jouets', emoji: '🧸', piece: 'Chambre', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 84, nom: 'Autocollants', emoji: '🏷️', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
+  { id: 85, nom: 'Charnières', emoji: '🚪', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
 ];
