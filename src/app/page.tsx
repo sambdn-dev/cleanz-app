@@ -27,6 +27,7 @@ import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
+import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
@@ -257,6 +258,9 @@ function HomePageContent() {
 
       {/* PWA Install Prompt */}
       <PWAInstallPrompt />
+
+      {/* PWA Update Prompt */}
+      <PWAUpdatePrompt />
 
       {/* Modals */}
       {selectedSpray && (
