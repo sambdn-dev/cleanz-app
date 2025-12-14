@@ -1129,6 +1129,1164 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['JAMAIS d\'éponge abrasive sur le revêtement antiadhésif', 'Ne pas utiliser de sel ou de produit abrasif', 'Ne pas surchauffer la poêle vide'],
     astuces: ['Le bicarbonate décolle les résidus sans rayer', 'Pour entretenir : huiler légèrement après chaque lavage', 'Éviter les ustensiles métalliques pour préserver le revêtement'],
     conservation: 'À préparer à chaque usage'
+  },
+  // === NOUVELLES ASTUCES - BICARBONATE ===
+  {
+    id: 40,
+    nom: 'Désodorisant Frigo',
+    emoji: '🧊',
+    categorie: 'Cuisine',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #B2EBF2 0%, #80DEEA 100%)',
+    temps: '1min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '3 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Petit bol ou boîte ouverte'],
+    instructions: [
+      'Versez le bicarbonate dans un petit bol ou une boîte ouverte',
+      'Placez-le au fond du réfrigérateur',
+      'Remplacez tous les 2-3 mois',
+      'Le bicarbonate usagé peut servir pour le ménage'
+    ],
+    surfaces: ['Réfrigérateur', 'Congélateur'],
+    precautions: ['Ne pas renverser dans les aliments', 'Éloigner des aliments sensibles'],
+    astuces: ['Le bicarbonate absorbe les odeurs et l\'humidité', 'Prolonge la fraîcheur des aliments', 'Fonctionne aussi dans le congélateur'],
+    conservation: 'À renouveler tous les 2-3 mois'
+  },
+  {
+    id: 41,
+    nom: 'Désodorisant Poubelle',
+    emoji: '🗑️',
+    categorie: 'Cuisine',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #81C784 100%)',
+    temps: '1min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Aucun'],
+    instructions: [
+      'Saupoudrez le bicarbonate au fond de la poubelle propre',
+      'Ajoutez le sac poubelle par-dessus',
+      'Renouvelez à chaque changement de sac',
+      'Vous pouvez ajouter quelques gouttes d\'HE menthe'
+    ],
+    surfaces: ['Poubelles'],
+    precautions: ['Nettoyer régulièrement la poubelle elle-même'],
+    astuces: ['Élimine les odeurs à la source', 'Fonctionne aussi pour les poubelles de salle de bain', 'Ajoutez de la menthe poivrée pour un effet répulsif insectes'],
+    conservation: 'À renouveler à chaque vidage'
+  },
+  {
+    id: 42,
+    nom: 'Désodorisant Tapis',
+    emoji: '🧶',
+    categorie: 'Multi-usage',
+    badge: 'Rafraîchissant',
+    gradient: 'linear-gradient(135deg, #CE93D8 0%, #BA68C8 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '200g', emoji: '⚪' },
+      { nom: 'HE lavande (optionnel)', quantite: '10 gouttes', emoji: '💜' }
+    ],
+    materiel: ['Aspirateur'],
+    instructions: [
+      'Mélangez le bicarbonate avec l\'HE si désirée',
+      'Saupoudrez généreusement sur le tapis',
+      'Laissez agir 30 minutes minimum (idéalement 2h)',
+      'Aspirez soigneusement',
+      'Le tapis est désodorisé et rafraîchi'
+    ],
+    surfaces: ['Tapis', 'Moquette', 'Matelas'],
+    precautions: ['Tester sur une zone cachée d\'abord', 'Bien aspirer pour éviter les résidus'],
+    astuces: ['Idéal après une fête ou en présence d\'animaux', 'La lavande repousse les mites', 'Fonctionne aussi sur les canapés en tissu'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === CRISTAUX DE SOUDE ===
+  {
+    id: 43,
+    nom: 'Dégraissant Hotte',
+    emoji: '🌀',
+    categorie: 'Cuisine',
+    badge: 'Ultra-dégraissant',
+    gradient: 'linear-gradient(135deg, #90CAF9 0%, #64B5F6 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Cristaux de soude', quantite: '3 c.à.s', emoji: '💎' },
+      { nom: 'Eau chaude', quantite: '1L', emoji: '💧' }
+    ],
+    materiel: ['Éponge', 'Gants', 'Bassine'],
+    instructions: [
+      'Portez des gants de protection',
+      'Dissolvez les cristaux dans l\'eau chaude',
+      'Démontez les filtres de la hotte si possible',
+      'Faites tremper les filtres dans la solution',
+      'Nettoyez la hotte avec l\'éponge imbibée',
+      'Rincez abondamment et séchez'
+    ],
+    surfaces: ['Hotte', 'Filtres de hotte', 'Grilles BBQ'],
+    precautions: ['Toujours porter des gants', 'Ne pas utiliser sur aluminium', 'Bien rincer'],
+    astuces: ['Les cristaux dissolvent les graisses cuites', 'Idéal pour les filtres très encrassés', 'Fonctionne aussi sur les grilles de barbecue'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 44,
+    nom: 'Nettoyant Jantes Auto',
+    emoji: '⭕',
+    categorie: 'Voiture',
+    badge: 'Brillant',
+    gradient: 'linear-gradient(135deg, #78909C 0%, #546E7A 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Cristaux de soude', quantite: '2 c.à.s', emoji: '💎' },
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon noir', quantite: '1 c.à.s', emoji: '⚫' }
+    ],
+    materiel: ['Brosse', 'Éponge', 'Gants'],
+    instructions: [
+      'Mélangez les cristaux et le savon noir dans l\'eau chaude',
+      'Appliquez sur les jantes avec une brosse',
+      'Frottez pour décoller la poussière de frein',
+      'Rincez abondamment à l\'eau claire',
+      'Séchez avec un chiffon pour éviter les traces'
+    ],
+    surfaces: ['Jantes'],
+    precautions: ['Porter des gants', 'Tester sur une petite zone d\'abord', 'Rincer abondamment'],
+    astuces: ['Élimine la poussière de frein incrustée', 'La pierre blanche peut compléter pour faire briller', 'À faire avant le lavage complet'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === PERCARBONATE ===
+  {
+    id: 45,
+    nom: 'Blanchisseur Linge',
+    emoji: '🧺',
+    categorie: 'Linge',
+    badge: 'Éclat blanc',
+    gradient: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)',
+    temps: '2h trempage',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Percarbonate de soude', quantite: '2 c.à.s', emoji: '✨' },
+      { nom: 'Eau chaude (+40°C)', quantite: '5L', emoji: '💧' }
+    ],
+    materiel: ['Bassine ou évier'],
+    instructions: [
+      'Remplissez une bassine d\'eau chaude (minimum 40°C)',
+      'Dissolvez le percarbonate dans l\'eau',
+      'Plongez le linge blanc ou terne',
+      'Laissez tremper 2 à 4 heures',
+      'Lavez ensuite normalement en machine'
+    ],
+    surfaces: ['Linge blanc', 'Serviettes', 'Draps', 'Chaussettes'],
+    precautions: ['Eau minimum 40°C obligatoire', 'Ne pas utiliser sur soie, laine, tissus colorés', 'Porter des gants si manipulation prolongée'],
+    astuces: ['Ravive les blancs grisaillés', 'Élimine les taches de transpiration jaunes', 'Ajoutez directement dans le tambour pour un boost'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 46,
+    nom: 'Anti-Mousses Terrasse',
+    emoji: '🏠',
+    categorie: 'Entretien',
+    badge: 'Extérieur',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #66BB6A 100%)',
+    temps: '30min + repos',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Percarbonate de soude', quantite: '100g', emoji: '✨' },
+      { nom: 'Eau chaude', quantite: '5L', emoji: '💧' }
+    ],
+    materiel: ['Arrosoir ou pulvérisateur', 'Brosse dure'],
+    instructions: [
+      'Dissolvez le percarbonate dans l\'eau chaude',
+      'Arrosez généreusement la terrasse',
+      'Laissez agir 30 minutes',
+      'Frottez avec une brosse dure',
+      'Rincez au jet d\'eau',
+      'Renouvelez si nécessaire'
+    ],
+    surfaces: ['Terrasse', 'Toiture', 'Mobilier jardin'],
+    precautions: ['Protéger les plantes à proximité', 'Éviter par temps de pluie', 'Porter des gants'],
+    astuces: ['Élimine mousses et lichens naturellement', 'Effet préventif sur plusieurs mois', 'Fonctionne aussi sur les murs extérieurs'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 47,
+    nom: 'Nettoyant Sièges Auto Tissu',
+    emoji: '💺',
+    categorie: 'Voiture',
+    badge: 'Détachant',
+    gradient: 'linear-gradient(135deg, #B0BEC5 0%, #90A4AE 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Percarbonate de soude', quantite: '1 c.à.s', emoji: '✨' },
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon de Marseille', quantite: '1 c.à.c râpé', emoji: '🧼' }
+    ],
+    materiel: ['Brosse douce', 'Chiffon microfibre', 'Pulvérisateur'],
+    instructions: [
+      'Dissolvez le percarbonate et le savon dans l\'eau chaude',
+      'Vaporisez sur les taches ou toute la surface',
+      'Frottez doucement avec la brosse',
+      'Laissez agir 15 minutes',
+      'Essuyez avec un chiffon humide',
+      'Laissez sécher portes ouvertes'
+    ],
+    surfaces: ['Sièges auto tissu', 'Tapis voiture', 'Moquette auto'],
+    precautions: ['Tester sur zone cachée', 'Ne pas détremper', 'Bien faire sécher'],
+    astuces: ['Élimine les taches et les odeurs', 'Le percarbonate désinfecte en profondeur', 'Idéal au changement de saison'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === VINAIGRE BLANC ===
+  {
+    id: 48,
+    nom: 'Détartrant Bouilloire',
+    emoji: '🫖',
+    categorie: 'Cuisine',
+    badge: 'Anti-calcaire',
+    gradient: 'linear-gradient(135deg, #FFCC80 0%, #FFB74D 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '250ml', emoji: '🧴' },
+      { nom: 'Eau', quantite: '250ml', emoji: '💧' }
+    ],
+    materiel: ['Aucun'],
+    instructions: [
+      'Mélangez le vinaigre et l\'eau dans la bouilloire',
+      'Portez à ébullition',
+      'Laissez agir 30 minutes hors tension',
+      'Videz et rincez plusieurs fois',
+      'Faites bouillir une eau claire avant utilisation'
+    ],
+    surfaces: ['Bouilloire', 'Cafetière'],
+    precautions: ['Bien rincer avant réutilisation', 'Aérer pendant l\'opération'],
+    astuces: ['À faire une fois par mois en zone calcaire', 'Le vinaigre dissout le tartre rapidement', 'Fonctionne aussi pour la cafetière'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 49,
+    nom: 'Nettoyant Micro-ondes',
+    emoji: '📺',
+    categorie: 'Cuisine',
+    badge: 'Vapeur magique',
+    gradient: 'linear-gradient(135deg, #FFF59D 0%, #FFF176 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'Eau', quantite: '200ml', emoji: '💧' },
+      { nom: 'Jus de citron (optionnel)', quantite: '1 c.à.s', emoji: '🍋' }
+    ],
+    materiel: ['Bol compatible micro-ondes', 'Éponge'],
+    instructions: [
+      'Versez l\'eau et le vinaigre dans un bol',
+      'Ajoutez le jus de citron si désiré',
+      'Faites chauffer 3-4 minutes puissance max',
+      'Laissez reposer 5 minutes porte fermée',
+      'Essuyez facilement avec une éponge'
+    ],
+    surfaces: ['Micro-ondes'],
+    precautions: ['Attention au bol chaud', 'Ne pas ouvrir tout de suite'],
+    astuces: ['La vapeur ramollit toutes les projections', 'Le citron neutralise les odeurs', 'Méthode sans effort qui fonctionne à tous les coups'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 50,
+    nom: 'Désherbant Naturel',
+    emoji: '🌿',
+    categorie: 'Entretien',
+    badge: 'Écologique',
+    gradient: 'linear-gradient(135deg, #C5E1A5 0%, #AED581 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '1L', emoji: '🧴' },
+      { nom: 'Gros sel', quantite: '100g', emoji: '🧂' }
+    ],
+    materiel: ['Pulvérisateur'],
+    instructions: [
+      'Mélangez le vinaigre et le sel',
+      'Versez dans un pulvérisateur',
+      'Vaporisez directement sur les mauvaises herbes',
+      'Appliquez par temps sec et ensoleillé',
+      'Effet visible en 24-48h'
+    ],
+    surfaces: ['Mauvaises herbes', 'Allées', 'Terrasse'],
+    precautions: ['Ne pas utiliser sur pelouse ou plantes désirées', 'Éviter les jours de pluie', 'Le sel peut stériliser le sol'],
+    astuces: ['Plus efficace par temps chaud', 'Alternative écologique au glyphosate', 'L\'eau bouillante seule fonctionne aussi'],
+    conservation: '1 mois'
+  },
+  // === ACIDE CITRIQUE ===
+  {
+    id: 51,
+    nom: 'Détartrant Cafetière',
+    emoji: '☕',
+    categorie: 'Cuisine',
+    badge: 'Anti-calcaire',
+    gradient: 'linear-gradient(135deg, #BCAAA4 0%, #A1887F 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Acide citrique', quantite: '2 c.à.s', emoji: '🍋' },
+      { nom: 'Eau', quantite: '1L', emoji: '💧' }
+    ],
+    materiel: ['Aucun'],
+    instructions: [
+      'Dissolvez l\'acide citrique dans l\'eau',
+      'Versez dans le réservoir de la cafetière',
+      'Lancez un cycle complet',
+      'Laissez reposer 10 minutes',
+      'Faites 2-3 cycles à l\'eau claire pour rincer'
+    ],
+    surfaces: ['Cafetière', 'Machine à café', 'Bouilloire'],
+    precautions: ['Bien rincer plusieurs fois', 'Ne pas boire l\'eau de rinçage'],
+    astuces: ['Plus efficace que le vinaigre contre le calcaire', 'Sans odeur résiduelle', 'À faire tous les 2 mois'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 52,
+    nom: 'Anti-Rouille Naturel',
+    emoji: '🔧',
+    categorie: 'Entretien',
+    badge: 'Rénovateur',
+    gradient: 'linear-gradient(135deg, #FFAB91 0%, #FF8A65 100%)',
+    temps: '1h trempage',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Acide citrique', quantite: '4 c.à.s', emoji: '🍋' },
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' }
+    ],
+    materiel: ['Récipient', 'Brosse métallique', 'Chiffon'],
+    instructions: [
+      'Dissolvez l\'acide citrique dans l\'eau chaude',
+      'Immergez l\'objet rouillé ou appliquez en pâte',
+      'Laissez agir 1 heure minimum',
+      'Frottez avec une brosse métallique',
+      'Rincez et séchez immédiatement',
+      'Protégez avec de l\'huile pour éviter la réoxydation'
+    ],
+    surfaces: ['Outils de jardin', 'Objets métalliques', 'Robinetterie'],
+    precautions: ['Sécher immédiatement après rinçage', 'Protéger ensuite avec de l\'huile', 'Porter des gants'],
+    astuces: ['L\'acide citrique dissout l\'oxyde de fer', 'Fonctionne sur la rouille légère à moyenne', 'L\'huile de lin protège durablement'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === SAVON NOIR ===
+  {
+    id: 53,
+    nom: 'Insecticide Plantes',
+    emoji: '🌱',
+    categorie: 'Entretien',
+    badge: 'Bio',
+    gradient: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Savon noir', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Eau tiède', quantite: '1L', emoji: '💧' }
+    ],
+    materiel: ['Pulvérisateur'],
+    instructions: [
+      'Diluez le savon noir dans l\'eau tiède',
+      'Versez dans un pulvérisateur',
+      'Vaporisez sur les plantes infestées',
+      'Insistez sous les feuilles',
+      'Renouvelez tous les 3-4 jours si nécessaire'
+    ],
+    surfaces: ['Plantes', 'Rosiers', 'Arbres fruitiers'],
+    precautions: ['Éviter de traiter en plein soleil', 'Ne pas surdoser', 'Rincer les fruits/légumes avant consommation'],
+    astuces: ['Élimine pucerons, cochenilles et acariens', 'Le savon noir bouche les voies respiratoires des insectes', 'Respectueux des abeilles'],
+    conservation: '1 semaine'
+  },
+  {
+    id: 54,
+    nom: 'Nettoyant Carrosserie',
+    emoji: '🚗',
+    categorie: 'Voiture',
+    badge: 'Brillance',
+    gradient: 'linear-gradient(135deg, #90CAF9 0%, #64B5F6 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Savon noir', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Eau tiède', quantite: '5L', emoji: '💧' }
+    ],
+    materiel: ['Seau', 'Éponge douce', 'Chiffon microfibre'],
+    instructions: [
+      'Diluez le savon noir dans l\'eau tiède',
+      'Rincez d\'abord la voiture au jet',
+      'Lavez avec l\'éponge imbibée',
+      'Procédez du haut vers le bas',
+      'Rincez abondamment',
+      'Séchez avec le chiffon microfibre'
+    ],
+    surfaces: ['Carrosserie', 'Jantes', 'Vitres auto'],
+    precautions: ['Éviter le plein soleil', 'Ne pas laisser sécher le produit', 'Bien rincer'],
+    astuces: ['Le savon noir ne raye pas et fait briller', 'Économique et écologique', 'Laisse un film protecteur'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === BLANC DE MEUDON ===
+  {
+    id: 55,
+    nom: 'Polish Argenterie',
+    emoji: '🥄',
+    categorie: 'Multi-usage',
+    badge: 'Éclat',
+    gradient: 'linear-gradient(135deg, #CFD8DC 0%, #B0BEC5 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Blanc de Meudon', quantite: '3 c.à.s', emoji: '⚪' },
+      { nom: 'Eau', quantite: '2 c.à.s', emoji: '💧' }
+    ],
+    materiel: ['Chiffon doux', 'Brosse à dents souple (optionnel)'],
+    instructions: [
+      'Mélangez le blanc de Meudon et l\'eau pour former une pâte',
+      'Appliquez sur l\'argenterie avec un chiffon',
+      'Frottez délicatement en mouvements circulaires',
+      'Utilisez une brosse à dents pour les détails',
+      'Rincez à l\'eau claire',
+      'Lustrez avec un chiffon sec'
+    ],
+    surfaces: ['Argenterie', 'Cuivre', 'Laiton', 'Inox'],
+    precautions: ['Ne pas utiliser sur surfaces peintes ou vernies', 'Rincer soigneusement'],
+    astuces: ['Le blanc de Meudon ne raye pas', 'Redonne l\'éclat d\'origine', 'Fonctionne aussi sur le cuivre et le laiton'],
+    conservation: 'La pâte sèche rapidement, préparer à chaque usage'
+  },
+  {
+    id: 56,
+    nom: 'Polish Meubles Bois',
+    emoji: '🪑',
+    categorie: 'Multi-usage',
+    badge: 'Nourrissant',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Blanc de Meudon', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Huile d\'olive', quantite: '2 c.à.s', emoji: '🫒' }
+    ],
+    materiel: ['Chiffon doux', 'Chiffon de lustrage'],
+    instructions: [
+      'Mélangez le blanc de Meudon et l\'huile d\'olive',
+      'Appliquez une fine couche sur le meuble',
+      'Frottez dans le sens du bois',
+      'Laissez pénétrer 5 minutes',
+      'Lustrez avec un chiffon propre et sec'
+    ],
+    surfaces: ['Meubles en bois', 'Parquet'],
+    precautions: ['Tester sur zone cachée', 'Utiliser avec parcimonie'],
+    astuces: ['L\'huile nourrit le bois', 'Le blanc de Meudon nettoie et fait briller', 'Parfait pour raviver les meubles anciens'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === MARC DE CAFÉ ===
+  {
+    id: 57,
+    nom: 'Désodorisant Placards',
+    emoji: '☕',
+    categorie: 'Multi-usage',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%)',
+    temps: '2min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Marc de café sec', quantite: '3 c.à.s', emoji: '☕' }
+    ],
+    materiel: ['Petit bol ou coupelle', 'Tissu fin (optionnel)'],
+    instructions: [
+      'Laissez sécher le marc de café complètement',
+      'Placez-le dans un petit bol',
+      'Disposez dans le placard, frigo ou congélateur',
+      'Remplacez toutes les 2 semaines'
+    ],
+    surfaces: ['Placards', 'Réfrigérateur', 'Congélateur'],
+    precautions: ['Le marc doit être bien sec pour éviter les moisissures', 'Ne pas mettre en contact avec les aliments'],
+    astuces: ['Le café absorbe les mauvaises odeurs', 'Récupérez le marc de votre cafetière', 'Utilisable aussi contre les odeurs de peinture'],
+    conservation: 'À renouveler toutes les 2 semaines'
+  },
+  {
+    id: 58,
+    nom: 'Récurant Casseroles',
+    emoji: '🍳',
+    categorie: 'Cuisine',
+    badge: 'Abrasif doux',
+    gradient: 'linear-gradient(135deg, #A1887F 0%, #8D6E63 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Marc de café', quantite: '2 c.à.s', emoji: '☕' },
+      { nom: 'Savon noir', quantite: '1 c.à.c', emoji: '⚫' }
+    ],
+    materiel: ['Éponge'],
+    instructions: [
+      'Mélangez le marc de café et le savon noir',
+      'Appliquez sur la casserole encrassée',
+      'Frottez en mouvements circulaires',
+      'Le marc agit comme un abrasif doux',
+      'Rincez abondamment'
+    ],
+    surfaces: ['Casseroles', 'Poêles', 'Évier'],
+    precautions: ['Ne pas utiliser sur surfaces antiadhésives', 'Bien rincer pour éviter les dépôts'],
+    astuces: ['Le marc est légèrement abrasif sans rayer', 'Le savon noir dégraisse', 'Recyclez votre marc du matin !'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === TERRE DE SOMMIÈRES ===
+  {
+    id: 59,
+    nom: 'Détachant Gras Textile',
+    emoji: '👕',
+    categorie: 'Linge',
+    badge: 'Détachant sec',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%)',
+    temps: '4h minimum',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Terre de Sommières', quantite: 'Selon tache', emoji: '🟤' }
+    ],
+    materiel: ['Brosse douce', 'Aspirateur (optionnel)'],
+    instructions: [
+      'Saupoudrez généreusement sur la tache de gras',
+      'Tapotez légèrement pour faire pénétrer',
+      'Laissez agir 4 heures minimum (idéalement une nuit)',
+      'Brossez délicatement pour retirer la poudre',
+      'Aspirez les résidus',
+      'Lavez normalement si nécessaire'
+    ],
+    surfaces: ['Textile', 'Cuir', 'Daim', 'Canapé tissu', 'Tapis'],
+    precautions: ['Ne pas frotter au début', 'Tester sur zone cachée pour les tissus délicats', 'Ne pas mouiller avant traitement'],
+    astuces: ['Absorbe le gras sans eau ni frottement', 'Plus la tache est fraîche, plus c\'est efficace', 'Fonctionne sur huile, beurre, sauce, maquillage'],
+    conservation: 'Produit sec, conservation illimitée'
+  },
+  // === HUILE DE COCO ===
+  {
+    id: 60,
+    nom: 'Lubrifiant Charnières',
+    emoji: '🚪',
+    categorie: 'Entretien',
+    badge: 'Anti-grincement',
+    gradient: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Huile de coco', quantite: '1 c.à.c', emoji: '🥥' }
+    ],
+    materiel: ['Chiffon', 'Coton-tige (optionnel)'],
+    instructions: [
+      'Faites légèrement tiédir l\'huile si elle est solide',
+      'Appliquez une petite quantité sur la charnière',
+      'Utilisez un coton-tige pour les endroits difficiles',
+      'Actionnez la porte plusieurs fois',
+      'Essuyez l\'excédent'
+    ],
+    surfaces: ['Charnières', 'Serrures', 'Tiroirs'],
+    precautions: ['Éviter le surdosage', 'Essuyer l\'excédent pour éviter les taches'],
+    astuces: ['L\'huile de coco ne rancit pas', 'Alternative naturelle au WD-40', 'Fonctionne aussi sur les tiroirs qui coincent'],
+    conservation: '2 ans'
+  },
+  {
+    id: 61,
+    nom: 'Décollant Autocollants',
+    emoji: '🏷️',
+    categorie: 'Multi-usage',
+    badge: 'Décollant',
+    gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Huile de coco', quantite: '1 c.à.s', emoji: '🥥' }
+    ],
+    materiel: ['Chiffon', 'Carte plastique (optionnel)'],
+    instructions: [
+      'Appliquez l\'huile sur l\'autocollant',
+      'Laissez agir 10-15 minutes',
+      'L\'huile pénètre et ramollit la colle',
+      'Décollez délicatement ou grattez avec une carte',
+      'Nettoyez les résidus avec un chiffon',
+      'Lavez la surface si nécessaire'
+    ],
+    surfaces: ['Verre', 'Plastique', 'Métal', 'Bois vernis'],
+    precautions: ['Tester sur bois brut avant', 'Bien nettoyer après pour éviter les traces grasses'],
+    astuces: ['L\'huile dissout la colle naturellement', 'Fonctionne aussi avec l\'huile d\'olive', 'Idéal pour les étiquettes de prix'],
+    conservation: '2 ans'
+  },
+  // === HUILE DE LIN ===
+  {
+    id: 62,
+    nom: 'Soin Meubles Bois',
+    emoji: '🪵',
+    categorie: 'Multi-usage',
+    badge: 'Nourrissant',
+    gradient: 'linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Huile de lin', quantite: '3 c.à.s', emoji: '🌾' },
+      { nom: 'Essence de térébenthine', quantite: '1 c.à.s', emoji: '🧪' }
+    ],
+    materiel: ['Chiffon doux', 'Chiffon de lustrage'],
+    instructions: [
+      'Mélangez l\'huile de lin et l\'essence de térébenthine',
+      'Appliquez en fine couche dans le sens du bois',
+      'Laissez pénétrer 20-30 minutes',
+      'Essuyez l\'excédent',
+      'Lustrez avec un chiffon propre',
+      'Laissez sécher 24h avant utilisation'
+    ],
+    surfaces: ['Meubles en bois', 'Parquet', 'Boiseries', 'Poutres'],
+    precautions: ['Bien aérer pendant l\'application', 'Attention aux chiffons imbibés (risque d\'auto-combustion)', 'Jeter les chiffons dans l\'eau après usage'],
+    astuces: ['Nourrit le bois en profondeur', 'Fait ressortir les veines du bois', 'Protection durable et aspect satiné'],
+    conservation: '1 an'
+  },
+  {
+    id: 63,
+    nom: 'Protection Outils Jardin',
+    emoji: '🧑‍🌾',
+    categorie: 'Entretien',
+    badge: 'Anti-rouille',
+    gradient: 'linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Huile de lin', quantite: '2 c.à.s', emoji: '🌾' }
+    ],
+    materiel: ['Chiffon'],
+    instructions: [
+      'Nettoyez les outils de la terre et des résidus',
+      'Séchez-les complètement',
+      'Appliquez une fine couche d\'huile de lin',
+      'Insistez sur les parties métalliques',
+      'Essuyez l\'excédent',
+      'Laissez sécher avant rangement'
+    ],
+    surfaces: ['Outils de jardin', 'Lames', 'Sécateurs'],
+    precautions: ['Les outils doivent être propres et secs', 'Stocker dans un endroit sec'],
+    astuces: ['Protège de la rouille durablement', 'Nourrit aussi les manches en bois', 'Idéal avant l\'hivernage'],
+    conservation: '1 an'
+  },
+  // === SAVON AU FIEL DE BŒUF ===
+  {
+    id: 64,
+    nom: 'Détachant Cuir',
+    emoji: '👜',
+    categorie: 'Multi-usage',
+    badge: 'Spécial cuir',
+    gradient: 'linear-gradient(135deg, #A1887F 0%, #8D6E63 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Savon au fiel de bœuf', quantite: '1 bloc', emoji: '🧼' },
+      { nom: 'Eau tiède', quantite: 'Un peu', emoji: '💧' }
+    ],
+    materiel: ['Chiffon doux', 'Éponge'],
+    instructions: [
+      'Humidifiez légèrement le savon',
+      'Frottez sur la tache jusqu\'à former une mousse',
+      'Laissez agir 5-10 minutes',
+      'Essuyez avec un chiffon humide',
+      'Séchez avec un chiffon sec',
+      'Nourrissez le cuir après séchage'
+    ],
+    surfaces: ['Cuir', 'Sièges auto cuir', 'Sacs', 'Chaussures cuir'],
+    precautions: ['Tester sur zone cachée', 'Ne pas détremper le cuir', 'Nourrir après le nettoyage'],
+    astuces: ['Le fiel de bœuf dissout les graisses naturellement', 'Efficace sur les taches tenaces', 'Respecte le cuir'],
+    conservation: 'Plusieurs années si gardé au sec'
+  },
+  {
+    id: 65,
+    nom: 'Détachant Sang',
+    emoji: '🩸',
+    categorie: 'Linge',
+    badge: 'SOS taches',
+    gradient: 'linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Savon au fiel de bœuf', quantite: '1 bloc', emoji: '🧼' },
+      { nom: 'Eau FROIDE', quantite: 'Un peu', emoji: '💧' }
+    ],
+    materiel: ['Bassine'],
+    instructions: [
+      'Rincez immédiatement à l\'eau FROIDE',
+      'Ne jamais utiliser d\'eau chaude (fixe la tache)',
+      'Humidifiez le savon et frottez sur la tache',
+      'Laissez agir 15-30 minutes',
+      'Rincez à l\'eau froide',
+      'Lavez normalement en machine'
+    ],
+    surfaces: ['Vêtements', 'Draps', 'Textile'],
+    precautions: ['JAMAIS d\'eau chaude sur le sang', 'Traiter le plus vite possible'],
+    astuces: ['Le fiel de bœuf est le meilleur détachant naturel pour le sang', 'L\'eau oxygénée fonctionne aussi', 'Plus la tache est fraîche, plus c\'est facile'],
+    conservation: 'Plusieurs années'
+  },
+  // === SEL D'OSEILLE ===
+  {
+    id: 66,
+    nom: 'Raviveur Bois',
+    emoji: '🪵',
+    categorie: 'Multi-usage',
+    badge: 'Rénovateur',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
+    temps: '30min',
+    difficulte: 'Moyen',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Sel d\'oseille', quantite: '150g', emoji: '🧂' },
+      { nom: 'Eau chaude', quantite: '1L', emoji: '💧' }
+    ],
+    materiel: ['Pinceau', 'Gants', 'Lunettes de protection'],
+    instructions: [
+      'Portez gants et lunettes de protection',
+      'Dissolvez le sel d\'oseille dans l\'eau chaude',
+      'Appliquez au pinceau sur le bois',
+      'Laissez agir 30 minutes',
+      'Les résultats sont visibles progressivement',
+      'Rincez à l\'eau claire et laissez sécher'
+    ],
+    surfaces: ['Bois', 'Terrasse bois', 'Parquet', 'Meubles bois'],
+    precautions: ['Produit irritant - porter des protections', 'Bien rincer', 'Ne pas inhaler'],
+    astuces: ['Ravive la couleur naturelle du bois grisé', 'Élimine les taches noires', 'Idéal pour les terrasses en bois'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 67,
+    nom: 'Blanchisseur Textiles',
+    emoji: '👔',
+    categorie: 'Linge',
+    badge: 'Blanchisseur',
+    gradient: 'linear-gradient(135deg, #F5F5F5 0%, #EEEEEE 100%)',
+    temps: '1h trempage',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Sel d\'oseille', quantite: '30g', emoji: '🧂' }
+    ],
+    materiel: ['Machine à laver'],
+    instructions: [
+      'Mettez le sel d\'oseille dans le compartiment lessive',
+      'Ou ajoutez-le directement dans le tambour',
+      'Lancez un cycle normal',
+      'Le sel d\'oseille blanchit en douceur'
+    ],
+    surfaces: ['Linge blanc', 'Textiles ternis'],
+    precautions: ['Uniquement pour le blanc', 'Tester sur un vêtement d\'abord'],
+    astuces: ['Redonne de l\'éclat aux blancs jaunis ou gris', 'Alternative au percarbonate', 'Utilisable comme le percarbonate de soude'],
+    conservation: 'À préparer à chaque usage'
+  },
+  // === CENDRE DE BOIS ===
+  {
+    id: 68,
+    nom: 'Nettoyant Vitres Cendre',
+    emoji: '🪟',
+    categorie: 'Multi-usage',
+    badge: 'Ancestral',
+    gradient: 'linear-gradient(135deg, #BDBDBD 0%, #9E9E9E 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Cendre de bois tamisée', quantite: '2 c.à.s', emoji: '🔥' },
+      { nom: 'Eau', quantite: '500ml', emoji: '💧' }
+    ],
+    materiel: ['Chiffon', 'Papier journal'],
+    instructions: [
+      'Tamisez la cendre pour éliminer les gros morceaux',
+      'Humidifiez un chiffon',
+      'Trempez-le dans la cendre fine',
+      'Frottez les vitres en mouvements circulaires',
+      'Essuyez avec un chiffon propre',
+      'Lustrez avec du papier journal'
+    ],
+    surfaces: ['Vitres', 'Miroirs', 'Insert cheminée'],
+    precautions: ['Utiliser uniquement de la cendre de bois non traité', 'Bien tamiser pour éviter les rayures'],
+    astuces: ['Méthode ancestrale très efficace', 'La potasse de la cendre dissout les graisses', 'Parfait pour les vitres d\'insert'],
+    conservation: 'Conserver la cendre au sec'
+  },
+  {
+    id: 69,
+    nom: 'Dégivrant Écologique',
+    emoji: '❄️',
+    categorie: 'Entretien',
+    badge: 'Hiver',
+    gradient: 'linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Cendre de bois', quantite: 'Selon surface', emoji: '🔥' }
+    ],
+    materiel: ['Pelle'],
+    instructions: [
+      'Récupérez la cendre de votre cheminée ou poêle',
+      'Saupoudrez sur les surfaces verglacées',
+      'La cendre offre de l\'adhérence',
+      'Elle aide aussi à faire fondre le verglas'
+    ],
+    surfaces: ['Allées', 'Escaliers', 'Terrasse'],
+    precautions: ['Utiliser de la cendre de bois non traité uniquement', 'Peut salir, prévoir un nettoyage au printemps'],
+    astuces: ['Alternative écologique au sel de déneigement', 'N\'abîme pas les plantes', 'La cendre enrichit ensuite le sol au printemps'],
+    conservation: 'Conserver au sec'
+  },
+  // === TERRE DE DIATOMÉES ===
+  {
+    id: 70,
+    nom: 'Anti-Insectes Naturel',
+    emoji: '🐜',
+    categorie: 'Entretien',
+    badge: 'Anti-nuisibles',
+    gradient: 'linear-gradient(135deg, #EFEBE9 0%, #D7CCC8 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Terre de diatomées', quantite: 'Selon surface', emoji: '🪨' }
+    ],
+    materiel: ['Aucun'],
+    instructions: [
+      'Identifiez les zones de passage des insectes',
+      'Saupoudrez une fine couche de terre de diatomées',
+      'Appliquez le long des plinthes, sous les meubles',
+      'Laissez agir plusieurs jours',
+      'Renouvelez après le ménage'
+    ],
+    surfaces: ['Sols', 'Plinthes', 'Placards'],
+    precautions: ['Ne pas inhaler la poudre', 'Tenir éloigné des animaux et enfants', 'Utiliser la qualité alimentaire'],
+    astuces: ['Efficace contre fourmis, cafards, puces, punaises', 'La poudre déshydrate les insectes', 'Action mécanique, pas d\'accoutumance'],
+    conservation: 'Illimitée au sec'
+  },
+  // === HUILES ESSENTIELLES ===
+  {
+    id: 71,
+    nom: 'Spray Désinfectant Tea Tree',
+    emoji: '🌿',
+    categorie: 'Multi-usage',
+    badge: 'Antibactérien',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #81C784 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau', quantite: '500ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '2 c.à.s', emoji: '🧴' },
+      { nom: 'HE tea tree', quantite: '20 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray'],
+    instructions: [
+      'Versez l\'eau dans le flacon spray',
+      'Ajoutez le vinaigre blanc',
+      'Incorporez l\'huile essentielle de tea tree',
+      'Secouez avant chaque utilisation',
+      'Vaporisez sur les surfaces et essuyez'
+    ],
+    surfaces: ['Plans de travail', 'Poignées', 'Interrupteurs', 'Sanitaires'],
+    precautions: ['Éviter le contact avec les yeux', 'Déconseillé femmes enceintes et enfants -3 ans', 'Ne pas utiliser sur surfaces alimentaires sans rinçage'],
+    astuces: ['Le tea tree est un puissant antibactérien naturel', 'Efficace contre les bactéries et virus', 'Idéal en période de maladie'],
+    conservation: '3 mois'
+  },
+  {
+    id: 72,
+    nom: 'Anti-Moisissures Tea Tree',
+    emoji: '🧫',
+    categorie: 'Salle de bain',
+    badge: 'Antifongique',
+    gradient: 'linear-gradient(135deg, #80CBC4 0%, #4DB6AC 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau', quantite: '200ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'HE tea tree', quantite: '30 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray', 'Brosse'],
+    instructions: [
+      'Mélangez tous les ingrédients dans un flacon spray',
+      'Vaporisez généreusement sur les zones moisies',
+      'Laissez agir 30 minutes',
+      'Frottez avec une brosse',
+      'Rincez à l\'eau claire'
+    ],
+    surfaces: ['Joints carrelage', 'Parois de douche', 'Rideaux de douche', 'Murs humides'],
+    precautions: ['Bien aérer', 'Porter un masque pour les grandes surfaces', 'Renouveler régulièrement en prévention'],
+    astuces: ['Le tea tree est antifongique puissant', 'Élimine les moisissures en profondeur', 'Traiter la cause de l\'humidité pour éviter le retour'],
+    conservation: '3 mois'
+  },
+  {
+    id: 73,
+    nom: 'Spray Textile Lavande',
+    emoji: '💜',
+    categorie: 'Multi-usage',
+    badge: 'Désodorisant',
+    gradient: 'linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau distillée', quantite: '100ml', emoji: '💧' },
+      { nom: 'Alcool ménager', quantite: '50ml', emoji: '🔬' },
+      { nom: 'HE lavande', quantite: '25 gouttes', emoji: '💜' }
+    ],
+    materiel: ['Flacon spray'],
+    instructions: [
+      'Versez l\'eau et l\'alcool dans le flacon',
+      'Ajoutez l\'huile essentielle de lavande',
+      'Secouez bien',
+      'Vaporisez sur les canapés, rideaux, tapis',
+      'Laissez sécher naturellement'
+    ],
+    surfaces: ['Canapé', 'Rideaux', 'Tapis', 'Matelas'],
+    precautions: ['Tester sur zone cachée', 'Éviter les tissus délicats', 'Déconseillé aux personnes asthmatiques'],
+    astuces: ['La lavande est antibactérienne et apaisante', 'Repousse les mites naturellement', 'Idéal pour rafraîchir la literie'],
+    conservation: '6 mois'
+  },
+  {
+    id: 74,
+    nom: 'Répulsif Souris Menthe',
+    emoji: '🐭',
+    categorie: 'Entretien',
+    badge: 'Répulsif',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #81C784 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'HE menthe poivrée', quantite: '10 gouttes', emoji: '🌿' },
+      { nom: 'Cotons', quantite: 'Plusieurs', emoji: '⚪' }
+    ],
+    materiel: ['Aucun'],
+    instructions: [
+      'Imbibez les cotons de 5-10 gouttes de menthe poivrée',
+      'Placez-les aux endroits stratégiques',
+      'Entrées, placards, sous l\'évier, garage',
+      'Renouvelez toutes les 2 semaines'
+    ],
+    surfaces: ['Placards', 'Entrées', 'Garage'],
+    precautions: ['Tenir éloigné des animaux (toxique pour les chats)', 'Ne pas mettre en contact avec la nourriture'],
+    astuces: ['L\'odeur puissante repousse souris et araignées', 'Fonctionne aussi contre les fourmis', 'Renouvelez régulièrement pour maintenir l\'efficacité'],
+    conservation: 'Renouveler toutes les 2 semaines'
+  },
+  {
+    id: 75,
+    nom: 'Nettoyant Sol Pin',
+    emoji: '🌲',
+    categorie: 'Sol',
+    badge: 'Forêt',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #66BB6A 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '5L', emoji: '💧' },
+      { nom: 'Savon noir', quantite: '3 c.à.s', emoji: '⚫' },
+      { nom: 'HE pin sylvestre', quantite: '15 gouttes', emoji: '🌲' }
+    ],
+    materiel: ['Seau', 'Serpillière'],
+    instructions: [
+      'Remplissez le seau d\'eau chaude',
+      'Ajoutez le savon noir et mélangez',
+      'Incorporez l\'huile essentielle de pin',
+      'Lavez les sols comme d\'habitude',
+      'Pas besoin de rincer'
+    ],
+    surfaces: ['Carrelage', 'Lino', 'Sols durs'],
+    precautions: ['Ne pas utiliser sur parquet ciré', 'Éviter le surdosage d\'HE'],
+    astuces: ['Le pin sylvestre assainit et parfume', 'Propriétés antiseptiques reconnues', 'Laisse une odeur de forêt fraîche'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 76,
+    nom: 'Spray Purifiant Hiver',
+    emoji: '🌡️',
+    categorie: 'Multi-usage',
+    badge: 'Antiviral',
+    gradient: 'linear-gradient(135deg, #B2DFDB 0%, #80CBC4 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau', quantite: '200ml', emoji: '💧' },
+      { nom: 'Alcool ménager', quantite: '50ml', emoji: '🔬' },
+      { nom: 'HE ravintsara', quantite: '25 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray'],
+    instructions: [
+      'Mélangez l\'eau et l\'alcool dans le flacon',
+      'Ajoutez l\'huile essentielle de ravintsara',
+      'Secouez bien avant usage',
+      'Vaporisez dans les pièces de vie',
+      'Idéal quand quelqu\'un est malade'
+    ],
+    surfaces: ['Air ambiant', 'Chambres', 'Salon'],
+    precautions: ['Éviter chez les femmes enceintes et enfants -3 ans', 'Ne pas vaporiser sur les personnes'],
+    astuces: ['Le ravintsara est l\'HE antivirale par excellence', 'Booste l\'immunité', 'Idéal en période de grippe ou rhume'],
+    conservation: '6 mois'
+  },
+  {
+    id: 77,
+    nom: 'Anti-Moustiques Citronnelle',
+    emoji: '🦟',
+    categorie: 'Entretien',
+    badge: 'Répulsif',
+    gradient: 'linear-gradient(135deg, #FFF59D 0%, #FFF176 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau', quantite: '100ml', emoji: '💧' },
+      { nom: 'Alcool ménager', quantite: '50ml', emoji: '🔬' },
+      { nom: 'HE citronnelle', quantite: '40 gouttes', emoji: '🍋' }
+    ],
+    materiel: ['Flacon spray'],
+    instructions: [
+      'Mélangez tous les ingrédients',
+      'Versez dans un flacon spray',
+      'Vaporisez autour des fenêtres et portes',
+      'Appliquez sur les rideaux',
+      'Renouvelez régulièrement'
+    ],
+    surfaces: ['Fenêtres', 'Rideaux', 'Terrasse'],
+    precautions: ['Ne pas appliquer pur sur la peau', 'Éviter les yeux', 'Renouveler après la pluie en extérieur'],
+    astuces: ['La citronnelle repousse les moustiques naturellement', 'Fonctionne aussi en diffusion', 'Combinez avec la lavande pour plus d\'efficacité'],
+    conservation: '3 mois'
+  },
+  // === NETTOYEUR VAPEUR ===
+  {
+    id: 78,
+    nom: 'Nettoyage Matelas Vapeur',
+    emoji: '🛏️',
+    categorie: 'Multi-usage',
+    badge: 'Anti-acariens',
+    gradient: 'linear-gradient(135deg, #B3E5FC 0%, #81D4FA 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur'],
+    instructions: [
+      'Aspirez le matelas au préalable',
+      'Passez le nettoyeur vapeur lentement sur toute la surface',
+      'Insistez sur les zones tachées',
+      'La vapeur (+60°C) tue les acariens',
+      'Laissez bien sécher avant de refaire le lit',
+      'Idéalement, laissez les fenêtres ouvertes'
+    ],
+    surfaces: ['Matelas', 'Oreillers', 'Canapé'],
+    precautions: ['Laisser sécher complètement', 'Ne pas utiliser sur matelas à mémoire de forme sensibles'],
+    astuces: ['Élimine 99% des acariens', 'Idéal pour les allergiques', 'À faire 2 fois par an minimum'],
+    conservation: 'Méthode sans produit'
+  },
+  {
+    id: 79,
+    nom: 'Défroissage Vapeur',
+    emoji: '👔',
+    categorie: 'Linge',
+    badge: 'Sans fer',
+    gradient: 'linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau (pour le nettoyeur)', quantite: 'Selon appareil', emoji: '💧' }
+    ],
+    materiel: ['Nettoyeur vapeur avec buse adaptée'],
+    instructions: [
+      'Suspendez le vêtement ou le rideau',
+      'Passez la vapeur à quelques centimètres du tissu',
+      'Procédez de haut en bas',
+      'La vapeur détend les fibres et élimine les plis',
+      'Plus doux qu\'un fer à repasser'
+    ],
+    surfaces: ['Vêtements', 'Rideaux', 'Nappes'],
+    precautions: ['Tester sur zone cachée pour tissus délicats', 'Attention aux brûlures'],
+    astuces: ['Idéal pour les tissus délicats', 'Pas besoin de table à repasser', 'Rafraîchit et désodorise en même temps'],
+    conservation: 'Méthode sans produit'
+  },
+  // === EAU BOUILLANTE ===
+  {
+    id: 80,
+    nom: 'Désherbage Eau Bouillante',
+    emoji: '🌿',
+    categorie: 'Entretien',
+    badge: 'Écologique',
+    gradient: 'linear-gradient(135deg, #FFCC80 0%, #FFB74D 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau bouillante', quantite: 'Selon surface', emoji: '💧' }
+    ],
+    materiel: ['Bouilloire ou casserole'],
+    instructions: [
+      'Faites bouillir de l\'eau',
+      'Versez directement sur les mauvaises herbes',
+      'Ciblez la base de la plante',
+      'L\'eau bouillante détruit les cellules',
+      'Effet visible en quelques heures'
+    ],
+    surfaces: ['Mauvaises herbes', 'Allées', 'Joints de terrasse'],
+    precautions: ['Attention aux projections', 'Éviter les plantes désirées à proximité', 'Ne pas utiliser sur pelouse'],
+    astuces: ['Méthode 100% naturelle et gratuite', 'Très efficace sur jeunes pousses', 'L\'eau de cuisson des pâtes est parfaite'],
+    conservation: 'À utiliser immédiatement'
+  },
+  // === EAU OXYGÉNÉE ===
+  {
+    id: 81,
+    nom: 'Détachant Sang Textile',
+    emoji: '🩸',
+    categorie: 'Linge',
+    badge: 'SOS taches',
+    gradient: 'linear-gradient(135deg, #F8BBD9 0%, #F48FB1 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau oxygénée 10 vol', quantite: 'Selon tache', emoji: '💧' }
+    ],
+    materiel: ['Chiffon propre'],
+    instructions: [
+      'Rincez d\'abord à l\'eau FROIDE',
+      'Versez l\'eau oxygénée sur la tache',
+      'Laissez agir et mousser (c\'est normal)',
+      'Tamponnez avec un chiffon propre',
+      'Rincez à l\'eau froide',
+      'Lavez normalement en machine'
+    ],
+    surfaces: ['Vêtements blancs', 'Draps', 'Textile clair'],
+    precautions: ['Uniquement sur textiles blancs ou très clairs', 'Tester sur zone cachée', 'JAMAIS d\'eau chaude sur le sang'],
+    astuces: ['L\'eau oxygénée décompose l\'hémoglobine', 'Très efficace sur taches fraîches', 'Alternative : savon au fiel de bœuf'],
+    conservation: '6 mois après ouverture'
   }
 ];
 
@@ -1148,32 +2306,40 @@ export const CATEGORIES_RECETTES = [
 // Mapping des recettes par surface pour le modal surface
 export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   1: [2, 15],      // Four -> Dégraissant Puissant, Pâte Nettoyante Four
-  2: [9],          // Carrelage cuisine -> Nettoyant Sol Carrelage
-  3: [1],          // Plan de travail -> Spray Multi-usage
-  4: [8],          // Robinetterie -> Spray Anti-Calcaire
-  5: [2],          // Hotte -> Dégraissant Puissant
-  6: [2],          // Plaques -> Dégraissant Puissant
-  7: [36, 39],     // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée
+  2: [9],          // Lave-vaisselle -> Nettoyant Sol Carrelage
+  3: [1, 40, 57, 71], // Réfrigérateur -> Spray Multi-usage, Désodorisant Frigo, Désodorisant Placards, Spray Désinfectant Tea Tree
+  4: [49],         // Micro-ondes -> Nettoyant Micro-ondes
+  5: [2],          // Friteuse -> Dégraissant Puissant
+  6: [2],          // Airfryer -> Dégraissant Puissant
+  7: [36, 39, 58], // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
   8: [35, 12, 32, 33], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
-  11: [9, 30, 32], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray
-  12: [35, 3, 29], // Miroirs -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs
+  9: [41],         // Poubelles -> Désodorisant Poubelle
+  11: [9, 30, 32, 75], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray, Nettoyant Sol Pin
+  12: [35, 3, 29, 68], // Miroirs -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs, Nettoyant Vitres Cendre
   13: [8, 32, 33], // Lavabo sdb -> Spray Anti-Calcaire, Nettoyant WC Spray, Déboucheur Canalisations
-  14: [35, 8, 28, 33], // Parois de douche -> Spray Alcool Ménager, Spray Anti-Calcaire, Spray Parois de Douche, Déboucheur Canalisations
+  14: [35, 8, 28, 33, 72], // Parois de douche -> + Anti-Moisissures Tea Tree
   16: [35, 8],     // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire
   17: [35, 7, 6, 31, 32, 34], // WC -> Spray Alcool Ménager, Mousse Active WC, Désinfectant Naturel, Poudre Effervescente WC, Nettoyant WC Spray, Détartrant WC Express
-  18: [8, 20],     // Joints -> Spray Anti-Calcaire, Nettoyant Joints Carrelage
+  18: [8, 20, 72], // Joints -> Spray Anti-Calcaire, Nettoyant Joints Carrelage, Anti-Moisissures Tea Tree
   19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
-  20: [11],        // Draps -> Lessive Maison
-  21: [4],         // Rideaux -> Détachant Textile
+  20: [11, 45, 65, 81], // Draps -> Lessive Maison, Blanchisseur Linge, Détachant Sang, Détachant Sang Textile
+  21: [4, 73, 79], // Rideaux -> Détachant Textile, Spray Textile Lavande, Défroissage Vapeur
   22: [3, 8],      // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire
-  28: [35, 6],     // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel
+  25: [42, 59, 73], // Tapis -> Désodorisant Tapis, Détachant Gras Textile, Spray Textile Lavande
+  26: [42, 59],    // Moquette -> Désodorisant Tapis, Détachant Gras Textile
+  27: [59, 73, 78], // Canapé -> Détachant Gras Textile, Spray Textile Lavande, Nettoyage Matelas Vapeur
+  28: [35, 6, 71], // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel, Spray Désinfectant Tea Tree
   30: [11],        // Lave-linge -> Lessive Maison
-  32: [35, 11],    // Linge -> Spray Alcool Ménager (odeurs), Lessive Maison
+  32: [35, 11, 45, 59, 65, 67, 79, 81], // Linge -> + Blanchisseur, Détachant Gras, Détachant Sang, Blanchisseur Textiles, Défroissage, Détachant Sang Textile
   33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
   34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
+  38: [54],        // Carrosserie -> Nettoyant Carrosserie
+  39: [44],        // Jantes -> Nettoyant Jantes Auto
+  42: [47, 64],    // Sièges auto -> Nettoyant Sièges Auto Tissu, Détachant Cuir (cuir)
   43: [35],        // Plastiques voiture -> Spray Alcool Ménager
-  58: [35, 3, 29], // Vitres -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs
-  59: [35, 1],     // Poignées -> Spray Alcool Ménager, Spray Multi-usage
+  48: [46, 66, 69], // Terrasse -> Anti-Mousses Terrasse, Raviveur Bois, Dégivrant Écologique
+  58: [35, 3, 29, 68], // Vitres -> + Nettoyant Vitres Cendre
+  59: [35, 1, 71], // Poignées -> + Spray Désinfectant Tea Tree
   60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
   61: [13, 33],    // Canalisations -> Déboucheur Naturel, Déboucheur Canalisations
   62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
@@ -1184,6 +2350,29 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   65: [36, 37],    // Vaisselle -> Pierre Blanche, Vaisselle Impeccable
   // Casseroles & Poêles
   66: [36, 39],    // Poêles -> Pierre Blanche, Poêle Antiadhésive Récupérée
-  67: [36, 38],    // Casseroles inox -> Pierre Blanche, Casseroles Inox Brillantes
+  67: [36, 38, 58], // Casseroles inox -> Pierre Blanche, Casseroles Inox Brillantes, Récurant Casseroles
   68: [36, 38],    // Poêles inox -> Pierre Blanche, Casseroles Inox Brillantes
+  // Électroménager supplémentaire
+  69: [48],        // Bouilloire -> Détartrant Bouilloire
+  70: [51],        // Cafetière -> Détartrant Cafetière
+  71: [2, 43],     // Hotte -> Dégraissant Puissant, Dégraissant Hotte
+  72: [37],        // Planches à découper -> Vaisselle Impeccable
+  // Meubles et bois
+  73: [56, 62, 66], // Meubles en bois -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
+  74: [56, 62, 66], // Parquet -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
+  // Cuir
+  75: [59, 64],    // Cuir -> Détachant Gras Textile, Détachant Cuir
+  // Métaux précieux
+  76: [55],        // Argenterie -> Polish Argenterie
+  77: [55],        // Cuivre & Laiton -> Polish Argenterie
+  // Jardin & Extérieur
+  78: [],          // Mobilier de jardin -> (général)
+  79: [53],        // Plantes -> Insecticide Plantes
+  80: [50, 80],    // Mauvaises herbes -> Désherbant Naturel, Désherbage Eau Bouillante
+  81: [52, 63],    // Outils de jardin -> Anti-Rouille Naturel, Protection Outils Jardin
+  // Autres
+  82: [73, 78],    // Matelas -> Spray Textile Lavande, Nettoyage Matelas Vapeur
+  83: [],          // Jouets -> (général)
+  84: [61],        // Autocollants -> Décollant Autocollants
+  85: [60],        // Charnières -> Lubrifiant Charnières
 };
