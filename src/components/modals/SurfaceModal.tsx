@@ -152,7 +152,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
       {recettes.length > 0 ? (
         <div className="mb-5">
           <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <span className="text-base">🧪</span> Recettes maison
+            <span className="text-base">🧪</span> Astuces maison
           </h3>
           <div className="space-y-3">
             {recettes.map((recette) => (
@@ -223,7 +223,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
       ) : (
         <div className="mb-5">
           <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <span className="text-base">🧪</span> Recettes maison
+            <span className="text-base">🧪</span> Astuces maison
           </h3>
           <div
             className="p-4 rounded-2xl text-center"
@@ -236,10 +236,10 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
           >
             <span className="text-3xl mb-2 block">🌱</span>
             <p className="text-sm font-medium mb-1" style={{ color: theme.textPrimary }}>
-              Recettes en préparation
+              Astuces en préparation
             </p>
             <p className="text-xs" style={{ color: theme.textMuted }}>
-              L'équipe Cleanz ajoute de nouvelles recettes naturelles régulièrement. De nouvelles recettes pour cette surface arrivent très bientôt !
+              L'équipe Cleanz ajoute de nouvelles astuces naturelles régulièrement. De nouvelles astuces pour cette surface arrivent très bientôt !
             </p>
           </div>
         </div>
