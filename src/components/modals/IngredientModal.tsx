@@ -4,6 +4,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Ingredient } from '@/types';
 import { Leaf, Euro, Sparkles } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface IngredientModalProps {
   ingredient: Ingredient;
@@ -74,21 +75,36 @@ export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) =
 
   const headerGradient = gradients[ingredient.id] || gradients[1];
 
+  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
+  const useDarkHeaderText = shouldUseDarkText(headerGradient);
+
   return (
     <Modal
       isOpen={true}
       onClose={onClose}
       headerGradient={headerGradient}
+      useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <>
           {ingredient.essentiel && (
-            <span className="inline-block text-xs bg-white/30 text-white px-3 py-1 rounded-full font-semibold mb-3">
+            <span
+              className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
+              style={{
+                background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)',
+                color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+              }}
+            >
               Essentiel
             </span>
           )}
           <div className="flex items-center gap-4">
             <span className="text-5xl">{ingredient.emoji}</span>
-            <h2 className="text-2xl font-bold text-white">{ingredient.nom}</h2>
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
+            >
+              {ingredient.nom}
+            </h2>
           </div>
         </>
       }

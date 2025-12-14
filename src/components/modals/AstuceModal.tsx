@@ -6,6 +6,7 @@ import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsConte
 import { Astuce } from '@/types';
 import { Clock, Star, Lightbulb, Heart, Share2, MessageCircle, CheckCircle2, Beaker } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface AstuceModalProps {
   astuce: Astuce;
@@ -14,6 +15,9 @@ interface AstuceModalProps {
 
 export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
   const { theme, darkMode } = useTheme();
+
+  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
+  const useDarkHeaderText = shouldUseDarkText(astuce.gradient);
   const { isFavorite, toggleFavorite, getRating, setRating } = useRecipeInteractionsContext();
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [comment, setComment] = useState('');
@@ -68,12 +72,24 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
       isOpen={true}
       onClose={onClose}
       headerGradient={astuce.gradient}
+      useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <div className="flex items-center gap-4">
           <span className="text-5xl">{astuce.emoji}</span>
           <div className="flex-1">
-            <h2 className="text-xl font-bold text-white leading-tight">{astuce.titre}</h2>
-            <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-white/20 text-white">
+            <h2
+              className="text-xl font-bold leading-tight"
+              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
+            >
+              {astuce.titre}
+            </h2>
+            <span
+              className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full"
+              style={{
+                background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+                color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+              }}
+            >
               {astuce.surface}
             </span>
           </div>

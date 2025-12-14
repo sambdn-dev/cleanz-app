@@ -7,33 +7,12 @@ import { RecetteComplete } from '@/types';
 import { Clock, ChefHat, Star, AlertTriangle, Lightbulb, Archive, CheckCircle2, Beaker, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface RecipeModalProps {
   recipe: RecetteComplete;
   onClose: () => void;
 }
-
-// Fonction pour déterminer si une couleur hex est claire
-const isLightColor = (hex: string): boolean => {
-  // Retirer le # si présent
-  const color = hex.replace('#', '');
-  const r = parseInt(color.substr(0, 2), 16);
-  const g = parseInt(color.substr(2, 2), 16);
-  const b = parseInt(color.substr(4, 2), 16);
-  // Formule de luminance relative
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.7; // Seuil pour considérer la couleur comme claire
-};
-
-// Fonction pour extraire les couleurs d'un gradient et déterminer si le texte doit être sombre
-const shouldUseDarkText = (gradient: string): boolean => {
-  // Extraire les couleurs hex du gradient
-  const hexColors = gradient.match(/#[A-Fa-f0-9]{6}/g);
-  if (!hexColors || hexColors.length === 0) return false;
-
-  // Vérifier si toutes les couleurs sont claires
-  return hexColors.every(color => isLightColor(color));
-};
 
 export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const { theme, darkMode } = useTheme();
