@@ -98,12 +98,9 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         </button>
 
         <div className="flex items-start gap-3">
-          {/* Emoji avec gradient */}
-          <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: recipe.gradient }}
-          >
-            <span className="text-2xl">{recipe.emoji}</span>
+          {/* Emoji sans fond */}
+          <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+            <span className="text-4xl">{recipe.emoji}</span>
           </div>
 
           {/* Contenu */}

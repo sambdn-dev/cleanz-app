@@ -255,9 +255,8 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
               </div>
 
               {/* Nombre de recettes */}
-              <div className="flex items-center gap-1.5 text-xs" style={{ color: theme.textMuted }}>
-                <span>📖</span>
-                <span>{ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}</span>
+              <div className="text-xs" style={{ color: theme.textMuted }}>
+                {ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}
               </div>
             </div>
           ))}
