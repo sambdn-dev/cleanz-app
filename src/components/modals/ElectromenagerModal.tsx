@@ -242,12 +242,12 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
             }}
           >
             <div className="flex items-start gap-3">
-              <PiggyBank className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+              <PiggyBank className="w-5 h-5 text-emerald-500 flex-shrink-0" />
               <div>
                 <span className="text-xs font-bold block mb-1" style={{ color: theme.textPrimary }}>
                   💰 Économies possibles
                 </span>
-                <span className="text-sm" style={{ color: theme.textSecondary }}>
+                <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
                   {appliance.entretien.economies}
                 </span>
               </div>
@@ -263,13 +263,13 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
               {appliance.entretien.alertes.map((alerte, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-2 p-3 rounded-xl"
+                  className="flex items-baseline gap-2 p-3 rounded-xl"
                   style={{
                     background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.08)'
                   }}
                 >
-                  <span className="text-amber-500 text-sm mt-0.5">⚠️</span>
-                  <span className="text-xs" style={{ color: theme.textSecondary }}>{alerte}</span>
+                  <span className="text-amber-500 text-sm leading-none">•</span>
+                  <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{alerte}</span>
                 </div>
               ))}
             </div>
