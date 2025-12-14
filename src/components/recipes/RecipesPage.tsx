@@ -5,7 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
-import { Clock, Star, Search, ChevronRight, Sparkles, Heart } from 'lucide-react';
+import { Clock, Star, Search, ChevronRight, Sparkles, Heart, X } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -188,6 +188,17 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
             className="flex-1 bg-transparent outline-none text-sm"
             style={{ color: theme.textPrimary }}
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="p-1 rounded-full transition-colors"
+              style={{
+                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+              }}
+            >
+              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+            </button>
+          )}
         </div>
       </div>
 

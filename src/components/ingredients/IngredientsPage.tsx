@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredientsComplets';
-import { Search, Sparkles } from 'lucide-react';
-import { PinkStuffSection } from './PinkStuffSection';
+import { Search, Sparkles, X } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -132,6 +131,17 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
             className="flex-1 bg-transparent outline-none text-sm"
             style={{ color: theme.textPrimary }}
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="p-1 rounded-full transition-colors"
+              style={{
+                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+              }}
+            >
+              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -227,11 +237,6 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                     ))}
                   </div>
                 </div>
-              )}
-
-              {/* Section Partenaire Pink Stuff */}
-              {activeCategory === 'all' && !searchQuery && (
-                <PinkStuffSection />
               )}
 
               {/* Autres ingrédients */}
