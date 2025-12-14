@@ -1039,27 +1039,27 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   5: [2],          // Hotte -> Dégraissant Puissant
   6: [2],          // Plaques -> Dégraissant Puissant
   7: [10],         // Lave-vaisselle -> Poudre Lave-Vaisselle
-  8: [12, 32, 33, 35], // Évier -> Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations, Spray Alcool Ménager
+  8: [35, 12, 32, 33], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
   11: [9, 30, 32], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray
-  12: [3, 29, 35], // Miroirs -> Anti-traces Vitres, Nettoyant Vitres & Miroirs, Spray Alcool Ménager
+  12: [35, 3, 29], // Miroirs -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs
   13: [8, 32, 33], // Lavabo sdb -> Spray Anti-Calcaire, Nettoyant WC Spray, Déboucheur Canalisations
-  14: [8, 28, 33, 35], // Parois de douche -> Spray Anti-Calcaire, Spray Parois de Douche, Déboucheur Canalisations, Spray Alcool Ménager
-  16: [8, 35],     // Robinetterie sdb -> Spray Anti-Calcaire, Spray Alcool Ménager
-  17: [7, 6, 31, 32, 34, 35], // WC -> Mousse Active WC, Désinfectant Naturel, Poudre Effervescente WC, Nettoyant WC Spray, Détartrant WC Express, Spray Alcool Ménager
+  14: [35, 8, 28, 33], // Parois de douche -> Spray Alcool Ménager, Spray Anti-Calcaire, Spray Parois de Douche, Déboucheur Canalisations
+  16: [35, 8],     // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire
+  17: [35, 7, 6, 31, 32, 34], // WC -> Spray Alcool Ménager, Mousse Active WC, Désinfectant Naturel, Poudre Effervescente WC, Nettoyant WC Spray, Détartrant WC Express
   18: [8, 20],     // Joints -> Spray Anti-Calcaire, Nettoyant Joints Carrelage
   19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
   20: [11],        // Draps -> Lessive Maison
   21: [4],         // Rideaux -> Détachant Textile
   22: [3, 8],      // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire
-  28: [6, 35],     // Interrupteurs -> Désinfectant Naturel, Spray Alcool Ménager
+  28: [35, 6],     // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel
   30: [11],        // Lave-linge -> Lessive Maison
-  32: [11, 35],    // Linge -> Lessive Maison, Spray Alcool Ménager (odeurs)
-  33: [22, 35],    // Téléphone -> Spray Désinfectant Express, Spray Alcool Ménager
-  34: [23, 35],    // Ordinateur -> Nettoyant Écrans, Spray Alcool Ménager
+  32: [35, 11],    // Linge -> Spray Alcool Ménager (odeurs), Lessive Maison
+  33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
+  34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
   43: [35],        // Plastiques voiture -> Spray Alcool Ménager
-  58: [3, 29, 35], // Vitres -> Anti-traces Vitres, Nettoyant Vitres & Miroirs, Spray Alcool Ménager
-  59: [1, 35],     // Poignées -> Spray Multi-usage, Spray Alcool Ménager
-  60: [3, 23, 35], // Écrans -> Anti-traces Vitres (dilué), Nettoyant Écrans, Spray Alcool Ménager
+  58: [35, 3, 29], // Vitres -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs
+  59: [35, 1],     // Poignées -> Spray Alcool Ménager, Spray Multi-usage
+  60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
   61: [13, 33],    // Canalisations -> Déboucheur Naturel, Déboucheur Canalisations
   62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
