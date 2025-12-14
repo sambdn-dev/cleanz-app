@@ -87,6 +87,7 @@ export interface Electromenager {
   consoPct: number; // Pourcentage de la consommation électrique du foyer
   piece: string;
   color: string;
+  conseils?: { titre: string; items: string[] }; // Les conseils de Cleanz
   nettoyer: ElectromenagerNettoyage;
   entretien: ElectromenagerEntretien;
 }

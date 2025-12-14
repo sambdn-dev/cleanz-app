@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Electromenager } from '@/types';
-import { Clock, Zap, AlertCircle, Calendar, PiggyBank, Sparkles, Wrench, MapPin, CheckCircle2 } from 'lucide-react';
+import { Clock, Zap, AlertCircle, Calendar, PiggyBank, Sparkles, Wrench, MapPin, CheckCircle2, Lightbulb } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 
 interface ElectromenagerModalProps {
@@ -19,17 +19,26 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
 
   const colorMap: Record<string, string> = {
     'bg-blue-500': 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+    'bg-blue-400': 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)',
+    'bg-blue-600': 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
     'bg-cyan-500': 'linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)',
+    'bg-cyan-400': 'linear-gradient(135deg, #22D3EE 0%, #06B6D4 100%)',
     'bg-emerald-500': 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    'bg-emerald-400': 'linear-gradient(135deg, #34D399 0%, #10B981 100%)',
     'bg-orange-500': 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)',
+    'bg-orange-400': 'linear-gradient(135deg, #FB923C 0%, #F97316 100%)',
     'bg-violet-500': 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+    'bg-amber-500': 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
     'bg-amber-700': 'linear-gradient(135deg, #B45309 0%, #92400E 100%)',
     'bg-red-500': 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
     'bg-sky-500': 'linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)',
     'bg-purple-500': 'linear-gradient(135deg, #A855F7 0%, #9333EA 100%)',
     'bg-gray-500': 'linear-gradient(135deg, #6B7280 0%, #4B5563 100%)',
     'bg-slate-500': 'linear-gradient(135deg, #64748B 0%, #475569 100%)',
-    'bg-teal-500': 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)'
+    'bg-teal-500': 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
+    'bg-indigo-500': 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+    'bg-indigo-400': 'linear-gradient(135deg, #818CF8 0%, #6366F1 100%)',
+    'bg-rose-500': 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)'
   };
 
   const headerGradient = colorMap[appliance.color] || colorMap['bg-blue-500'];
@@ -129,6 +138,52 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
       {/* Tab content */}
       {activeTab === 'nettoyer' && (
         <div className="space-y-4">
+          {/* Les conseils de Cleanz - only shown if available */}
+          {appliance.conseils && (
+            <div
+              className="p-4 rounded-2xl"
+              style={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(255,105,180,0.15) 0%, rgba(221,160,221,0.1) 100%)'
+                  : 'linear-gradient(135deg, rgba(255,240,245,1) 0%, rgba(255,228,236,1) 100%)',
+                border: darkMode
+                  ? '1px solid rgba(255,105,180,0.25)'
+                  : '1px solid rgba(255,182,193,0.4)'
+              }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center"
+                  style={{
+                    background: darkMode
+                      ? 'rgba(255,105,180,0.3)'
+                      : 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)'
+                  }}
+                >
+                  <Lightbulb className="w-4 h-4 text-white" />
+                </div>
+                <span
+                  className="text-xs font-bold uppercase tracking-wide"
+                  style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }}
+                >
+                  {appliance.conseils.titre}
+                </span>
+              </div>
+              <ul className="space-y-2">
+                {appliance.conseils.items.map((item, index) => (
+                  <li
+                    key={index}
+                    className="flex items-baseline gap-2 text-xs leading-relaxed"
+                    style={{ color: darkMode ? '#F5E6FF' : '#5A4A6A' }}
+                  >
+                    <span className="text-pink-400 flex-shrink-0">•</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Title */}
           <h3 className="text-sm font-bold flex items-center gap-2" style={{ color: theme.textPrimary }}>
             <span className="text-base">🧹</span> {appliance.nettoyer.titre}

@@ -35,6 +35,17 @@ export const ELECTROMENAGERS: Electromenager[] = [
     consoPct: 20,
     piece: 'Cuisine',
     color: 'bg-emerald-500',
+    conseils: {
+      titre: 'Les conseils de Cleanz',
+      items: [
+        'Température idéale : entre 3°C et 4°C pour une conservation optimale',
+        'Rangez les aliments crus en bas (viande, poisson) et les aliments cuits en haut',
+        'Ne surchargez pas votre frigo : l\'air doit circuler librement',
+        'Attendez que les plats refroidissent avant de les mettre au frigo',
+        'Respectez la règle FIFO : First In, First Out (premier entré, premier sorti)',
+        'Conservez les œufs dans leur boîte d\'origine, pas dans la porte'
+      ]
+    },
     nettoyer: {
       titre: 'Nettoyage intérieur',
       ingredients: ['Eau tiède', 'Bicarbonate de soude', 'Vinaigre blanc'],
@@ -304,6 +315,245 @@ export const ELECTROMENAGERS: Electromenager[] = [
       ],
       economies: '15-20% d\'économie en réglant à 55-60°C et avec un détartrage régulier',
       alertes: ['Eau tiède seulement', 'Bruits de bouillonnement', 'Fuites au niveau du groupe', 'Consommation électrique anormale']
+    }
+  },
+  // === NOUVEAUX APPAREILS ===
+  {
+    id: 13,
+    nom: 'Bouilloire',
+    emoji: '🫖',
+    conso: '50-100 kWh/an',
+    consoPct: 1,
+    piece: 'Cuisine',
+    color: 'bg-amber-500',
+    nettoyer: {
+      titre: 'Détartrage',
+      ingredients: ['Acide citrique', 'Eau'],
+      instructions: 'Remplissez la bouilloire d\'eau froide aux 3/4. Ajoutez 2 c.à.s d\'acide citrique. Faites bouillir et laissez agir 30 minutes. Videz et rincez plusieurs fois à l\'eau claire avant utilisation.',
+      duree: '45min',
+      frequence: '1x/mois (ou dès apparition de dépôts)'
+    },
+    entretien: {
+      calendrier: [
+        { periode: '1x/semaine', taches: ['Vider l\'eau stagnante', 'Rincer l\'intérieur'] },
+        { periode: '1x/mois', taches: ['Détartrage complet à l\'acide citrique'] },
+        { periode: '1x/trimestre', taches: ['Nettoyer l\'extérieur', 'Vérifier le filtre anti-calcaire'] }
+      ],
+      economies: '10-15% d\'économie avec une bouilloire détartrée (chauffe plus vite)',
+      alertes: ['Temps de chauffe rallongé', 'Dépôts blancs visibles', 'Goût altéré de l\'eau', 'Bruits inhabituels']
+    }
+  },
+  {
+    id: 14,
+    nom: 'Congélateur',
+    emoji: '🧊',
+    conso: '200-400 kWh/an',
+    consoPct: 8,
+    piece: 'Cuisine',
+    color: 'bg-blue-400',
+    conseils: {
+      titre: 'Les conseils de Cleanz',
+      items: [
+        'Température idéale : -18°C pour une congélation optimale',
+        'Étiquetez tous vos aliments avec la date de congélation',
+        'Ne recongelez jamais un produit décongelé (sauf si cuit entre-temps)',
+        'Laissez refroidir les plats avant de les congeler',
+        'Respectez les durées de conservation : viande 6-12 mois, légumes 8-12 mois, plats cuisinés 2-3 mois',
+        'Dégivrez dès que le givre atteint 3mm d\'épaisseur'
+      ]
+    },
+    nettoyer: {
+      titre: 'Dégivrage et nettoyage',
+      ingredients: ['Eau tiède', 'Bicarbonate de soude', 'Chiffon microfibre'],
+      instructions: 'Débranchez l\'appareil. Sortez tous les aliments (placez-les dans une glacière). Laissez la porte ouverte pour le dégivrage. Nettoyez avec 1L d\'eau + 2 c.à.s de bicarbonate. Séchez bien avant de rebrancher.',
+      duree: '2-4h',
+      frequence: '2x/an (ou quand givre >3mm)'
+    },
+    entretien: {
+      calendrier: [
+        { periode: '1x/mois', taches: ['Vérifier la température (-18°C)', 'Organiser et trier les aliments'] },
+        { periode: '1x/trimestre', taches: ['Vérifier les dates de congélation', 'Nettoyer les joints'] },
+        { periode: '2x/an', taches: ['Dégivrage complet', 'Nettoyage intérieur'] }
+      ],
+      economies: '30% d\'économie avec un dégivrage régulier et une température stable',
+      alertes: ['Givre excessif (>3mm)', 'Aliments qui décongèlent', 'Température instable', 'Moteur bruyant']
+    }
+  },
+  {
+    id: 15,
+    nom: 'Airfryer',
+    emoji: '🍟',
+    conso: '50-100 kWh/an',
+    consoPct: 1,
+    piece: 'Cuisine',
+    color: 'bg-orange-400',
+    nettoyer: {
+      titre: 'Nettoyage complet',
+      ingredients: ['Liquide vaisselle', 'Bicarbonate de soude', 'Éponge non abrasive'],
+      instructions: 'Débranchez et laissez refroidir. Retirez le panier et le bac. Lavez-les à l\'eau chaude savonneuse. Pour les graisses incrustées, faites tremper avec du bicarbonate. Essuyez l\'intérieur avec un chiffon humide. Nettoyez la résistance du haut avec une brosse douce.',
+      duree: '20min',
+      frequence: 'Après chaque utilisation'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque utilisation', taches: ['Laver le panier et le bac', 'Essuyer l\'intérieur'] },
+        { periode: '1x/semaine', taches: ['Nettoyer la résistance du haut', 'Vérifier les grilles'] },
+        { periode: '1x/mois', taches: ['Dégraissage complet', 'Nettoyer les entrées d\'air'] }
+      ],
+      economies: '70% d\'économie vs un four traditionnel pour les petites quantités',
+      alertes: ['Odeurs de brûlé', 'Fumée pendant la cuisson', 'Aliments mal cuits', 'Ventilateur bruyant']
+    }
+  },
+  {
+    id: 16,
+    nom: 'Fer à repasser',
+    emoji: '👔',
+    conso: '30-50 kWh/an',
+    consoPct: 1,
+    piece: 'Buanderie',
+    color: 'bg-indigo-500',
+    nettoyer: {
+      titre: 'Détartrage semelle',
+      ingredients: ['Vinaigre blanc', 'Bicarbonate de soude', 'Chiffon doux'],
+      instructions: 'Semelle froide : frottez avec un chiffon imbibé de vinaigre blanc. Pour les trous vapeur bouchés, utilisez un coton-tige trempé dans le vinaigre. Remplissez le réservoir de vinaigre dilué (50/50 eau), faites chauffer et utilisez la vapeur sur un vieux tissu.',
+      duree: '30min',
+      frequence: '1x/mois'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque utilisation', taches: ['Vider le réservoir d\'eau', 'Ranger à la verticale'] },
+        { periode: '1x/mois', taches: ['Détartrer le réservoir', 'Nettoyer la semelle'] },
+        { periode: '1x/trimestre', taches: ['Vérifier le câble', 'Nettoyer les trous vapeur'] }
+      ],
+      economies: 'Une semelle propre glisse mieux et réduit le temps de repassage de 20%',
+      alertes: ['Traces sur les vêtements', 'Vapeur faible ou irrégulière', 'Eau qui coule', 'Semelle qui accroche']
+    }
+  },
+  {
+    id: 17,
+    nom: 'Centrale vapeur',
+    emoji: '💨',
+    conso: '100-200 kWh/an',
+    consoPct: 2,
+    piece: 'Buanderie',
+    color: 'bg-indigo-400',
+    nettoyer: {
+      titre: 'Détartrage réservoir',
+      ingredients: ['Vinaigre blanc', 'Eau déminéralisée'],
+      instructions: 'Videz le réservoir. Remplissez avec 1/3 vinaigre blanc et 2/3 eau. Laissez agir 2h. Faites fonctionner la vapeur sur un vieux tissu. Rincez plusieurs fois à l\'eau claire. Utilisez toujours de l\'eau déminéralisée ensuite.',
+      duree: '2h30',
+      frequence: '1x/mois'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque utilisation', taches: ['Vider le réservoir', 'Laisser refroidir avant rangement'] },
+        { periode: '1x/mois', taches: ['Détartrage complet', 'Nettoyer la semelle'] },
+        { periode: '1x/trimestre', taches: ['Vérifier les joints', 'Nettoyer le collecteur de calcaire'] }
+      ],
+      economies: 'Une centrale détartrée consomme 15% d\'énergie en moins',
+      alertes: ['Vapeur faible', 'Dépôts calcaires qui tachent', 'Bruit de pompe anormal', 'Fuites d\'eau']
+    }
+  },
+  {
+    id: 18,
+    nom: 'Aspirateur eau/poussière',
+    emoji: '💦',
+    conso: '50-100 kWh/an',
+    consoPct: 1,
+    piece: 'Buanderie',
+    color: 'bg-blue-600',
+    nettoyer: {
+      titre: 'Nettoyage cuve et filtres',
+      ingredients: ['Eau claire', 'Liquide vaisselle', 'Brosse'],
+      instructions: 'Videz la cuve après chaque utilisation. Lavez-la à l\'eau savonneuse et séchez bien. Rincez les filtres à l\'eau claire (vérifiez s\'ils sont lavables). Laissez sécher 24h avant remontage. Vérifiez l\'état des joints.',
+      duree: '30min',
+      frequence: 'Après chaque utilisation eau / 1x/semaine poussière'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après utilisation eau', taches: ['Vider et sécher la cuve', 'Rincer le tuyau'] },
+        { periode: '1x/semaine', taches: ['Nettoyer les filtres', 'Vérifier le flotteur'] },
+        { periode: '1x/mois', taches: ['Nettoyer la cuve en profondeur', 'Vérifier les accessoires'] },
+        { periode: '1x/an', taches: ['Remplacer les filtres si nécessaire', 'Vérifier le moteur'] }
+      ],
+      economies: 'Des filtres propres maintiennent 100% de la puissance d\'aspiration',
+      alertes: ['Perte d\'aspiration', 'Mauvaises odeurs', 'Moteur qui surchauffe', 'Eau qui remonte']
+    }
+  },
+  {
+    id: 19,
+    nom: 'Robot aspirateur laveur',
+    emoji: '🤖',
+    conso: '20-40 kWh/an',
+    consoPct: 1,
+    piece: 'Buanderie',
+    color: 'bg-emerald-400',
+    nettoyer: {
+      titre: 'Entretien complet',
+      ingredients: ['Chiffon microfibre', 'Brosse de nettoyage', 'Eau claire'],
+      instructions: 'Videz le bac à poussière après chaque cycle. Nettoyez les brosses rotatives (retirez cheveux et fils). Essuyez les capteurs avec un chiffon sec. Lavez les serpillières à 40°C. Nettoyez la station de vidage/lavage si équipé.',
+      duree: '15min',
+      frequence: 'Bac: quotidien / Complet: 1x/semaine'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque cycle', taches: ['Vider le bac à poussière', 'Vérifier les roues'] },
+        { periode: '1x/semaine', taches: ['Nettoyer les brosses', 'Laver les serpillières', 'Essuyer les capteurs'] },
+        { periode: '1x/mois', taches: ['Nettoyer les filtres', 'Vérifier l\'usure des brosses', 'Nettoyer la station'] },
+        { periode: '1x/an', taches: ['Remplacer les filtres et brosses usés'] }
+      ],
+      economies: 'Un robot bien entretenu conserve son efficacité et sa batterie plus longtemps',
+      alertes: ['Robot qui tourne en rond', 'Aspiration faible', 'Serpillières qui sentent', 'Batterie qui ne tient plus']
+    }
+  },
+  {
+    id: 20,
+    nom: 'Nettoyeur vapeur',
+    emoji: '♨️',
+    conso: '30-60 kWh/an',
+    consoPct: 1,
+    piece: 'Buanderie',
+    color: 'bg-rose-500',
+    nettoyer: {
+      titre: 'Détartrage',
+      ingredients: ['Vinaigre blanc', 'Eau déminéralisée'],
+      instructions: 'Videz complètement le réservoir. Remplissez avec 1/2 vinaigre blanc et 1/2 eau. Laissez agir 2h sans allumer. Faites fonctionner la vapeur sur un vieux tissu. Rincez 2-3 fois à l\'eau claire avant utilisation normale.',
+      duree: '2h30',
+      frequence: '1x/mois (ou selon dureté de l\'eau)'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque utilisation', taches: ['Vider le réservoir', 'Ranger les accessoires secs'] },
+        { periode: '1x/mois', taches: ['Détartrage complet', 'Nettoyer les bonnettes/brosses'] },
+        { periode: '1x/trimestre', taches: ['Vérifier les joints', 'Contrôler le câble'] }
+      ],
+      economies: 'Un nettoyeur vapeur détartré chauffe 30% plus vite',
+      alertes: ['Vapeur faible', 'Dépôts blancs qui sortent', 'Temps de chauffe rallongé', 'Fuites']
+    }
+  },
+  {
+    id: 21,
+    nom: 'Purificateur d\'air',
+    emoji: '🌬️',
+    conso: '20-50 kWh/an',
+    consoPct: 1,
+    piece: 'Salon',
+    color: 'bg-cyan-400',
+    nettoyer: {
+      titre: 'Entretien filtres',
+      ingredients: ['Aspirateur', 'Chiffon humide'],
+      instructions: 'Éteignez l\'appareil. Retirez le pré-filtre et aspirez-le ou lavez-le (si lavable). Le filtre HEPA ne se lave pas : remplacez-le selon les indications. Essuyez l\'extérieur avec un chiffon humide. Nettoyez les grilles d\'entrée/sortie d\'air.',
+      duree: '15min',
+      frequence: 'Pré-filtre: 1x/2 semaines / HEPA: selon indicateur'
+    },
+    entretien: {
+      calendrier: [
+        { periode: '1x/2 semaines', taches: ['Aspirer ou laver le pré-filtre'] },
+        { periode: '1x/mois', taches: ['Nettoyer les grilles', 'Essuyer l\'extérieur'] },
+        { periode: 'Selon indicateur', taches: ['Remplacer le filtre HEPA', 'Remplacer le filtre charbon'] }
+      ],
+      economies: 'Un filtre propre consomme 20% d\'énergie en moins et purifie mieux l\'air',
+      alertes: ['Indicateur de remplacement', 'Bruit de ventilation', 'Odeurs persistantes', 'Débit d\'air faible']
     }
   }
 ];
