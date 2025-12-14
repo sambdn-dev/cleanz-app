@@ -566,7 +566,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Nettoyant WC'
     ],
     surfaces: ['Joints', 'Textile blanc', 'Planches à découper', 'WC'],
-    recettesIds: [20],
+    recettesIds: [20, 81],
     prix: '€',
     prixMoyen: '~3€/L',
     scoreEcologique: 5,

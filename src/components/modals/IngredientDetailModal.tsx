@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet, RecetteComplete } from '@/types';
 import { Modal } from '@/components/ui/Modal';
@@ -13,7 +14,8 @@ import {
   FlaskConical,
   ChefHat,
   Home,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react';
 
 interface IngredientDetailModalProps {
@@ -24,6 +26,7 @@ interface IngredientDetailModalProps {
 
 export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: IngredientDetailModalProps) {
   const { theme, darkMode } = useTheme();
+  const [showAllRecipes, setShowAllRecipes] = useState(false);
 
   // Récupérer les recettes associées
   const recettesAssociees = RECETTES.filter(r => ingredient.recettesIds.includes(r.id));
@@ -204,13 +207,13 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
           </div>
         </div>
 
-        {/* Recettes populaires */}
+        {/* Astuces populaires */}
         {recettesAssociees.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-3">
               <ChefHat className="w-5 h-5" style={{ color: theme.accentPink }} />
               <h3 className="font-bold text-sm" style={{ color: theme.textPrimary }}>
-                Recettes populaires
+                Astuces populaires
               </h3>
               <span
                 className="text-[10px] px-2 py-0.5 rounded-full"
@@ -219,11 +222,11 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
                   color: darkMode ? '#F9A8D4' : '#DB2777'
                 }}
               >
-                {recettesAssociees.length} recettes
+                {recettesAssociees.length} astuce{recettesAssociees.length > 1 ? 's' : ''}
               </span>
             </div>
             <div className="space-y-2">
-              {recettesAssociees.slice(0, 5).map((recette) => (
+              {(showAllRecipes ? recettesAssociees : recettesAssociees.slice(0, 5)).map((recette) => (
                 <div
                   key={recette.id}
                   onClick={() => onRecipeClick?.(recette)}
@@ -250,10 +253,18 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
                   <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: theme.textMuted }} />
                 </div>
               ))}
-              {recettesAssociees.length > 5 && (
-                <p className="text-[10px] text-center pt-1" style={{ color: theme.textMuted }}>
-                  +{recettesAssociees.length - 5} autres recettes
-                </p>
+              {recettesAssociees.length > 5 && !showAllRecipes && (
+                <button
+                  onClick={() => setShowAllRecipes(true)}
+                  className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-medium transition-all hover:opacity-80"
+                  style={{
+                    background: darkMode ? 'rgba(236, 72, 153, 0.15)' : 'rgba(236, 72, 153, 0.1)',
+                    color: darkMode ? '#F9A8D4' : '#DB2777'
+                  }}
+                >
+                  <span>Voir les autres astuces</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
               )}
             </div>
           </div>
