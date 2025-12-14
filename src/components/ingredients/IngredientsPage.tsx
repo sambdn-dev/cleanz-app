@@ -5,7 +5,6 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS, CATEGORIES_INGREDIENTS } from '@/data/ingredientsComplets';
 import { Search, Sparkles, X } from 'lucide-react';
-import { PinkStuffSection } from './PinkStuffSection';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -238,11 +237,6 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                     ))}
                   </div>
                 </div>
-              )}
-
-              {/* Section Partenaire Pink Stuff */}
-              {activeCategory === 'all' && !searchQuery && (
-                <PinkStuffSection />
               )}
 
               {/* Autres ingrédients */}
