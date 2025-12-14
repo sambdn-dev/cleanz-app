@@ -183,10 +183,10 @@ function HomePageContent() {
             {/* Sprays Section */}
             <SpraysSection onSprayClick={setSelectedSpray} />
 
-            {/* Bouton Voir toutes les recettes */}
+            {/* Bouton Voir toutes les astuces */}
             <div className="mb-5">
               <button
-                onClick={() => setActiveNavTab('Recettes')}
+                onClick={() => setActiveNavTab('Astuces')}
                 className="w-full py-3 px-4 rounded-2xl font-medium text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                 style={{
                   background: darkMode
@@ -197,11 +197,11 @@ function HomePageContent() {
                 }}
               >
                 <span>📋</span>
-                Voir toutes les recettes
+                Voir toutes les astuces
                 <span className="text-xs px-2 py-0.5 rounded-full" style={{
                   background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(139, 92, 246, 0.15)'
                 }}>
-                  28
+                  39
                 </span>
               </button>
             </div>
@@ -239,7 +239,7 @@ function HomePageContent() {
           <AppareilsPage onApplianceClick={setSelectedAppliance} />
         )}
 
-        {activeNavTab === 'Recettes' && (
+        {activeNavTab === 'Astuces' && (
           <RecipesPage onRecipeClick={setSelectedRecipe} />
         )}
 

@@ -1014,6 +1014,121 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Très inflammable - éloigner des flammes et sources de chaleur', 'Utiliser dans un endroit ventilé', 'Ne pas utiliser sur bois vernis ou laqué', 'Éviter le contact prolongé avec les plastiques sensibles'],
     astuces: ['Idéal pour détruire les mauvaises odeurs sur les textiles (vaporiser à 30cm)', 'Fait briller la robinetterie et les parois de douche sans traces', 'Désinfecte télécommandes, claviers et poignées en quelques secondes', 'Parfait pour nettoyer les ampoules (éteintes et froides !)', 'Excellent pour l\'habitacle de voiture et les bacs de rangement'],
     conservation: '2 ans (garder le flacon bien fermé)'
+  },
+  {
+    id: 36,
+    nom: 'Pierre Blanche de Nettoyage',
+    emoji: '⚪',
+    categorie: 'Indispensable',
+    badge: 'L\'indispensable',
+    gradient: 'linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 50%, #DEE2E6 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche (ou pierre d\'argile)', quantite: '1 pot', emoji: '⚪' },
+      { nom: 'Chiffon microfibre', quantite: '1', emoji: '🧽' }
+    ],
+    materiel: ['Chiffon microfibre ou éponge douce', 'Eau claire pour rinçage'],
+    instructions: [
+      'Humidifiez légèrement un chiffon ou une microfibre',
+      'Prélevez un peu de pierre blanche avec le chiffon',
+      'Frottez la surface par mouvements circulaires',
+      'Insistez sur les zones encrassées ou tachées',
+      'Rincez à l\'eau claire si nécessaire',
+      'Essuyez avec un chiffon sec pour faire briller'
+    ],
+    surfaces: ['Vaisselle', 'Tasses', 'Mugs', 'Assiettes', 'Casseroles', 'Poêles', 'Inox', 'Évier', 'Robinetterie', 'Plaques', 'Four'],
+    precautions: ['Ne pas utiliser sur surfaces fragiles ou rayables', 'Rincer les surfaces alimentaires', 'Tester sur une zone discrète d\'abord'],
+    astuces: ['La pierre blanche est un abrasif doux ultra-polyvalent', 'Idéale pour récupérer la vaisselle incrustée', 'Fait briller l\'inox sans le rayer', 'Parfaite pour les fonds de casseroles brûlés'],
+    conservation: '2-3 ans (produit sec)'
+  },
+  {
+    id: 37,
+    nom: 'Vaisselle Impeccable',
+    emoji: '🍽️',
+    categorie: 'Cuisine',
+    badge: 'L\'astuce flemme',
+    gradient: 'linear-gradient(135deg, #FDE68A 0%, #FCD34D 100%)',
+    temps: '30min + repos',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau bien chaude', quantite: 'Pour recouvrir', emoji: '💧' },
+      { nom: 'Percarbonate de soude', quantite: '2 c.à.s', emoji: '✨' },
+      { nom: 'Savon de Marseille', quantite: '1 bloc', emoji: '🧼' }
+    ],
+    materiel: ['Évier ou récipient', 'Éponge'],
+    instructions: [
+      'Versez de l\'eau bien chaude pour recouvrir la zone incrustée',
+      'Ajoutez le percarbonate de soude et mélangez',
+      'Laissez refroidir complètement (30min à 1h)',
+      'Vous verrez déjà le résultat : les incrustations se décollent',
+      'Savonnez avec le savon de Marseille',
+      'Rincez à l\'eau claire - c\'est tout !'
+    ],
+    surfaces: ['Vaisselle incrustée', 'Tasses tachées', 'Mugs', 'Assiettes', 'Plats à gratin', 'Fonds de casseroles'],
+    precautions: ['Ne pas utiliser sur aluminium', 'Tester sur les surfaces délicates', 'Eau chaude, pas bouillante'],
+    astuces: ['L\'astuce de la flemme : zéro effort, résultat garanti !', 'Le percarbonate libère de l\'oxygène actif qui décolle les incrustations', 'Idéal pour les taches de thé ou café dans les tasses', 'Fonctionne aussi sur les plats à gratin très encrassés'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 38,
+    nom: 'Casseroles Inox Brillantes',
+    emoji: '🥘',
+    categorie: 'Cuisine',
+    badge: 'Inox pro',
+    gradient: 'linear-gradient(135deg, #94A3B8 0%, #CBD5E1 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '50ml', emoji: '🧴' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Eau chaude', quantite: 'Pour couvrir le fond', emoji: '💧' }
+    ],
+    materiel: ['Éponge douce', 'Chiffon microfibre'],
+    instructions: [
+      'Versez de l\'eau chaude pour couvrir le fond de la casserole',
+      'Ajoutez le vinaigre blanc',
+      'Saupoudrez le bicarbonate (ça va mousser !)',
+      'Laissez agir 10 minutes',
+      'Frottez avec une éponge douce',
+      'Rincez et séchez avec un chiffon microfibre pour faire briller'
+    ],
+    surfaces: ['Casseroles inox', 'Poêles inox', 'Faitouts inox', 'Marmites inox'],
+    precautions: ['Ne pas utiliser d\'éponge abrasive sur l\'inox', 'Frotter dans le sens du brossage de l\'inox', 'Bien sécher pour éviter les traces d\'eau'],
+    astuces: ['Le vinaigre dissout le calcaire et les traces blanches', 'Le bicarbonate décolle les résidus brûlés', 'Pour les traces arc-en-ciel : frotter avec du vinaigre pur'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 39,
+    nom: 'Poêle Antiadhésive Récupérée',
+    emoji: '🍳',
+    categorie: 'Cuisine',
+    badge: 'Sauvetage',
+    gradient: 'linear-gradient(135deg, #374151 0%, #6B7280 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Bicarbonate de soude', quantite: '3 c.à.s', emoji: '⚪' },
+      { nom: 'Savon noir liquide', quantite: '1 c.à.s', emoji: '⚫' }
+    ],
+    materiel: ['Éponge très douce', 'Cuillère en bois'],
+    instructions: [
+      'Versez l\'eau chaude dans la poêle',
+      'Ajoutez le bicarbonate et le savon noir',
+      'Portez à frémissement (pas ébullition)',
+      'Laissez refroidir 10 minutes',
+      'Frottez délicatement avec une éponge très douce',
+      'Rincez abondamment à l\'eau claire'
+    ],
+    surfaces: ['Poêles antiadhésives', 'Casseroles antiadhésives', 'Woks'],
+    precautions: ['JAMAIS d\'éponge abrasive sur le revêtement antiadhésif', 'Ne pas utiliser de sel ou de produit abrasif', 'Ne pas surchauffer la poêle vide'],
+    astuces: ['Le bicarbonate décolle les résidus sans rayer', 'Pour entretenir : huiler légèrement après chaque lavage', 'Éviter les ustensiles métalliques pour préserver le revêtement'],
+    conservation: 'À préparer à chaque usage'
   }
 ];
 
@@ -1038,7 +1153,7 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   4: [8],          // Robinetterie -> Spray Anti-Calcaire
   5: [2],          // Hotte -> Dégraissant Puissant
   6: [2],          // Plaques -> Dégraissant Puissant
-  7: [10],         // Lave-vaisselle -> Poudre Lave-Vaisselle
+  7: [36, 39],     // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée
   8: [35, 12, 32, 33], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
   11: [9, 30, 32], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray
   12: [35, 3, 29], // Miroirs -> Spray Alcool Ménager, Anti-traces Vitres, Nettoyant Vitres & Miroirs
@@ -1063,4 +1178,12 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   61: [13, 33],    // Canalisations -> Déboucheur Naturel, Déboucheur Canalisations
   62: [4, 19],     // Baskets -> Détachant Textile, Détachant Tapis
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
+  // Porcelaine / Vaisselle
+  63: [36, 37],    // Tasses & Mugs -> Pierre Blanche, Vaisselle Impeccable
+  64: [36, 37],    // Assiettes -> Pierre Blanche, Vaisselle Impeccable
+  65: [36, 37],    // Vaisselle -> Pierre Blanche, Vaisselle Impeccable
+  // Casseroles & Poêles
+  66: [36, 39],    // Poêles -> Pierre Blanche, Poêle Antiadhésive Récupérée
+  67: [36, 38],    // Casseroles inox -> Pierre Blanche, Casseroles Inox Brillantes
+  68: [36, 38],    // Poêles inox -> Pierre Blanche, Casseroles Inox Brillantes
 };

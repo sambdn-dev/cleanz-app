@@ -72,4 +72,12 @@ export const SURFACES: Surface[] = [
   { id: 60, nom: 'Écrans', emoji: '🖥️', piece: 'Électronique', categorie: 'Maison', frequence: '1x/semaine' },
   { id: 61, nom: 'Canalisations', emoji: '🔧', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/mois' },
   { id: 62, nom: 'Baskets', emoji: '👟', piece: 'Chambre', categorie: 'Maison', frequence: 'Selon usage' },
+  // Porcelaine / Vaisselle
+  { id: 63, nom: 'Tasses & Mugs', emoji: '☕', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  { id: 64, nom: 'Assiettes', emoji: '🍽️', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  { id: 65, nom: 'Vaisselle', emoji: '🫖', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  // Casseroles & Poêles
+  { id: 66, nom: 'Poêles', emoji: '🍳', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  { id: 67, nom: 'Casseroles inox', emoji: '🥘', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
+  { id: 68, nom: 'Poêles inox', emoji: '🥘', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
 ];
