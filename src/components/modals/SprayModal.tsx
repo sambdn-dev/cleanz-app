@@ -4,6 +4,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Spray } from '@/types';
 import { AlertTriangle, Lightbulb, Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface SprayModalProps {
   spray: Spray;
@@ -13,19 +14,34 @@ interface SprayModalProps {
 export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
   const { theme, darkMode } = useTheme();
 
+  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
+  const useDarkHeaderText = shouldUseDarkText(spray.gradient);
+
   return (
     <Modal
       isOpen={true}
       onClose={onClose}
       headerGradient={spray.gradient}
+      useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <>
-          <span className="inline-block text-xs bg-white/30 text-white px-3 py-1 rounded-full font-semibold mb-3">
+          <span
+            className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
+            style={{
+              background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)',
+              color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+            }}
+          >
             {spray.badge}
           </span>
           <div className="flex items-center gap-3">
             <span className="text-5xl">{spray.emoji}</span>
-            <h2 className="text-2xl font-bold text-white">{spray.nom}</h2>
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
+            >
+              {spray.nom}
+            </h2>
           </div>
         </>
       }

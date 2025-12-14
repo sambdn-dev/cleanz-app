@@ -5,6 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet, RecetteComplete } from '@/types';
 import { Modal } from '@/components/ui/Modal';
 import { RECETTES } from '@/data/recettes';
+import { shouldUseDarkText } from '@/utils/gradientUtils';
 import {
   Leaf,
   Euro,
@@ -27,6 +28,9 @@ interface IngredientDetailModalProps {
 export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: IngredientDetailModalProps) {
   const { theme, darkMode } = useTheme();
   const [showAllRecipes, setShowAllRecipes] = useState(false);
+
+  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
+  const useDarkHeaderText = shouldUseDarkText(ingredient.gradient);
 
   // Récupérer les recettes associées
   const recettesAssociees = RECETTES.filter(r => ingredient.recettesIds.includes(r.id));
@@ -61,11 +65,17 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
   };
 
   const headerContent = (
-    <div className="text-center text-white">
+    <div className="text-center" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
       <div className="text-5xl mb-3">{ingredient.emoji}</div>
       <h2 className="text-2xl font-bold mb-1">{ingredient.nom}</h2>
       {ingredient.badge && (
-        <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm">
+        <span
+          className="inline-block px-3 py-1 rounded-full text-sm"
+          style={{
+            background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+            color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+          }}
+        >
           {ingredient.badge}
         </span>
       )}
@@ -77,6 +87,7 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
       isOpen={true}
       onClose={onClose}
       headerGradient={ingredient.gradient}
+      useDarkHeaderText={useDarkHeaderText}
       headerContent={headerContent}
     >
       <div className="space-y-5">
