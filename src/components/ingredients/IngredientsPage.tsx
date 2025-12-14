@@ -74,7 +74,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         className="flex items-center gap-3 px-4 py-3 rounded-2xl mb-4"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}`
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
         }}
       >
         <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
@@ -102,7 +102,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
       {/* Filtres par fonction */}
       <div className="py-4 mb-4">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-xs uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-xs uppercase tracking-wider" style={{ color: theme.textMuted }}>
             Filtrer par fonction
           </p>
           {activeFilters.length > 0 && (
@@ -122,14 +122,26 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
               <button
                 key={func}
                 onClick={() => toggleFilter(func)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
-                  isActive
-                    ? 'bg-purple-500 text-white'
-                    : 'bg-white/10 text-white/60'
-                }`}
+                className="px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5"
+                style={{
+                  background: isActive
+                    ? '#a855f7'
+                    : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                  color: isActive
+                    ? 'white'
+                    : theme.textSecondary
+                }}
               >
                 {func}
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">
+                <span
+                  className="text-[10px] px-1.5 py-0.5 rounded-full"
+                  style={{
+                    background: isActive
+                      ? 'rgba(255,255,255,0.2)'
+                      : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                    color: isActive ? 'white' : theme.textMuted
+                  }}
+                >
                   {count}
                 </span>
               </button>
@@ -140,7 +152,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
 
       {/* Compteur de résultats */}
       <div className="mb-4">
-        <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
+        <p style={{ color: theme.textMuted }} className="text-sm">
           {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
         </p>
       </div>
@@ -159,19 +171,38 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
             <div
               key={ingredient.id}
               onClick={() => onIngredientClick(ingredient)}
-              className="relative bg-white/5 rounded-2xl p-4 border border-white/10 cursor-pointer transition-all duration-200 hover:bg-white/[0.08] active:scale-[0.98]"
+              className="relative rounded-2xl p-4 cursor-pointer transition-all duration-200 active:scale-[0.98]"
+              style={{
+                background: darkMode
+                  ? 'rgba(139, 92, 246, 0.15)'
+                  : 'rgba(255,255,255,0.9)',
+                border: `1px solid ${darkMode ? 'rgba(139, 92, 246, 0.3)' : 'rgba(0,0,0,0.08)'}`,
+                boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)'
+              }}
             >
               {/* Ligne du haut : Badges + Favori */}
               <div className="flex items-start justify-between mb-3">
                 {/* Badges à gauche */}
                 <div className="flex flex-wrap gap-1">
                   {ingredient.essentiel && (
-                    <span className="text-[10px] bg-amber-400/20 text-amber-300 px-2 py-1 rounded-md flex items-center gap-1">
+                    <span
+                      className="text-[10px] px-2 py-1 rounded-md flex items-center gap-1 font-medium"
+                      style={{
+                        background: darkMode ? 'rgba(251, 191, 36, 0.25)' : 'rgba(251, 191, 36, 0.2)',
+                        color: darkMode ? '#fcd34d' : '#b45309'
+                      }}
+                    >
                       <span>⭐</span> Essentiel
                     </span>
                   )}
-                  {ingredient.badge && ingredient.badge !== 'Incontournable' && (
-                    <span className="text-[10px] bg-orange-400/20 text-orange-300 px-2 py-1 rounded-md flex items-center gap-1">
+                  {ingredient.badge && (
+                    <span
+                      className="text-[10px] px-2 py-1 rounded-md flex items-center gap-1 font-medium"
+                      style={{
+                        background: darkMode ? 'rgba(251, 146, 60, 0.25)' : 'rgba(251, 146, 60, 0.2)',
+                        color: darkMode ? '#fdba74' : '#c2410c'
+                      }}
+                    >
                       <span>🔥</span> {ingredient.badge}
                     </span>
                   )}
@@ -187,7 +218,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                     height="20"
                     viewBox="0 0 24 24"
                     fill={favorites.includes(ingredient.id) ? "#a855f7" : "none"}
-                    stroke={favorites.includes(ingredient.id) ? "#a855f7" : "#6b7280"}
+                    stroke={favorites.includes(ingredient.id) ? "#a855f7" : "#9ca3af"}
                     strokeWidth="2"
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -201,7 +232,10 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
               </div>
 
               {/* Nom */}
-              <h3 className="text-white font-semibold text-sm mb-3">
+              <h3
+                className="font-semibold text-sm mb-3"
+                style={{ color: theme.textPrimary }}
+              >
                 {ingredient.nom}
               </h3>
 
@@ -210,7 +244,11 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
                 {ingredient.fonctions.slice(0, 4).map((tag, i) => (
                   <span
                     key={i}
-                    className="text-[10px] bg-white/10 text-white/50 px-2 py-1 rounded-md"
+                    className="text-[10px] px-2 py-1 rounded-md"
+                    style={{
+                      background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+                      color: theme.textMuted
+                    }}
                   >
                     {tag}
                   </span>
@@ -218,7 +256,7 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
               </div>
 
               {/* Nombre de recettes */}
-              <div className="flex items-center gap-1.5 text-white/40 text-xs">
+              <div className="flex items-center gap-1.5 text-xs" style={{ color: theme.textMuted }}>
                 <span>📖</span>
                 <span>{ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}</span>
               </div>
