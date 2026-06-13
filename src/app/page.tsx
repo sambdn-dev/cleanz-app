@@ -7,7 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { BottomNav, NavTab } from '@/components/layout/BottomNav';
 import { SearchBar } from '@/components/layout/SearchBar';
 import { CategoryTabs } from '@/components/layout/CategoryTabs';
-import { SpraysSection } from '@/components/home/SpraysSection';
+import { SpraysSwipeDeck } from '@/components/home/SpraysSwipeDeck';
 import { SurfacesGrid } from '@/components/home/SurfacesGrid';
 import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
@@ -180,8 +180,8 @@ function HomePageContent() {
               <CategoryTabs activeTab={activeCategory} onTabChange={handleCategoryChange} />
             </div>
 
-            {/* Sprays Section */}
-            <SpraysSection onSprayClick={setSelectedSpray} />
+            {/* Sprays Section - swipe deck */}
+            <SpraysSwipeDeck onSprayClick={setSelectedSpray} />
 
             {/* Bouton Voir toutes les astuces */}
             <div className="mb-5">
