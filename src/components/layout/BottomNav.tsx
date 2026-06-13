@@ -37,13 +37,13 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
       <nav
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 bottom-[calc(env(safe-area-inset-bottom)+16px)] flex items-center gap-1 px-2.5 py-2 rounded-[30px]"
         style={{
-          background: darkMode ? 'rgba(28,22,40,0.72)' : 'rgba(255,255,255,0.62)',
-          backdropFilter: 'blur(28px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)'}`,
+          background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
+          backdropFilter: 'blur(44px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(44px) saturate(200%)',
+          border: `1.5px solid ${darkMode ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.95)'}`,
           boxShadow: darkMode
-            ? '0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)'
-            : '0 12px 40px rgba(149,108,180,0.22), inset 0 1px 0 rgba(255,255,255,0.9)',
+            ? '0 18px 50px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)'
+            : '0 20px 55px rgba(149,108,180,0.35), 0 6px 18px rgba(149,108,180,0.18), inset 0 1px 0 rgba(255,255,255,1)',
         }}
       >
         {navItems.map((item) => {
