@@ -21,32 +21,49 @@ const navItems: { icon: typeof Home; label: NavTab }[] = [
 
 export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const { theme, darkMode } = useTheme();
-  const [compact, setCompact] = useState(false);
+  // shrink: continuous 0 (expanded) -> 1 (compact), driven by scroll intensity
+  const [shrink, setShrink] = useState(0);
   const lastY = useRef(0);
+  const shrinkRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
 
-  // Instagram-style: shrink on scroll down, expand on scroll up
+  // Instagram-style: size follows scroll intensity (continuous, not a snap)
   useEffect(() => {
+    // ~110px of accumulated scroll = full transition
+    const SCROLL_RANGE = 110;
+
     const onScroll = () => {
       const y = window.scrollY;
       const delta = y - lastY.current;
-
-      if (y < 40) {
-        setCompact(false); // always expanded near the top
-      } else if (delta > 6) {
-        setCompact(true); // scrolling down
-      } else if (delta < -6) {
-        setCompact(false); // scrolling up
-      }
       lastY.current = y;
+
+      let next = shrinkRef.current + delta / SCROLL_RANGE;
+      // Always fully expanded near the very top
+      if (y < 30) next = 0;
+      next = Math.min(1, Math.max(0, next));
+      shrinkRef.current = next;
+
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(() => {
+          rafRef.current = null;
+          setShrink(shrinkRef.current);
+        });
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
-  const btnSize = compact ? 40 : 52;
-  const iconSize = compact ? 20 : 23;
-  const radius = compact ? 16 : 20;
+  // Interpolate sizes from the continuous shrink value
+  const lerp = (from: number, to: number) => from + (to - from) * shrink;
+  const btnSize = lerp(52, 40);
+  const iconSize = lerp(23, 20);
+  const radius = lerp(20, 16);
+  const compact = shrink > 0.5;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
@@ -74,10 +91,8 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
       <nav
         className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-[30px]"
         style={{
-          bottom: compact
-            ? 'calc(env(safe-area-inset-bottom) + 12px)'
-            : 'calc(env(safe-area-inset-bottom) + 16px)',
-          padding: compact ? '6px 8px' : '8px 10px',
+          bottom: `calc(env(safe-area-inset-bottom) + ${lerp(16, 12)}px)`,
+          padding: `${lerp(8, 6)}px ${lerp(10, 8)}px`,
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
           WebkitBackdropFilter: 'blur(44px) saturate(200%)',
@@ -85,7 +100,6 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
           boxShadow: darkMode
             ? '0 18px 50px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)'
             : '0 20px 55px rgba(149,108,180,0.35), 0 6px 18px rgba(149,108,180,0.18), inset 0 1px 0 rgba(255,255,255,1)',
-          transition: 'padding 0.35s cubic-bezier(0.4,0,0.2,1), bottom 0.35s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
         {navItems.map((item) => {
@@ -104,7 +118,6 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 width: btnSize,
                 height: btnSize,
                 borderRadius: radius,
-                transition: 'width 0.35s cubic-bezier(0.4,0,0.2,1), height 0.35s cubic-bezier(0.4,0,0.2,1)',
               }}
             >
               {/* Active highlight */}
@@ -123,11 +136,12 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 }}
               />
               <Icon
-                className="relative transition-all duration-300"
+                className="relative"
                 style={{
                   width: iconSize,
                   height: iconSize,
                   color: isActive ? activeColor : theme.textMuted,
+                  transition: 'color 0.3s',
                 }}
                 strokeWidth={isActive ? 2.5 : 2}
                 fill={isActive && isFavoris ? 'currentColor' : 'none'}
