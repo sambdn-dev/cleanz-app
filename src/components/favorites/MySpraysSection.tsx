@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useUserSprays } from '@/contexts/UserSpraysContext';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
@@ -23,6 +24,18 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
   const [selectedType, setSelectedType] = useState<'spray' | 'recette'>('spray');
   const [customName, setCustomName] = useState('');
   const [showQR, setShowQR] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Pour le portal (évite le SSR mismatch)
+  useEffect(() => setMounted(true), []);
+
+  // Bloque le scroll de fond quand la modale est ouverte
+  useEffect(() => {
+    if (showAddModal) {
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = ''; };
+    }
+  }, [showAddModal]);
 
   // Récupère la recette source d'un flacon
   const getRecipeInfo = (userSpray: UserSpray): Spray | RecetteComplete | undefined => {
@@ -246,13 +259,18 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         </div>
       )}
 
-      {/* Add Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center">
+      {/* Add Modal — rendu via portal pour passer AU-DESSUS de la nav pill */}
+      {showAddModal && mounted && createPortal(
+        <div className="fixed inset-0 z-[200] flex items-end justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
           <div
-            className="relative w-full max-w-md rounded-t-3xl p-5 pb-8 animate-slide-up"
-            style={{ background: darkMode ? '#2D1B4E' : 'white', maxHeight: '85vh', overflowY: 'auto' }}
+            className="relative w-full max-w-md rounded-t-3xl p-5 animate-slide-up"
+            style={{
+              background: darkMode ? '#2D1B4E' : 'white',
+              maxHeight: '88vh',
+              overflowY: 'auto',
+              paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
+            }}
           >
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-lg font-bold" style={{ color: theme.textPrimary }}>Nouveau flacon</h3>
@@ -326,7 +344,8 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
               Créer le flacon #{getNextNumber()}
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
