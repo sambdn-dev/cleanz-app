@@ -184,3 +184,98 @@ body {
     overflow: hidden;
   }
 }
+
+/* ---- Splash Screen Animations ---- */
+@keyframes splash-logo {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05) translateY(0);
+  }
+  60% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-splash-logo {
+  animation: splash-logo 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes splash-tagline {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-splash-tagline {
+  animation: splash-tagline 0.6s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+@keyframes splash-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.animate-splash-glow {
+  animation: splash-glow 2s ease-in-out infinite;
+}
+
+@keyframes splash-dot {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-splash-dot {
+  animation: splash-dot 1s ease-in-out infinite;
+}
+
+@keyframes splash-circle-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, 10px) scale(1.1); }
+}
+
+.animate-splash-circle-1 {
+  animation: splash-circle-1 4s ease-in-out infinite;
+}
+
+@keyframes splash-circle-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-15px, 15px) scale(1.05); }
+}
+
+.animate-splash-circle-2 {
+  animation: splash-circle-2 5s ease-in-out infinite;
+}
+
+@keyframes splash-circle-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(10px, -20px) scale(1.08); }
+}
+
+.animate-splash-circle-3 {
+  animation: splash-circle-3 4.5s ease-in-out infinite;
+}

@@ -7,7 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { BottomNav, NavTab } from '@/components/layout/BottomNav';
 import { SearchBar } from '@/components/layout/SearchBar';
 import { CategoryTabs } from '@/components/layout/CategoryTabs';
-import { SpraysSwipeDeck } from '@/components/home/SpraysSwipeDeck';
+import { SpraysHeroGrid } from '@/components/home/SpraysHeroGrid';
 import { SurfacesGrid } from '@/components/home/SurfacesGrid';
 import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
@@ -28,6 +28,7 @@ import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
+import { SplashScreen } from '@/components/ui/SplashScreen';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
@@ -137,6 +138,9 @@ function HomePageContent() {
 
   return (
     <>
+      {/* Splash screen au lancement */}
+      <SplashScreen />
+
       <div className="min-h-screen relative">
         {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -180,8 +184,8 @@ function HomePageContent() {
               <CategoryTabs activeTab={activeCategory} onTabChange={handleCategoryChange} />
             </div>
 
-            {/* Sprays Section - swipe deck */}
-            <SpraysSwipeDeck onSprayClick={setSelectedSpray} />
+            {/* Sprays Section - hero + mini grid */}
+            <SpraysHeroGrid onSprayClick={setSelectedSpray} />
 
             {/* Surfaces Grid */}
             <SurfacesGrid
