@@ -115,11 +115,12 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
   const iconSize = lerp(25, 20);
-  const btnHeight = lerp(56, 40);
-  // Min width stays compact; when expanded the label drives the real width
-  // (so the longest label "Ingrédients" never gets clipped, and the pill
-  // never touches the screen edges on small phones).
-  const btnMinWidth = lerp(44, 40);
+  const btnHeight = lerp(58, 40);
+  // Wider, airier buttons when expanded; collapse to compact icon size on scroll
+  const btnMinWidth = lerp(56, 40);
+  const btnPadX = lerp(11, 6);
+  const navGap = lerp(6, 4);
+  const navPadX = lerp(13, 8);
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
@@ -150,10 +151,12 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
 
       {/* Floating pill */}
       <nav
-        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-[30px] will-change-transform"
+        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center rounded-[30px] will-change-transform"
         style={{
+          gap: navGap,
+          maxWidth: 'calc(100vw - 16px)',
           bottom: `calc(env(safe-area-inset-bottom) + ${lerp(16, 12)}px)`,
-          padding: `${lerp(8, 6)}px ${lerp(10, 8)}px`,
+          padding: `${lerp(8, 6)}px ${navPadX}px`,
           transition: 'box-shadow 0.3s ease',
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
@@ -179,8 +182,8 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
               style={{
                 height: btnHeight,
                 minWidth: btnMinWidth,
-                paddingLeft: 6,
-                paddingRight: 6,
+                paddingLeft: btnPadX,
+                paddingRight: btnPadX,
                 borderRadius: radius,
                 gap: labelReveal * 2,
               }}
