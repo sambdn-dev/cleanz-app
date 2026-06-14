@@ -116,7 +116,10 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
   const iconSize = lerp(25, 20);
   const btnHeight = lerp(56, 40);
-  const btnMinWidth = lerp(60, 40);
+  // Min width stays compact; when expanded the label drives the real width
+  // (so the longest label "Ingrédients" never gets clipped, and the pill
+  // never touches the screen edges on small phones).
+  const btnMinWidth = lerp(44, 40);
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
