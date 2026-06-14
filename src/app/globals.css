@@ -148,3 +148,39 @@ body {
 .animate-bounce-gentle {
   animation: bounce-gentle 2s ease-in-out infinite;
 }
+
+/* ---- Portrait lock: block landscape usage on phones ---- */
+.landscape-lock {
+  display: none;
+}
+
+@keyframes rotate-hint {
+  0%, 40% { transform: rotate(0deg); }
+  60%, 100% { transform: rotate(-90deg); }
+}
+
+@media screen and (orientation: landscape) and (max-height: 540px) {
+  .landscape-lock {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--bg-overscroll);
+    background-image: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  .landscape-lock__icon {
+    font-size: 3rem;
+    animation: rotate-hint 2s ease-in-out infinite;
+  }
+  /* Freeze the app behind the overlay */
+  body {
+    overflow: hidden;
+  }
+}

@@ -56,6 +56,16 @@ export default function RootLayout({
             {children}
           </RecipeInteractionsProvider>
         </ThemeProvider>
+        {/* Portrait lock overlay (visible only in landscape on phones) */}
+        <div className="landscape-lock" aria-hidden="true">
+          <span className="landscape-lock__icon">📱</span>
+          <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>
+            Cleanz se savoure en mode portrait
+          </p>
+          <p style={{ fontSize: "0.85rem", opacity: 0.7 }}>
+            Tourne ton téléphone à la verticale 🌿
+          </p>
+        </div>
       </body>
     </html>
   );

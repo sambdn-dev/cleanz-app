@@ -113,9 +113,14 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
 
   // Interpolate sizes from the continuous shrink value
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
-  const btnSize = lerp(52, 40);
-  const iconSize = lerp(23, 20);
+  // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
+  const iconSize = lerp(25, 20);
+  const btnHeight = lerp(56, 40);
+  const btnMinWidth = lerp(60, 40);
   const radius = lerp(20, 16);
+  // Label reveal: fully visible when expanded, gone by mid-shrink
+  const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
+  const labelHeight = labelReveal * 13;
   const compact = shrink > 0.5;
 
   return (
@@ -167,11 +172,14 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
               key={item.label}
               onClick={() => onTabChange(item.label)}
               aria-label={item.label}
-              className="relative flex items-center justify-center active:scale-90"
+              className="relative flex flex-col items-center justify-center active:scale-90"
               style={{
-                width: btnSize,
-                height: btnSize,
+                height: btnHeight,
+                minWidth: btnMinWidth,
+                paddingLeft: 6,
+                paddingRight: 6,
                 borderRadius: radius,
+                gap: labelReveal * 2,
               }}
             >
               {/* Active highlight */}
@@ -200,11 +208,23 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 strokeWidth={isActive ? 2.5 : 2}
                 fill={isActive && isFavoris ? 'currentColor' : 'none'}
               />
-              {/* Active dot indicator */}
+              {/* Label: visible when expanded, collapses on scroll down */}
               <span
-                className="absolute bottom-1 w-1 h-1 rounded-full transition-all duration-300"
+                className="relative font-semibold leading-none overflow-hidden whitespace-nowrap"
                 style={{
-                  opacity: isActive && !compact ? 1 : 0,
+                  height: labelHeight,
+                  opacity: labelReveal,
+                  fontSize: 9.5,
+                  color: isActive ? activeColor : theme.textMuted,
+                }}
+              >
+                {item.label}
+              </span>
+              {/* Active dot indicator (only in compact mode, replaces the label) */}
+              <span
+                className="absolute bottom-1.5 w-1 h-1 rounded-full"
+                style={{
+                  opacity: isActive ? Math.max(0, shrink * 2 - 1) : 0,
                   background: activeColor,
                 }}
               />
