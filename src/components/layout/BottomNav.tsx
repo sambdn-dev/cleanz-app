@@ -21,34 +21,87 @@ const navItems: { icon: typeof Home; label: NavTab }[] = [
 
 export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const { theme, darkMode } = useTheme();
-  // shrink: continuous 0 (expanded) -> 1 (compact), driven by scroll intensity
+  // shrink: continuous 0 (expanded) -> 1 (compact), with spring physics
   const [shrink, setShrink] = useState(0);
+  const targetRef = useRef(0);
+  const currentRef = useRef(0);
+  const velocityRef = useRef(0);
   const lastY = useRef(0);
-  const shrinkRef = useRef(0);
+  const lastTime = useRef(Date.now());
   const rafRef = useRef<number | null>(null);
 
-  // Instagram-style: size follows scroll intensity (continuous, not a snap)
+  // Instagram-style spring physics animation
   useEffect(() => {
-    // ~110px of accumulated scroll = full transition
-    const SCROLL_RANGE = 110;
+    const SPRING_STIFFNESS = 0.08;  // How fast it moves toward target
+    const SPRING_DAMPING = 0.75;    // How much it bounces (lower = more bounce)
+    const VELOCITY_THRESHOLD = 0.8; // Scroll velocity needed to trigger state change
+    const SETTLE_THRESHOLD = 0.002; // When to stop animating
+
+    let animating = false;
+
+    const animate = () => {
+      const target = targetRef.current;
+      const current = currentRef.current;
+      const diff = target - current;
+
+      // Spring physics
+      velocityRef.current += diff * SPRING_STIFFNESS;
+      velocityRef.current *= SPRING_DAMPING;
+      currentRef.current += velocityRef.current;
+
+      // Clamp to valid range
+      currentRef.current = Math.min(1, Math.max(0, currentRef.current));
+
+      setShrink(currentRef.current);
+
+      // Keep animating if not settled
+      if (Math.abs(diff) > SETTLE_THRESHOLD || Math.abs(velocityRef.current) > SETTLE_THRESHOLD) {
+        rafRef.current = requestAnimationFrame(animate);
+      } else {
+        currentRef.current = target;
+        setShrink(target);
+        animating = false;
+        rafRef.current = null;
+      }
+    };
+
+    const startAnimation = () => {
+      if (!animating) {
+        animating = true;
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
 
     const onScroll = () => {
       const y = window.scrollY;
+      const now = Date.now();
+      const dt = Math.max(1, now - lastTime.current);
       const delta = y - lastY.current;
+      const scrollVelocity = delta / dt * 16; // Normalize to ~60fps
+
       lastY.current = y;
+      lastTime.current = now;
 
-      let next = shrinkRef.current + delta / SCROLL_RANGE;
-      // Always fully expanded near the very top
-      if (y < 30) next = 0;
-      next = Math.min(1, Math.max(0, next));
-      shrinkRef.current = next;
-
-      if (rafRef.current === null) {
-        rafRef.current = requestAnimationFrame(() => {
-          rafRef.current = null;
-          setShrink(shrinkRef.current);
-        });
+      // At top of page: always expanded
+      if (y < 30) {
+        targetRef.current = 0;
       }
+      // Scrolling down fast: go compact
+      else if (scrollVelocity > VELOCITY_THRESHOLD) {
+        targetRef.current = 1;
+      }
+      // Scrolling up fast: expand
+      else if (scrollVelocity < -VELOCITY_THRESHOLD) {
+        targetRef.current = 0;
+      }
+      // Slow scroll: gentle push toward target based on direction
+      else if (delta > 0) {
+        targetRef.current = Math.min(1, targetRef.current + 0.15);
+      } else if (delta < 0) {
+        targetRef.current = Math.max(0, targetRef.current - 0.15);
+      }
+
+      startAnimation();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -89,10 +142,11 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
 
       {/* Floating pill */}
       <nav
-        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-[30px]"
+        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-[30px] will-change-transform"
         style={{
           bottom: `calc(env(safe-area-inset-bottom) + ${lerp(16, 12)}px)`,
           padding: `${lerp(8, 6)}px ${lerp(10, 8)}px`,
+          transition: 'box-shadow 0.3s ease',
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
           WebkitBackdropFilter: 'blur(44px) saturate(200%)',
