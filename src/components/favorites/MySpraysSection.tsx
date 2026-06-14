@@ -91,14 +91,20 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
     const url = getQRUrl(userSpray);
     const qr = await generateQRDataUrl(url, '#2D1F3D', '#FFFFFF');
     const expiry = new Date(userSpray.expiresAt).toLocaleDateString('fr-FR');
-    const win = window.open('', '_blank', 'width=420,height=620');
+    const win = window.open('', '_blank');
     if (!win) return;
     win.document.write(`
-      <!DOCTYPE html><html><head><meta charset="utf-8"><title>Étiquette #${userSpray.number}</title>
+      <!DOCTYPE html><html><head><meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Étiquette #${userSpray.number}</title>
       <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, system-ui, sans-serif; }
-        body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px; }
-        .label { width:300px; border:2px solid #2D1F3D; border-radius:18px; padding:20px; text-align:center; }
+        body { display:flex; flex-direction:column; align-items:center; min-height:100vh; padding:80px 16px 16px; background:#F6F2F9; }
+        .bar { position:fixed; top:0; left:0; right:0; height:60px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background:#fff; border-bottom:1px solid #eee; }
+        .bar button { border:none; border-radius:12px; padding:10px 16px; font-size:14px; font-weight:700; cursor:pointer; }
+        .close { background:#F0EBF5; color:#2D1F3D; }
+        .print { background:linear-gradient(135deg,#14B8A6,#06B6D4); color:#fff; }
+        .label { width:300px; border:2px solid #2D1F3D; border-radius:18px; padding:20px; text-align:center; background:#fff; }
         .brand { font-size:13px; font-weight:800; color:#FF69B4; letter-spacing:1px; }
         .num { font-size:54px; font-weight:900; color:#2D1F3D; line-height:1; margin:6px 0; }
         .name { font-size:18px; font-weight:700; color:#2D1F3D; margin-bottom:4px; }
@@ -106,7 +112,12 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         .qr { display:flex; justify-content:center; margin-bottom:8px; }
         .qr img { width:170px; height:170px; }
         .scan { font-size:11px; color:#9B8AAB; }
+        @media print { .bar { display:none; } body { padding:16px; background:#fff; } }
       </style></head><body>
+        <div class="bar">
+          <button class="close" onclick="window.close()">✕ Fermer</button>
+          <button class="print" onclick="window.print()">🖨️ Imprimer</button>
+        </div>
         <div class="label">
           <div class="brand">🧴 CLEANZ</div>
           <div class="num">#${userSpray.number}</div>
@@ -115,7 +126,6 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
           <div class="qr"><img src="${qr}" alt="QR"/></div>
           <div class="scan">Scannez pour voir la recette</div>
         </div>
-        <script>window.onload=function(){setTimeout(function(){window.print();},250);}</script>
       </body></html>
     `);
     win.document.close();
