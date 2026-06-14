@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { UserSpray } from '@/types';
+import { parseConservationToDays } from '@/utils/sprayUtils';
 
 interface UserSpraysContextType {
   sprays: UserSpray[];
@@ -16,18 +17,6 @@ export const useUserSprays = () => {
   const ctx = useContext(UserSpraysContext);
   if (!ctx) throw new Error('useUserSprays must be used within UserSpraysProvider');
   return ctx;
-};
-
-// Parse conservation string to days
-const parseConservation = (conservation: string): number => {
-  const lower = conservation.toLowerCase();
-  const num = parseInt(lower) || 1;
-  if (lower.includes('semaine')) return num * 7;
-  if (lower.includes('mois')) return num * 30;
-  if (lower.includes('an')) return num * 365;
-  if (lower.includes('jour')) return num;
-  if (lower.includes('usage') || lower.includes('immédiat')) return 1;
-  return 90; // Default 3 mois
 };
 
 const genId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
@@ -60,7 +49,7 @@ export const UserSpraysProvider = ({ children }: { children: ReactNode }) => {
     conservation: string
   ): UserSpray => {
     const now = new Date();
-    const days = parseConservation(conservation);
+    const days = parseConservationToDays(conservation);
     const expires = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
 
     const newSpray: UserSpray = {

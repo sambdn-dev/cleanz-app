@@ -31,7 +31,9 @@ import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
+import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
+import { parseFicheParam } from '@/utils/sprayUtils';
 import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
 
 // Fonction pour générer un slug à partir du nom
@@ -76,6 +78,18 @@ function HomePageContent() {
   // Handle URL parameters for shared links
   useEffect(() => {
     setIsLoaded(true);
+
+    // QR code d'un flacon "Mes Sprays" : ?fiche=spray-3 ou ?fiche=recette-12
+    const fiche = parseFicheParam(searchParams.get('fiche'));
+    if (fiche) {
+      if (fiche.type === 'spray') {
+        const spray = SPRAYS_INDISPENSABLES.find(s => s.id === fiche.id);
+        if (spray) { setSelectedSpray(spray); return; }
+      } else {
+        const recipe = RECETTES.find(r => r.id === fiche.id);
+        if (recipe) { setSelectedRecipe(recipe); return; }
+      }
+    }
 
     // Clean slug: extract only the valid slug part (before any space or invalid characters)
     const cleanSlug = (slug: string): string => {
