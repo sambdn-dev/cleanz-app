@@ -29,6 +29,7 @@ import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
+import { WhatsNewModal } from '@/components/ui/WhatsNewModal';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
@@ -154,6 +155,9 @@ function HomePageContent() {
     <>
       {/* Splash screen au lancement */}
       <SplashScreen />
+
+      {/* Nouveautés (s'affiche après le splash si features non vues) */}
+      <WhatsNewModal />
 
       <div className="min-h-screen relative">
         {/* Background decorations */}
