@@ -13,7 +13,7 @@ import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { AstucesSection } from '@/components/home/AstucesSection';
-import { EconomiesWidget } from '@/components/home/EconomiesWidget';
+import { ImpactStrip } from '@/components/home/ImpactStrip';
 import { AppareilsPage } from '@/components/appareils/AppareilsPage';
 import { SprayModal } from '@/components/modals/SprayModal';
 import { SurfaceModal } from '@/components/modals/SurfaceModal';
@@ -183,29 +183,6 @@ function HomePageContent() {
             {/* Sprays Section - swipe deck */}
             <SpraysSwipeDeck onSprayClick={setSelectedSpray} />
 
-            {/* Bouton Voir toutes les astuces */}
-            <div className="mb-5">
-              <button
-                onClick={() => setActiveNavTab('Astuces')}
-                className="w-full py-3 px-4 rounded-2xl font-medium text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
-                style={{
-                  background: darkMode
-                    ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)'
-                    : 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)',
-                  color: darkMode ? '#E9D5FF' : '#7C3AED',
-                  border: `1px solid ${darkMode ? 'rgba(139, 92, 246, 0.3)' : 'rgba(139, 92, 246, 0.2)'}`
-                }}
-              >
-                <span>📋</span>
-                Voir toutes les astuces
-                <span className="text-xs px-2 py-0.5 rounded-full" style={{
-                  background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(139, 92, 246, 0.15)'
-                }}>
-                  100
-                </span>
-              </button>
-            </div>
-
             {/* Surfaces Grid */}
             <SurfacesGrid
               surfaces={getFilteredSurfaces()}
@@ -230,8 +207,8 @@ function HomePageContent() {
             {/* Astuces du jour */}
             <AstucesSection onAstuceClick={setSelectedAstuce} />
 
-            {/* Widget Pourquoi passer au naturel */}
-            {!searchQuery && <EconomiesWidget />}
+            {/* Impact (version compacte, sans carrousel animé) */}
+            {!searchQuery && <ImpactStrip />}
           </>
         )}
 

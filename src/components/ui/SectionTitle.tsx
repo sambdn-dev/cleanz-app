@@ -25,15 +25,15 @@ export const SectionTitle = ({
 
   return (
     <div className="flex items-center justify-between mb-3">
-      <h2 className="text-sm font-bold flex items-center gap-2" style={{ color: theme.textPrimary }}>
+      <h2 className="text-[15px] font-bold flex items-center gap-2" style={{ color: theme.textPrimary }}>
         {Icon && <Icon className={`w-4 h-4 ${iconColor}`} />}
         {children}
         {badge && (
           <span
-            className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+            className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
             style={{
-              background: darkMode ? 'rgba(236, 72, 153, 0.25)' : 'rgba(236, 72, 153, 0.15)',
-              color: darkMode ? '#F472B6' : '#DB2777'
+              background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(45,31,61,0.06)',
+              color: theme.textMuted,
             }}
           >
             {badge}
@@ -43,7 +43,8 @@ export const SectionTitle = ({
       {action && (
         <button
           onClick={onAction}
-          className="text-xs font-semibold text-violet-500 hover:text-violet-600 transition-colors"
+          className="text-xs font-semibold transition-colors"
+          style={{ color: theme.accentPink }}
         >
           {action}
         </button>

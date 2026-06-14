@@ -31,11 +31,11 @@ export const LeSaviezVousSection = () => {
   const { darkMode } = useTheme();
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
-  // Auto-rotation toutes les 5 secondes
+  // Auto-rotation calme (9 secondes) pour réduire le bruit visuel
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTipIndex(prev => (prev + 1) % TIPS_DATA.length);
-    }, 5000);
+    }, 9000);
     return () => clearInterval(interval);
   }, []);
 
