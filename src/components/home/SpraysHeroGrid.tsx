@@ -1,16 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { Spray } from '@/types';
 import { useTheme } from '@/contexts/ThemeContext';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 interface SpraysHeroGridProps {
   onSprayClick: (spray: Spray) => void;
 }
+
+const TOTAL = SPRAYS_INDISPENSABLES.length;
+const SWIPE_THRESHOLD = 55;
 
 // Couleurs distinctes pour les bandes de produit dans le flacon
 const BAND_COLORS = ['#5BA0F2', '#37C9A6', '#F4B740', '#EF7DAE', '#A78BFA', '#22CCD6'];
@@ -44,7 +47,6 @@ const getBands = (spray: Spray) => {
 
 // Flacon spray en SVG, rempli de bandes proportionnelles
 const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
-  // Zone liquide : y de 62 à 166 (hauteur 104)
   const TOP = 62;
   const BOTTOM = 166;
   const H = BOTTOM - TOP;
@@ -83,7 +85,6 @@ const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
       {/* Bandes de produit */}
       <g clipPath="url(#bottleBody)">
         {rects}
-        {/* Reflet verre */}
         <rect x="32" y="60" width="56" height="106" fill="url(#glassShine)" />
       </g>
 
@@ -96,6 +97,10 @@ const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
 export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
   const { theme, darkMode } = useTheme();
   const [heroIndex, setHeroIndex] = useState(0);
+  const [drag, setDrag] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const startX = useRef(0);
+  const moved = useRef(false);
 
   const hero = SPRAYS_INDISPENSABLES[heroIndex];
   const darkText = shouldUseDarkText(hero.gradient);
@@ -103,116 +108,144 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
   const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
   const bands = getBands(hero);
 
-  // Rotation auto du hero toutes les 6s
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeroIndex((i) => (i + 1) % SPRAYS_INDISPENSABLES.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+  const go = (dir: number) => setHeroIndex((i) => (i + dir + TOTAL) % TOTAL);
+
+  const handleStart = (x: number) => {
+    startX.current = x;
+    moved.current = false;
+    setIsDragging(true);
+  };
+  const handleMove = (x: number) => {
+    if (!isDragging) return;
+    const d = x - startX.current;
+    if (Math.abs(d) > 6) moved.current = true;
+    setDrag(d);
+  };
+  const handleEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (drag <= -SWIPE_THRESHOLD) go(1);
+    else if (drag >= SWIPE_THRESHOLD) go(-1);
+    else if (!moved.current) onSprayClick(hero);
+    setDrag(0);
+  };
 
   return (
     <div className="mb-5">
-      <SectionTitle badge="Recettes maison">
+      <SectionTitle badge="Glissez pour parcourir">
         <span className="text-base mr-2">🧴</span>Les Indispensables
       </SectionTitle>
 
-      {/* Hero card */}
-      <button
-        onClick={() => onSprayClick(hero)}
-        className="w-full rounded-3xl p-4 mb-3 text-left relative overflow-hidden transition-all active:scale-[0.98] flex"
-        style={{ background: hero.gradient, boxShadow: '0 8px 28px rgba(0,0,0,0.15)', minHeight: 180 }}
-      >
-        {/* Colonne gauche : badge + titre (2 lignes) + CTA */}
-        <div className="flex flex-col flex-1 min-w-0 pr-2">
-          <span
-            className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
-            style={{ background: darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)', color: txt }}
-          >
-            {hero.badge}
-          </span>
-
-          <div className="flex items-center gap-2 mt-3 flex-1">
-            {/* Emoji à gauche du titre */}
+      {/* Hero card swipable */}
+      <div className="relative overflow-hidden rounded-3xl" style={{ minHeight: 180 }}>
+        <div
+          onMouseDown={(e) => handleStart(e.clientX)}
+          onMouseMove={(e) => handleMove(e.clientX)}
+          onMouseUp={handleEnd}
+          onMouseLeave={() => isDragging && handleEnd()}
+          onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+          onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+          onTouchEnd={handleEnd}
+          className="w-full rounded-3xl p-4 text-left relative overflow-hidden flex select-none"
+          style={{
+            background: hero.gradient,
+            boxShadow: '0 8px 28px rgba(0,0,0,0.15)',
+            minHeight: 180,
+            transform: `translateX(${drag}px) rotate(${drag / 45}deg)`,
+            transition: isDragging ? 'none' : 'transform 0.3s ease',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            touchAction: 'pan-y',
+          }}
+        >
+          {/* Colonne gauche : badge + titre (2 lignes) + CTA */}
+          <div className="flex flex-col flex-1 min-w-0 pr-2 pointer-events-none">
             <span
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-              style={{ background: darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)' }}
+              className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
+              style={{ background: darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)', color: txt }}
             >
-              {hero.emoji}
+              {hero.badge}
             </span>
-            <h3 className="font-bold text-xl leading-tight line-clamp-2" style={{ color: txt }}>
-              {hero.nom}
-            </h3>
+
+            <div className="flex items-center gap-2 mt-3 flex-1">
+              <span
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                style={{ background: darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)' }}
+              >
+                {hero.emoji}
+              </span>
+              <h3 className="font-bold text-xl leading-tight line-clamp-2" style={{ color: txt }}>
+                {hero.nom}
+              </h3>
+            </div>
+
+            <div className="flex items-center gap-1 text-xs font-semibold mt-3" style={{ color: txt }}>
+              Voir la recette <ChevronRight className="w-4 h-4" />
+            </div>
           </div>
 
-          <div className="flex items-center gap-1 text-xs font-semibold mt-3" style={{ color: txt }}>
-            Voir la recette <ChevronRight className="w-4 h-4" />
+          {/* Colonne droite : flacon + légende des proportions */}
+          <div className="flex flex-col items-center justify-center pointer-events-none" style={{ width: '40%' }}>
+            <div className="h-[112px] w-full flex items-center justify-center">
+              <SprayBottle bands={bands} />
+            </div>
+            <div className="w-full mt-1.5 space-y-0.5">
+              {bands.map((b, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
+                  <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
+                    {b.nom}
+                  </span>
+                  <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
+                    {b.quantite}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Colonne droite : flacon + légende des proportions */}
-        <div className="flex flex-col items-center justify-center" style={{ width: '40%' }}>
-          <div className="h-[112px] w-full flex items-center justify-center">
-            <SprayBottle bands={bands} />
-          </div>
-          <div className="w-full mt-1.5 space-y-0.5">
-            {bands.map((b, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
-                <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
-                  {b.nom}
-                </span>
-                <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
-                  {b.quantite}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Contrôles du carrousel : chevrons + points cliquables */}
+      <div className="flex items-center justify-center gap-3 mt-3">
+        <button
+          onClick={() => go(-1)}
+          aria-label="Précédent"
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0"
+          style={{
+            background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.85)',
+            boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)',
+          }}
+        >
+          <ChevronLeft className="w-4 h-4" style={{ color: theme.textSecondary }} />
+        </button>
 
-        {/* Progress dots */}
-        <div className="absolute bottom-3 left-4 flex gap-1.5">
-          {SPRAYS_INDISPENSABLES.map((_, i) => (
-            <span
-              key={i}
+        <div className="flex items-center gap-1.5">
+          {SPRAYS_INDISPENSABLES.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => setHeroIndex(i)}
+              aria-label={`Recette ${i + 1}`}
               className="rounded-full transition-all"
               style={{
-                width: i === heroIndex ? 14 : 5,
-                height: 5,
-                background: i === heroIndex ? txt : (darkText ? 'rgba(45,31,61,0.3)' : 'rgba(255,255,255,0.4)'),
+                width: i === heroIndex ? 18 : 7,
+                height: 7,
+                background: i === heroIndex ? theme.accentPink : (darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.12)'),
               }}
             />
           ))}
         </div>
-      </button>
 
-      {/* Mini-grille : sélecteur des 6 sprays */}
-      <div className="grid grid-cols-6 gap-2">
-        {SPRAYS_INDISPENSABLES.map((spray, i) => {
-          const isActive = i === heroIndex;
-          return (
-            <button
-              key={spray.id}
-              onClick={() => {
-                if (isActive) onSprayClick(spray);
-                else setHeroIndex(i);
-              }}
-              aria-label={spray.nom}
-              className="rounded-2xl py-2.5 flex items-center justify-center transition-all active:scale-95"
-              style={{
-                background: isActive
-                  ? spray.gradient
-                  : darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.7)',
-                border: `1.5px solid ${isActive ? 'transparent' : (darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)')}`,
-                boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
-              }}
-            >
-              <span className="text-lg" style={{ filter: isActive ? 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' : 'none' }}>
-                {spray.emoji}
-              </span>
-            </button>
-          );
-        })}
+        <button
+          onClick={() => go(1)}
+          aria-label="Suivant"
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0"
+          style={{
+            background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.85)',
+            boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)',
+          }}
+        >
+          <ChevronRight className="w-4 h-4" style={{ color: theme.textSecondary }} />
+        </button>
       </div>
     </div>
   );
