@@ -157,3 +157,14 @@ export interface Theme {
   accentCyan: string;
   shadowCard: string;
 }
+
+// Spray créé par l'utilisateur (numéroté, avec QR code)
+export interface UserSpray {
+  id: string; // UUID unique
+  number: number; // Numéro du flacon (1, 2, 3...)
+  recipeId: number; // ID de la recette source (Spray ou RecetteComplete)
+  recipeType: 'spray' | 'recette';
+  name: string; // Nom personnalisé ou par défaut
+  createdAt: string; // ISO date
+  expiresAt: string; // ISO date (calculée depuis conservation)
+}

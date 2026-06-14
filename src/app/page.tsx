@@ -229,7 +229,7 @@ function HomePageContent() {
         )}
 
         {activeNavTab === 'Favoris' && (
-          <FavoritesPage onRecipeClick={setSelectedRecipe} />
+          <FavoritesPage onRecipeClick={setSelectedRecipe} onSprayClick={setSelectedSpray} />
         )}
       </div>
       </div>

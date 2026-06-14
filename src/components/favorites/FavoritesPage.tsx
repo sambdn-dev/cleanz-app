@@ -2,15 +2,17 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
-import { RecetteComplete } from '@/types';
+import { RecetteComplete, Spray } from '@/types';
 import { RECETTES } from '@/data/recettes';
 import { Heart, Clock, Star, Sparkles } from 'lucide-react';
+import { MySpraysSection } from './MySpraysSection';
 
 interface FavoritesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
+  onSprayClick: (spray: Spray) => void;
 }
 
-export const FavoritesPage = ({ onRecipeClick }: FavoritesPageProps) => {
+export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { favorites, toggleFavorite, getRating } = useRecipeInteractionsContext();
 
@@ -137,7 +139,10 @@ export const FavoritesPage = ({ onRecipeClick }: FavoritesPageProps) => {
 
   return (
     <div className="pt-2 pb-4">
-      {/* Header */}
+      {/* Section Mes Sprays */}
+      <MySpraysSection onSprayClick={onSprayClick} onRecipeClick={onRecipeClick} />
+
+      {/* Header Favoris */}
       <div className="mb-5">
         <div className="flex items-center gap-2 mb-2">
           <Heart className="w-6 h-6 text-pink-500 fill-pink-500" />

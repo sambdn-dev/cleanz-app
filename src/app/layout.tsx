@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { RecipeInteractionsProvider } from "@/contexts/RecipeInteractionsContext";
+import { UserSpraysProvider } from "@/contexts/UserSpraysContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -53,7 +54,9 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeProvider>
           <RecipeInteractionsProvider>
-            {children}
+            <UserSpraysProvider>
+              {children}
+            </UserSpraysProvider>
           </RecipeInteractionsProvider>
         </ThemeProvider>
         {/* Portrait lock overlay (visible only in landscape on phones) */}
