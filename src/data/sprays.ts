@@ -63,6 +63,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '👕',
     badge: 'Essentiel',
     gradient: 'linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%)',
+    imageUrl: '/images/sprays/textile.jpg',
     ingredients: [
       { nom: 'Eau tiède', quantite: '200ml' },
       { nom: 'Percarbonate de soude', quantite: '2 c.à.s' },

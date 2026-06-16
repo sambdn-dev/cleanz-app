@@ -98,6 +98,7 @@ export const RECETTES: RecetteComplete[] = [
     categorie: 'Indispensable',
     badge: 'Essentiel',
     gradient: 'linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%)',
+    imageUrl: '/images/sprays/textile.jpg',
     temps: '15min',
     difficulte: 'Facile',
     efficacite: 5,
