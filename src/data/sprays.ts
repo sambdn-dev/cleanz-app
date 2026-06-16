@@ -100,6 +100,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '🦠',
     badge: 'Santé',
     gradient: 'linear-gradient(135deg, #B0E0E6 0%, #ADD8E6 100%)',
+    imageUrl: '/images/sprays/desinfectant.jpg',
     ingredients: [
       { nom: 'Eau', quantite: '300ml' },
       { nom: 'Vinaigre blanc', quantite: '200ml' },
