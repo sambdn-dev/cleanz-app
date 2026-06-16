@@ -279,3 +279,12 @@ body {
 .animate-splash-circle-3 {
   animation: splash-circle-3 4.5s ease-in-out infinite;
 }
+
+@keyframes splash-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+
+.animate-splash-bounce {
+  animation: splash-bounce 1.5s ease-in-out infinite;
+}

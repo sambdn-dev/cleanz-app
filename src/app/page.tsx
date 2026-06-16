@@ -153,8 +153,8 @@ function HomePageContent() {
 
   return (
     <>
-      {/* Splash screen désactivé (gardé pour plus tard) */}
-      {/* <SplashScreen /> */}
+      {/* Splash screen avec image de fond */}
+      <SplashScreen />
 
       {/* Nouveautés (s'affiche après le splash si features non vues) */}
       <WhatsNewModal />

@@ -26,8 +26,8 @@ export const WhatsNewModal = () => {
     const items = NOUVEAUTES.filter((n) => n.id > seen).sort((a, b) => b.id - a.id);
     if (items.length > 0) {
       setUnseen(items);
-      // Affiche après un court délai pour laisser la page se charger
-      const t = setTimeout(() => setOpen(true), 600);
+      // Affiche après le splash screen (2.5s) + court délai
+      const t = setTimeout(() => setOpen(true), 2800);
       return () => clearTimeout(t);
     }
   }, []);
