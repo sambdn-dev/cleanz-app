@@ -6,6 +6,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
+import { getBlur } from '@/data/imageBlur';
 import { Clock, Star, Search, ChevronRight, Sparkles, Heart, X } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -108,6 +109,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
                 fill
                 className="object-cover object-right"
                 sizes="56px"
+                placeholder={getBlur(recipe.imageUrl) ? 'blur' : 'empty'}
+                blurDataURL={getBlur(recipe.imageUrl)}
               />
             </div>
           ) : (

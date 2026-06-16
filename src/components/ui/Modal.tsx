@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { X } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getBlur } from '@/data/imageBlur';
 
 interface ModalProps {
   isOpen: boolean;
@@ -61,6 +62,9 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 500px"
+                  placeholder={getBlur(headerImageUrl) ? 'blur' : 'empty'}
+                  blurDataURL={getBlur(headerImageUrl)}
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
               </>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { getBlur } from '@/data/imageBlur';
 
 export const SplashScreen = () => {
   const [phase, setPhase] = useState<'visible' | 'fadeOut' | 'hidden'>('visible');
@@ -36,6 +37,8 @@ export const SplashScreen = () => {
         fill
         className="object-cover"
         priority
+        placeholder="blur"
+        blurDataURL={getBlur('/images/splash-bg.jpg')}
       />
 
       {/* Overlay central pour lisibilité du logo */}

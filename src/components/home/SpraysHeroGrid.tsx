@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
+import { getBlur } from '@/data/imageBlur';
 import { Spray } from '@/types';
 import { useTheme } from '@/contexts/ThemeContext';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
@@ -16,7 +17,7 @@ interface SpraysHeroGridProps {
 const TOTAL = SPRAYS_INDISPENSABLES.length;
 const SWIPE_THRESHOLD = 55;
 
-// Couleurs distinctes pour les bandes de produit dans le flacon
+// Couleurs distinctes pour les bandes de produit dans le flacon (fallback sans photo)
 const BAND_COLORS = ['#5BA0F2', '#37C9A6', '#F4B740', '#EF7DAE', '#A78BFA', '#22CCD6'];
 
 // Convertit une quantité texte en millilitres approximatifs (pour les proportions)
@@ -46,7 +47,7 @@ const getBands = (spray: Spray) => {
   }));
 };
 
-// Flacon spray en SVG, rempli de bandes proportionnelles
+// Flacon spray en SVG, rempli de bandes proportionnelles (fallback sans photo)
 const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
   const TOP = 62;
   const BOTTOM = 166;
@@ -71,47 +72,129 @@ const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
           <stop offset="100%" stopColor="rgba(255,255,255,0)" />
         </linearGradient>
       </defs>
-
-      {/* Tête du spray */}
       <rect x="48" y="46" width="24" height="16" fill="rgba(255,255,255,0.92)" />
       <rect x="44" y="22" width="42" height="26" rx="8" fill="rgba(255,255,255,0.92)" />
-      {/* Buse (pointe vers la gauche) */}
       <rect x="14" y="28" width="32" height="9" rx="4" fill="rgba(255,255,255,0.92)" />
-      {/* Gâchette */}
       <path d="M48 36 L34 52 L43 55 L54 40 Z" fill="rgba(255,255,255,0.82)" />
-
-      {/* Corps en verre */}
       <rect x="32" y="60" width="56" height="106" rx="16" fill="rgba(255,255,255,0.20)" />
-
-      {/* Bandes de produit */}
       <g clipPath="url(#bottleBody)">
         {rects}
         <rect x="32" y="60" width="56" height="106" fill="url(#glassShine)" />
       </g>
-
-      {/* Contour du flacon */}
       <rect x="32" y="60" width="56" height="106" rx="16" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="2" />
     </svg>
   );
 };
 
+// Une diapositive du carrousel. Toutes les diapos sont montées en permanence dans
+// le « track », ce qui permet de précharger les images et d'obtenir un swipe
+// instantané (pas de re-fetch, pas d'image figée sur l'ancienne photo).
+const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => {
+  const hasImage = !!spray.imageUrl;
+  const blur = getBlur(spray.imageUrl);
+  // Avec photo : voile clair à gauche + texte sombre (look pastel premium)
+  const darkText = hasImage ? true : shouldUseDarkText(spray.gradient);
+  const txt = darkText ? '#2D1F3D' : '#FFFFFF';
+  const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
+  const bands = getBands(spray);
+
+  return (
+    <div
+      className="relative h-full flex-shrink-0 p-4 flex"
+      style={{ width: '100%', background: hasImage ? '#EFE7F8' : spray.gradient }}
+    >
+      {/* Photo de fond (produit à droite, zone claire à gauche) */}
+      {hasImage && (
+        <>
+          <Image
+            src={spray.imageUrl!}
+            alt={spray.nom}
+            fill
+            className="object-cover object-right pointer-events-none"
+            sizes="(max-width: 768px) 100vw, 460px"
+            placeholder={blur ? 'blur' : 'empty'}
+            blurDataURL={blur}
+            priority={priority}
+            {...(!priority && { loading: 'eager' as const })}
+            draggable={false}
+          />
+          {/* Voile clair à gauche pour la lisibilité du texte sombre */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/55 to-transparent pointer-events-none" />
+        </>
+      )}
+
+      {/* Colonne gauche : badge + titre + CTA */}
+      <div
+        className={`flex flex-col min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : 'flex-1'}`}
+        style={hasImage ? { maxWidth: '64%' } : undefined}
+      >
+        <span
+          className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
+          style={{
+            background: hasImage ? 'rgba(255,255,255,0.8)' : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
+            color: txt,
+            boxShadow: hasImage ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
+          }}
+        >
+          {spray.badge}
+        </span>
+
+        <div className="flex items-center gap-2 mt-3 flex-1">
+          <span
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+            style={{ background: hasImage ? 'rgba(255,255,255,0.7)' : (darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)') }}
+          >
+            {spray.emoji}
+          </span>
+          <h3 className="font-bold text-xl leading-tight line-clamp-2" style={{ color: txt }}>
+            {spray.nom}
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-1 text-xs font-semibold mt-3" style={{ color: txt }}>
+          Voir la recette <ChevronRight className="w-4 h-4" />
+        </div>
+      </div>
+
+      {/* Colonne droite : flacon SVG (si pas de photo) + légende des proportions */}
+      {!hasImage && (
+        <div className="flex flex-col items-center justify-center pointer-events-none relative z-10" style={{ width: '40%' }}>
+          <div className="h-[112px] w-full flex items-center justify-center">
+            <SprayBottle bands={bands} />
+          </div>
+          <div className="w-full mt-1.5 space-y-0.5">
+            {bands.map((b, i) => (
+              <div key={i} className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
+                <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
+                  {b.nom}
+                </span>
+                <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
+                  {b.quantite}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
   const { theme, darkMode } = useTheme();
-  const [heroIndex, setHeroIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startX = useRef(0);
   const moved = useRef(false);
 
-  const hero = SPRAYS_INDISPENSABLES[heroIndex];
-  const hasImage = !!hero.imageUrl;
-  // Avec photo : voile clair à gauche + texte sombre (look pastel premium)
-  const darkText = hasImage ? true : shouldUseDarkText(hero.gradient);
-  const txt = darkText ? '#2D1F3D' : '#FFFFFF';
-  const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
-  const bands = getBands(hero);
+  const goTo = (i: number) => setIndex(Math.max(0, Math.min(TOTAL - 1, i)));
+  const go = (dir: number) => goTo(index + dir);
 
-  const go = (dir: number) => setHeroIndex((i) => (i + dir + TOTAL) % TOTAL);
+  // Résistance « rubber-band » quand on tire au-delà de la première/dernière diapo
+  const resisted =
+    (index === 0 && drag > 0) || (index === TOTAL - 1 && drag < 0) ? drag * 0.35 : drag;
 
   const handleStart = (x: number) => {
     startX.current = x;
@@ -129,7 +212,7 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
     setIsDragging(false);
     if (drag <= -SWIPE_THRESHOLD) go(1);
     else if (drag >= SWIPE_THRESHOLD) go(-1);
-    else if (!moved.current) onSprayClick(hero);
+    else if (!moved.current) onSprayClick(SPRAYS_INDISPENSABLES[index]);
     setDrag(0);
   };
 
@@ -139,104 +222,41 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
         <span className="text-base mr-2">🧴</span>Les Indispensables
       </SectionTitle>
 
-      {/* Hero card swipable */}
-      <div className="relative overflow-hidden rounded-3xl" style={{ minHeight: 180 }}>
+      {/* Carrousel : fenêtre + track glissant (toutes les diapos préchargées) */}
+      <div
+        className="relative overflow-hidden rounded-3xl select-none"
+        style={{ height: 180, boxShadow: '0 8px 28px rgba(0,0,0,0.15)', touchAction: 'pan-y' }}
+        onMouseDown={(e) => handleStart(e.clientX)}
+        onMouseMove={(e) => handleMove(e.clientX)}
+        onMouseUp={handleEnd}
+        onMouseLeave={() => isDragging && handleEnd()}
+        onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+        onTouchEnd={handleEnd}
+      >
         <div
-          onMouseDown={(e) => handleStart(e.clientX)}
-          onMouseMove={(e) => handleMove(e.clientX)}
-          onMouseUp={handleEnd}
-          onMouseLeave={() => isDragging && handleEnd()}
-          onTouchStart={(e) => handleStart(e.touches[0].clientX)}
-          onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-          onTouchEnd={handleEnd}
-          className="w-full rounded-3xl p-4 text-left relative overflow-hidden flex select-none"
+          className="flex h-full"
           style={{
-            background: hasImage ? '#EFE7F8' : hero.gradient,
-            boxShadow: '0 8px 28px rgba(0,0,0,0.15)',
-            minHeight: 180,
-            transform: `translateX(${drag}px) rotate(${drag / 45}deg)`,
-            transition: isDragging ? 'none' : 'transform 0.3s ease',
+            width: '100%',
+            transform: `translateX(calc(${-index * 100}% + ${resisted}px))`,
+            transition: isDragging ? 'none' : 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
             cursor: isDragging ? 'grabbing' : 'grab',
             touchAction: 'pan-y',
           }}
         >
-          {/* Image de fond si disponible (produit à droite, zone claire à gauche) */}
-          {hasImage && (
-            <>
-              <Image
-                src={hero.imageUrl!}
-                alt={hero.nom}
-                fill
-                className="object-cover object-right pointer-events-none"
-                sizes="(max-width: 768px) 100vw, 500px"
-              />
-              {/* Voile clair à gauche pour la lisibilité du texte sombre */}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/55 to-transparent pointer-events-none" />
-            </>
-          )}
-          {/* Colonne gauche : badge + titre (2 lignes) + CTA */}
-          <div
-            className={`flex flex-col min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : 'flex-1'}`}
-            style={hasImage ? { maxWidth: '64%' } : undefined}
-          >
-            <span
-              className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
-              style={{
-                background: hasImage ? 'rgba(255,255,255,0.8)' : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
-                color: txt,
-                boxShadow: hasImage ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
-              }}
-            >
-              {hero.badge}
-            </span>
-
-            <div className="flex items-center gap-2 mt-3 flex-1">
-              <span
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                style={{ background: hasImage ? 'rgba(255,255,255,0.7)' : (darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)') }}
-              >
-                {hero.emoji}
-              </span>
-              <h3 className="font-bold text-xl leading-tight line-clamp-2" style={{ color: txt }}>
-                {hero.nom}
-              </h3>
-            </div>
-
-            <div className="flex items-center gap-1 text-xs font-semibold mt-3" style={{ color: txt }}>
-              Voir la recette <ChevronRight className="w-4 h-4" />
-            </div>
-          </div>
-
-          {/* Colonne droite : flacon SVG (si pas d'image) + légende des proportions */}
-          {!hasImage && (
-            <div className="flex flex-col items-center justify-center pointer-events-none relative z-10" style={{ width: '40%' }}>
-              <div className="h-[112px] w-full flex items-center justify-center">
-                <SprayBottle bands={bands} />
-              </div>
-              <div className="w-full mt-1.5 space-y-0.5">
-                {bands.map((b, i) => (
-                  <div key={i} className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
-                    <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
-                      {b.nom}
-                    </span>
-                    <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
-                      {b.quantite}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {SPRAYS_INDISPENSABLES.map((spray, i) => (
+            <HeroSlide key={spray.id} spray={spray} priority={i === 0} />
+          ))}
         </div>
       </div>
 
-      {/* Contrôles du carrousel : chevrons + points cliquables */}
+      {/* Contrôles : chevrons + points cliquables */}
       <div className="flex items-center justify-center gap-3 mt-3">
         <button
           onClick={() => go(-1)}
+          disabled={index === 0}
           aria-label="Précédent"
-          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0"
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0 disabled:opacity-40"
           style={{
             background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.85)',
             boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)',
@@ -249,13 +269,13 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
           {SPRAYS_INDISPENSABLES.map((s, i) => (
             <button
               key={s.id}
-              onClick={() => setHeroIndex(i)}
+              onClick={() => goTo(i)}
               aria-label={`Recette ${i + 1}`}
               className="rounded-full transition-all"
               style={{
-                width: i === heroIndex ? 18 : 7,
+                width: i === index ? 18 : 7,
                 height: 7,
-                background: i === heroIndex ? theme.accentPink : (darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.12)'),
+                background: i === index ? theme.accentPink : (darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.12)'),
               }}
             />
           ))}
@@ -263,8 +283,9 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
 
         <button
           onClick={() => go(1)}
+          disabled={index === TOTAL - 1}
           aria-label="Suivant"
-          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0"
+          className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90 flex-shrink-0 disabled:opacity-40"
           style={{
             background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.85)',
             boxShadow: darkMode ? 'none' : '0 2px 8px rgba(0,0,0,0.06)',
