@@ -81,6 +81,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '🛋️',
     badge: 'Malin',
     gradient: 'linear-gradient(135deg, #98D8C8 0%, #7FC9B9 100%)',
+    imageUrl: '/images/sprays/poussiere.jpg',
     ingredients: [
       { nom: 'Eau', quantite: '400ml' },
       { nom: 'Glycérine végétale', quantite: '2 c.à.s' },

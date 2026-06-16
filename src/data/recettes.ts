@@ -127,6 +127,7 @@ export const RECETTES: RecetteComplete[] = [
     categorie: 'Indispensable',
     badge: 'Malin',
     gradient: 'linear-gradient(135deg, #98D8C8 0%, #7FC9B9 100%)',
+    imageUrl: '/images/sprays/poussiere.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 4,
