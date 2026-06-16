@@ -9,6 +9,7 @@ export const RECETTES: RecetteComplete[] = [
     categorie: 'Indispensable',
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
+    imageUrl: '/images/sprays/multi-usage.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 5,

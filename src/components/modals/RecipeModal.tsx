@@ -20,8 +20,9 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [comment, setComment] = useState('');
 
+  const hasImage = !!recipe.imageUrl;
   // Détermine si le texte du header doit être sombre (pour les gradients clairs)
-  const useDarkHeaderText = shouldUseDarkText(recipe.gradient);
+  const useDarkHeaderText = !hasImage && shouldUseDarkText(recipe.gradient);
 
   const favorite = isFavorite(recipe.id);
   const userRating = getRating(recipe.id);
@@ -94,23 +95,31 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       isOpen={true}
       onClose={onClose}
       headerGradient={recipe.gradient}
+      headerImageUrl={recipe.imageUrl}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
-        <div className="flex items-center gap-4">
-          <span className="text-5xl">{recipe.emoji}</span>
+        <div
+          className={hasImage ? 'flex flex-col justify-end' : 'flex items-center gap-4'}
+          style={hasImage ? { minHeight: 140 } : undefined}
+        >
+          {!hasImage && <span className="text-5xl">{recipe.emoji}</span>}
           <div className="flex-1">
             <h2
               className="text-xl font-bold leading-tight"
-              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
+              style={{
+                color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
+                textShadow: hasImage ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
+              }}
             >
+              {hasImage && <span className="mr-2">{recipe.emoji}</span>}
               {recipe.nom}
             </h2>
             {recipe.badge && (
               <span
                 className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full"
                 style={{
-                  background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-                  color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+                  background: hasImage ? 'rgba(255,255,255,0.9)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
+                  color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
                 }}
               >
                 {recipe.badge}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
@@ -98,10 +99,22 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         </button>
 
         <div className="flex items-start gap-3">
-          {/* Emoji sans fond */}
-          <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
-            <span className="text-4xl">{recipe.emoji}</span>
-          </div>
+          {/* Vignette photo (ou emoji par défaut) */}
+          {recipe.imageUrl ? (
+            <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 relative" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+              <Image
+                src={recipe.imageUrl}
+                alt={recipe.nom}
+                fill
+                className="object-cover object-right"
+                sizes="56px"
+              />
+            </div>
+          ) : (
+            <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+              <span className="text-4xl">{recipe.emoji}</span>
+            </div>
+          )}
 
           {/* Contenu */}
           <div className="flex-1 min-w-0 pr-6">
