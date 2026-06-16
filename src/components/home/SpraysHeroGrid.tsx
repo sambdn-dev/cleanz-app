@@ -105,7 +105,8 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
 
   const hero = SPRAYS_INDISPENSABLES[heroIndex];
   const hasImage = !!hero.imageUrl;
-  const darkText = hasImage ? false : shouldUseDarkText(hero.gradient);
+  // Avec photo : voile clair à gauche + texte sombre (look pastel premium)
+  const darkText = hasImage ? true : shouldUseDarkText(hero.gradient);
   const txt = darkText ? '#2D1F3D' : '#FFFFFF';
   const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
   const bands = getBands(hero);
@@ -150,7 +151,7 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
           onTouchEnd={handleEnd}
           className="w-full rounded-3xl p-4 text-left relative overflow-hidden flex select-none"
           style={{
-            background: hasImage ? '#1a1a2e' : hero.gradient,
+            background: hasImage ? '#EFE7F8' : hero.gradient,
             boxShadow: '0 8px 28px rgba(0,0,0,0.15)',
             minHeight: 180,
             transform: `translateX(${drag}px) rotate(${drag / 45}deg)`,
@@ -159,24 +160,32 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
             touchAction: 'pan-y',
           }}
         >
-          {/* Image de fond si disponible */}
+          {/* Image de fond si disponible (produit à droite, zone claire à gauche) */}
           {hasImage && (
             <>
               <Image
                 src={hero.imageUrl!}
                 alt={hero.nom}
                 fill
-                className="object-cover pointer-events-none"
+                className="object-cover object-right pointer-events-none"
                 sizes="(max-width: 768px) 100vw, 500px"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
+              {/* Voile clair à gauche pour la lisibilité du texte sombre */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/55 to-transparent pointer-events-none" />
             </>
           )}
           {/* Colonne gauche : badge + titre (2 lignes) + CTA */}
-          <div className={`flex flex-col flex-1 min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : ''}`}>
+          <div
+            className={`flex flex-col min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : 'flex-1'}`}
+            style={hasImage ? { maxWidth: '64%' } : undefined}
+          >
             <span
               className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
-              style={{ background: darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)', color: txt }}
+              style={{
+                background: hasImage ? 'rgba(255,255,255,0.8)' : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
+                color: txt,
+                boxShadow: hasImage ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
+              }}
             >
               {hero.badge}
             </span>
@@ -184,7 +193,7 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
             <div className="flex items-center gap-2 mt-3 flex-1">
               <span
                 className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                style={{ background: darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)' }}
+                style={{ background: hasImage ? 'rgba(255,255,255,0.7)' : (darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)') }}
               >
                 {hero.emoji}
               </span>

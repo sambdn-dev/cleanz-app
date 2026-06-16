@@ -35,24 +35,30 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 500px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
             </div>
           )}
-          <div className={spray.imageUrl ? 'relative z-10' : ''}>
+          <div
+            className={spray.imageUrl ? 'relative z-10 flex flex-col justify-end' : ''}
+            style={spray.imageUrl ? { minHeight: 168 } : undefined}
+          >
             <span
-              className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
+              className="inline-block self-start text-xs px-3 py-1 rounded-full font-semibold mb-3"
               style={{
-                background: spray.imageUrl ? 'rgba(0,0,0,0.4)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
-                color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+                background: spray.imageUrl ? 'rgba(255,255,255,0.85)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
+                color: spray.imageUrl ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
               }}
             >
               {spray.badge}
             </span>
             <div className="flex items-center gap-3">
-              <span className="text-5xl">{spray.emoji}</span>
+              <span className="text-5xl" style={spray.imageUrl ? { filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.35))' } : undefined}>{spray.emoji}</span>
               <h2
                 className="text-2xl font-bold"
-                style={{ color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF') }}
+                style={{
+                  color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
+                  textShadow: spray.imageUrl ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
+                }}
               >
                 {spray.nom}
               </h2>
