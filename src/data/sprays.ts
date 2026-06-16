@@ -26,6 +26,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '💪',
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #4FD1C5 0%, #38B2AC 100%)',
+    imageUrl: '/images/sprays/degraissant.jpg',
     ingredients: [
       { nom: 'Eau chaude', quantite: '300ml' },
       { nom: 'Cristaux de soude', quantite: '2 c.à.s' },
@@ -44,6 +45,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '🪟',
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%)',
+    imageUrl: '/images/sprays/vitres.jpg',
     ingredients: [
       { nom: 'Eau déminéralisée', quantite: '250ml' },
       { nom: 'Vinaigre blanc', quantite: '250ml' },
