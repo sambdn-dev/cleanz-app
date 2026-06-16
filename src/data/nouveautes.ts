@@ -17,6 +17,13 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 5,
+    date: '2026-06-16',
+    emoji: '📸',
+    title: 'Photos des recettes',
+    description: 'Les sprays et recettes s\'habillent de photos réalistes pour une expérience plus immersive.',
+  },
+  {
     id: 4,
     date: '2026-06-14',
     emoji: '🏷️',

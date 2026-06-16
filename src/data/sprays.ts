@@ -7,6 +7,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     emoji: '✨',
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
+    imageUrl: '/images/sprays/multi-usage.jpg',
     ingredients: [
       { nom: 'Eau tiède', quantite: '400ml' },
       { nom: 'Vinaigre blanc', quantite: '100ml' },

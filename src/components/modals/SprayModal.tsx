@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Spray } from '@/types';
 import { AlertTriangle, Lightbulb, Clock } from 'lucide-react';
@@ -25,23 +26,37 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <>
-          <span
-            className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
-            style={{
-              background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)',
-              color: useDarkHeaderText ? '#374151' : '#FFFFFF'
-            }}
-          >
-            {spray.badge}
-          </span>
-          <div className="flex items-center gap-3">
-            <span className="text-5xl">{spray.emoji}</span>
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
+          {spray.imageUrl && (
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src={spray.imageUrl}
+                alt={spray.nom}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 500px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            </div>
+          )}
+          <div className={spray.imageUrl ? 'relative z-10' : ''}>
+            <span
+              className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
+              style={{
+                background: spray.imageUrl ? 'rgba(0,0,0,0.4)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
+                color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+              }}
             >
-              {spray.nom}
-            </h2>
+              {spray.badge}
+            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-5xl">{spray.emoji}</span>
+              <h2
+                className="text-2xl font-bold"
+                style={{ color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF') }}
+              >
+                {spray.nom}
+              </h2>
+            </div>
           </div>
         </>
       }

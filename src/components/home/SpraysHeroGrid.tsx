@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { Spray } from '@/types';
@@ -103,7 +104,8 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
   const moved = useRef(false);
 
   const hero = SPRAYS_INDISPENSABLES[heroIndex];
-  const darkText = shouldUseDarkText(hero.gradient);
+  const hasImage = !!hero.imageUrl;
+  const darkText = hasImage ? false : shouldUseDarkText(hero.gradient);
   const txt = darkText ? '#2D1F3D' : '#FFFFFF';
   const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
   const bands = getBands(hero);
@@ -148,7 +150,7 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
           onTouchEnd={handleEnd}
           className="w-full rounded-3xl p-4 text-left relative overflow-hidden flex select-none"
           style={{
-            background: hero.gradient,
+            background: hasImage ? '#1a1a2e' : hero.gradient,
             boxShadow: '0 8px 28px rgba(0,0,0,0.15)',
             minHeight: 180,
             transform: `translateX(${drag}px) rotate(${drag / 45}deg)`,
@@ -157,8 +159,21 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
             touchAction: 'pan-y',
           }}
         >
+          {/* Image de fond si disponible */}
+          {hasImage && (
+            <>
+              <Image
+                src={hero.imageUrl!}
+                alt={hero.nom}
+                fill
+                className="object-cover pointer-events-none"
+                sizes="(max-width: 768px) 100vw, 500px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
+            </>
+          )}
           {/* Colonne gauche : badge + titre (2 lignes) + CTA */}
-          <div className="flex flex-col flex-1 min-w-0 pr-2 pointer-events-none">
+          <div className={`flex flex-col flex-1 min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : ''}`}>
             <span
               className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
               style={{ background: darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)', color: txt }}
@@ -183,25 +198,27 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
             </div>
           </div>
 
-          {/* Colonne droite : flacon + légende des proportions */}
-          <div className="flex flex-col items-center justify-center pointer-events-none" style={{ width: '40%' }}>
-            <div className="h-[112px] w-full flex items-center justify-center">
-              <SprayBottle bands={bands} />
+          {/* Colonne droite : flacon SVG (si pas d'image) + légende des proportions */}
+          {!hasImage && (
+            <div className="flex flex-col items-center justify-center pointer-events-none relative z-10" style={{ width: '40%' }}>
+              <div className="h-[112px] w-full flex items-center justify-center">
+                <SprayBottle bands={bands} />
+              </div>
+              <div className="w-full mt-1.5 space-y-0.5">
+                {bands.map((b, i) => (
+                  <div key={i} className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
+                    <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
+                      {b.nom}
+                    </span>
+                    <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
+                      {b.quantite}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="w-full mt-1.5 space-y-0.5">
-              {bands.map((b, i) => (
-                <div key={i} className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: b.color }} />
-                  <span className="text-[8.5px] font-medium truncate flex-1" style={{ color: txtSoft }}>
-                    {b.nom}
-                  </span>
-                  <span className="text-[8.5px] font-semibold flex-shrink-0" style={{ color: txt }}>
-                    {b.quantite}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
 

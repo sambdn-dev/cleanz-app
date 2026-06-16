@@ -31,6 +31,7 @@ export interface IngredientComplet {
   emoji: string;
   gradient: string;
   badge?: string;
+  imageUrl?: string; // Photo de l'ingrédient (ex: /images/ingredients/vinaigre-blanc.jpg)
   fonctions: string[];
   description: string;
   bienfaits: string[];
@@ -57,6 +58,7 @@ export interface Spray {
   emoji: string;
   badge: string;
   gradient: string;
+  imageUrl?: string; // Photo du spray (ex: /images/sprays/multi-usage.jpg)
   ingredients: SprayIngredient[];
   instructions: string;
   surfaces: string[];
@@ -87,6 +89,7 @@ export interface Electromenager {
   consoPct: number; // Pourcentage de la consommation électrique du foyer
   piece: string;
   color: string;
+  imageUrl?: string; // Photo de l'appareil (ex: /images/appareils/lave-linge.jpg)
   conseils?: { titre: string; items: string[] }; // Les conseils de Cleanz
   nettoyer: ElectromenagerNettoyage;
   entretien: ElectromenagerEntretien;
@@ -127,6 +130,7 @@ export interface RecetteComplete {
   categorie: 'Indispensable' | 'Salle de bain' | 'Cuisine' | 'Linge' | 'Multi-usage' | 'Sol' | 'Entretien' | 'Voiture';
   badge?: string;
   gradient: string;
+  imageUrl?: string; // Photo de la recette (ex: /images/recettes/nettoyant-four.jpg)
   temps: string;
   difficulte: 'Facile' | 'Moyen' | 'Avancé';
   efficacite: number; // 1 à 5
