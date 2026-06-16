@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Spray } from '@/types';
 import { AlertTriangle, Lightbulb, Clock } from 'lucide-react';
@@ -14,57 +13,48 @@ interface SprayModalProps {
 
 export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
   const { theme, darkMode } = useTheme();
-
-  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
-  const useDarkHeaderText = shouldUseDarkText(spray.gradient);
+  const hasImage = !!spray.imageUrl;
+  const useDarkHeaderText = !hasImage && shouldUseDarkText(spray.gradient);
 
   return (
     <Modal
       isOpen={true}
       onClose={onClose}
       headerGradient={spray.gradient}
+      headerImageUrl={spray.imageUrl}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
-        <>
-          {spray.imageUrl && (
-            <div className="absolute inset-0 overflow-hidden">
-              <Image
-                src={spray.imageUrl}
-                alt={spray.nom}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 500px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-            </div>
-          )}
-          <div
-            className={spray.imageUrl ? 'relative z-10 flex flex-col justify-end' : ''}
-            style={spray.imageUrl ? { minHeight: 168 } : undefined}
+        <div
+          className={hasImage ? 'flex flex-col justify-end' : ''}
+          style={hasImage ? { minHeight: 140 } : undefined}
+        >
+          <span
+            className="inline-block self-start text-xs px-3 py-1 rounded-full font-semibold mb-3"
+            style={{
+              background: hasImage ? 'rgba(255,255,255,0.9)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
+              color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+            }}
           >
+            {spray.badge}
+          </span>
+          <div className="flex items-center gap-3">
             <span
-              className="inline-block self-start text-xs px-3 py-1 rounded-full font-semibold mb-3"
+              className="text-5xl"
+              style={hasImage ? { filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))' } : undefined}
+            >
+              {spray.emoji}
+            </span>
+            <h2
+              className="text-2xl font-bold"
               style={{
-                background: spray.imageUrl ? 'rgba(255,255,255,0.85)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
-                color: spray.imageUrl ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+                color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
+                textShadow: hasImage ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
               }}
             >
-              {spray.badge}
-            </span>
-            <div className="flex items-center gap-3">
-              <span className="text-5xl" style={spray.imageUrl ? { filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.35))' } : undefined}>{spray.emoji}</span>
-              <h2
-                className="text-2xl font-bold"
-                style={{
-                  color: spray.imageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
-                  textShadow: spray.imageUrl ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
-                }}
-              >
-                {spray.nom}
-              </h2>
-            </div>
+              {spray.nom}
+            </h2>
           </div>
-        </>
+        </div>
       }
     >
       {/* Ingredients & Dosages */}

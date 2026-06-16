@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { X } from 'lucide-react';
 import { ReactNode, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -9,11 +10,12 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   headerGradient?: string;
+  headerImageUrl?: string;
   headerContent?: ReactNode;
   useDarkHeaderText?: boolean;
 }
 
-export function Modal({ isOpen, onClose, children, headerGradient, headerContent, useDarkHeaderText = false }: ModalProps) {
+export function Modal({ isOpen, onClose, children, headerGradient, headerImageUrl, headerContent, useDarkHeaderText = false }: ModalProps) {
   const { theme } = useTheme();
 
   // Block body scroll when modal is open
@@ -44,35 +46,54 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerContent
         style={{ background: theme.bgModal }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Header with gradient */}
+        {/* Header with gradient or image */}
         {headerContent && (
           <div
-            className="relative px-6 pt-6 pb-8 flex-shrink-0"
+            className="relative flex-shrink-0 overflow-hidden"
             style={{ background: headerGradient || 'linear-gradient(135deg, #F472B6 0%, #8B5CF6 50%, #06B6D4 100%)' }}
           >
-            {/* Decorative circles */}
-            <div className="absolute top-4 right-16 w-20 h-20 bg-white/10 rounded-full blur-xl" />
-            <div className="absolute bottom-0 left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+            {/* Photo de couverture plein cadre */}
+            {headerImageUrl && (
+              <>
+                <Image
+                  src={headerImageUrl}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 500px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+              </>
+            )}
 
-            {/* Close button - larger touch area with smaller visible icon */}
+            {/* Decorative circles (hidden when image) */}
+            {!headerImageUrl && (
+              <>
+                <div className="absolute top-4 right-16 w-20 h-20 bg-white/10 rounded-full blur-xl" />
+                <div className="absolute bottom-0 left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+              </>
+            )}
+
+            {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-0 right-0 p-5 group"
+              className="absolute top-0 right-0 p-5 z-20"
             >
               <span
                 className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
                 style={{
-                  background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+                  background: headerImageUrl ? 'rgba(0,0,0,0.4)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
                 }}
               >
                 <X
                   className="w-5 h-5"
-                  style={{ color: useDarkHeaderText ? '#374151' : '#FFFFFF' }}
+                  style={{ color: headerImageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#374151' : '#FFFFFF') }}
                 />
               </span>
             </button>
 
-            <div className="relative z-10">
+            {/* Content avec padding */}
+            <div className="relative z-10 px-6 pt-6 pb-8">
               {headerContent}
             </div>
           </div>
