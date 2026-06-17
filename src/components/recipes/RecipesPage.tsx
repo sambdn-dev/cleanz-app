@@ -7,9 +7,12 @@ import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsConte
 import { RecetteComplete } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
 import { getBlur } from '@/data/imageBlur';
-import { Clock, Star, Search, ChevronRight, Sparkles, Heart, X } from 'lucide-react';
+import { Clock, Star, Search, Sparkles, Heart, X, ListChecks } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { DifficultyBadge } from '@/components/ui/DifficultyBadge';
+import { HeartBurst } from '@/components/ui/HeartBurst';
+import { haptic } from '@/utils/haptics';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
@@ -65,16 +68,19 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
   const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => {
     const favorite = isFavorite(recipe.id);
     const userRating = getRating(recipe.id);
+    const [burst, setBurst] = useState(0);
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (!favorite) setBurst((b) => b + 1);
+      haptic('light');
       toggleFavorite(recipe.id);
     };
 
     return (
       <div
-        onClick={() => onRecipeClick(recipe)}
-        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative"
+        onClick={() => { haptic('light'); onRecipeClick(recipe); }}
+        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] active:brightness-95 relative"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
           border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -86,6 +92,8 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
         {/* Bouton favori */}
         <button
           onClick={handleFavoriteClick}
+          aria-label={favorite ? `Retirer ${recipe.nom} des favoris` : `Ajouter ${recipe.nom} aux favoris`}
+          aria-pressed={favorite}
           className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95"
           style={{
             background: favorite
@@ -97,6 +105,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
             className={`w-4 h-4 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
             style={{ color: favorite ? '#EC4899' : theme.textMuted }}
           />
+          <HeartBurst trigger={burst} />
         </button>
 
         <div className="flex items-start gap-3">
@@ -141,10 +150,15 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
           )}
 
           {/* Infos */}
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <DifficultyBadge value={recipe.difficulte} />
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" style={{ color: theme.textMuted }} />
               <span className="text-[10px]" style={{ color: theme.textMuted }}>{recipe.temps}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <ListChecks className="w-3 h-3" style={{ color: theme.textMuted }} />
+              <span className="text-[10px]" style={{ color: theme.textMuted }}>{recipe.instructions.length} étapes</span>
             </div>
             {renderEfficacite(recipe.efficacite)}
           </div>
@@ -216,7 +230,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
       </div>
 
       {/* Category Tabs */}
-      <div className="mb-5 overflow-x-auto scrollbar-hide -mx-4 px-4">
+      <div className="mb-5 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4">
         <div className="flex gap-2">
           {CATEGORIES_RECETTES.map((cat) => {
             const isActive = activeCategory === cat.id;
@@ -260,7 +274,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-yellow-500" />
-                <h2 className="font-bold" style={{ color: theme.textPrimary }}>
+                <h2 className="font-display font-bold text-[17px]" style={{ color: theme.textPrimary }}>
                   Les Indispensables
                 </h2>
                 <span
@@ -287,7 +301,7 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
               {(activeCategory === 'all' || activeCategory === 'Indispensable') && indispensables.length > 0 && (
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-base">🧪</span>
-                  <h2 className="font-bold" style={{ color: theme.textPrimary }}>
+                  <h2 className="font-display font-bold text-[17px]" style={{ color: theme.textPrimary }}>
                     Autres recettes
                   </h2>
                   <span

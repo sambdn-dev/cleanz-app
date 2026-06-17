@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { haptic } from '@/utils/haptics';
 
 interface AccountMenuProps {
   isOpen: boolean;
@@ -136,6 +137,7 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
+                    haptic('selection');
                     setThemeMode(mode);
                   }}
                 >

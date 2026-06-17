@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { haptic } from '@/utils/haptics';
 
 const TIPS_DATA = [
   "Votre frigo représente 20% de votre facture électrique. Un entretien régulier peut réduire sa consommation de 30% !",
@@ -39,8 +40,8 @@ export const LeSaviezVousSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const nextTip = () => setCurrentTipIndex(prev => (prev + 1) % TIPS_DATA.length);
-  const prevTip = () => setCurrentTipIndex(prev => (prev - 1 + TIPS_DATA.length) % TIPS_DATA.length);
+  const nextTip = () => { haptic('selection'); setCurrentTipIndex(prev => (prev + 1) % TIPS_DATA.length); };
+  const prevTip = () => { haptic('selection'); setCurrentTipIndex(prev => (prev - 1 + TIPS_DATA.length) % TIPS_DATA.length); };
 
   return (
     <div className="mb-5">
@@ -117,6 +118,7 @@ export const LeSaviezVousSection = () => {
             {/* Flèche gauche */}
             <button
               onClick={prevTip}
+              aria-label="Astuce précédente"
               className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
               style={{ background: darkMode ? 'rgba(255,105,180,0.15)' : 'rgba(255,105,180,0.15)' }}
             >
@@ -145,6 +147,7 @@ export const LeSaviezVousSection = () => {
             {/* Flèche droite */}
             <button
               onClick={nextTip}
+              aria-label="Astuce suivante"
               className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
               style={{ background: darkMode ? 'rgba(255,105,180,0.15)' : 'rgba(255,105,180,0.15)' }}
             >

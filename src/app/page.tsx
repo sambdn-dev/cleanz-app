@@ -30,6 +30,7 @@ import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
 import { WhatsNewModal } from '@/components/ui/WhatsNewModal';
+import { PageTransition } from '@/components/ui/PageTransition';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { RECETTES } from '@/data/recettes';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
@@ -190,6 +191,7 @@ function HomePageContent() {
           <Header onAccountClick={() => setShowAccountMenu(true)} />
         </div>
 
+        <PageTransition key={activeNavTab}>
         {activeNavTab === 'Accueil' && (
           <>
             {/* Search Bar */}
@@ -238,7 +240,7 @@ function HomePageContent() {
           <AppareilsPage onApplianceClick={setSelectedAppliance} />
         )}
 
-        {activeNavTab === 'Astuces' && (
+        {activeNavTab === 'Recettes' && (
           <RecipesPage onRecipeClick={setSelectedRecipe} />
         )}
 
@@ -247,8 +249,13 @@ function HomePageContent() {
         )}
 
         {activeNavTab === 'Favoris' && (
-          <FavoritesPage onRecipeClick={setSelectedRecipe} onSprayClick={setSelectedSpray} />
+          <FavoritesPage
+            onRecipeClick={setSelectedRecipe}
+            onSprayClick={setSelectedSpray}
+            onIngredientClick={setSelectedIngredientComplet}
+          />
         )}
+        </PageTransition>
       </div>
       </div>
 

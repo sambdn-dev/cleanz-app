@@ -32,7 +32,7 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
             {greeting} 👋
           </p>
           <h1
-            className="text-[32px] leading-none font-black tracking-tight bg-clip-text text-transparent mt-0.5"
+            className="font-display text-[34px] leading-none font-extrabold tracking-tight bg-clip-text text-transparent mt-0.5"
             style={{
               backgroundImage: darkMode
                 ? 'linear-gradient(120deg, #FF85C0 0%, #A78BFA 55%, #5EEAD4 100%)'

@@ -9,6 +9,8 @@ import { RECETTES } from '@/data/recettes';
 import { UserSpray, Spray, RecetteComplete } from '@/types';
 import { QRCode, generateQRDataUrl } from '@/components/ui/QRCode';
 import { buildFicheUrl, getDaysUntilExpiry } from '@/utils/sprayUtils';
+import { Confetti } from '@/components/ui/Confetti';
+import { haptic } from '@/utils/haptics';
 import { Plus, Trash2, Calendar, AlertTriangle, QrCode, Check, Printer, X } from 'lucide-react';
 
 interface MySpraysSectionProps {
@@ -25,6 +27,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
   const [customName, setCustomName] = useState('');
   const [showQR, setShowQR] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Pour le portal (évite le SSR mismatch)
   useEffect(() => setMounted(true), []);
@@ -68,6 +71,9 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
     setShowAddModal(false);
     setSelectedRecipeId(null);
     setCustomName('');
+    // Effet wow : confettis + retour haptique
+    haptic('success');
+    setShowConfetti(true);
     // Affiche directement le QR du flacon créé
     setShowQR(newSpray.id);
   };
@@ -137,7 +143,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-xl">🧴</span>
-          <h2 className="text-lg font-bold" style={{ color: theme.textPrimary }}>Mes Sprays</h2>
+          <h2 className="font-display text-lg font-bold" style={{ color: theme.textPrimary }}>Mes Sprays</h2>
           {sprays.length > 0 && (
             <span
               className="text-xs px-2 py-0.5 rounded-full font-medium"
@@ -357,6 +363,8 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         </div>,
         document.body
       )}
+
+      {showConfetti && <Confetti onDone={() => setShowConfetti(false)} />}
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { getBlur } from '@/data/imageBlur';
 import { Spray } from '@/types';
 import { useTheme } from '@/contexts/ThemeContext';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
+import { haptic } from '@/utils/haptics';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 interface SpraysHeroGridProps {
@@ -189,7 +190,11 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
   const startX = useRef(0);
   const moved = useRef(false);
 
-  const goTo = (i: number) => setIndex(Math.max(0, Math.min(TOTAL - 1, i)));
+  const goTo = (i: number) => {
+    const clamped = Math.max(0, Math.min(TOTAL - 1, i));
+    if (clamped !== index) haptic('selection');
+    setIndex(clamped);
+  };
   const go = (dir: number) => goTo(index + dir);
 
   // Résistance « rubber-band » quand on tire au-delà de la première/dernière diapo
@@ -212,7 +217,7 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
     setIsDragging(false);
     if (drag <= -SWIPE_THRESHOLD) go(1);
     else if (drag >= SWIPE_THRESHOLD) go(-1);
-    else if (!moved.current) onSprayClick(SPRAYS_INDISPENSABLES[index]);
+    else if (!moved.current) { haptic('light'); onSprayClick(SPRAYS_INDISPENSABLES[index]); }
     setDrag(0);
   };
 

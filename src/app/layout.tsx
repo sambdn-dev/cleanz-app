@@ -1,8 +1,26 @@
 import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans, Baloo_2 } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { RecipeInteractionsProvider } from "@/contexts/RecipeInteractionsContext";
+import { IngredientFavoritesProvider } from "@/contexts/IngredientFavoritesContext";
 import { UserSpraysProvider } from "@/contexts/UserSpraysContext";
 import "./globals.css";
+
+// Police principale : moderne, douce et premium (corps + interface)
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+// Police d'affichage arrondie : mot-clé « cleanz » + grands titres
+const baloo = Baloo_2({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["500", "600", "700", "800"],
+});
 
 export const metadata: Metadata = {
   title: "Cleanz - L'entretien naturel, simplifié",
@@ -50,13 +68,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className={`${jakarta.variable} ${baloo.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
           <RecipeInteractionsProvider>
-            <UserSpraysProvider>
-              {children}
-            </UserSpraysProvider>
+            <IngredientFavoritesProvider>
+              <UserSpraysProvider>
+                {children}
+              </UserSpraysProvider>
+            </IngredientFavoritesProvider>
           </RecipeInteractionsProvider>
         </ThemeProvider>
         {/* Portrait lock overlay (visible only in landscape on phones) */}

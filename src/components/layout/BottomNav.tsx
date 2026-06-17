@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Home, Zap, Sparkles, FlaskConical, Heart } from 'lucide-react';
+import { Home, Zap, BookOpen, FlaskConical, Heart } from 'lucide-react';
+import { haptic } from '@/utils/haptics';
 
-export type NavTab = 'Accueil' | 'Appareils' | 'Astuces' | 'Ingrédients' | 'Favoris';
+export type NavTab = 'Accueil' | 'Appareils' | 'Recettes' | 'Ingrédients' | 'Favoris';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -14,7 +15,7 @@ interface BottomNavProps {
 const navItems: { icon: typeof Home; label: NavTab }[] = [
   { icon: Home, label: 'Accueil' },
   { icon: Zap, label: 'Appareils' },
-  { icon: Sparkles, label: 'Astuces' },
+  { icon: BookOpen, label: 'Recettes' },
   { icon: FlaskConical, label: 'Ingrédients' },
   { icon: Heart, label: 'Favoris' },
 ];
@@ -176,8 +177,9 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
           return (
             <button
               key={item.label}
-              onClick={() => onTabChange(item.label)}
+              onClick={() => { haptic('selection'); onTabChange(item.label); }}
               aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
               className="relative flex flex-col items-center justify-center active:scale-90"
               style={{
                 height: btnHeight,

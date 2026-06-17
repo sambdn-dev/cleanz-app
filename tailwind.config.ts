@@ -9,6 +9,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'var(--font-sans)', 'sans-serif'],
+      },
       colors: {
         cleanz: {
           pink: '#FF69B4',

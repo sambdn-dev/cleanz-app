@@ -3,23 +3,32 @@
 import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
-import { RecetteComplete, Spray } from '@/types';
+import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
+import { RecetteComplete, Spray, IngredientComplet } from '@/types';
 import { RECETTES } from '@/data/recettes';
+import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { getBlur } from '@/data/imageBlur';
-import { Heart, Clock, Star, Sparkles } from 'lucide-react';
+import { Heart, Clock, Star, Sparkles, ListChecks, FlaskConical } from 'lucide-react';
 import { MySpraysSection } from './MySpraysSection';
+import { IngredientCard } from '@/components/ingredients/IngredientCard';
+import { DifficultyBadge } from '@/components/ui/DifficultyBadge';
+import { haptic } from '@/utils/haptics';
 
 interface FavoritesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
   onSprayClick: (spray: Spray) => void;
+  onIngredientClick: (ingredient: IngredientComplet) => void;
 }
 
-export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProps) => {
+export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick }: FavoritesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { favorites, toggleFavorite, getRating } = useRecipeInteractionsContext();
+  const ingFav = useIngredientFavoritesContext();
 
   // Récupérer les recettes favorites
   const favoriteRecipes = RECETTES.filter(recipe => favorites.includes(recipe.id));
+  // Récupérer les ingrédients favoris
+  const favoriteIngredients = INGREDIENTS_COMPLETS.filter(ing => ingFav.isFavorite(ing.id));
 
   // Rendu des étoiles
   const renderStars = (rating: number) => (
@@ -39,13 +48,14 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
+      haptic('light');
       toggleFavorite(recipe.id);
     };
 
     return (
       <div
-        onClick={() => onRecipeClick(recipe)}
-        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative"
+        onClick={() => { haptic('light'); onRecipeClick(recipe); }}
+        className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] active:brightness-95 relative"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
           border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
@@ -57,6 +67,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
         {/* Bouton retirer des favoris */}
         <button
           onClick={handleFavoriteClick}
+          aria-label={`Retirer ${recipe.nom} des favoris`}
           className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95"
           style={{ background: 'rgba(236, 72, 153, 0.15)' }}
         >
@@ -106,10 +117,15 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
             )}
 
             {/* Infos */}
-            <div className="flex items-center gap-3 mt-2">
+            <div className="flex items-center gap-2 mt-2 flex-wrap">
+              <DifficultyBadge value={recipe.difficulte} />
               <div className="flex items-center gap-1">
                 <Clock className="w-3 h-3" style={{ color: theme.textMuted }} />
                 <span className="text-[10px]" style={{ color: theme.textMuted }}>{recipe.temps}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <ListChecks className="w-3 h-3" style={{ color: theme.textMuted }} />
+                <span className="text-[10px]" style={{ color: theme.textMuted }}>{recipe.instructions.length} étapes</span>
               </div>
               {userRating ? (
                 <div className="flex items-center gap-1">
@@ -162,20 +178,20 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
       <div className="mb-5">
         <div className="flex items-center gap-2 mb-2">
           <Heart className="w-6 h-6 text-pink-500 fill-pink-500" />
-          <h1 className="text-xl font-bold" style={{ color: theme.textPrimary }}>
+          <h1 className="font-display text-2xl font-extrabold" style={{ color: theme.textPrimary }}>
             Mes Favoris
           </h1>
         </div>
         <p className="text-sm" style={{ color: theme.textMuted }}>
-          {favoriteRecipes.length > 0
-            ? `${favoriteRecipes.length} recette${favoriteRecipes.length > 1 ? 's' : ''} sauvegardée${favoriteRecipes.length > 1 ? 's' : ''}`
-            : 'Aucune recette sauvegardée pour le moment'
+          {favoriteRecipes.length + favoriteIngredients.length > 0
+            ? `${favoriteRecipes.length} recette${favoriteRecipes.length > 1 ? 's' : ''} · ${favoriteIngredients.length} ingrédient${favoriteIngredients.length > 1 ? 's' : ''}`
+            : 'Aucun favori pour le moment'
           }
         </p>
       </div>
 
-      {/* Liste des favoris */}
-      {favoriteRecipes.length === 0 ? (
+      {/* État vide global */}
+      {favoriteRecipes.length === 0 && favoriteIngredients.length === 0 ? (
         <div className="text-center py-16">
           <div
             className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
@@ -191,7 +207,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
             Aucun favori
           </h3>
           <p className="text-sm mb-6 max-w-xs mx-auto" style={{ color: theme.textMuted }}>
-            Appuie sur le coeur d'une recette pour la sauvegarder ici et y accéder rapidement.
+            Appuie sur le cœur d’une recette ou d’un ingrédient pour le sauvegarder ici et y accéder rapidement.
           </p>
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
@@ -205,15 +221,50 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
           </div>
         </div>
       ) : (
-        <div className="space-y-3">
-          {favoriteRecipes.map((recipe) => (
-            <FavoriteCard key={recipe.id} recipe={recipe} />
-          ))}
-        </div>
+        <>
+          {/* Recettes favorites */}
+          {favoriteRecipes.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-pink-500" />
+                <h2 className="font-bold text-sm" style={{ color: theme.textPrimary }}>Recettes</h2>
+                <span className="text-xs" style={{ color: theme.textMuted }}>{favoriteRecipes.length}</span>
+              </div>
+              <div className="space-y-3">
+                {favoriteRecipes.map((recipe) => (
+                  <FavoriteCard key={recipe.id} recipe={recipe} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Ingrédients favoris */}
+          {favoriteIngredients.length > 0 && (
+            <div className="mb-2">
+              <div className="flex items-center gap-2 mb-3">
+                <FlaskConical className="w-4 h-4 text-purple-500" />
+                <h2 className="font-bold text-sm" style={{ color: theme.textPrimary }}>Ingrédients</h2>
+                <span className="text-xs" style={{ color: theme.textMuted }}>{favoriteIngredients.length}</span>
+              </div>
+              <div className="space-y-3">
+                {favoriteIngredients.map((ing) => (
+                  <IngredientCard
+                    key={ing.id}
+                    ingredient={ing}
+                    view="list"
+                    favorite={ingFav.isFavorite(ing.id)}
+                    onClick={() => onIngredientClick(ing)}
+                    onToggleFavorite={() => ingFav.toggleFavorite(ing.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Footer stats */}
-      {favoriteRecipes.length > 0 && (
+      {favoriteRecipes.length + favoriteIngredients.length > 0 && (
         <div
           className="mt-8 p-4 rounded-2xl text-center"
           style={{
@@ -224,7 +275,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick }: FavoritesPageProp
         >
           <Heart className="w-6 h-6 text-pink-500 mx-auto mb-2" />
           <p className="text-xs font-medium" style={{ color: theme.textPrimary }}>
-            {favoriteRecipes.length} recette{favoriteRecipes.length > 1 ? 's' : ''} dans tes favoris
+            {favoriteRecipes.length} recette{favoriteRecipes.length > 1 ? 's' : ''} · {favoriteIngredients.length} ingrédient{favoriteIngredients.length > 1 ? 's' : ''} dans tes favoris
           </p>
           <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
             Tes préférences sont sauvegardées localement

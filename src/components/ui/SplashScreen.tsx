@@ -72,7 +72,7 @@ export const SplashScreen = () => {
 
         {/* Logo texte */}
         <h1
-          className="text-5xl font-black tracking-tight bg-clip-text text-transparent relative"
+          className="font-display text-5xl font-extrabold tracking-tight bg-clip-text text-transparent relative"
           style={{
             backgroundImage: 'linear-gradient(120deg, #FF69B4 0%, #8B5CF6 55%, #06B6D4 100%)',
             WebkitBackgroundClip: 'text',
