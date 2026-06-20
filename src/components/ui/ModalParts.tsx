@@ -119,15 +119,15 @@ export const Callout = ({
     <div
       className="rounded-2xl p-4"
       style={{
-        background: darkMode ? 'rgba(255,255,255,0.035)' : 'rgba(0,0,0,0.025)',
-        borderLeft: `3px solid ${accent}`,
+        // Panneau doucement teinté par l'accent (plus de liseré vertical).
+        background: `color-mix(in srgb, ${accent} ${darkMode ? '15%' : '9%'}, transparent)`,
       }}
     >
       {(icon || title) && (
         <div className="flex items-center gap-2 mb-2">
           {icon}
           {title && (
-            <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>
+            <span className="text-[13px] font-bold" style={{ color: theme.textPrimary }}>
               {title}
             </span>
           )}
