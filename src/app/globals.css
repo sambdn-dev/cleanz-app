@@ -36,6 +36,9 @@
 html {
   height: 100%;
   min-height: 100%;
+  /* Réduction globale ~1px : 16px → 15px (toutes les tailles/espacements en rem suivent).
+     En % pour respecter le zoom/accessibilité du navigateur. */
+  font-size: 93.75%;
   /* Background color for overscroll effect on iOS */
   background-color: var(--bg-overscroll);
   /* Gradient background */
