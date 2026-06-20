@@ -79,7 +79,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
           {!hasImage && <span className="text-5xl">{recipe.emoji}</span>}
           <div className="flex-1">
             <h2
-              className="font-display text-2xl font-extrabold leading-tight"
+              className="font-display text-xl font-extrabold leading-tight line-clamp-3"
               style={{
                 color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
                 textShadow: hasImage ? '0 2px 14px rgba(0,0,0,0.55)' : undefined,

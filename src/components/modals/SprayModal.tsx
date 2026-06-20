@@ -51,7 +51,7 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
               {spray.emoji}
             </span>
             <h2
-              className="font-display text-2xl font-extrabold"
+              className="font-display text-xl font-extrabold"
               style={{
                 color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
                 textShadow: hasImage ? '0 2px 14px rgba(0,0,0,0.55)' : undefined,

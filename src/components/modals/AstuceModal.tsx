@@ -64,7 +64,7 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
         <div className="flex items-center gap-4">
           <span className="text-5xl">{astuce.emoji}</span>
           <div className="flex-1">
-            <h2 className="font-display text-2xl font-extrabold leading-tight" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
+            <h2 className="font-display text-xl font-extrabold leading-tight" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
               {astuce.titre}
             </h2>
             <span

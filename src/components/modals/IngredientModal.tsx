@@ -95,7 +95,7 @@ export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) =
           )}
           <div className="flex items-center gap-4">
             <span className="text-5xl">{ingredient.emoji}</span>
-            <h2 className="font-display text-2xl font-extrabold" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
+            <h2 className="font-display text-xl font-extrabold" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
               {ingredient.nom}
             </h2>
           </div>

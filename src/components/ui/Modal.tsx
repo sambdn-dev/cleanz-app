@@ -96,8 +96,8 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
               </span>
             </button>
 
-            {/* Content avec padding */}
-            <div className="relative z-10 px-6 pt-6 pb-7">
+            {/* Content avec padding — pr-14 réserve la place du bouton Fermer (✕) */}
+            <div className="relative z-10 pl-6 pr-14 pt-6 pb-7">
               {headerContent}
             </div>
           </div>

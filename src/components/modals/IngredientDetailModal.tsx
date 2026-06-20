@@ -47,7 +47,7 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
       headerContent={
         <div className="text-center" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
           <div className="text-5xl mb-3">{ingredient.emoji}</div>
-          <h2 className="font-display text-2xl font-extrabold mb-1">{ingredient.nom}</h2>
+          <h2 className="font-display text-xl font-extrabold mb-1">{ingredient.nom}</h2>
           {ingredient.badge && (
             <span
               className="inline-block px-3 py-1 rounded-full text-sm"

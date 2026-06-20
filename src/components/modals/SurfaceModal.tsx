@@ -108,7 +108,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
         <div className="flex items-center gap-4">
           <span className="text-5xl">{surface.emoji}</span>
           <div>
-            <h2 className="font-display text-2xl font-extrabold text-white">{surface.nom}</h2>
+            <h2 className="font-display text-xl font-extrabold text-white">{surface.nom}</h2>
             <p className="text-white/80 text-sm">{surface.piece}</p>
           </div>
         </div>
