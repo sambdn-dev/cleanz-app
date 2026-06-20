@@ -2827,6 +2827,862 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Ne pas utiliser sur canalisations PVC fragiles', 'Attention aux éclaboussures', 'Pour bouchons légers uniquement'],
     astuces: ['Méthode préventive hebdomadaire idéale', 'Pour bouchons importants, ajouter bicarbonate + vinaigre avant', 'L\'eau bouillante seule fonctionne sur bouchons de graisse'],
     conservation: 'À préparer à chaque usage'
+  },
+  // === LOT v1.1 — 30 nouvelles recettes (validées + couverture des surfaces) ===
+  {
+    id: 101,
+    nom: 'Détartrant WC Moussant',
+    emoji: '🚽',
+    categorie: 'Salle de bain',
+    badge: 'Effervescent',
+    gradient: 'linear-gradient(135deg, #81D4FA 0%, #4FC3F7 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '100g', emoji: '⚪' },
+      { nom: 'Acide citrique', quantite: '50g', emoji: '🍋' },
+      { nom: 'HE tea tree', quantite: '15 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Bol sec', 'Brosse WC'],
+    instructions: [
+      'Mélangez le bicarbonate et l\'acide citrique dans un bol bien sec',
+      'Ajoutez l\'huile essentielle goutte à goutte',
+      'Versez le mélange directement dans la cuvette',
+      'Laissez mousser et agir 30 minutes (ou toute la nuit)',
+      'Frottez avec la brosse puis tirez la chasse'
+    ],
+    surfaces: ['WC', 'Cuvette', 'Fond de cuvette'],
+    precautions: ['Ne jamais mélanger avec de l\'eau de javel', 'Garder le mélange au sec avant usage', 'Tenir hors de portée des enfants'],
+    astuces: ['Préparez le mélange sec à l\'avance en pot hermétique', 'L\'effervescence décolle le tartre sans frotter', 'Action de nuit = résultat optimal'],
+    conservation: 'Mélange sec : 6 mois en pot hermétique'
+  },
+  {
+    id: 102,
+    nom: 'Spray Anti-moisissures Naturel',
+    emoji: '🍃',
+    categorie: 'Salle de bain',
+    badge: 'Anti-moisissures',
+    gradient: 'linear-gradient(135deg, #A5D6A7 0%, #66BB6A 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau', quantite: '200ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '200ml', emoji: '🧴' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.c', emoji: '⚪' },
+      { nom: 'HE arbre à thé', quantite: '20 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray 500ml', 'Brosse à dents usagée'],
+    instructions: [
+      'Versez le vinaigre dans le flacon spray',
+      'Ajoutez l\'eau puis le bicarbonate (attention à la mousse)',
+      'Incorporez l\'huile essentielle et secouez',
+      'Vaporisez généreusement sur les moisissures',
+      'Laissez agir 1 heure, frottez les joints puis rincez'
+    ],
+    surfaces: ['Joints', 'Joints de carrelage', 'Parois de douche', 'Rideau de douche', 'Murs humides'],
+    precautions: ['Aérer la pièce pendant l\'action', 'Tester sur une zone discrète', 'Porter des gants sur grandes surfaces'],
+    astuces: ['Le tea tree est un antifongique naturel puissant', 'Ventilez la salle de bain après chaque douche en prévention', 'Renouvelez 1x/semaine sur joints récidivants'],
+    conservation: '1 mois à l\'abri de la lumière'
+  },
+  {
+    id: 103,
+    nom: 'Nettoyant Parquet Bois Naturel',
+    emoji: '🟫',
+    categorie: 'Sol',
+    badge: 'Spécial bois',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '1L', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Vinaigre blanc', quantite: '1 c.à.s', emoji: '🧴' },
+      { nom: 'HE citron (optionnel)', quantite: '5 gouttes', emoji: '🍋' }
+    ],
+    materiel: ['Seau', 'Serpillière microfibre'],
+    instructions: [
+      'Remplissez un seau d\'eau tiède',
+      'Ajoutez le savon noir et mélangez',
+      'Incorporez le vinaigre et l\'huile essentielle',
+      'Trempez la serpillière et essorez-la à fond',
+      'Passez en suivant le fil du bois, sans jamais détremper'
+    ],
+    surfaces: ['Parquet', 'Parquet vitrifié', 'Parquet stratifié', 'Meubles en bois'],
+    precautions: ['Ne jamais détremper le bois', 'Serpillière bien essorée (presque sèche)', 'Éviter sur parquet huilé non protégé'],
+    astuces: ['Le savon noir nourrit et fait briller', 'Séchez avec un chiffon sec pour zéro trace', 'Une noisette d\'huile de lin 2x/an pour nourrir'],
+    conservation: 'Usage immédiat (préparer à chaque lavage)'
+  },
+  {
+    id: 104,
+    nom: 'Désodorisant Textile & Canapé',
+    emoji: '🛋️',
+    categorie: 'Multi-usage',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #CE93D8 0%, #BA68C8 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau', quantite: '400ml', emoji: '💧' },
+      { nom: 'Alcool ménager', quantite: '50ml', emoji: '🔬' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.c', emoji: '⚪' },
+      { nom: 'HE lavande', quantite: '15 gouttes', emoji: '💜' }
+    ],
+    materiel: ['Flacon spray 500ml'],
+    instructions: [
+      'Versez l\'eau dans le flacon spray',
+      'Ajoutez l\'alcool ménager (fixe et élimine les odeurs)',
+      'Incorporez le bicarbonate, secouez pour dissoudre',
+      'Ajoutez l\'huile essentielle de lavande',
+      'Vaporisez à 30 cm des textiles, laissez sécher à l\'air'
+    ],
+    surfaces: ['Canapé', 'Canapé tissu', 'Rideaux', 'Matelas', 'Tapis', 'Coussins'],
+    precautions: ['Tester sur une zone cachée', 'Éviter la soie et le cuir', 'Ne pas détremper, vaporiser en brume légère'],
+    astuces: ['L\'alcool s\'évapore vite et n\'auréole pas', 'Idéal après réception ou pour textiles non lavables', 'Parfumez selon l\'envie (eucalyptus, citron…)'],
+    conservation: '2 mois'
+  },
+  {
+    id: 105,
+    nom: 'Crème à Récurer Douce',
+    emoji: '🧽',
+    categorie: 'Cuisine',
+    badge: 'Multi-surfaces',
+    gradient: 'linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '100g', emoji: '⚪' },
+      { nom: 'Savon de Marseille râpé', quantite: '50g', emoji: '🧼' },
+      { nom: 'Eau chaude', quantite: '100ml', emoji: '💧' },
+      { nom: 'HE citron', quantite: '10 gouttes', emoji: '🍋' }
+    ],
+    materiel: ['Pot hermétique', 'Éponge'],
+    instructions: [
+      'Faites fondre le savon râpé dans l\'eau chaude',
+      'Laissez tiédir puis ajoutez le bicarbonate progressivement',
+      'Mélangez jusqu\'à obtenir une pâte crémeuse homogène',
+      'Incorporez l\'huile essentielle de citron',
+      'Conservez dans un pot hermétique, appliquez à l\'éponge humide'
+    ],
+    surfaces: ['Évier', 'Baignoire', 'Plaques vitrocéramique', 'Casseroles', 'Inox', 'Lavabo'],
+    precautions: ['Rincer abondamment après usage', 'Tester sur surfaces fragiles', 'Ne pas utiliser sur marbre'],
+    astuces: ['Ajustez l\'eau pour une texture crème', 'Abrasif doux qui ne raye pas l\'inox', 'Redoutable sur les traces d\'eau et le calcaire léger'],
+    conservation: '3 mois en pot fermé'
+  },
+  {
+    id: 106,
+    nom: 'Blanchisseur Torchons & Linge de Cuisine',
+    emoji: '🧻',
+    categorie: 'Linge',
+    badge: 'Blanchit',
+    gradient: 'linear-gradient(135deg, #E1F5FE 0%, #B3E5FC 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau très chaude', quantite: '3L', emoji: '💧' },
+      { nom: 'Percarbonate de soude', quantite: '3 c.à.s', emoji: '✨' },
+      { nom: 'Cristaux de soude', quantite: '1 c.à.s', emoji: '💎' },
+      { nom: 'Citron', quantite: '1/2', emoji: '🍋' }
+    ],
+    materiel: ['Bassine', 'Gants'],
+    instructions: [
+      'Remplissez une bassine d\'eau très chaude',
+      'Dissolvez le percarbonate et les cristaux de soude',
+      'Pressez le demi-citron dans le bain',
+      'Plongez les torchons et laissez tremper 1 à 2 heures',
+      'Lavez ensuite en machine à 60°C comme d\'habitude'
+    ],
+    surfaces: ['Torchons', 'Serviettes', 'Linge de cuisine', 'Bavoirs'],
+    precautions: ['Porter des gants', 'Réservé au linge blanc ou résistant', 'Pas sur la soie ni la laine'],
+    astuces: ['Le percarbonate ravive le blanc sans javel', 'Idéal contre les taches de graisse et d\'aliments', 'Séchage au soleil = effet blanchissant bonus'],
+    conservation: 'Préparer au moment du trempage'
+  },
+  {
+    id: 107,
+    nom: 'Détartrant Pommeau de Douche',
+    emoji: '🚿',
+    categorie: 'Salle de bain',
+    badge: 'Anti-calcaire',
+    gradient: 'linear-gradient(135deg, #B2EBF2 0%, #80DEEA 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '500ml', emoji: '🧴' },
+      { nom: 'Eau chaude', quantite: '250ml', emoji: '💧' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Sac congélation ou bol', 'Élastique', 'Brosse à dents usagée'],
+    instructions: [
+      'Mélangez vinaigre et eau chaude dans un sac congélation',
+      'Plongez le pommeau dans le sac et fixez avec un élastique',
+      'Laissez tremper 1 à 2 heures (toute la nuit si très entartré)',
+      'Retirez, frottez les buses avec la brosse',
+      'Saupoudrez un peu de bicarbonate, rincez et faites couler l\'eau chaude'
+    ],
+    surfaces: ['Pommeau', 'Pommeau de douche', 'Flexible de douche', 'Buses'],
+    precautions: ['Démontez le pommeau si possible pour un trempage complet', 'Rincer abondamment avant réutilisation', 'Éviter sur finitions dorées fragiles'],
+    astuces: ['Le vinaigre dissout le calcaire des buses bouchées', 'Un cure-dent débouche les trous récalcitrants', 'À faire 1x/mois en zone d\'eau dure'],
+    conservation: 'Solution à préparer à chaque détartrage'
+  },
+  {
+    id: 108,
+    nom: 'Nettoyant Chaussures en Toile',
+    emoji: '👟',
+    categorie: 'Entretien',
+    badge: 'Ravive le blanc',
+    gradient: 'linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Savon de Marseille', quantite: '1 c.à.s', emoji: '🧼' },
+      { nom: 'Eau tiède', quantite: '100ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '1 c.à.s', emoji: '🧴' }
+    ],
+    materiel: ['Vieille brosse à dents', 'Chiffon'],
+    instructions: [
+      'Mélangez bicarbonate, savon et eau tiède en pâte',
+      'Ajoutez le vinaigre (la pâte va légèrement mousser)',
+      'Appliquez sur la toile avec la brosse, en mouvements circulaires',
+      'Insistez sur les semelles et les zones jaunies',
+      'Laissez agir 15 min, essuyez et laissez sécher à l\'ombre'
+    ],
+    surfaces: ['Chaussures', 'Baskets', 'Chaussures en toile', 'Semelles'],
+    precautions: ['Séchage à l\'ombre (le soleil jaunit le blanc)', 'Pas sur le cuir ni le daim', 'Retirer les lacets pour les laver à part'],
+    astuces: ['Lacets blancs : trempage dans eau + percarbonate', 'Bourrez de papier journal pour garder la forme', 'Vinaigre = ravive, bicarbonate = désodorise'],
+    conservation: 'Pâte à utiliser immédiatement'
+  },
+  {
+    id: 109,
+    nom: 'Lavage Doudoune & Manteaux',
+    emoji: '🧥',
+    categorie: 'Linge',
+    badge: 'Plumes & synthétique',
+    gradient: 'linear-gradient(135deg, #BBDEFB 0%, #90CAF9 100%)',
+    temps: '10min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Savon de Marseille liquide', quantite: '2 c.à.s', emoji: '🧼' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'Balles de lavage ou de tennis', quantite: '2-3', emoji: '🎾' }
+    ],
+    materiel: ['Lave-linge', 'Sèche-linge (recommandé)'],
+    instructions: [
+      'Fermez la doudoune et retournez-la sur l\'envers',
+      'Lavez à 30°C, cycle délicat, avec le savon liquide',
+      'Ajoutez le vinaigre dans le bac assouplissant',
+      'Lancez un double rinçage pour tout éliminer',
+      'Séchez au sèche-linge avec les balles pour regonfler le garnissage'
+    ],
+    surfaces: ['Doudounes', 'Manteaux', 'Vestes', 'Couettes'],
+    precautions: ['Vérifier l\'étiquette d\'entretien', 'Jamais d\'assouplissant chimique (colmate les plumes)', 'Bien sécher pour éviter les moisissures'],
+    astuces: ['Les balles cassent les paquets de plumes', 'Séchage long à basse température', 'Le vinaigre remplace l\'assouplissant et ravive'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 110,
+    nom: 'Nettoyant Portes & Plinthes',
+    emoji: '🚪',
+    categorie: 'Multi-usage',
+    badge: 'Anti-traces',
+    gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '400ml', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '1 c.à.s', emoji: '⚫' },
+      { nom: 'Vinaigre blanc', quantite: '2 c.à.s', emoji: '🧴' },
+      { nom: 'HE citron', quantite: '5 gouttes', emoji: '🍋' }
+    ],
+    materiel: ['Flacon spray', 'Chiffon microfibre'],
+    instructions: [
+      'Mélangez tous les ingrédients dans le flacon spray',
+      'Secouez et vaporisez sur le chiffon (pas directement sur le bois)',
+      'Essuyez portes, encadrements et plinthes de haut en bas',
+      'Insistez sur les traces de doigts autour des poignées',
+      'Séchez avec un chiffon propre'
+    ],
+    surfaces: ['Portes', 'Plinthes', 'Encadrements', 'Poignées', 'Interrupteurs'],
+    precautions: ['Vaporiser sur le chiffon, pas sur le bois brut', 'Bien essorer pour ne pas gorger le bois', 'Tester sur surfaces laquées'],
+    astuces: ['Les plinthes accrochent la poussière : passez-les 1x/mois', 'Le savon noir nettoie sans laisser de film', 'Un chiffon microfibre humide suffit en entretien'],
+    conservation: '2 mois'
+  },
+  {
+    id: 111,
+    nom: 'Lavage Chiffons Microfibres',
+    emoji: '🧽',
+    categorie: 'Linge',
+    badge: 'Entretien matériel',
+    gradient: 'linear-gradient(135deg, #C5CAE9 0%, #9FA8DA 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '2L', emoji: '💧' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' }
+    ],
+    materiel: ['Bassine', 'Lave-linge'],
+    instructions: [
+      'Faites tremper les microfibres dans l\'eau chaude + bicarbonate 30 min',
+      'Rincez pour décrocher les saletés et résidus gras',
+      'Lavez en machine à 40-60°C SANS assouplissant',
+      'Ajoutez le vinaigre dans le bac assouplissant',
+      'Séchage à l\'air libre, jamais sur radiateur'
+    ],
+    surfaces: ['Microfibres', 'Chiffons', 'Serpillières microfibre'],
+    precautions: ['Jamais d\'assouplissant (bouche les fibres)', 'Laver séparément du coton qui peluche', 'Pas de sèche-linge trop chaud'],
+    astuces: ['Une microfibre entretenue dure des années', 'Le vinaigre réactive le pouvoir absorbant', 'Lavez-les après chaque grosse session de ménage'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 112,
+    nom: 'Entretien Filtre d\'Aspirateur',
+    emoji: '🧹',
+    categorie: 'Entretien',
+    badge: 'Restaure l\'aspiration',
+    gradient: 'linear-gradient(135deg, #CFD8DC 0%, #B0BEC5 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau froide', quantite: '2L', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Bassine', 'Brosse souple'],
+    instructions: [
+      'Retirez le bac et le filtre selon la notice',
+      'Videz et tapotez le filtre pour ôter le gros de la poussière',
+      'Faites tremper le filtre lavable dans eau + vinaigre 15 min',
+      'Brossez doucement, saupoudrez un peu de bicarbonate pour les odeurs',
+      'Rincez à l\'eau claire et laissez sécher 24h complètement'
+    ],
+    surfaces: ['Aspirateur', 'Filtre HEPA lavable', 'Bac à poussière'],
+    precautions: ['Vérifier que le filtre est lavable (sinon le remplacer)', 'Sécher 24h AVANT de remonter (risque moisissure/panne)', 'Ne pas frotter agressivement un filtre HEPA'],
+    astuces: ['Un filtre propre restaure jusqu\'à 50% d\'aspiration', 'Le vinaigre neutralise les odeurs de poussière', 'Entretien mensuel = aspirateur qui dure'],
+    conservation: 'Filtre sec à remonter après 24h'
+  },
+  {
+    id: 113,
+    nom: 'Dépoussiérant Radiateurs',
+    emoji: '🌡️',
+    categorie: 'Entretien',
+    badge: 'Avant l\'hiver',
+    gradient: 'linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '500ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '2 c.à.s', emoji: '🧴' },
+      { nom: 'Savon noir', quantite: '1 c.à.c', emoji: '⚫' }
+    ],
+    materiel: ['Sèche-cheveux ou goupillon', 'Serviette', 'Chiffon microfibre'],
+    instructions: [
+      'Radiateur froid : placez une serviette humide au sol derrière lui',
+      'Soufflez la poussière vers le bas au sèche-cheveux (ou goupillon)',
+      'Mélangez eau, vinaigre et savon noir dans un spray',
+      'Vaporisez le chiffon et essuyez les ailettes accessibles',
+      'Passez le goupillon entre les lames pour les zones profondes'
+    ],
+    surfaces: ['Radiateurs', 'Radiateurs fonte', 'Sèche-serviettes', 'Convecteurs'],
+    precautions: ['Toujours intervenir radiateur éteint et froid', 'Ne pas mouiller les parties électriques', 'Couper le chauffage électrique avant'],
+    astuces: ['Un radiateur dépoussiéré chauffe jusqu\'à 10% mieux', 'À faire chaque automne avant la saison de chauffe', 'La serviette au sol récupère la poussière qui tombe'],
+    conservation: 'Solution : 1 mois'
+  },
+  {
+    id: 114,
+    nom: 'Rénovateur Phares Jaunis',
+    emoji: '💡',
+    categorie: 'Voiture',
+    badge: 'Effet neuf',
+    gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FFF176 100%)',
+    temps: '15min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '3 c.à.s', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '2 c.à.s', emoji: '🧴' },
+      { nom: 'Dentifrice blanc', quantite: '1 noisette', emoji: '🦷' }
+    ],
+    materiel: ['Chiffon microfibre', 'Eau', 'Ruban de masquage'],
+    instructions: [
+      'Nettoyez et séchez le phare, masquez la carrosserie autour',
+      'Mélangez bicarbonate et vinaigre en pâte',
+      'Frottez le phare en cercles avec le chiffon pendant 5 min',
+      'Reprenez avec un peu de dentifrice pour le polissage final',
+      'Rincez abondamment et séchez : le plastique retrouve sa transparence'
+    ],
+    surfaces: ['Phares', 'Optiques', 'Feux arrière', 'Plastiques transparents'],
+    precautions: ['Masquer la peinture (le bicarbonate peut ternir)', 'Ne pas frotter à sec', 'Appliquer une cire de protection après pour durer'],
+    astuces: ['Le dentifrice contient un abrasif doux idéal', 'Résultat durable avec une couche de cire ou vernis', 'Des phares clairs = meilleure visibilité et contrôle technique'],
+    conservation: 'Pâte à préparer à chaque usage'
+  },
+  {
+    id: 115,
+    nom: 'Brillance Pneus Naturelle',
+    emoji: '🛞',
+    categorie: 'Voiture',
+    badge: 'Aspect neuf',
+    gradient: 'linear-gradient(135deg, #424242 0%, #212121 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon noir', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Huile de lin', quantite: '1 c.à.s', emoji: '🪔' }
+    ],
+    materiel: ['Brosse', 'Éponge', 'Chiffon'],
+    instructions: [
+      'Mélangez eau et savon noir, brossez les pneus pour les dégraisser',
+      'Rincez et laissez sécher complètement',
+      'Imbibez un chiffon d\'un peu d\'huile de lin',
+      'Passez une fine couche sur le flanc des pneus',
+      'Lustrez avec un chiffon sec pour un noir profond'
+    ],
+    surfaces: ['Pneus', 'Flancs de pneus', 'Plastiques extérieurs'],
+    precautions: ['Ne jamais mettre d\'huile sur la bande de roulement', 'Appliquer en très fine couche', 'Éviter le contact avec les freins'],
+    astuces: ['L\'huile de lin nourrit et fait briller le caoutchouc', 'Une fine couche suffit, sinon ça colle la poussière', 'Idéal avant une revente ou un contrôle'],
+    conservation: 'Solution savon : 2 mois'
+  },
+  {
+    id: 116,
+    nom: 'Nettoyant Ceintures de Sécurité',
+    emoji: '🔒',
+    categorie: 'Voiture',
+    badge: 'Sangles',
+    gradient: 'linear-gradient(135deg, #90A4AE 0%, #607D8B 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '300ml', emoji: '💧' },
+      { nom: 'Savon de Marseille', quantite: '1 c.à.s', emoji: '🧼' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.c', emoji: '⚪' }
+    ],
+    materiel: ['Pince ou pince à linge', 'Brosse à poils doux', 'Chiffon'],
+    instructions: [
+      'Déroulez la ceinture au maximum et bloquez-la avec une pince',
+      'Mélangez eau tiède, savon et bicarbonate',
+      'Frottez la sangle avec la brosse imbibée, des deux côtés',
+      'Essuyez avec un chiffon humide propre',
+      'Laissez sécher complètement AVANT de relâcher l\'enrouleur'
+    ],
+    surfaces: ['Ceintures', 'Sangles', 'Ceintures de sécurité'],
+    precautions: ['Ne pas détremper la sangle (risque pour l\'enrouleur)', 'Sécher totalement avant de réenrouler', 'Pas de produit agressif qui fragilise les fibres'],
+    astuces: ['La pince empêche la ceinture de se rétracter', 'Bicarbonate = anti-odeur et anti-bactérien', 'Sangle sèche = sécurité préservée'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 117,
+    nom: 'Nettoyant Casque Moto',
+    emoji: '⛑️',
+    categorie: 'Voiture',
+    badge: 'Intérieur & visière',
+    gradient: 'linear-gradient(135deg, #B0BEC5 0%, #78909C 100%)',
+    temps: '15min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon de Marseille liquide', quantite: '1 c.à.s', emoji: '🧼' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.c', emoji: '⚪' }
+    ],
+    materiel: ['Chiffon microfibre doux', 'Brosse souple'],
+    instructions: [
+      'Retirez les mousses intérieures amovibles si possible',
+      'Lavez les mousses à la main dans l\'eau savonneuse tiède, rincez, séchez à l\'air',
+      'Nettoyez la coque extérieure au chiffon microfibre humide',
+      'Pour la visière : eau tiède + savon doux uniquement, sans frotter à sec',
+      'Saupoudrez un peu de bicarbonate dans le casque sec pour les odeurs, aspirez après 1h'
+    ],
+    surfaces: ['Casque moto', 'Visière', 'Mousses de casque'],
+    precautions: ['JAMAIS de produit alcoolisé ou solvant sur la visière (la fragilise)', 'Ne pas frotter la visière à sec (micro-rayures)', 'Séchage à l\'air, loin d\'une source de chaleur'],
+    astuces: ['Microfibre + eau savonneuse = visière sans traces', 'Le bicarbonate neutralise les odeurs de transpiration', 'Mousses propres = casque plus sain et durable'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 118,
+    nom: 'Entretien Selle Moto & Cuir',
+    emoji: '🪑',
+    categorie: 'Voiture',
+    badge: 'Nourrit le cuir',
+    gradient: 'linear-gradient(135deg, #8D6E63 0%, #5D4037 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Savon de Marseille', quantite: '1 c.à.c', emoji: '🧼' },
+      { nom: 'Eau tiède', quantite: '250ml', emoji: '💧' },
+      { nom: 'Huile de lin ou cire d\'abeille', quantite: '1 c.à.c', emoji: '🐝' }
+    ],
+    materiel: ['2 chiffons doux'],
+    instructions: [
+      'Dépoussiérez la selle avec un chiffon sec',
+      'Nettoyez avec un chiffon à peine humide d\'eau savonneuse',
+      'Essuyez aussitôt, ne laissez pas l\'eau stagner',
+      'Une fois sèche, appliquez une fine couche d\'huile de lin ou de cire',
+      'Lustrez avec un chiffon propre pour nourrir et imperméabiliser'
+    ],
+    surfaces: ['Selle moto', 'Cuir', 'Sièges cuir', 'Selle vinyle'],
+    precautions: ['Ne pas détremper le cuir', 'Tester la cire sur une zone cachée', 'Pas de chaleur directe pour sécher (le cuir craquelle)'],
+    astuces: ['La cire imperméabilise contre la pluie', 'Un cuir nourri ne craquelle pas', 'Entretien 1x/mois en saison de roulage'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 119,
+    nom: 'Dégraissant Grille de Barbecue',
+    emoji: '🍖',
+    categorie: 'Entretien',
+    badge: 'Graisses cuites',
+    gradient: 'linear-gradient(135deg, #6D4C41 0%, #4E342E 100%)',
+    temps: '20min',
+    difficulte: 'Moyen',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '4 c.à.s', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '200ml', emoji: '🧴' },
+      { nom: 'Savon noir', quantite: '2 c.à.s', emoji: '⚫' },
+      { nom: 'Gros sel', quantite: '2 c.à.s', emoji: '🧂' }
+    ],
+    materiel: ['Sac poubelle solide', 'Brosse métallique', 'Gants'],
+    instructions: [
+      'Saupoudrez la grille de bicarbonate et de gros sel',
+      'Vaporisez le vinaigre dessus (réaction effervescente)',
+      'Glissez la grille dans un sac avec le savon noir et un peu d\'eau chaude',
+      'Laissez agir 1 à 2 heures (la nuit pour les grilles très grasses)',
+      'Brossez, rincez au jet : la graisse cuite se décolle'
+    ],
+    surfaces: ['Barbecue', 'Grille de barbecue', 'Grille de four', 'Plancha'],
+    precautions: ['Porter des gants (graisse + abrasif)', 'Barbecue froid uniquement', 'Bien rincer avant la prochaine cuisson'],
+    astuces: ['Frotter à chaud avec un demi-oignon en prévention', 'Le gros sel agit comme abrasif naturel', 'Une feuille de papier alu froissée remplace la brosse'],
+    conservation: 'Solution à préparer à chaque usage'
+  },
+  {
+    id: 120,
+    nom: 'Équilibrage Eau de Piscine',
+    emoji: '🏊',
+    categorie: 'Entretien',
+    badge: 'pH naturel',
+    gradient: 'linear-gradient(135deg, #4FC3F7 0%, #0288D1 100%)',
+    temps: '10min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: 'selon volume', emoji: '⚪' },
+      { nom: 'Eau de la piscine', quantite: '1 seau', emoji: '💧' }
+    ],
+    materiel: ['Bandelettes de test pH/TAC', 'Seau', 'Gants'],
+    instructions: [
+      'Testez le pH et le TAC (alcalinité) avec les bandelettes',
+      'Si le TAC est bas, dissolvez le bicarbonate dans un seau d\'eau de piscine',
+      'Comptez environ 150 g de bicarbonate par 10 m³ pour +10 ppm de TAC',
+      'Versez la solution dissoute devant les buses de refoulement, pompe en marche',
+      'Attendez 6h puis retestez et ajustez si besoin'
+    ],
+    surfaces: ['Piscine', 'Eau de piscine', 'Spa'],
+    precautions: ['Toujours dissoudre avant de verser (jamais en poudre directe)', 'Ajuster par petites doses et retester', 'Le bicarbonate stabilise le TAC, pas la désinfection'],
+    astuces: ['Un TAC stable = pH stable = eau claire', 'Le bicarbonate adoucit aussi l\'eau', 'Complète le traitement, ne remplace pas le chlore/sel'],
+    conservation: 'Bicarbonate : se conserve des années au sec'
+  },
+  {
+    id: 121,
+    nom: 'Nettoyant Carter de Tondeuse',
+    emoji: '🌿',
+    categorie: 'Entretien',
+    badge: 'Anti-herbe collée',
+    gradient: 'linear-gradient(135deg, #AED581 0%, #7CB342 100%)',
+    temps: '15min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Savon noir', quantite: '3 c.à.s', emoji: '⚫' },
+      { nom: 'Eau chaude', quantite: '1L', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'Huile végétale', quantite: '1 c.à.s', emoji: '🪔' }
+    ],
+    materiel: ['Spatule en bois', 'Brosse', 'Gants épais'],
+    instructions: [
+      'Débranchez la bougie (ou la batterie) et videz le réservoir, tondeuse sur le côté',
+      'Grattez l\'herbe collée sous le carter à la spatule',
+      'Brossez avec le mélange eau chaude + savon noir + vinaigre',
+      'Rincez et séchez soigneusement pour éviter la rouille',
+      'Passez un voile d\'huile végétale sous le carter : l\'herbe colle moins ensuite'
+    ],
+    surfaces: ['Tondeuse', 'Carter de tondeuse', 'Lame', 'Outils de jardin'],
+    precautions: ['TOUJOURS débrancher la bougie/batterie avant (risque de démarrage)', 'Porter des gants épais près de la lame', 'Ne pas mouiller le moteur ni le filtre à air'],
+    astuces: ['Le voile d\'huile empêche l\'herbe d\'adhérer', 'Nettoyez après chaque tonte humide', 'Carter propre = meilleure éjection et coupe nette'],
+    conservation: 'Solution : usage immédiat'
+  },
+  {
+    id: 122,
+    nom: 'Anti-Mousse Toiture & Façade',
+    emoji: '🏠',
+    categorie: 'Entretien',
+    badge: 'Extérieur',
+    gradient: 'linear-gradient(135deg, #A1887F 0%, #6D4C41 100%)',
+    temps: '15min',
+    difficulte: 'Avancé',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Cristaux de soude', quantite: '300g', emoji: '💎' },
+      { nom: 'Eau chaude', quantite: '5L', emoji: '💧' },
+      { nom: 'Savon noir', quantite: '3 c.à.s', emoji: '⚫' }
+    ],
+    materiel: ['Pulvérisateur de jardin', 'Brosse télescopique', 'Équipement de sécurité'],
+    instructions: [
+      'Dissolvez les cristaux de soude dans l\'eau chaude, ajoutez le savon noir',
+      'Par temps sec et couvert, pulvérisez sur les mousses et lichens',
+      'Laissez agir plusieurs jours : la mousse brunit et se détache',
+      'Brossez les zones accessibles à la brosse télescopique',
+      'La pluie rince ensuite naturellement les résidus'
+    ],
+    surfaces: ['Toiture', 'Façade', 'Murs extérieurs', 'Terrasse'],
+    precautions: ['Sécurité hauteur : harnais, ou faire appel à un pro pour les toits', 'Protéger les plantes en contrebas (rincer le feuillage)', 'Ne jamais marcher sur une toiture mouillée'],
+    astuces: ['Appliquer à l\'automne ou au printemps', 'Ne pas utiliser de Karcher sur les tuiles (les fragilise)', 'Pour les grandes hauteurs, privilégier un professionnel'],
+    conservation: 'Solution à préparer à chaque traitement'
+  },
+  {
+    id: 123,
+    nom: 'Conservateur pour Fleurs Coupées',
+    emoji: '🌺',
+    categorie: 'Entretien',
+    badge: 'Bouquets durables',
+    gradient: 'linear-gradient(135deg, #F48FB1 0%, #F06292 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau du robinet', quantite: '1L', emoji: '💧' },
+      { nom: 'Sucre', quantite: '1 c.à.s', emoji: '🍚' },
+      { nom: 'Vinaigre blanc', quantite: '2 c.à.s', emoji: '🧴' }
+    ],
+    materiel: ['Vase propre', 'Ciseaux ou sécateur'],
+    instructions: [
+      'Mélangez le sucre et le vinaigre dans l\'eau du vase',
+      'Recoupez les tiges en biseau sous l\'eau de 2-3 cm',
+      'Retirez les feuilles qui tremperaient dans l\'eau',
+      'Disposez le bouquet à l\'abri du soleil direct et des courants d\'air',
+      'Changez l\'eau et recoupez les tiges tous les 2 jours'
+    ],
+    surfaces: ['Fleurs', 'Fleurs coupées', 'Bouquets'],
+    precautions: ['Vase parfaitement propre (les bactéries tuent les fleurs)', 'Pas de fruits à proximité (l\'éthylène les fane)', 'Éviter la chaleur et le soleil direct'],
+    astuces: ['Le sucre nourrit, le vinaigre limite les bactéries', 'Recouper en biseau améliore l\'absorption d\'eau', 'Bouquet la nuit au frais = tenue prolongée'],
+    conservation: 'Renouveler l\'eau tous les 2 jours'
+  },
+  {
+    id: 124,
+    nom: 'Engrais Naturel pour Plantes',
+    emoji: '🌱',
+    categorie: 'Entretien',
+    badge: 'Zéro déchet',
+    gradient: 'linear-gradient(135deg, #C5E1A5 0%, #9CCC65 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Marc de café', quantite: '2 c.à.s', emoji: '☕' },
+      { nom: 'Coquilles d\'œuf broyées', quantite: '2-3', emoji: '🥚' },
+      { nom: 'Eau de cuisson (sans sel) refroidie', quantite: '1L', emoji: '💧' },
+      { nom: 'Peau de banane', quantite: '1', emoji: '🍌' }
+    ],
+    materiel: ['Bocal', 'Tamis'],
+    instructions: [
+      'Récupérez l\'eau de cuisson des légumes (non salée) et laissez-la refroidir',
+      'Faites infuser la peau de banane coupée dans cette eau 24-48h',
+      'Filtrez : cette eau riche en potassium s\'utilise à l\'arrosage',
+      'Mélangez le marc de café séché à la terre en surface (azote)',
+      'Saupoudrez les coquilles broyées au pied (calcium, anti-limaces)'
+    ],
+    surfaces: ['Engrais', 'Plantes', 'Plantes d\'intérieur', 'Potager'],
+    precautions: ['Eau de cuisson SANS sel uniquement', 'Marc de café avec modération (acidifie le sol)', 'Ne pas détremper les plantes grasses'],
+    astuces: ['La peau de banane = potassium pour la floraison', 'Le marc éloigne aussi certains nuisibles', 'Alternez avec de l\'eau claire une fois sur deux'],
+    conservation: 'Eau d\'engrais : 1 semaine au frais'
+  },
+  {
+    id: 125,
+    nom: 'Déboucheur Canalisations Extérieures',
+    emoji: '🔧',
+    categorie: 'Entretien',
+    badge: 'SOS extérieur',
+    gradient: 'linear-gradient(135deg, #90A4AE 0%, #546E7A 100%)',
+    temps: '15min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '200g', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '250ml', emoji: '🧴' },
+      { nom: 'Gros sel', quantite: '100g', emoji: '🧂' },
+      { nom: 'Eau bouillante', quantite: '3L', emoji: '💧' }
+    ],
+    materiel: ['Gants', 'Ventouse'],
+    instructions: [
+      'Retirez les feuilles et débris visibles de la grille d\'évacuation',
+      'Versez le bicarbonate puis le gros sel dans la canalisation',
+      'Ajoutez le vinaigre : laissez l\'effervescence agir 30 min',
+      'Versez l\'eau bouillante en une fois pour entraîner les résidus',
+      'Utilisez la ventouse si le bouchon résiste, répétez si besoin'
+    ],
+    surfaces: ['Canalisations ext.', 'Évacuations extérieures', 'Regards', 'Gouttières'],
+    precautions: ['Porter des gants', 'Pas sur canalisations PVC anciennes fragiles', 'Ne pas mélanger avec un déboucheur chimique résiduel'],
+    astuces: ['Entretien préventif mensuel évite les gros bouchons', 'Une grille anti-feuilles limite l\'encrassement', 'Le sel renforce l\'action dégraissante'],
+    conservation: 'À préparer à chaque usage'
+  },
+  {
+    id: 126,
+    nom: 'Nettoyant Mains Dégraissant',
+    emoji: '✋',
+    categorie: 'Multi-usage',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #FFE0B2 0%, #FFB74D 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Marc de café ou bicarbonate', quantite: '1 c.à.s', emoji: '☕' },
+      { nom: 'Savon de Marseille', quantite: '1 noisette', emoji: '🧼' },
+      { nom: 'Citron', quantite: '1/2', emoji: '🍋' },
+      { nom: 'Huile d\'olive', quantite: '1 c.à.c', emoji: '🫒' }
+    ],
+    materiel: [],
+    instructions: [
+      'Pour les mains très sales : frottez avec marc de café + savon',
+      'Le marc agit comme exfoliant et décrasse les pores',
+      'Frottez les odeurs tenaces (ail, poisson) avec le demi-citron',
+      'Rincez à l\'eau tiède',
+      'Massez une goutte d\'huile d\'olive pour nourrir les mains sèches'
+    ],
+    surfaces: ['Mains', 'Peau', 'Ongles'],
+    precautions: ['Éviter le citron sur peau abîmée ou coupée', 'Rincer si sensation d\'irritation', 'Pas d\'exposition au soleil juste après le citron'],
+    astuces: ['Le marc de café neutralise les odeurs et exfolie', 'Frotter de l\'inox sous l\'eau enlève aussi l\'odeur d\'ail', 'L\'huile d\'olive répare les mains du jardinier'],
+    conservation: 'Usage immédiat'
+  },
+  {
+    id: 127,
+    nom: 'Nettoyant Bijoux Éclat',
+    emoji: '💍',
+    categorie: 'Entretien',
+    badge: 'Or & argent',
+    gradient: 'linear-gradient(135deg, #FFF59D 0%, #FFD54F 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' },
+      { nom: 'Eau chaude', quantite: '250ml', emoji: '💧' },
+      { nom: 'Feuille d\'aluminium', quantite: '1', emoji: '🪙' },
+      { nom: 'Gros sel', quantite: '1 c.à.c', emoji: '🧂' }
+    ],
+    materiel: ['Bol', 'Chiffon doux', 'Brosse à dents souple'],
+    instructions: [
+      'Tapissez un bol de papier aluminium (face brillante vers le haut)',
+      'Versez l\'eau chaude, le bicarbonate et le gros sel',
+      'Déposez les bijoux en argent dans le bain 5-10 min : la réaction décolle l\'oxydation',
+      'Pour l\'or et les pierres : eau tiède + savon doux, brossez délicatement',
+      'Rincez à l\'eau claire et séchez avec un chiffon doux'
+    ],
+    surfaces: ['Bijoux', 'Argenterie', 'Or', 'Argent'],
+    precautions: ['Pas pour les perles, l\'opale ni les pierres poreuses', 'Vérifier les sertissages avant le bain', 'Pas de bicarbonate sur les pierres tendres'],
+    astuces: ['La réaction alu + bicarbonate dé-noircit l\'argent sans frotter', 'Un chiffon microfibre lustre l\'éclat final', 'Pour les diamants : brosse souple et savon suffisent'],
+    conservation: 'Bain à préparer à chaque usage'
+  },
+  {
+    id: 128,
+    nom: 'Nettoyant Mobilier de Jardin',
+    emoji: '🪴',
+    categorie: 'Entretien',
+    badge: 'Plastique, résine, bois',
+    gradient: 'linear-gradient(135deg, #80CBC4 0%, #4DB6AC 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '2L', emoji: '💧' },
+      { nom: 'Savon noir', quantite: '3 c.à.s', emoji: '⚫' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' }
+    ],
+    materiel: ['Éponge', 'Brosse souple', 'Jet d\'eau'],
+    instructions: [
+      'Mélangez eau chaude, savon noir et bicarbonate dans un seau',
+      'Pour le plastique/résine blanc jauni : ajoutez le vinaigre',
+      'Frottez le mobilier à l\'éponge ou à la brosse souple',
+      'Insistez sur les nervures et les pieds où la crasse s\'accumule',
+      'Rincez au jet et laissez sécher au soleil'
+    ],
+    surfaces: ['Mobilier de jardin', 'Salon de jardin', 'Chaises plastique', 'Table résine', 'Bois de jardin'],
+    precautions: ['Tester le vinaigre sur le bois peint', 'Pas de brosse dure sur la résine (raye)', 'Protéger le bois ensuite avec une huile adaptée'],
+    astuces: ['Le bicarbonate ravive le plastique blanc', 'Une housse l\'hiver évite ce gros nettoyage', 'Savon noir = nettoie sans agresser les surfaces'],
+    conservation: 'Solution : usage immédiat'
+  },
+  {
+    id: 129,
+    nom: 'Spray Anti-Calcaire Express',
+    emoji: '💧',
+    categorie: 'Salle de bain',
+    badge: 'Quotidien',
+    gradient: 'linear-gradient(135deg, #B3E5FC 0%, #4FC3F7 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau', quantite: '250ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '250ml', emoji: '🧴' },
+      { nom: 'Acide citrique', quantite: '1 c.à.c', emoji: '🍋' },
+      { nom: 'HE menthe poivrée', quantite: '8 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Flacon spray 500ml'],
+    instructions: [
+      'Mélangez l\'eau et le vinaigre dans le flacon',
+      'Ajoutez l\'acide citrique et secouez pour dissoudre',
+      'Incorporez l\'huile essentielle de menthe',
+      'Vaporisez sur les surfaces entartrées après la douche',
+      'Laissez agir 5 min puis essuyez ou rincez'
+    ],
+    surfaces: ['Robinetterie', 'Gourdes', 'Lavabo', 'Parois de douche', 'Inox'],
+    precautions: ['Éviter le marbre et la pierre naturelle', 'Pas sur joints en mauvais état', 'Rincer les gourdes alimentaires'],
+    astuces: ['Un coup de spray quotidien après la douche = zéro calcaire', 'L\'acide citrique renforce l\'action du vinaigre', 'La menthe masque l\'odeur du vinaigre'],
+    conservation: '6 mois'
+  },
+  {
+    id: 130,
+    nom: 'Désodorisant Baskets en Poudre',
+    emoji: '👟',
+    categorie: 'Entretien',
+    badge: 'Anti-odeurs',
+    gradient: 'linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '4 c.à.s', emoji: '⚪' },
+      { nom: 'Maïzena', quantite: '2 c.à.s', emoji: '🌽' },
+      { nom: 'HE tea tree', quantite: '10 gouttes', emoji: '🌿' },
+      { nom: 'HE lavande', quantite: '5 gouttes', emoji: '💜' }
+    ],
+    materiel: ['Pot hermétique', 'Cuillère'],
+    instructions: [
+      'Mélangez le bicarbonate et la maïzena dans un pot',
+      'Ajoutez les huiles essentielles et mélangez bien',
+      'Le soir, saupoudrez une cuillère de poudre dans chaque chaussure',
+      'Laissez agir toute la nuit (le bicarbonate absorbe l\'humidité et les odeurs)',
+      'Le matin, tapotez pour vider l\'excédent de poudre'
+    ],
+    surfaces: ['Baskets', 'Chaussures', 'Bottes', 'Chaussons'],
+    precautions: ['Bien tapoter pour retirer la poudre avant de porter', 'Tea tree : éviter le contact prolongé peau nue', 'Conserver le pot au sec'],
+    astuces: ['Le tea tree est antibactérien et anti-mycose', 'La maïzena absorbe l\'humidité, source des odeurs', 'Glissez un sachet de la poudre dans les chaussures rangées'],
+    conservation: 'Poudre : 6 mois en pot hermétique'
   }
 ];
 
@@ -2852,37 +3708,59 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   5: [2],          // Friteuse -> Dégraissant Puissant
   6: [2],          // Airfryer -> Dégraissant Puissant
   7: [36, 39, 58], // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
-  8: [35, 12, 32, 33], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations
+  8: [35, 12, 32, 33, 105], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations, Crème à Récurer
   9: [41, 95],     // Poubelles -> Désodorisant Poubelle, Poubelles Vapeur
+  10: [106],       // Torchons -> Blanchisseur Torchons & Linge de Cuisine
   11: [9, 30, 32, 75], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray, Nettoyant Sol Pin
   12: [35, 3, 29, 68, 91], // Miroirs -> + Vitres Vapeur
   13: [8, 32, 33, 85], // Lavabo sdb -> + Baignoire Pierre Blanche
-  14: [35, 8, 28, 33, 72, 91], // Parois de douche -> + Vitres Vapeur
-  16: [35, 8],     // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire
-  17: [35, 7, 6, 31, 32, 34, 96], // WC -> + WC Vapeur Désinfection
-  18: [8, 20, 72, 86, 89], // Joints -> + Joints Pierre Blanche, Joints Vapeur
+  14: [35, 8, 28, 33, 72, 91, 102], // Parois de douche -> + Spray Anti-moisissures
+  15: [107, 129],  // Pommeau -> Détartrant Pommeau de Douche, Spray Anti-Calcaire Express
+  16: [35, 8, 129], // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire, Spray Anti-Calcaire Express
+  17: [35, 7, 6, 31, 32, 34, 96, 101], // WC -> + Détartrant WC Moussant
+  18: [8, 20, 72, 86, 89, 102], // Joints -> + Spray Anti-moisissures
   19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
   20: [11, 45, 65, 81], // Draps -> Lessive Maison, Blanchisseur Linge, Détachant Sang, Détachant Sang Textile
-  21: [4, 73, 79], // Rideaux -> Détachant Textile, Spray Textile Lavande, Défroissage Vapeur
-  22: [3, 8],      // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire
+  21: [4, 73, 79, 104], // Rideaux -> + Désodorisant Textile & Canapé
+  22: [3, 8, 129], // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire, Spray Anti-Calcaire Express
+  23: [108, 130],  // Chaussures -> Nettoyant Chaussures Toile, Désodorisant Baskets Poudre
+  24: [109],       // Doudounes -> Lavage Doudoune & Manteaux
   25: [42, 59, 73, 97], // Tapis -> + Tapis Vapeur
   26: [42, 59, 97], // Moquette -> + Tapis Vapeur
-  27: [59, 73, 78, 94], // Canapé -> + Canapé Tissu Vapeur
+  27: [59, 73, 78, 94, 104], // Canapé -> + Désodorisant Textile & Canapé
   28: [35, 6, 71], // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel, Spray Désinfectant Tea Tree
+  29: [35, 110, 71], // Portes -> Spray Alcool Ménager, Nettoyant Portes & Plinthes, Spray Désinfectant Tea Tree
   30: [11],        // Lave-linge -> Lessive Maison
+  31: [111],       // Microfibres -> Lavage Chiffons Microfibres
   32: [35, 11, 45, 59, 65, 67, 79, 81, 98], // Linge -> + Détachant Graisse Eau Chaude
   33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
   34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
+  35: [112],       // Aspirateur -> Entretien Filtre d'Aspirateur
+  37: [113],       // Radiateurs -> Dépoussiérant Radiateurs
   38: [54],        // Carrosserie -> Nettoyant Carrosserie
   39: [44],        // Jantes -> Nettoyant Jantes Auto
-  42: [47, 64],    // Sièges auto -> Nettoyant Sièges Auto Tissu, Détachant Cuir (cuir)
+  40: [114],       // Phares -> Rénovateur Phares Jaunis
+  42: [47, 64, 118], // Sièges auto -> Nettoyant Sièges Auto Tissu, Détachant Cuir, Entretien Selle Moto & Cuir
   43: [35],        // Plastiques voiture -> Spray Alcool Ménager
-  48: [46, 66, 69], // Terrasse -> Anti-Mousses Terrasse, Raviveur Bois, Dégivrant Écologique
+  44: [115],       // Pneus -> Brillance Pneus Naturelle
+  45: [116],       // Ceintures -> Nettoyant Ceintures de Sécurité
+  46: [117],       // Casque moto -> Nettoyant Casque Moto
+  47: [118],       // Selle moto -> Entretien Selle Moto & Cuir
+  48: [46, 66, 69, 122], // Terrasse -> + Anti-Mousse Toiture & Façade
+  49: [119, 2],    // Barbecue -> Dégraissant Grille de Barbecue, Dégraissant Puissant
+  50: [120],       // Piscine -> Équilibrage Eau de Piscine
+  51: [121],       // Tondeuse -> Nettoyant Carter de Tondeuse
+  52: [122],       // Toiture -> Anti-Mousse Toiture & Façade
+  53: [123],       // Fleurs -> Conservateur pour Fleurs Coupées
+  54: [124],       // Engrais -> Engrais Naturel pour Plantes
+  55: [125, 100],  // Canalisations ext. -> Déboucheur Canalisations Extérieures, Débouchage Express
+  56: [126],       // Mains -> Nettoyant Mains Dégraissant
+  57: [127, 55],   // Bijoux -> Nettoyant Bijoux Éclat, Polish Argenterie
   58: [35, 3, 29, 68, 91], // Vitres -> + Vitres Vapeur
   59: [35, 1, 71], // Poignées -> + Spray Désinfectant Tea Tree
   60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
   61: [13, 33, 100], // Canalisations -> + Débouchage Express Eau Bouillante
-  62: [4, 19, 84], // Baskets -> + Chaussures Blanches Cuir
+  62: [4, 19, 84, 108, 130], // Baskets -> + Nettoyant Chaussures Toile, Désodorisant Baskets Poudre
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
   // Porcelaine / Vaisselle
   63: [36, 37],    // Tasses & Mugs -> Pierre Blanche, Vaisselle Impeccable
@@ -2898,27 +3776,27 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   71: [2, 43],     // Hotte -> Dégraissant Puissant, Dégraissant Hotte
   72: [37, 99],    // Planches à découper -> + Planches Eau Bouillante
   // Meubles et bois
-  73: [56, 62, 66], // Meubles en bois -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
-  74: [56, 62, 66], // Parquet -> Polish Meubles Bois, Soin Meubles Bois, Raviveur Bois
+  73: [56, 62, 66, 103], // Meubles en bois -> + Nettoyant Parquet Bois Naturel
+  74: [56, 62, 66, 103], // Parquet -> + Nettoyant Parquet Bois Naturel
   // Cuir
   75: [59, 64],    // Cuir -> Détachant Gras Textile, Détachant Cuir
   // Métaux précieux
   76: [55],        // Argenterie -> Polish Argenterie
   77: [55],        // Cuivre & Laiton -> Polish Argenterie
   // Jardin & Extérieur
-  78: [],          // Mobilier de jardin -> (général)
-  79: [53],        // Plantes -> Insecticide Plantes
+  78: [128],       // Mobilier de jardin -> Nettoyant Mobilier de Jardin
+  79: [53, 124],   // Plantes -> Insecticide Plantes, Engrais Naturel pour Plantes
   80: [50, 80],    // Mauvaises herbes -> Désherbant Naturel, Désherbage Eau Bouillante
   81: [52, 63],    // Outils de jardin -> Anti-Rouille Naturel, Protection Outils Jardin
   // Autres
-  82: [73, 78, 93], // Matelas -> + Anti-Punaises Vapeur
+  82: [73, 78, 93, 104], // Matelas -> + Désodorisant Textile & Canapé
   83: [92],        // Jouets -> Jouets Enfants Vapeur
   84: [61],        // Autocollants -> Décollant Autocollants
   85: [60],        // Charnières -> Lubrifiant Charnières
   // Surfaces supplémentaires
-  86: [82],        // Plaques vitrocéramique -> Vitrocéramique Pierre Blanche
+  86: [82, 105],   // Plaques vitrocéramique -> Vitrocéramique Pierre Blanche, Crème à Récurer
   87: [83],        // Fer à repasser -> Semelle Fer à Repasser
-  88: [85],        // Baignoire -> Baignoire Pierre Blanche
+  88: [85, 105],   // Baignoire -> Baignoire Pierre Blanche, Crème à Récurer
   89: [93],        // Sommier -> Anti-Punaises Vapeur
   90: [90],        // Murs & Papier peint -> Décoller Papier Peint
 };
