@@ -3683,6 +3683,37 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Bien tapoter pour retirer la poudre avant de porter', 'Tea tree : éviter le contact prolongé peau nue', 'Conserver le pot au sec'],
     astuces: ['Le tea tree est antibactérien et anti-mycose', 'La maïzena absorbe l\'humidité, source des odeurs', 'Glissez un sachet de la poudre dans les chaussures rangées'],
     conservation: 'Poudre : 6 mois en pot hermétique'
+  },
+  {
+    id: 131,
+    nom: 'Entretien Préventif Chaudière',
+    emoji: '🔥',
+    categorie: 'Entretien',
+    badge: 'Avant l\'hiver',
+    gradient: 'linear-gradient(135deg, #FF7043 0%, #E64A19 100%)',
+    temps: '30min',
+    difficulte: 'Moyen',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Chiffon sec', quantite: '1', emoji: '🧽' },
+      { nom: 'Aspirateur avec embout fin', quantite: '1', emoji: '🧹' },
+      { nom: 'Clé de purge', quantite: '1', emoji: '🔧' },
+      { nom: 'Récipient', quantite: '1', emoji: '🥣' }
+    ],
+    materiel: ['Aspirateur', 'Clé de purge (ou tournevis plat)', 'Récipient pour l\'eau de purge'],
+    instructions: [
+      'Coupez la chaudière et attendez qu\'elle soit froide',
+      'Dépoussiérez les grilles d\'aération et le capot avec un chiffon sec',
+      'Aspirez les poussières autour de la chaudière (jamais à l\'intérieur du brûleur)',
+      'Vérifiez que la pression du circuit est entre 1 et 1,5 bar (manomètre)',
+      'Purgez les radiateurs : ouvrez la vis de purge, laissez sortir l\'air jusqu\'à ce que l\'eau coule, refermez',
+      'Après purge, contrôlez à nouveau la pression et ré-remplissez le circuit si besoin (robinet de remplissage)',
+      'Rallumez la chaudière et vérifiez qu\'elle démarre normalement'
+    ],
+    surfaces: ['Chaudière', 'Radiateurs', 'Circuit de chauffage'],
+    precautions: ['NE JAMAIS toucher au brûleur ni aux pièces internes', 'Ne jamais intervenir sur le gaz', 'L\'entretien annuel obligatoire reste du ressort d\'un professionnel', 'En cas de doute ou d\'anomalie, couper et appeler un chauffagiste'],
+    astuces: ['Faites ce check-up chaque automne avant la saison de chauffe', 'Une purge annuelle évite les bruits dans les radiateurs', 'Une chaudière dépoussiérée = meilleur rendement et moins de pannes'],
+    conservation: 'À faire 1x/an, avant l\'hiver'
   }
 ];
 
@@ -3736,7 +3767,8 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
   34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
   35: [112],       // Aspirateur -> Entretien Filtre d'Aspirateur
-  37: [113],       // Radiateurs -> Dépoussiérant Radiateurs
+  36: [131],       // Chaudière -> Entretien Préventif Chaudière
+  37: [113, 131],  // Radiateurs -> Dépoussiérant Radiateurs, Entretien Préventif Chaudière
   38: [54],        // Carrosserie -> Nettoyant Carrosserie
   39: [44],        // Jantes -> Nettoyant Jantes Auto
   40: [114],       // Phares -> Rénovateur Phares Jaunis
