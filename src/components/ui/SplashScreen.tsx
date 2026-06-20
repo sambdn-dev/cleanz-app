@@ -41,11 +41,11 @@ export const SplashScreen = () => {
         blurDataURL={getBlur('/images/splash-bg.jpg')}
       />
 
-      {/* Overlay central pour lisibilité du logo */}
+      {/* Overlay doux pour lisibilité du logo sur fond sombre */}
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 70% 50% at center, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.4) 50%, transparent 80%)',
+          background: 'radial-gradient(ellipse 80% 60% at center 45%, rgba(255,248,240,0.75) 0%, rgba(255,248,240,0.35) 45%, transparent 75%)',
         }}
       />
 
@@ -86,9 +86,9 @@ export const SplashScreen = () => {
         {/* Tagline */}
         <p
           className="text-sm font-semibold tracking-wide mt-2 animate-splash-tagline"
-          style={{ color: '#7C3AED' }}
+          style={{ color: '#9333EA' }}
         >
-          L'entretien naturel
+          L&apos;entretien naturel
         </p>
 
         {/* Loader dots */}
