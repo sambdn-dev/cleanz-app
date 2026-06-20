@@ -199,13 +199,13 @@ function HomePageContent() {
               <SearchBar value={searchQuery} onChange={setSearchQuery} />
             </div>
 
-            {/* Category Tabs */}
+            {/* Sprays Section - hero + mini grid (juste sous la recherche) */}
+            <SpraysHeroGrid onSprayClick={setSelectedSpray} />
+
+            {/* Category Tabs (pilules sous Les Indispensables) */}
             <div className={`mb-4 transition-all duration-700 delay-150 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <CategoryTabs activeTab={activeCategory} onTabChange={handleCategoryChange} />
             </div>
-
-            {/* Sprays Section - hero + mini grid */}
-            <SpraysHeroGrid onSprayClick={setSelectedSpray} />
 
             {/* Surfaces Grid */}
             <SurfacesGrid
