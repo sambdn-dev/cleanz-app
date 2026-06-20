@@ -10,6 +10,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
     imageUrl: '/images/sprays/multi-usage.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, dark plum background fading to black on the left. On the right: a glass cork bottle of water, a small jar of dark soap, an amber spray bottle with golden liquid, dried lavender in a pot, a halved lemon. Warm candlelight from the right, soft rim lighting on glass edges. Cozy evening atmosphere. Horizontal 3:2 ratio, photorealistic, 50mm lens, shallow depth of field. »
+    imageUrlDark: '/images/sprays/multi-usage-dark.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 5,
@@ -40,6 +42,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #4FD1C5 0%, #38B2AC 100%)',
     imageUrl: '/images/sprays/degraissant.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, dark teal-blue background fading to black on the left. On the right: a glass cork bottle, a jar of white powder, a small jar of dark soap, a frosted white spray bottle, a linen cloth, eucalyptus sprig. Warm golden side light, soft shadows. Cozy evening atmosphere. Horizontal 3:2 ratio, photorealistic, 50mm lens. »
+    imageUrlDark: '/images/sprays/degraissant-dark.jpg',
     temps: '10min',
     difficulte: 'Facile',
     efficacite: 5,
@@ -70,6 +74,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%)',
     imageUrl: '/images/sprays/vitres.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, deep purple background with faint window blind shadows. On the right on a dark reflective surface: a glass cork bottle, a clear spray bottle, folded purple microfiber cloths. Warm rim light on glass. Intimate evening mood. Horizontal 3:2 ratio, photorealistic, 50mm lens. »
+    imageUrlDark: '/images/sprays/vitres-dark.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 5,
@@ -99,6 +105,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Essentiel',
     gradient: 'linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%)',
     imageUrl: '/images/sprays/textile.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, midnight plum background fading to black on the left. On the right: a glass spray bottle with milky liquid, a cube of natural soap, a glass bowl of white powder, folded white towels. Warm golden light, soft baby breath shadows. Cozy atmosphere. Horizontal 3:2 ratio, photorealistic. »
+    imageUrlDark: '/images/sprays/textile-dark.jpg',
     temps: '15min',
     difficulte: 'Facile',
     efficacite: 5,
@@ -128,6 +136,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Malin',
     gradient: 'linear-gradient(135deg, #98D8C8 0%, #7FC9B9 100%)',
     imageUrl: '/images/sprays/poussiere.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, dark sage green background fading to charcoal on the left. On the right: glass cork bottles, an amber spray bottle with golden oil, small dropper bottles, lavender sprigs, olive branch, woven cloth. Warm honey-gold light through the oils. Cozy evening mood. Horizontal 3:2 ratio, photorealistic. »
+    imageUrlDark: '/images/sprays/poussiere-dark.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 4,
@@ -158,6 +168,8 @@ export const RECETTES: RecetteComplete[] = [
     badge: 'Santé',
     gradient: 'linear-gradient(135deg, #B0E0E6 0%, #ADD8E6 100%)',
     imageUrl: '/images/sprays/desinfectant.jpg',
+    // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, midnight teal-blue background fading to black on the left. On the right: a glass cork bottle, a clear spray bottle, a small amber essential oil bottle, tea tree sprig, eucalyptus branch. Cool-warm rim lighting. Clean yet cozy atmosphere. Horizontal 3:2 ratio, photorealistic. »
+    imageUrlDark: '/images/sprays/desinfectant-dark.jpg',
     temps: '5min',
     difficulte: 'Facile',
     efficacite: 5,

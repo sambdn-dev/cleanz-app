@@ -8,6 +8,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
     imageUrl: '/images/sprays/multi-usage.jpg',
+    imageUrlDark: '/images/sprays/multi-usage-dark.jpg', // prompt photo sombre : voir recettes.ts
     ingredients: [
       { nom: 'Eau tiède', quantite: '400ml' },
       { nom: 'Vinaigre blanc', quantite: '100ml' },
@@ -27,6 +28,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #4FD1C5 0%, #38B2AC 100%)',
     imageUrl: '/images/sprays/degraissant.jpg',
+    imageUrlDark: '/images/sprays/degraissant-dark.jpg',
     ingredients: [
       { nom: 'Eau chaude', quantite: '300ml' },
       { nom: 'Cristaux de soude', quantite: '2 c.à.s' },
@@ -46,6 +48,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Kit de base',
     gradient: 'linear-gradient(135deg, #B794F4 0%, #9F7AEA 100%)',
     imageUrl: '/images/sprays/vitres.jpg',
+    imageUrlDark: '/images/sprays/vitres-dark.jpg',
     ingredients: [
       { nom: 'Eau déminéralisée', quantite: '250ml' },
       { nom: 'Vinaigre blanc', quantite: '250ml' },
@@ -64,6 +67,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Essentiel',
     gradient: 'linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 100%)',
     imageUrl: '/images/sprays/textile.jpg',
+    imageUrlDark: '/images/sprays/textile-dark.jpg',
     ingredients: [
       { nom: 'Eau tiède', quantite: '200ml' },
       { nom: 'Percarbonate de soude', quantite: '2 c.à.s' },
@@ -82,6 +86,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Malin',
     gradient: 'linear-gradient(135deg, #98D8C8 0%, #7FC9B9 100%)',
     imageUrl: '/images/sprays/poussiere.jpg',
+    imageUrlDark: '/images/sprays/poussiere-dark.jpg',
     ingredients: [
       { nom: 'Eau', quantite: '400ml' },
       { nom: 'Glycérine végétale', quantite: '2 c.à.s' },
@@ -101,6 +106,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     badge: 'Santé',
     gradient: 'linear-gradient(135deg, #B0E0E6 0%, #ADD8E6 100%)',
     imageUrl: '/images/sprays/desinfectant.jpg',
+    imageUrlDark: '/images/sprays/desinfectant-dark.jpg',
     ingredients: [
       { nom: 'Eau', quantite: '300ml' },
       { nom: 'Vinaigre blanc', quantite: '200ml' },
