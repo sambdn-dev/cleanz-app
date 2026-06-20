@@ -2,8 +2,8 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Ingredient } from '@/types';
-import { Leaf, Euro, Sparkles } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { SectionTitle, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface IngredientModalProps {
@@ -22,21 +22,12 @@ const SURFACES_PAR_INGREDIENT: Record<number, string[]> = {
   7: ['Inox', 'Céramique', 'Vitrocéramique', 'Évier', 'Baignoire'], // Pierre blanche
   8: ['Four', 'Hotte', 'Friteuse', 'Canalisations', 'Poubelles'], // Cristaux de soude
   9: ['Vitres', 'Miroirs', 'Écrans', 'Surfaces brillantes'], // Alcool ménager
-  10: ['Tapis', 'Canapé', 'Matelas', 'Vêtements', 'Cuir'] // Terre de Sommières
+  10: ['Tapis', 'Canapé', 'Matelas', 'Vêtements', 'Cuir'], // Terre de Sommières
 };
 
 // Score écologique par ingrédient (1-5)
 const ECO_SCORES: Record<number, number> = {
-  1: 5, // Bicarbonate - excellent
-  2: 5, // Vinaigre - excellent
-  3: 5, // Acide citrique - excellent
-  4: 5, // Savon noir - excellent
-  5: 4, // Percarbonate - très bien
-  6: 5, // Savon de Marseille - excellent
-  7: 4, // Pierre blanche - très bien
-  8: 4, // Cristaux de soude - très bien
-  9: 3, // Alcool ménager - bien
-  10: 5 // Terre de Sommières - excellent
+  1: 5, 2: 5, 3: 5, 4: 5, 5: 4, 6: 5, 7: 4, 8: 4, 9: 3, 10: 5,
 };
 
 // Astuces par ingrédient
@@ -50,33 +41,38 @@ const ASTUCES: Record<number, string> = {
   7: "Testez toujours sur une zone cachée d'abord.",
   8: "Portez des gants, plus caustique que le bicarbonate.",
   9: "Parfait pour les surfaces qui craignent l'eau.",
-  10: "Laissez agir plusieurs heures pour les taches grasses."
+  10: "Laissez agir plusieurs heures pour les taches grasses.",
 };
 
 export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) => {
-  const { theme, darkMode } = useTheme();
+  const { theme } = useTheme();
   const surfaces = SURFACES_PAR_INGREDIENT[ingredient.id] || [];
   const ecoScore = ECO_SCORES[ingredient.id] || 4;
   const astuce = ASTUCES[ingredient.id] || "Conservez à l'abri de l'humidité.";
 
-  // Gradient colors based on ingredient
   const gradients: Record<number, string> = {
-    1: 'linear-gradient(135deg, #F472B6 0%, #FB7185 100%)', // Rose
-    2: 'linear-gradient(135deg, #34D399 0%, #10B981 100%)', // Vert
-    3: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)', // Jaune
-    4: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)', // Violet
-    5: 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)', // Bleu
-    6: 'linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)', // Lavande
-    7: 'linear-gradient(135deg, #E5E7EB 0%, #9CA3AF 100%)', // Gris
-    8: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)', // Teal
-    9: 'linear-gradient(135deg, #F472B6 0%, #EC4899 100%)', // Pink
-    10: 'linear-gradient(135deg, #D97706 0%, #B45309 100%)' // Amber
+    1: 'linear-gradient(135deg, #F472B6 0%, #FB7185 100%)',
+    2: 'linear-gradient(135deg, #34D399 0%, #10B981 100%)',
+    3: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)',
+    4: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+    5: 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)',
+    6: 'linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)',
+    7: 'linear-gradient(135deg, #E5E7EB 0%, #9CA3AF 100%)',
+    8: 'linear-gradient(135deg, #14B8A6 0%, #0D9488 100%)',
+    9: 'linear-gradient(135deg, #F472B6 0%, #EC4899 100%)',
+    10: 'linear-gradient(135deg, #D97706 0%, #B45309 100%)',
   };
 
   const headerGradient = gradients[ingredient.id] || gradients[1];
-
-  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
   const useDarkHeaderText = shouldUseDarkText(headerGradient);
+
+  const ecoDots = (
+    <span className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <span key={i} className="text-base leading-none" style={{ color: i <= ecoScore ? ACCENT.sage : 'rgba(120,113,108,0.3)' }}>●</span>
+      ))}
+    </span>
+  );
 
   return (
     <Modal
@@ -91,7 +87,7 @@ export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) =
               className="inline-block text-xs px-3 py-1 rounded-full font-semibold mb-3"
               style={{
                 background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)',
-                color: useDarkHeaderText ? '#374151' : '#FFFFFF'
+                color: useDarkHeaderText ? '#374151' : '#FFFFFF',
               }}
             >
               Essentiel
@@ -99,10 +95,7 @@ export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) =
           )}
           <div className="flex items-center gap-4">
             <span className="text-5xl">{ingredient.emoji}</span>
-            <h2
-              className="text-2xl font-bold"
-              style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}
-            >
+            <h2 className="font-display text-2xl font-extrabold" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
               {ingredient.nom}
             </h2>
           </div>
@@ -110,111 +103,44 @@ export const IngredientModal = ({ ingredient, onClose }: IngredientModalProps) =
       }
     >
       {/* Description */}
-      <div className="mb-5">
-        <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
-          {ingredient.description}
-        </p>
-      </div>
+      <p className="text-[15px] leading-[1.65] mb-5" style={{ color: theme.textSecondary }}>
+        {ingredient.description}
+      </p>
 
-      {/* Info cards */}
-      <div className="grid grid-cols-2 gap-3 mb-5">
-        {/* Price */}
-        <div
-          className="p-4 rounded-2xl"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <div className="flex items-center gap-2 mb-1">
-            <Euro className="w-4 h-4 text-emerald-500" />
-            <span className="text-xs font-semibold" style={{ color: theme.textMuted }}>Prix moyen</span>
-          </div>
-          <span className="text-sm font-bold" style={{ color: theme.textPrimary }}>{ingredient.prix}</span>
-        </div>
+      {/* Meta inline */}
+      <MetaBar
+        items={[
+          { label: 'Prix moyen', value: ingredient.prix },
+          { label: 'Score éco', value: ecoDots },
+        ]}
+      />
 
-        {/* Eco Score */}
-        <div
-          className="p-4 rounded-2xl"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <div className="flex items-center gap-2 mb-1">
-            <Leaf className="w-4 h-4 text-green-500" />
-            <span className="text-xs font-semibold" style={{ color: theme.textMuted }}>Score éco</span>
-          </div>
-          <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <span
-                key={i}
-                className={`text-sm ${i <= ecoScore ? 'text-green-500' : 'text-gray-300'}`}
-              >
-                ●
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Pouvoirs / Functions */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <Sparkles className="w-4 h-4 text-amber-500" /> Pouvoirs
-        </h3>
+      {/* Pouvoirs */}
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.amber}>Pouvoirs</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {ingredient.fonctions.map((fonction, index) => (
-            <span
-              key={index}
-              className="text-xs px-3 py-1.5 rounded-full font-medium"
-              style={{
-                background: darkMode
-                  ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)'
-                  : 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)',
-                color: darkMode ? '#A78BFA' : '#7C3AED'
-              }}
-            >
-              {fonction}
-            </span>
+            <Chip key={index} tone="neutral">{fonction}</Chip>
           ))}
         </div>
       </div>
 
       {/* Surfaces compatibles */}
       {surfaces.length > 0 && (
-        <div className="mb-5">
-          <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <span className="text-base">✅</span> Surfaces compatibles
-          </h3>
+        <div className="mb-6">
+          <SectionTitle accent={ACCENT.sage}>Surfaces compatibles</SectionTitle>
           <div className="flex flex-wrap gap-2">
             {surfaces.map((surface, index) => (
-              <span
-                key={index}
-                className="text-xs px-3 py-1.5 rounded-full font-medium"
-                style={{
-                  background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                  color: '#4FD1C5'
-                }}
-              >
-                {surface}
-              </span>
+              <Chip key={index} tone="sage">{surface}</Chip>
             ))}
           </div>
         </div>
       )}
 
       {/* Astuce */}
-      <div
-        className="p-4 rounded-2xl"
-        style={{
-          background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.08)'
-        }}
-      >
-        <div className="flex items-start gap-3">
-          <span className="text-xl">💡</span>
-          <div>
-            <span className="text-xs font-bold block mb-1" style={{ color: theme.textPrimary }}>Astuce</span>
-            <span className="text-xs" style={{ color: theme.textSecondary }}>
-              {astuce}
-            </span>
-          </div>
-        </div>
-      </div>
+      <Callout accent={ACCENT.sage} icon={<span className="text-base leading-none">💡</span>} title="Astuce">
+        <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</span>
+      </Callout>
     </Modal>
   );
 };

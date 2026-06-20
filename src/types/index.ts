@@ -59,6 +59,7 @@ export interface Spray {
   badge: string;
   gradient: string;
   imageUrl?: string; // Photo du spray (ex: /images/sprays/multi-usage.jpg)
+  imageUrlDark?: string; // Variante sombre/cosy (ex: /images/sprays/multi-usage-dark.jpg)
   ingredients: SprayIngredient[];
   instructions: string;
   surfaces: string[];
@@ -131,6 +132,7 @@ export interface RecetteComplete {
   badge?: string;
   gradient: string;
   imageUrl?: string; // Photo de la recette (ex: /images/recettes/nettoyant-four.jpg)
+  imageUrlDark?: string; // Variante sombre/cosy de la photo (mode sombre)
   temps: string;
   difficulte: 'Facile' | 'Moyen' | 'Avancé';
   efficacite: number; // 1 à 5

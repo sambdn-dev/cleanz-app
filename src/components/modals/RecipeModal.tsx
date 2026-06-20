@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
-import { Clock, ChefHat, Star, AlertTriangle, Lightbulb, Archive, CheckCircle2, Beaker, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
+import { haptic } from '@/utils/haptics';
 
 interface RecipeModalProps {
   recipe: RecetteComplete;
@@ -21,74 +23,45 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const [comment, setComment] = useState('');
 
   const hasImage = !!recipe.imageUrl;
-  // Détermine si le texte du header doit être sombre (pour les gradients clairs)
   const useDarkHeaderText = !hasImage && shouldUseDarkText(recipe.gradient);
 
   const favorite = isFavorite(recipe.id);
   const userRating = getRating(recipe.id);
 
+  const difficultyColor =
+    recipe.difficulte === 'Facile' ? (darkMode ? '#86C99A' : '#3F8F5B')
+    : recipe.difficulte === 'Moyen' ? (darkMode ? '#E0B088' : '#B97A33')
+    : (darkMode ? '#E69191' : '#C2585B');
+
   const handleRatingClick = (rating: number) => {
+    haptic('selection');
     setRating(recipe.id, rating);
   };
 
-  // Génère un slug URL-friendly à partir du nom
-  const generateSlug = (name: string): string => {
-    return name
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-  };
+  const generateSlug = (name: string): string =>
+    name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
   const handleShare = async () => {
-    const baseUrl = window.location.origin;
-    const slug = generateSlug(recipe.nom);
-    const shareUrl = `${baseUrl}/?recette=${slug}`;
-
+    haptic('light');
+    const shareUrl = `${window.location.origin}/?recette=${generateSlug(recipe.nom)}`;
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: recipe.nom,
-          text: `Découvre cette recette de nettoyage naturel : ${recipe.nom}`,
-          url: shareUrl,
-        });
+        await navigator.share({ title: recipe.nom, text: `Découvre cette recette de nettoyage naturel : ${recipe.nom}`, url: shareUrl });
       } catch {
-        // User cancelled or error
+        /* annulé */
       }
     } else {
-      // Fallback: copy to clipboard
       await navigator.clipboard.writeText(shareUrl);
-      // Could add a toast notification here
     }
   };
 
-  // Générer les étoiles d'efficacité
-  const renderEfficacite = (note: number) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-4 h-4 ${star <= note ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  const getDifficulteColor = (difficulte: string) => {
-    switch (difficulte) {
-      case 'Facile':
-        return darkMode ? '#4ADE80' : '#22C55E';
-      case 'Moyen':
-        return darkMode ? '#FBBF24' : '#F59E0B';
-      case 'Avancé':
-        return darkMode ? '#F87171' : '#EF4444';
-      default:
-        return theme.textSecondary;
-    }
-  };
+  const renderEfficacite = (note: number) => (
+    <div className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star key={star} className={`w-3.5 h-3.5 ${star <= note ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
+      ))}
+    </div>
+  );
 
   return (
     <Modal
@@ -96,6 +69,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       onClose={onClose}
       headerGradient={recipe.gradient}
       headerImageUrl={recipe.imageUrl}
+      headerImageUrlDark={recipe.imageUrlDark}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <div
@@ -105,10 +79,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
           {!hasImage && <span className="text-5xl">{recipe.emoji}</span>}
           <div className="flex-1">
             <h2
-              className="text-xl font-bold leading-tight"
+              className="font-display text-2xl font-extrabold leading-tight"
               style={{
                 color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
-                textShadow: hasImage ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
+                textShadow: hasImage ? '0 2px 14px rgba(0,0,0,0.55)' : undefined,
               }}
             >
               {hasImage && <span className="mr-2">{recipe.emoji}</span>}
@@ -116,10 +90,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
             </h2>
             {recipe.badge && (
               <span
-                className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full"
+                className="inline-block mt-2 text-xs px-2.5 py-0.5 rounded-full font-medium"
                 style={{
-                  background: hasImage ? 'rgba(255,255,255,0.9)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
-                  color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+                  background: hasImage ? 'rgba(255,255,255,0.92)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
+                  color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF'),
                 }}
               >
                 {recipe.badge}
@@ -129,64 +103,30 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         </div>
       }
     >
-      {/* Info cards */}
-      <div className="grid grid-cols-3 gap-2 mb-5">
-        <div
-          className="p-3 rounded-2xl text-center"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <Clock className="w-4 h-4 mx-auto mb-1 text-pink-500" />
-          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Temps</span>
-          <span className="text-xs font-bold" style={{ color: theme.textPrimary }}>{recipe.temps}</span>
-        </div>
-        <div
-          className="p-3 rounded-2xl text-center"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <ChefHat className="w-4 h-4 mx-auto mb-1 text-cyan-500" />
-          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Difficulté</span>
-          <span className="text-xs font-bold" style={{ color: getDifficulteColor(recipe.difficulte) }}>
-            {recipe.difficulte}
-          </span>
-        </div>
-        <div
-          className="p-3 rounded-2xl text-center"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
-          <Star className="w-4 h-4 mx-auto mb-1 text-yellow-500" />
-          <span className="text-[10px] block" style={{ color: theme.textMuted }}>Efficacité</span>
-          <div className="flex justify-center mt-0.5">
-            {renderEfficacite(recipe.efficacite)}
-          </div>
-        </div>
-      </div>
+      {/* Meta inline (un seul bloc, plus de grille de 3 cartes) */}
+      <MetaBar
+        items={[
+          { label: 'Temps', value: recipe.temps },
+          { label: 'Difficulté', value: recipe.difficulte, color: difficultyColor },
+          { label: 'Efficacité', value: renderEfficacite(recipe.efficacite) },
+        ]}
+      />
 
-      {/* Ingrédients avec dosages */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <Beaker className="w-4 h-4 text-purple-500" /> Ingrédients & Dosages
-        </h3>
-        <div
-          className="p-4 rounded-2xl space-y-2"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-        >
+      {/* Ingrédients & dosages */}
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.sage}>Ingrédients &amp; dosages</SectionTitle>
+        <div className="space-y-0">
           {recipe.ingredients.map((ing, index) => (
             <div
               key={index}
-              className="flex items-center justify-between py-2 border-b last:border-0"
-              style={{ borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+              className="flex items-center justify-between py-2.5 border-b last:border-0"
+              style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="text-lg">{ing.emoji || '•'}</span>
-                <span className="text-sm font-medium" style={{ color: theme.textPrimary }}>{ing.nom}</span>
+                <span className="text-[15px]" style={{ color: theme.textPrimary }}>{ing.nom}</span>
               </div>
-              <span
-                className="text-xs px-2 py-1 rounded-full font-semibold"
-                style={{
-                  background: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.1)',
-                  color: darkMode ? '#A78BFA' : '#7C3AED'
-                }}
-              >
+              <span className="text-sm font-semibold tabular-nums" style={{ color: theme.textSecondary }}>
                 {ing.quantite}
               </span>
             </div>
@@ -196,230 +136,131 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
 
       {/* Matériel nécessaire */}
       {recipe.materiel && recipe.materiel.length > 0 && (
-        <div className="mb-5">
-          <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <span className="text-base">🧰</span> Matériel nécessaire
-          </h3>
+        <div className="mb-6">
+          <SectionTitle accent={ACCENT.neutral}>Matériel</SectionTitle>
           <div className="flex flex-wrap gap-2">
             {recipe.materiel.map((item, index) => (
-              <span
-                key={index}
-                className="text-xs px-3 py-1.5 rounded-full"
-                style={{
-                  background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                  color: theme.textSecondary
-                }}
-              >
-                {item}
-              </span>
+              <Chip key={index} tone="neutral">{item}</Chip>
             ))}
           </div>
         </div>
       )}
 
-      {/* Instructions étape par étape */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <CheckCircle2 className="w-4 h-4 text-green-500" /> Instructions
-        </h3>
-        <div className="space-y-3">
-          {recipe.instructions.map((instruction, index) => (
-            <div
-              key={index}
-              className="flex gap-3 items-start"
-            >
-              <div
-                className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
-                style={{
-                  background: darkMode
-                    ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
-                    : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)',
-                  color: 'white'
-                }}
-              >
-                {index + 1}
-              </div>
-              <p className="text-sm flex-1 pt-0.5" style={{ color: theme.textSecondary }}>
-                {instruction}
-              </p>
-            </div>
-          ))}
-        </div>
+      {/* Instructions */}
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.brand}>Préparation</SectionTitle>
+        <Steps items={recipe.instructions} />
       </div>
 
       {/* Surfaces compatibles */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <span className="text-base">🎯</span> Surfaces compatibles
-        </h3>
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.sage}>Surfaces compatibles</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {recipe.surfaces.map((surface, index) => (
-            <span
-              key={index}
-              className="text-xs px-3 py-1.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                color: darkMode ? '#5EEAD4' : '#14B8A6'
-              }}
-            >
-              {surface}
-            </span>
+            <Chip key={index} tone="sage">{surface}</Chip>
           ))}
         </div>
       </div>
 
       {/* Précautions */}
       {recipe.precautions.length > 0 && (
-        <div className="mb-5">
-          <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <AlertTriangle className="w-4 h-4 text-amber-500" /> Précautions
-          </h3>
-          <div
-            className="p-4 rounded-2xl space-y-2"
-            style={{
-              background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.08)'
-            }}
-          >
+        <div className="mb-6">
+          <Callout accent={ACCENT.clay} icon={<AlertTriangle className="w-4 h-4" style={{ color: ACCENT.clay }} />} title="Précautions">
             {recipe.precautions.map((precaution, index) => (
               <div key={index} className="flex items-baseline gap-2">
-                <span className="text-amber-500 text-sm leading-none">•</span>
+                <span className="text-sm leading-none" style={{ color: ACCENT.clay }}>•</span>
                 <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{precaution}</p>
               </div>
             ))}
-          </div>
+          </Callout>
         </div>
       )}
 
       {/* Astuces */}
       {recipe.astuces.length > 0 && (
-        <div className="mb-5">
-          <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-            <Lightbulb className="w-4 h-4 text-yellow-500" /> Astuces pro
-          </h3>
-          <div
-            className="p-4 rounded-2xl space-y-2"
-            style={{
-              background: darkMode
-                ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)'
-                : 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)'
-            }}
-          >
+        <div className="mb-6">
+          <Callout accent={ACCENT.sage} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
             {recipe.astuces.map((astuce, index) => (
               <div key={index} className="flex items-baseline gap-2">
-                <span className="text-base leading-none">💡</span>
+                <span className="text-sm leading-none" style={{ color: ACCENT.sage }}>•</span>
                 <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</p>
               </div>
             ))}
-          </div>
+          </Callout>
         </div>
       )}
 
       {/* Conservation */}
       <div
-        className="p-4 rounded-2xl flex items-center gap-3 mb-5"
-        style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+        className="flex items-center gap-3 mb-6 py-3 border-y"
+        style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
       >
-        <Archive className="w-5 h-5 text-blue-500" />
-        <div>
-          <span className="text-xs font-semibold block" style={{ color: theme.textMuted }}>Conservation</span>
-          <span className="text-sm font-medium" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
-        </div>
+        <Archive className="w-4 h-4 flex-shrink-0" style={{ color: ACCENT.blue }} />
+        <span className="text-xs" style={{ color: theme.textMuted }}>Se conserve</span>
+        <span className="text-sm font-medium ml-auto" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
       </div>
 
-      {/* Actions utilisateur : Favori, Note, Partage */}
-      <div
-        className="mb-5 p-4 rounded-2xl"
-        style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
-      >
+      {/* Actions : favori, note, partage */}
+      <div className="mb-5">
         <div className="flex items-center justify-between">
-          {/* Favori */}
           <button
-            onClick={() => toggleFavorite(recipe.id)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
-            style={{
-              background: favorite
-                ? 'rgba(236, 72, 153, 0.15)'
-                : darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-            }}
+            onClick={() => { haptic('light'); toggleFavorite(recipe.id); }}
+            aria-label={favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all active:scale-95"
+            style={{ background: favorite ? 'rgba(236,72,153,0.12)' : (darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)') }}
           >
-            <Heart
-              className={`w-5 h-5 transition-colors ${favorite ? 'text-pink-500 fill-pink-500' : ''}`}
-              style={{ color: favorite ? '#EC4899' : theme.textMuted }}
-            />
+            <Heart className="w-5 h-5" style={{ color: favorite ? '#EC4899' : theme.textMuted, fill: favorite ? '#EC4899' : 'transparent' }} />
             <span className="text-xs font-medium" style={{ color: favorite ? '#EC4899' : theme.textMuted }}>
               {favorite ? 'Favori' : 'Ajouter'}
             </span>
           </button>
 
-          {/* Note utilisateur */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" role="group" aria-label="Noter la recette">
             {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                onClick={() => handleRatingClick(star)}
-                className="transition-transform hover:scale-110 active:scale-95"
-              >
-                <Star
-                  className={`w-5 h-5 ${
-                    userRating && star <= userRating
-                      ? 'text-yellow-400 fill-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
+              <button key={star} onClick={() => handleRatingClick(star)} aria-label={`${star} étoile${star > 1 ? 's' : ''}`} className="transition-transform active:scale-90">
+                <Star className={`w-5 h-5 ${userRating && star <= userRating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
               </button>
             ))}
           </div>
 
-          {/* Partager */}
           <button
             onClick={handleShare}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all hover:scale-105 active:scale-95"
-            style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+            aria-label="Partager"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all active:scale-95"
+            style={{ background: darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
           >
             <Share2 className="w-4 h-4" style={{ color: theme.textMuted }} />
             <span className="text-xs font-medium" style={{ color: theme.textMuted }}>Partager</span>
           </button>
         </div>
 
-        {/* Zone commentaire (optionnel) */}
-        <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` }}>
+        {/* Commentaire (à venir) */}
+        <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'}` }}>
           {!showCommentInput ? (
-            <button
-              onClick={() => setShowCommentInput(true)}
-              className="flex items-center gap-2 text-xs"
-              style={{ color: theme.textMuted }}
-            >
+            <button onClick={() => setShowCommentInput(true)} className="flex items-center gap-2 text-xs" style={{ color: theme.textMuted }}>
               <MessageCircle className="w-4 h-4" />
-              <span>Ajouter un commentaire...</span>
+              <span>Ajouter un commentaire…</span>
             </button>
           ) : (
             <div className="space-y-2">
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Partagez votre expérience avec cette recette..."
+                placeholder="Partagez votre expérience avec cette recette…"
                 className="w-full p-3 rounded-xl text-sm resize-none outline-none"
                 style={{
                   background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
                   color: theme.textPrimary,
-                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
                 }}
                 rows={3}
               />
               <div className="flex gap-2 justify-end">
-                <button
-                  onClick={() => setShowCommentInput(false)}
-                  className="px-3 py-1.5 text-xs rounded-lg"
-                  style={{ color: theme.textMuted }}
-                >
+                <button onClick={() => setShowCommentInput(false)} className="px-3 py-1.5 text-xs rounded-lg" style={{ color: theme.textMuted }}>
                   Annuler
                 </button>
                 <button
-                  onClick={() => {
-                    // TODO: Save comment when Supabase is integrated
-                    setShowCommentInput(false);
-                    setComment('');
-                  }}
+                  onClick={() => { setShowCommentInput(false); setComment(''); }}
                   className="px-3 py-1.5 text-xs rounded-lg text-white"
                   style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)' }}
                 >
@@ -434,7 +275,6 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         </div>
       </div>
 
-      {/* Disclaimer */}
       <div className="mt-4">
         <Disclaimer variant="compact" />
       </div>

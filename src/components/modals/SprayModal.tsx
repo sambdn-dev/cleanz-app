@@ -2,8 +2,9 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Spray } from '@/types';
-import { AlertTriangle, Lightbulb, Clock } from 'lucide-react';
+import { AlertTriangle, Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { SectionTitle, Steps, Chip, Callout, ACCENT } from '@/components/ui/ModalParts';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface SprayModalProps {
@@ -16,12 +17,20 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
   const hasImage = !!spray.imageUrl;
   const useDarkHeaderText = !hasImage && shouldUseDarkText(spray.gradient);
 
+  // Découpe les instructions (chaîne unique) en étapes courtes.
+  const steps = spray.instructions
+    .split(/\.\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => (s.endsWith('.') ? s : s + '.'));
+
   return (
     <Modal
       isOpen={true}
       onClose={onClose}
       headerGradient={spray.gradient}
       headerImageUrl={spray.imageUrl}
+      headerImageUrlDark={spray.imageUrlDark}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
         <div
@@ -31,24 +40,21 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
           <span
             className="inline-block self-start text-xs px-3 py-1 rounded-full font-semibold mb-3"
             style={{
-              background: hasImage ? 'rgba(255,255,255,0.9)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
-              color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF')
+              background: hasImage ? 'rgba(255,255,255,0.92)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.3)'),
+              color: hasImage ? '#2D1F3D' : (useDarkHeaderText ? '#374151' : '#FFFFFF'),
             }}
           >
             {spray.badge}
           </span>
           <div className="flex items-center gap-3">
-            <span
-              className="text-5xl"
-              style={hasImage ? { filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))' } : undefined}
-            >
+            <span className="text-5xl" style={hasImage ? { filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))' } : undefined}>
               {spray.emoji}
             </span>
             <h2
-              className="text-2xl font-bold"
+              className="font-display text-2xl font-extrabold"
               style={{
                 color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
-                textShadow: hasImage ? '0 2px 12px rgba(0,0,0,0.5)' : undefined,
+                textShadow: hasImage ? '0 2px 14px rgba(0,0,0,0.55)' : undefined,
               }}
             >
               {spray.nom}
@@ -57,120 +63,75 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
         </div>
       }
     >
-      {/* Ingredients & Dosages */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <span className="text-base">🧪</span> Ingrédients &amp; Dosages
-        </h3>
-        <div className="space-y-2">
+      {/* Ingrédients & dosages */}
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.sage}>Ingrédients &amp; dosages</SectionTitle>
+        <div className="space-y-0">
           {spray.ingredients.map((ing, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 rounded-xl"
-              style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+              className="flex items-center justify-between py-2.5 border-b last:border-0"
+              style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
             >
-              <span className="text-sm" style={{ color: theme.textPrimary }}>{ing.nom}</span>
-              <span className="text-sm font-semibold text-emerald-500">{ing.quantite}</span>
+              <span className="text-[15px]" style={{ color: theme.textPrimary }}>{ing.nom}</span>
+              <span className="text-sm font-semibold tabular-nums" style={{ color: theme.textSecondary }}>{ing.quantite}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Instructions */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <span className="text-base">📝</span> Instructions
-        </h3>
-        <p
-          className="text-sm leading-relaxed p-3 rounded-xl"
-          style={{
-            color: theme.textSecondary,
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'
-          }}
-        >
-          {spray.instructions}
-        </p>
+      {/* Préparation */}
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.brand}>Préparation</SectionTitle>
+        {steps.length > 1 ? (
+          <Steps items={steps} />
+        ) : (
+          <p className="text-[15px] leading-[1.65]" style={{ color: theme.textSecondary }}>{spray.instructions}</p>
+        )}
       </div>
 
       {/* Surfaces compatibles */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <span className="text-base">✅</span> Surfaces compatibles
-        </h3>
+      <div className="mb-6">
+        <SectionTitle accent={ACCENT.sage}>Surfaces compatibles</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {spray.surfaces.map((surface, index) => (
-            <span
-              key={index}
-              className="text-xs px-3 py-1.5 rounded-full font-medium"
-              style={{
-                background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
-                color: '#4FD1C5'
-              }}
-            >
-              {surface}
-            </span>
+            <Chip key={index} tone="sage">{surface}</Chip>
           ))}
         </div>
       </div>
 
-      {/* Precautions */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <AlertTriangle className="w-4 h-4 text-amber-500" /> Précautions
-        </h3>
-        <div
-          className="p-3 rounded-xl space-y-2"
-          style={{
-            background: darkMode ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.1)'
-          }}
-        >
+      {/* Précautions */}
+      <div className="mb-6">
+        <Callout accent={ACCENT.clay} icon={<AlertTriangle className="w-4 h-4" style={{ color: ACCENT.clay }} />} title="Précautions">
           {spray.precautions.map((precaution, index) => (
-            <div
-              key={index}
-              className="flex items-baseline gap-2"
-            >
-              <span className="text-amber-500 text-sm leading-none">•</span>
+            <div key={index} className="flex items-baseline gap-2">
+              <span className="text-sm leading-none" style={{ color: ACCENT.clay }}>•</span>
               <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{precaution}</span>
             </div>
           ))}
-        </div>
+        </Callout>
       </div>
 
-      {/* Astuces Pro */}
-      <div className="mb-5">
-        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-          <Lightbulb className="w-4 h-4 text-violet-500" /> Astuces pro
-        </h3>
-        <div
-          className="p-3 rounded-xl space-y-2"
-          style={{
-            background: darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(139, 92, 246, 0.1)'
-          }}
-        >
+      {/* Astuces pro */}
+      <div className="mb-6">
+        <Callout accent={ACCENT.sage} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
           {spray.astuces.map((astuce, index) => (
-            <div
-              key={index}
-              className="flex items-baseline gap-2"
-            >
-              <span className="text-base leading-none">💡</span>
+            <div key={index} className="flex items-baseline gap-2">
+              <span className="text-sm leading-none" style={{ color: ACCENT.sage }}>•</span>
               <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</span>
             </div>
           ))}
-        </div>
+        </Callout>
       </div>
 
       {/* Conservation */}
       <div
-        className="flex items-center gap-3 p-4 rounded-xl"
-        style={{
-          background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'
-        }}
+        className="flex items-center gap-3 py-3 border-y"
+        style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
       >
-        <Clock className="w-5 h-5 text-pink-500" />
-        <div>
-          <span className="text-xs font-semibold block" style={{ color: theme.textMuted }}>Conservation</span>
-          <span className="text-sm font-medium" style={{ color: theme.textPrimary }}>{spray.conservation}</span>
-        </div>
+        <Clock className="w-4 h-4 flex-shrink-0" style={{ color: ACCENT.blue }} />
+        <span className="text-xs" style={{ color: theme.textMuted }}>Se conserve</span>
+        <span className="text-sm font-medium ml-auto" style={{ color: theme.textPrimary }}>{spray.conservation}</span>
       </div>
     </Modal>
   );

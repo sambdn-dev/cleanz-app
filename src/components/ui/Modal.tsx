@@ -12,12 +12,17 @@ interface ModalProps {
   children: ReactNode;
   headerGradient?: string;
   headerImageUrl?: string;
+  /** Variante sombre/cosy de la photo d'en-tête, utilisée en mode sombre si fournie. */
+  headerImageUrlDark?: string;
   headerContent?: ReactNode;
   useDarkHeaderText?: boolean;
 }
 
-export function Modal({ isOpen, onClose, children, headerGradient, headerImageUrl, headerContent, useDarkHeaderText = false }: ModalProps) {
-  const { theme } = useTheme();
+export function Modal({ isOpen, onClose, children, headerGradient, headerImageUrl, headerImageUrlDark, headerContent, useDarkHeaderText = false }: ModalProps) {
+  const { theme, darkMode } = useTheme();
+  // En mode sombre, privilégie la photo cosy dédiée si elle existe, sinon repli sur la photo claire.
+  const effectiveImageUrl = (darkMode && headerImageUrlDark) ? headerImageUrlDark : headerImageUrl;
+  const hasImage = !!effectiveImageUrl;
 
   // Block body scroll when modal is open
   useEffect(() => {
@@ -50,54 +55,49 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
         {/* Header with gradient or image */}
         {headerContent && (
           <div
-            className="relative flex-shrink-0 overflow-hidden"
+            className="relative flex-shrink-0 overflow-hidden modal-grain"
             style={{ background: headerGradient || 'linear-gradient(135deg, #F472B6 0%, #8B5CF6 50%, #06B6D4 100%)' }}
           >
             {/* Photo de couverture plein cadre */}
-            {headerImageUrl && (
+            {hasImage && (
               <>
                 <Image
-                  src={headerImageUrl}
+                  src={effectiveImageUrl!}
                   alt=""
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 500px"
-                  placeholder={getBlur(headerImageUrl) ? 'blur' : 'empty'}
-                  blurDataURL={getBlur(headerImageUrl)}
+                  placeholder={getBlur(effectiveImageUrl!) ? 'blur' : 'empty'}
+                  blurDataURL={getBlur(effectiveImageUrl!)}
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-              </>
-            )}
-
-            {/* Decorative circles (hidden when image) */}
-            {!headerImageUrl && (
-              <>
-                <div className="absolute top-4 right-16 w-20 h-20 bg-white/10 rounded-full blur-xl" />
-                <div className="absolute bottom-0 left-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+                {/* Voile dégradé plus profond en bas pour ancrer le titre */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
               </>
             )}
 
             {/* Close button */}
             <button
               onClick={onClose}
+              aria-label="Fermer"
               className="absolute top-0 right-0 p-5 z-20"
             >
               <span
                 className="flex items-center justify-center w-8 h-8 rounded-full transition-colors"
                 style={{
-                  background: headerImageUrl ? 'rgba(0,0,0,0.4)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
+                  background: hasImage ? 'rgba(0,0,0,0.4)' : (useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)'),
+                  backdropFilter: hasImage ? 'blur(4px)' : undefined,
                 }}
               >
                 <X
                   className="w-5 h-5"
-                  style={{ color: headerImageUrl ? '#FFFFFF' : (useDarkHeaderText ? '#374151' : '#FFFFFF') }}
+                  style={{ color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#374151' : '#FFFFFF') }}
                 />
               </span>
             </button>
 
             {/* Content avec padding */}
-            <div className="relative z-10 px-6 pt-6 pb-8">
+            <div className="relative z-10 px-6 pt-6 pb-7">
               {headerContent}
             </div>
           </div>
