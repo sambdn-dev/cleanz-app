@@ -12,59 +12,63 @@ export const PWAUpdatePrompt = () => {
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
-    // Enregistre le service worker. Le `?v=BUILD_ID` change à chaque déploiement
-    // → le navigateur détecte un nouveau worker → cycle de mise à jour → prompt.
-    const buildId = process.env.NEXT_PUBLIC_BUILD_ID || 'dev';
-    navigator.serviceWorker.register(`/sw.js?v=${buildId}`).catch(() => {
-      /* enregistrement impossible (ex. mode privé) : on ignore silencieusement */
-    });
+    let registration: ServiceWorkerRegistration | null = null;
 
-    const handleServiceWorkerUpdate = () => {
-      navigator.serviceWorker.ready.then((registration) => {
-        // Check for updates periodically
-        registration.update();
+    // URL stable : le CONTENU de /sw.js change à chaque déploiement (SHA intégré),
+    // donc registration.update() détecte la MAJ sans recharger la page.
+    // updateViaCache:'none' force le navigateur à toujours re-télécharger le script.
+    navigator.serviceWorker
+      .register('/sw.js', { updateViaCache: 'none' })
+      .then((reg) => {
+        registration = reg;
 
-        // Listen for new service worker waiting
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New content is available
-                setWaitingWorker(newWorker);
-                setShowUpdateModal(true);
-              }
-            });
+        const promptFor = (worker: ServiceWorker | null) => {
+          if (worker && navigator.serviceWorker.controller) {
+            setWaitingWorker(worker);
+            setShowUpdateModal(true);
           }
+        };
+
+        // Un worker est déjà en attente (MAJ détectée avant le montage)
+        if (reg.waiting) promptFor(reg.waiting);
+
+        // Nouvelle version trouvée → on guette son passage à "installed"
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker?.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed') promptFor(newWorker);
+          });
         });
 
-        // Check if there's already a waiting worker
-        if (registration.waiting && navigator.serviceWorker.controller) {
-          setWaitingWorker(registration.waiting);
-          setShowUpdateModal(true);
-        }
+        // Vérifie tout de suite
+        reg.update().catch(() => {});
+      })
+      .catch(() => {
+        /* enregistrement impossible (ex. navigation privée) : on ignore */
       });
 
-      // Handle controller change (when skipWaiting is called)
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
-        }
-      });
+    // Recharge la page une fois le nouveau worker actif (après clic « Actualiser »)
+    let refreshing = false;
+    const onControllerChange = () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
     };
+    navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
 
-    handleServiceWorkerUpdate();
+    // Vérifie une MAJ régulièrement ET quand l'app revient au premier plan
+    // (essentiel pour une PWA qu'on rouvre depuis l'écran d'accueil).
+    const checkForUpdate = () => registration?.update().catch(() => {});
+    const interval = setInterval(checkForUpdate, 60 * 1000);
+    const onVisible = () => { if (document.visibilityState === 'visible') checkForUpdate(); };
+    document.addEventListener('visibilitychange', onVisible);
 
-    // Check for updates every 5 minutes
-    const interval = setInterval(() => {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.update();
-      });
-    }, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+      navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
+    };
   }, []);
 
   const handleUpdate = () => {
