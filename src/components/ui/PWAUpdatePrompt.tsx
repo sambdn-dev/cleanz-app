@@ -12,6 +12,13 @@ export const PWAUpdatePrompt = () => {
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
+    // Enregistre le service worker. Le `?v=BUILD_ID` change à chaque déploiement
+    // → le navigateur détecte un nouveau worker → cycle de mise à jour → prompt.
+    const buildId = process.env.NEXT_PUBLIC_BUILD_ID || 'dev';
+    navigator.serviceWorker.register(`/sw.js?v=${buildId}`).catch(() => {
+      /* enregistrement impossible (ex. mode privé) : on ignore silencieusement */
+    });
+
     const handleServiceWorkerUpdate = () => {
       navigator.serviceWorker.ready.then((registration) => {
         // Check for updates periodically
