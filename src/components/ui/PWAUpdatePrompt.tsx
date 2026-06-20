@@ -60,7 +60,7 @@ export const PWAUpdatePrompt = () => {
     // Vérifie une MAJ régulièrement ET quand l'app revient au premier plan
     // (essentiel pour une PWA qu'on rouvre depuis l'écran d'accueil).
     const checkForUpdate = () => registration?.update().catch(() => {});
-    const interval = setInterval(checkForUpdate, 60 * 1000);
+    const interval = setInterval(checkForUpdate, 30 * 1000);
     const onVisible = () => { if (document.visibilityState === 'visible') checkForUpdate(); };
     document.addEventListener('visibilitychange', onVisible);
 

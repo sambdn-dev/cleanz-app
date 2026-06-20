@@ -235,7 +235,7 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
           style={{ borderColor: theme.borderLight }}
         >
           <p className="text-[10px] text-center" style={{ color: theme.textMuted }}>
-            Cleanz v1.0 • Made with 💚
+            Cleanz v1.1.01 • Made with 💚
           </p>
         </div>
       </div>
