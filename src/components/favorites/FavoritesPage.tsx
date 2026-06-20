@@ -45,6 +45,8 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick }
   // Carte de recette favorite
   const FavoriteCard = ({ recipe }: { recipe: RecetteComplete }) => {
     const userRating = getRating(recipe.id);
+    // Photo cosy en mode sombre (repli sur la photo claire)
+    const heroImg = (darkMode && recipe.imageUrlDark) ? recipe.imageUrlDark : recipe.imageUrl;
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -76,16 +78,16 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick }
 
         <div className="flex items-start gap-3">
           {/* Vignette photo (ou emoji + dégradé en repli) */}
-          {recipe.imageUrl ? (
+          {heroImg ? (
             <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 relative" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
               <Image
-                src={recipe.imageUrl}
+                src={heroImg}
                 alt={recipe.nom}
                 fill
                 className="object-cover object-right"
                 sizes="56px"
-                placeholder={getBlur(recipe.imageUrl) ? 'blur' : 'empty'}
-                blurDataURL={getBlur(recipe.imageUrl)}
+                placeholder={getBlur(heroImg) ? 'blur' : 'empty'}
+                blurDataURL={getBlur(heroImg)}
               />
             </div>
           ) : (

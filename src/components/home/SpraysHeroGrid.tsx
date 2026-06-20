@@ -91,10 +91,13 @@ const SprayBottle = ({ bands }: { bands: ReturnType<typeof getBands> }) => {
 // le « track », ce qui permet de précharger les images et d'obtenir un swipe
 // instantané (pas de re-fetch, pas d'image figée sur l'ancienne photo).
 const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => {
-  const hasImage = !!spray.imageUrl;
-  const blur = getBlur(spray.imageUrl);
-  // Avec photo : voile clair à gauche + texte sombre (look pastel premium)
-  const darkText = hasImage ? true : shouldUseDarkText(spray.gradient);
+  const { darkMode } = useTheme();
+  // En mode sombre, on privilégie la photo cosy dédiée (repli sur la claire).
+  const effectiveImage = (darkMode && spray.imageUrlDark) ? spray.imageUrlDark : spray.imageUrl;
+  const hasImage = !!effectiveImage;
+  const blur = getBlur(effectiveImage);
+  // Photo claire → voile blanc + texte sombre ; photo sombre → voile noir + texte clair.
+  const darkText = hasImage ? !darkMode : shouldUseDarkText(spray.gradient);
   const txt = darkText ? '#2D1F3D' : '#FFFFFF';
   const txtSoft = darkText ? 'rgba(45,31,61,0.7)' : 'rgba(255,255,255,0.85)';
   const bands = getBands(spray);
@@ -102,13 +105,13 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
   return (
     <div
       className="relative h-full flex-shrink-0 p-4 flex"
-      style={{ width: '100%', background: hasImage ? '#EFE7F8' : spray.gradient }}
+      style={{ width: '100%', background: hasImage ? (darkMode ? '#1B1230' : '#EFE7F8') : spray.gradient }}
     >
-      {/* Photo de fond (produit à droite, zone claire à gauche) */}
+      {/* Photo de fond (produit à droite, zone calme à gauche) */}
       {hasImage && (
         <>
           <Image
-            src={spray.imageUrl!}
+            src={effectiveImage!}
             alt={spray.nom}
             fill
             className="object-cover object-right pointer-events-none"
@@ -119,8 +122,12 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
             {...(!priority && { loading: 'eager' as const })}
             draggable={false}
           />
-          {/* Voile clair à gauche pour la lisibilité du texte sombre */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/55 to-transparent pointer-events-none" />
+          {/* Voile à gauche pour la lisibilité du texte (clair en jour, sombre en nuit) */}
+          <div
+            className={`absolute inset-0 pointer-events-none bg-gradient-to-r ${
+              darkMode ? 'from-black/85 via-black/40 to-transparent' : 'from-white/95 via-white/55 to-transparent'
+            }`}
+          />
         </>
       )}
 
@@ -132,9 +139,9 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
         <span
           className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
           style={{
-            background: hasImage ? 'rgba(255,255,255,0.8)' : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
+            background: hasImage ? (darkMode ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.8)') : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
             color: txt,
-            boxShadow: hasImage ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
+            boxShadow: hasImage && !darkMode ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
           }}
         >
           {spray.badge}
@@ -143,7 +150,7 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
         <div className="flex items-center gap-2 mt-3 flex-1">
           <span
             className="w-9 h-9 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-            style={{ background: hasImage ? 'rgba(255,255,255,0.7)' : (darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)') }}
+            style={{ background: hasImage ? (darkMode ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.7)') : (darkText ? 'rgba(45,31,61,0.08)' : 'rgba(255,255,255,0.22)') }}
           >
             {spray.emoji}
           </span>
