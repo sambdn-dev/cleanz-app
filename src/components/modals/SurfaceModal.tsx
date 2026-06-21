@@ -118,7 +118,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
           <div>
             <h2
               className="font-display text-xl font-extrabold text-white"
-              style={hasImage ? { textShadow: '0 2px 14px rgba(0,0,0,0.55)' } : undefined}
+              style={hasImage ? { textShadow: '0 1px 3px rgba(0,0,0,0.45)' } : undefined}
             >
               {hasImage && <span className="mr-2">{surface.emoji}</span>}{surface.nom}
             </h2>

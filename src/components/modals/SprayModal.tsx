@@ -60,7 +60,7 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
               className="font-display text-xl font-extrabold"
               style={{
                 color: hasImage ? '#FFFFFF' : (useDarkHeaderText ? '#1F2937' : '#FFFFFF'),
-                textShadow: hasImage ? '0 2px 14px rgba(0,0,0,0.55)' : undefined,
+                textShadow: hasImage ? '0 1px 3px rgba(0,0,0,0.45)' : undefined,
               }}
             >
               {spray.nom}
