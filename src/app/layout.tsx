@@ -15,9 +15,25 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cleanz-app.vercel.app"),
   title: "Cleanz - L'entretien naturel, simplifié",
   description: "Découvrez des solutions de nettoyage naturelles, économiques et écologiques pour toute la maison.",
   manifest: "/manifest.json",
+  openGraph: {
+    type: "website",
+    siteName: "Cleanz",
+    title: "Cleanz — L'entretien naturel, simplifié",
+    description: "Des recettes de ménage naturelles, économiques et écologiques pour toute la maison.",
+    url: "/",
+    locale: "fr_FR",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Cleanz — l'entretien naturel" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cleanz — L'entretien naturel, simplifié",
+    description: "Des recettes de ménage naturelles, économiques et écologiques pour toute la maison.",
+    images: ["/og-image.jpg"],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

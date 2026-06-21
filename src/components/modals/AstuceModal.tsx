@@ -9,6 +9,7 @@ import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 import { haptic } from '@/utils/haptics';
+import { slugify, buildShareText, shareOrCopy } from '@/utils/share';
 
 interface AstuceModalProps {
   astuce: Astuce;
@@ -32,21 +33,17 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
     setRating(astuceId, rating);
   };
 
-  const generateSlug = (name: string): string =>
-    name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
   const handleShare = async () => {
-    haptic('light');
-    const shareUrl = `${window.location.origin}/?astuce=${generateSlug(astuce.titre)}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: astuce.titre, text: `Découvre cette astuce de nettoyage naturel : ${astuce.titre}`, url: shareUrl });
-      } catch {
-        /* annulé */
-      }
-    } else {
-      await navigator.clipboard.writeText(shareUrl);
-    }
+    const url = `${window.location.origin}/?astuce=${slugify(astuce.titre)}`;
+    const text = buildShareText({
+      title: astuce.titre,
+      emoji: astuce.emoji,
+      kindLabel: 'astuce de ménage naturel',
+      tagline: astuce.resume || `⏱️ ${astuce.duree}`,
+      bullets: astuce.ingredients?.slice(0, 4),
+      url,
+    });
+    await shareOrCopy({ title: astuce.titre, text, url });
   };
 
   const instructionSteps = astuce.instructions

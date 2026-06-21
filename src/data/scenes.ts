@@ -1,4 +1,4 @@
-import { RecetteComplete } from '@/types';
+import { RecetteComplete, Surface } from '@/types';
 
 /**
  * Photos-scènes génériques (stratégie « 12 scènes » plutôt qu'une photo par recette).
@@ -125,4 +125,36 @@ export function getRecetteImage(
   if (darkMode && recette.imageUrlDark) return recette.imageUrlDark;
   if (recette.imageUrl) return recette.imageUrl;
   return getSceneImage(recette);
+}
+
+/** Clé de scène pour une surface (mots-clés du nom, puis pièce). */
+export function getSurfaceSceneKey(surface: Surface): SceneKey {
+  const hay = norm(surface.nom + ' ' + surface.piece);
+  const has = (...kw: string[]) => kw.some((k) => hay.includes(k));
+
+  // Mots-clés prioritaires (le nom prime sur la pièce)
+  if (has('wc', 'toilette', 'cuvette')) return 'sdbWc';
+  if (has('four', 'friteuse', 'airfryer', 'hotte', 'vitroceram', 'plaque', 'barbecue', 'casserol', 'poel'))
+    return 'cuisineFour';
+  if (has('tapis', 'moquette', 'parquet', 'terrasse')) return 'sol';
+  if (has('carross', 'jante', 'pneu', 'phare', 'vitres auto', 'voiture')) return 'voitureExt';
+  if (has('siege', 'ceinture', 'casque moto', 'selle', 'cuir', 'habitacle')) return 'voitureInt';
+  if (has('linge', 'lessive', 'draps', 'torchon', 'microfibre', 'doudoune', 'matelas', 'sommier', 'rideau', 'lit'))
+    return 'lingeMachine';
+
+  // Repli par pièce
+  switch (surface.piece) {
+    case 'Cuisine': return 'cuisinePlan';
+    case 'Salle de bain': return 'sdbDouche';
+    case 'Buanderie': return 'lingeMachine';
+    case 'Véhicule': return 'voitureInt';
+    case 'Garage': return 'entretien';
+    default: return 'multiUsage'; // Salon, Chambre, Corps, Électronique, Extérieur…
+  }
+}
+
+/** Photo-scène générique d'une surface, si disponible (sinon undefined → emoji). */
+export function getSurfaceImage(surface: Surface): string | undefined {
+  const key = getSurfaceSceneKey(surface);
+  return SCENES_DISPONIBLES.has(key) ? SCENE_FILES[key] : undefined;
 }

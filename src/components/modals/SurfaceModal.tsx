@@ -6,6 +6,7 @@ import { ChevronRight, Star } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
+import { getSurfaceImage } from '@/data/scenes';
 
 interface SurfaceModalProps {
   surface: Surface;
@@ -82,6 +83,9 @@ const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string;
 export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalProps) => {
   const { theme, darkMode } = useTheme();
   const recettes = getRecettesForSurface(surface.id);
+  // Photo-scène de la surface (repli emoji + dégradé géré par <Modal />)
+  const headerImageUrl = getSurfaceImage(surface);
+  const hasImage = !!headerImageUrl;
 
   const ingredients = recettes.length > 0
     ? getIngredientsFromRecettes(recettes)
@@ -104,12 +108,26 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
       isOpen={true}
       onClose={onClose}
       headerGradient={headerGradient}
+      headerImageUrl={headerImageUrl}
       headerContent={
-        <div className="flex items-center gap-4">
-          <span className="text-5xl">{surface.emoji}</span>
+        <div
+          className={hasImage ? 'flex flex-col justify-end' : 'flex items-center gap-4'}
+          style={hasImage ? { minHeight: 130 } : undefined}
+        >
+          {!hasImage && <span className="text-5xl">{surface.emoji}</span>}
           <div>
-            <h2 className="font-display text-xl font-extrabold text-white">{surface.nom}</h2>
-            <p className="text-white/80 text-sm">{surface.piece}</p>
+            <h2
+              className="font-display text-xl font-extrabold text-white"
+              style={hasImage ? { textShadow: '0 2px 14px rgba(0,0,0,0.55)' } : undefined}
+            >
+              {hasImage && <span className="mr-2">{surface.emoji}</span>}{surface.nom}
+            </h2>
+            <p
+              className="text-white/85 text-sm"
+              style={hasImage ? { textShadow: '0 1px 8px rgba(0,0,0,0.5)' } : undefined}
+            >
+              {surface.piece}
+            </p>
           </div>
         </div>
       }
