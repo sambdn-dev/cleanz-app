@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { RefreshCw, X, Sparkles } from 'lucide-react';
+import { RefreshCw, X } from 'lucide-react';
 
 export const PWAUpdatePrompt = () => {
   const { darkMode, theme } = useTheme();
@@ -130,10 +130,11 @@ export const PWAUpdatePrompt = () => {
           {/* Pastille + label */}
           <div className="relative flex items-center gap-3 mb-3">
             <div
-              className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ background: brandGradient, boxShadow: '0 8px 18px rgba(139,92,246,0.35)' }}
+              className="w-11 h-11 rounded-2xl overflow-hidden flex-shrink-0"
+              style={{ boxShadow: '0 8px 18px rgba(139,92,246,0.35)' }}
             >
-              <Sparkles className="w-5 h-5 text-white" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/icon.svg" alt="Cleanz" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="text-[11px] font-black uppercase tracking-widest" style={{ color: theme.accentPink }}>
