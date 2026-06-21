@@ -58,13 +58,27 @@ export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClic
               blurDataURL={getBlur(img!)}
               onError={() => setErr(true)}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+            {/* Léger voile global pour la lisibilité */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%)' }}
+            />
+            {/* Bande floutée horizontale en bas (fondue vers le haut) — fait ressortir le texte */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+              style={{
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                maskImage: 'linear-gradient(to top, black 35%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, black 35%, transparent 100%)',
+              }}
+            />
             <span className="absolute top-1.5 left-2 text-base" style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.5))' }}>
               {surface.emoji}
             </span>
             <span
               className="absolute inset-x-0 bottom-0 p-2 text-[11px] font-bold text-white leading-tight line-clamp-2"
-              style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
+              style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
             >
               {surface.nom}
             </span>

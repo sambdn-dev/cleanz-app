@@ -176,7 +176,7 @@ export function getSurfaceSceneKey(surface: Surface): SceneKey {
   if (has('four', 'friteuse', 'airfryer', 'hotte', 'vitroceram', 'plaque', 'barbecue', 'casserol', 'poel'))
     return 'cuisineFour';
   if (has('carross', 'jante', 'pneu', 'phare', 'vitres auto', 'voiture')) return 'voitureExt';
-  if (has('siege', 'ceinture', 'casque moto', 'selle', 'cuir', 'habitacle')) return 'voitureInt';
+  if (has('siege', 'ceinture', 'casque moto', 'selle moto', 'habitacle')) return 'voitureInt';
   if (has('vitre', 'miroir')) return opt('vitres', 'multiUsage');
   if (has('ecran', 'ordinateur', 'telephone', 'tablette', 'clavier')) return opt('ecrans', 'multiUsage');
   if (has('terrasse', 'toiture', 'jardin', 'plante', 'fleur', 'mobilier', 'piscine', 'engrais', 'herbe', 'tondeuse'))
