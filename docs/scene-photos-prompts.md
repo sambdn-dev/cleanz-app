@@ -5,26 +5,33 @@ avec **12 photos-scènes** génériques. Chaque recette est **mappée automatiqu
 à la bonne scène selon sa catégorie (le code fait tout, voir
 [`src/data/scenes.ts`](../src/data/scenes.ts)).
 
-- **Format** : `1792×1024` (paysage **3:2**).
+> ✅ **Les 12 scènes sont intégrées et actives** (`public/images/scenes/`,
+> activées dans `SCENES_DISPONIBLES`), avec leurs placeholders flous (LQIP)
+> dans `src/data/imageBlur.ts`.
+
+- **Format** : source `1536×1024` (paysage **3:2**), exportée en **JPG optimisé**
+  (~90–220 Ko/image, mozjpeg q82).
 - **Style** : photo produit **cosy / naturel**, tons beige / vert / lavande,
   lumière douce latérale.
-- **Emplacement** : déposer les `.jpg` dans `public/images/scenes/`.
+- **Emplacement** : `public/images/scenes/`.
 
 ---
 
-## 🔌 Comment activer une scène
+## 🔌 Remplacer / ajouter une scène
 
-1. Génère l'image (prompt ci-dessous), exporte-la en `1792×1024`.
-2. Dépose-la dans `public/images/scenes/` avec **exactement** le nom de fichier indiqué.
-3. Dans [`src/data/scenes.ts`](../src/data/scenes.ts), **décommente la clé**
-   correspondante dans `SCENES_DISPONIBLES`.
+1. Génère l'image (prompt ci-dessous), format **3:2**.
+2. Optimise-la et dépose-la dans `public/images/scenes/` avec **exactement** le
+   nom de fichier indiqué (voir le tableau). Idéalement en JPG (sinon adapte le
+   chemin dans `SCENE_FILES`).
+3. Ajoute son placeholder flou (LQIP) dans `src/data/imageBlur.ts`
+   *(optionnel mais recommandé pour le blur-up)*.
+4. Vérifie que sa clé est bien présente dans `SCENES_DISPONIBLES`
+   (`src/data/scenes.ts`).
 
-> Les images peuvent être ajoutées **une par une** (DALL·E n'en génère qu'une à la
-> fois). Tant qu'une scène n'est pas listée dans `SCENES_DISPONIBLES`, les recettes
-> de cette catégorie gardent leur **emoji** — aucune image cassée, aucune requête 404.
-
-*(Optionnel) Pour le blur-up progressif, ajouter le placeholder LQIP de chaque
-scène dans `src/data/imageBlur.ts`.*
+> Mécanisme de sécurité : tant qu'une clé n'est pas dans `SCENES_DISPONIBLES`,
+> les recettes de cette catégorie gardent leur **emoji** — aucune image cassée,
+> aucune requête 404. Un `onError` fait aussi un repli emoji/dégradé si un
+> fichier venait à manquer.
 
 ---
 

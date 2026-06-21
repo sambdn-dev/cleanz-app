@@ -52,18 +52,18 @@ export const SCENE_FILES: Record<SceneKey, string> = {
  * la fois) : ajoute la clé au fur et à mesure que tu intègres chaque photo.
  */
 export const SCENES_DISPONIBLES = new Set<SceneKey>([
-  // 'indispensables',
-  // 'cuisinePlan',
-  // 'cuisineFour',
-  // 'sdbDouche',
-  // 'sdbWc',
-  // 'sol',
-  // 'lingeMachine',
-  // 'lingeDetachant',
-  // 'voitureInt',
-  // 'voitureExt',
-  // 'multiUsage',
-  // 'entretien',
+  'indispensables',
+  'cuisinePlan',
+  'cuisineFour',
+  'sdbDouche',
+  'sdbWc',
+  'sol',
+  'lingeMachine',
+  'lingeDetachant',
+  'voitureInt',
+  'voitureExt',
+  'multiUsage',
+  'entretien',
 ]);
 
 // Minuscules + suppression des accents pour la détection par mots-clés.
