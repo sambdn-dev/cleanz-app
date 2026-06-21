@@ -3738,20 +3738,18 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   4: [49],         // Micro-ondes -> Nettoyant Micro-ondes
   5: [2],          // Friteuse -> Dégraissant Puissant
   6: [2],          // Airfryer -> Dégraissant Puissant
-  7: [36, 39, 58], // Casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
+  7: [36, 39, 58], // Poêles & casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
   8: [35, 12, 32, 33, 105], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations, Crème à Récurer
   9: [41, 95],     // Poubelles -> Désodorisant Poubelle, Poubelles Vapeur
   10: [106],       // Torchons -> Blanchisseur Torchons & Linge de Cuisine
   11: [9, 30, 32, 75], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray, Nettoyant Sol Pin
-  12: [35, 3, 29, 68, 91], // Miroirs -> + Vitres Vapeur
   13: [8, 32, 33, 85], // Lavabo sdb -> + Baignoire Pierre Blanche
   14: [35, 8, 28, 33, 72, 91, 102], // Parois de douche -> + Spray Anti-moisissures
   15: [107, 129],  // Pommeau -> Détartrant Pommeau de Douche, Spray Anti-Calcaire Express
   16: [35, 8, 129], // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire, Spray Anti-Calcaire Express
   17: [35, 7, 6, 31, 32, 34, 96, 101], // WC -> + Détartrant WC Moussant
   18: [8, 20, 72, 86, 89, 102], // Joints -> + Spray Anti-moisissures
-  19: [4, 19],     // Lit -> Détachant Textile, Détachant Tapis
-  20: [11, 45, 65, 81], // Draps -> Lessive Maison, Blanchisseur Linge, Détachant Sang, Détachant Sang Textile
+  20: [11, 45, 65, 81, 4, 19], // Draps & lit -> Lessive, Blanchisseur, Détachant Sang (+ Détachant Textile/Tapis du lit)
   21: [4, 73, 79, 104], // Rideaux -> + Désodorisant Textile & Canapé
   22: [3, 8, 129], // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire, Spray Anti-Calcaire Express
   23: [108, 130],  // Chaussures -> Nettoyant Chaussures Toile, Désodorisant Baskets Poudre
@@ -3760,7 +3758,7 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   26: [42, 59, 97], // Moquette -> + Tapis Vapeur
   27: [59, 73, 78, 94, 104], // Canapé -> + Désodorisant Textile & Canapé
   28: [35, 6, 71], // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel, Spray Désinfectant Tea Tree
-  29: [35, 110, 71], // Portes -> Spray Alcool Ménager, Nettoyant Portes & Plinthes, Spray Désinfectant Tea Tree
+  29: [35, 110, 71, 60], // Portes (+ charnières) -> Spray Alcool, Nettoyant Portes & Plinthes, Tea Tree, Lubrifiant Charnières
   30: [11],        // Lave-linge -> Lessive Maison
   31: [111],       // Microfibres -> Lavage Chiffons Microfibres
   32: [35, 11, 45, 59, 65, 67, 79, 81, 98], // Linge -> + Détachant Graisse Eau Chaude
@@ -3783,12 +3781,11 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   50: [120],       // Piscine -> Équilibrage Eau de Piscine
   51: [121],       // Tondeuse -> Nettoyant Carter de Tondeuse
   52: [122],       // Toiture -> Anti-Mousse Toiture & Façade
-  53: [123],       // Fleurs -> Conservateur pour Fleurs Coupées
   54: [124],       // Engrais -> Engrais Naturel pour Plantes
   55: [125, 100],  // Canalisations ext. -> Déboucheur Canalisations Extérieures, Débouchage Express
   56: [126],       // Mains -> Nettoyant Mains Dégraissant
   57: [127, 55],   // Bijoux -> Nettoyant Bijoux Éclat, Polish Argenterie
-  58: [35, 3, 29, 68, 91], // Vitres -> + Vitres Vapeur
+  58: [35, 3, 29, 68, 91], // Vitres & miroirs -> Spray Alcool, Anti-traces Vitres, ..., Vitres Vapeur
   59: [35, 1, 71], // Poignées -> + Spray Désinfectant Tea Tree
   60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
   61: [13, 33, 100], // Canalisations -> + Débouchage Express Eau Bouillante
@@ -3796,12 +3793,9 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
   // Porcelaine / Vaisselle
   63: [36, 37],    // Tasses & Mugs -> Pierre Blanche, Vaisselle Impeccable
-  64: [36, 37],    // Assiettes -> Pierre Blanche, Vaisselle Impeccable
-  65: [36, 37],    // Vaisselle -> Pierre Blanche, Vaisselle Impeccable
-  // Casseroles & Poêles
-  66: [36, 39],    // Poêles -> Pierre Blanche, Poêle Antiadhésive Récupérée
-  67: [36, 38, 58], // Casseroles inox -> Pierre Blanche, Casseroles Inox Brillantes, Récurant Casseroles
-  68: [36, 38],    // Poêles inox -> Pierre Blanche, Casseroles Inox Brillantes
+  65: [36, 37],    // Vaisselle (+ assiettes) -> Pierre Blanche, Vaisselle Impeccable
+  // Casseroles & Poêles (inox)
+  67: [36, 38, 58], // Casseroles & poêles inox -> Pierre Blanche, Casseroles Inox Brillantes, Récurant Casseroles
   // Électroménager supplémentaire
   69: [48],        // Bouilloire -> Détartrant Bouilloire
   70: [51],        // Cafetière -> Détartrant Cafetière
@@ -3817,18 +3811,16 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   77: [55],        // Cuivre & Laiton -> Polish Argenterie
   // Jardin & Extérieur
   78: [128],       // Mobilier de jardin -> Nettoyant Mobilier de Jardin
-  79: [53, 124],   // Plantes -> Insecticide Plantes, Engrais Naturel pour Plantes
+  79: [53, 124, 123], // Plantes & fleurs -> Insecticide Plantes, Engrais Naturel, Conservateur Fleurs Coupées
   80: [50, 80],    // Mauvaises herbes -> Désherbant Naturel, Désherbage Eau Bouillante
   81: [52, 63],    // Outils de jardin -> Anti-Rouille Naturel, Protection Outils Jardin
   // Autres
-  82: [73, 78, 93, 104], // Matelas -> + Désodorisant Textile & Canapé
+  82: [73, 78, 93, 104], // Matelas & sommier -> Désodorisant, Anti-Punaises Vapeur, ...
   83: [92],        // Jouets -> Jouets Enfants Vapeur
   84: [61],        // Autocollants -> Décollant Autocollants
-  85: [60],        // Charnières -> Lubrifiant Charnières
   // Surfaces supplémentaires
   86: [82, 105],   // Plaques vitrocéramique -> Vitrocéramique Pierre Blanche, Crème à Récurer
   87: [83],        // Fer à repasser -> Semelle Fer à Repasser
   88: [85, 105],   // Baignoire -> Baignoire Pierre Blanche, Crème à Récurer
-  89: [93],        // Sommier -> Anti-Punaises Vapeur
   90: [90],        // Murs & Papier peint -> Décoller Papier Peint
 };
