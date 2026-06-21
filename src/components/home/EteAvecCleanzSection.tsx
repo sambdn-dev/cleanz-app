@@ -51,84 +51,56 @@ const ETE_TIPS: EteTip[] = [
   },
 ];
 
-// Schémas SVG
-const VentilationSchema = () => (
-  <svg viewBox="0 0 120 50" className="w-full h-10">
-    <rect x="5" y="10" width="28" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <rect x="87" y="10" width="28" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <path d="M 36 25 Q 60 12 84 25" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
-    <polygon points="80,21 86,25 80,29" fill="currentColor" />
-    <path d="M 36 32 Q 60 45 84 32" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
-    <polygon points="40,36 34,32 40,28" fill="currentColor" />
-    <text x="60" y="48" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">courant d&apos;air</text>
-  </svg>
-);
-
+// Schémas SVG — uniquement quand un visuel aide vraiment (temporel / spatial), animés
 const HorairesSchema = () => (
-  <svg viewBox="0 0 120 50" className="w-full h-10">
-    <circle cx="30" cy="22" r="14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <line x1="30" y1="22" x2="30" y2="14" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="30" y1="22" x2="37" y2="22" stroke="currentColor" strokeWidth="1.5" />
-    <text x="30" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">6h-9h</text>
-    <rect x="55" y="15" width="15" height="18" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1" />
-    <line x1="60" y1="15" x2="60" y2="33" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <line x1="65" y1="15" x2="65" y2="33" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-    <text x="62" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">fermé</text>
-    <circle cx="95" cy="22" r="14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <line x1="95" y1="22" x2="95" y2="14" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="95" y1="22" x2="88" y2="26" stroke="currentColor" strokeWidth="1.5" />
-    <text x="95" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">21h-6h</text>
+  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Aération selon l'heure de la journée">
+    {/* sol */}
+    <line x1="16" y1="66" x2="204" y2="66" stroke="currentColor" strokeWidth="1.5" opacity="0.45" />
+    {/* trajet du soleil */}
+    <path d="M 24 66 Q 110 6 196 66" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 4" opacity="0.4" />
+    {/* séparateurs de phases */}
+    <line x1="80" y1="60" x2="80" y2="72" stroke="currentColor" strokeWidth="1.2" opacity="0.35" />
+    <line x1="140" y1="60" x2="140" y2="72" stroke="currentColor" strokeWidth="1.2" opacity="0.35" />
+    {/* soleil animé qui se lève puis se couche */}
+    <g>
+      <animateMotion dur="7s" repeatCount="indefinite" path="M 24 66 Q 110 6 196 66" />
+      <animate attributeName="opacity" values="0.15;1;1;1;0.15" keyTimes="0;0.18;0.5;0.82;1" dur="7s" repeatCount="indefinite" />
+      <circle r="12" fill="currentColor" opacity="0.18" />
+      <circle r="7" fill="currentColor" opacity="0.95" />
+    </g>
+    {/* libellés de phases */}
+    <text x="48" y="84" textAnchor="middle" fontSize="11" fill="currentColor">🌅</text>
+    <text x="48" y="96" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.85">6-9h ouvrir</text>
+    <text x="110" y="84" textAnchor="middle" fontSize="11" fill="currentColor">🔒</text>
+    <text x="110" y="96" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.85">10-21h fermer</text>
+    <text x="172" y="84" textAnchor="middle" fontSize="11" fill="currentColor">🌙</text>
+    <text x="172" y="96" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.85">21-6h ouvrir</text>
   </svg>
 );
 
-const BleuMeudonSchema = () => (
-  <svg viewBox="0 0 120 50" className="w-full h-10">
-    <rect x="10" y="5" width="45" height="40" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <circle cx="20" cy="15" r="4" fill="currentColor" opacity="0.2" />
-    <circle cx="30" cy="22" r="5" fill="currentColor" opacity="0.15" />
-    <circle cx="42" cy="12" r="3" fill="currentColor" opacity="0.2" />
-    <circle cx="25" cy="32" r="4" fill="currentColor" opacity="0.18" />
-    <circle cx="40" cy="28" r="6" fill="currentColor" opacity="0.12" />
-    <circle cx="18" cy="38" r="3" fill="currentColor" opacity="0.15" />
-    <path d="M 70 25 L 85 25" stroke="currentColor" strokeWidth="2" />
-    <polygon points="82,21 90,25 82,29" fill="currentColor" />
-    <circle cx="103" cy="15" r="8" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-    <line x1="103" y1="7" x2="103" y2="3" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="111" y1="15" x2="115" y2="15" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="95" y1="15" x2="91" y2="15" stroke="currentColor" strokeWidth="1.5" />
-    <text x="103" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">-chaleur</text>
-  </svg>
-);
-
-const HydratationSchema = () => (
-  <svg viewBox="0 0 120 50" className="w-full h-10">
-    <path d="M 25 40 L 25 15 Q 25 10 30 10 L 40 10 Q 45 10 45 15 L 45 40 Q 45 45 40 45 L 30 45 Q 25 45 25 40" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <path d="M 28 38 L 28 20 L 42 20 L 42 38" fill="currentColor" opacity="0.15" />
-    <text x="35" y="34" textAnchor="middle" fontSize="10" fill="currentColor" opacity="0.6">💧</text>
-    <text x="35" y="8" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">1.5-2L/j</text>
-    <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
-    <line x1="67" y1="22" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
-    <line x1="67" y1="28" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
-    <circle cx="95" cy="25" r="15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.5" />
-    <text x="95" y="29" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.6">≠🧊</text>
-    <text x="95" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">pas glacée</text>
-  </svg>
-);
-
-const DoucheSchema = () => (
-  <svg viewBox="0 0 120 50" className="w-full h-10">
-    <circle cx="35" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <line x1="35" y1="20" x2="35" y2="24" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <circle cx="32" cy="28" r="1" fill="currentColor" opacity="0.4" />
-    <circle cx="35" cy="30" r="1" fill="currentColor" opacity="0.4" />
-    <circle cx="38" cy="28" r="1" fill="currentColor" opacity="0.4" />
-    <circle cx="33" cy="33" r="1" fill="currentColor" opacity="0.3" />
-    <circle cx="37" cy="34" r="1" fill="currentColor" opacity="0.3" />
-    <text x="35" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">tiède/fraîche</text>
-    <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
-    <circle cx="95" cy="25" r="15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.5" />
-    <text x="95" y="29" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.6">≠❄️</text>
-    <text x="95" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">pas froide</text>
+const VentilationSchema = () => (
+  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Courant d'air entre deux fenêtres opposées">
+    {/* pièce */}
+    <rect x="20" y="14" width="180" height="60" rx="5" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.45" />
+    {/* fenêtre gauche (côté frais) */}
+    <rect x="11" y="26" width="16" height="40" rx="2" fill="currentColor" opacity="0.16" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="19" y1="26" x2="19" y2="66" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
+    {/* fenêtre droite (côté chaud) */}
+    <rect x="193" y="26" width="16" height="40" rx="2" fill="currentColor" opacity="0.16" stroke="currentColor" strokeWidth="1.2" />
+    <line x1="201" y1="26" x2="201" y2="66" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
+    {/* flux bas (air frais qui traverse) */}
+    <path d="M 32 56 Q 110 64 188 54" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="11 9" opacity="0.9">
+      <animate attributeName="stroke-dashoffset" from="40" to="0" dur="1.1s" repeatCount="indefinite" />
+    </path>
+    <polygon points="183,49 193,54 183,59" fill="currentColor" />
+    {/* flux haut (retour, plus lent) */}
+    <path d="M 32 38 Q 110 30 188 40" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="10 9" opacity="0.5">
+      <animate attributeName="stroke-dashoffset" from="38" to="0" dur="1.6s" repeatCount="indefinite" />
+    </path>
+    <polygon points="183,35 193,40 183,45" fill="currentColor" opacity="0.55" />
+    {/* libellés */}
+    <text x="8" y="92" textAnchor="start" fontSize="9" fill="currentColor" opacity="0.9">❄️ frais</text>
+    <text x="212" y="92" textAnchor="end" fontSize="9" fill="currentColor" opacity="0.9">chaud 🔥</text>
   </svg>
 );
 
@@ -150,13 +122,11 @@ const FRAICHEUR_TIPS: FraicheurTip[] = [
     icon: <Brush className="w-5 h-5" />,
     titre: 'Bleu de Meudon sur vitres',
     texte: 'Mélangez Bleu de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couleur blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !',
-    schema: <BleuMeudonSchema />,
   },
   {
     icon: <GlassWater className="w-5 h-5" />,
     titre: 'S\'hydrater correctement',
     texte: '💧 Boire 1,5 à 2L par jour, AVANT d\'avoir soif\n🚫 Éviter l\'eau GLACÉE (choc thermique, le corps chauffe pour compenser)\n✅ Eau fraîche ou température ambiante\n🍉 Manger des fruits d\'eau (pastèque, melon, concombre)',
-    schema: <HydratationSchema />,
     important: true,
   },
   {
@@ -168,7 +138,6 @@ const FRAICHEUR_TIPS: FraicheurTip[] = [
     icon: <ShowerHead className="w-5 h-5" />,
     titre: 'Douches rafraîchissantes',
     texte: '✅ Douche TIÈDE ou FRAÎCHE (pas froide !)\n🚫 L\'eau froide fait frissonner → le corps se réchauffe pour compenser\n💡 Mouiller nuque, poignets et chevilles = zones qui refroidissent vite\n🛁 Plusieurs douches courtes > 1 longue',
-    schema: <DoucheSchema />,
   },
   {
     icon: <ThermometerSnowflake className="w-5 h-5" />,
@@ -367,7 +336,7 @@ export const EteAvecCleanzSection = () => {
                       <div className="animate-accordion-in">
                         {tip.schema && (
                           <div
-                            className="mx-3 mb-2 p-2 rounded-lg"
+                            className="mx-3 mb-2 p-3 rounded-xl"
                             style={{
                               background: tip.important
                                 ? (darkMode ? 'rgba(251,146,60,0.1)' : 'rgba(234,88,12,0.06)')

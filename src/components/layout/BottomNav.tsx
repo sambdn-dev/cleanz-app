@@ -162,7 +162,6 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
           WebkitBackdropFilter: 'blur(44px) saturate(200%)',
-          border: `1.5px solid ${darkMode ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.95)'}`,
           boxShadow: darkMode
             ? '0 18px 50px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)'
             : '0 20px 55px rgba(149,108,180,0.35), 0 6px 18px rgba(149,108,180,0.18), inset 0 1px 0 rgba(255,255,255,1)',
