@@ -79,31 +79,53 @@ const HorairesSchema = () => (
 );
 
 const VentilationSchema = () => (
-  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Courant d'air traversant entre deux fenêtres opposées">
-    {/* pièce */}
-    <rect x="22" y="12" width="176" height="62" rx="6" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
-    {/* fenêtre gauche ouverte (frais) */}
-    <rect x="10" y="24" width="14" height="40" rx="2" fill="currentColor" opacity="0.14" stroke="currentColor" strokeWidth="1.3" />
-    <line x1="17" y1="24" x2="17" y2="64" stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
-    {/* fenêtre droite ouverte (chaud) */}
-    <rect x="196" y="24" width="14" height="40" rx="2" fill="currentColor" opacity="0.14" stroke="currentColor" strokeWidth="1.3" />
-    <line x1="203" y1="24" x2="203" y2="64" stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
-    {/* trajectoire de l'air (guide pointillé léger qui défile) */}
-    <path d="M 26 52 C 80 66, 140 30, 196 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="2 7" opacity="0.35">
-      <animate attributeName="stroke-dashoffset" from="36" to="0" dur="1.4s" repeatCount="indefinite" />
+  <svg viewBox="0 0 220 122" className="w-full h-auto" role="img" aria-label="Un ventilateur face à la fenêtre ouverte pousse l'air chaud dehors">
+    {/* toit */}
+    <polygon points="32,52 110,16 188,52" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* murs de la pièce */}
+    <rect x="44" y="52" width="128" height="54" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.55" />
+    {/* sol */}
+    <line x1="36" y1="106" x2="184" y2="106" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
+    {/* porte (lecture « maison ») */}
+    <rect x="54" y="82" width="15" height="24" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.4" />
+    {/* fenêtre ouverte sur le mur droit */}
+    <rect x="160" y="60" width="14" height="34" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.4" />
+    <line x1="167" y1="60" x2="167" y2="94" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
+    {/* battant ouvert vers l'extérieur */}
+    <path d="M 174 62 L 188 56 L 188 90 L 174 92" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.38" />
+
+    {/* ventilateur orienté vers la fenêtre */}
+    <circle cx="116" cy="78" r="15" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.6" />
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 116 78" to="360 116 78" dur="0.9s" repeatCount="indefinite" />
+      <ellipse cx="116" cy="70" rx="3" ry="7.5" fill="currentColor" opacity="0.8" />
+      <ellipse cx="124" cy="78" rx="7.5" ry="3" fill="currentColor" opacity="0.8" />
+      <ellipse cx="116" cy="86" rx="3" ry="7.5" fill="currentColor" opacity="0.8" />
+      <ellipse cx="108" cy="78" rx="7.5" ry="3" fill="currentColor" opacity="0.8" />
+    </g>
+    <circle cx="116" cy="78" r="3" fill="currentColor" />
+    {/* pied du ventilateur */}
+    <line x1="116" y1="93" x2="116" y2="104" stroke="currentColor" strokeWidth="1.6" opacity="0.6" />
+    <line x1="108" y1="104" x2="124" y2="104" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity="0.6" />
+
+    {/* souffle : air chaud poussé dehors par la fenêtre */}
+    <path d="M 133 73 Q 158 71 196 70" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="9 7" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="0.8s" repeatCount="indefinite" />
     </path>
-    {/* flèche de sortie */}
-    <polygon points="189,34 200,40 189,46" fill="currentColor" opacity="0.85" />
-    {/* particules d'air qui traversent réellement la pièce */}
-    {[0, 0.7, 1.4].map((delay, i) => (
-      <circle key={i} r={i === 1 ? 3.4 : 2.5} fill="currentColor">
-        <animateMotion dur="2.1s" begin={`${delay}s`} repeatCount="indefinite" path="M 26 52 C 80 66, 140 30, 196 40" />
-        <animate attributeName="opacity" values="0;0.95;0.95;0" keyTimes="0;0.15;0.8;1" dur="2.1s" begin={`${delay}s`} repeatCount="indefinite" />
+    <path d="M 133 83 Q 158 85 196 86" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="9 7" opacity="0.6">
+      <animate attributeName="stroke-dashoffset" from="32" to="0" dur="1.1s" repeatCount="indefinite" />
+    </path>
+    <polygon points="196,74 207,78 196,82" fill="currentColor" opacity="0.85" />
+    {[0, 0.6].map((delay, i) => (
+      <circle key={i} r="2.6" fill="currentColor">
+        <animateMotion dur="1.4s" begin={`${delay}s`} repeatCount="indefinite" path="M 133 78 Q 165 78 205 78" />
+        <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.2;0.8;1" dur="1.4s" begin={`${delay}s`} repeatCount="indefinite" />
       </circle>
     ))}
+
     {/* libellés */}
-    <text x="8" y="92" textAnchor="start" fontSize="9" fill="currentColor" opacity="0.9">❄️ frais</text>
-    <text x="212" y="92" textAnchor="end" fontSize="9" fill="currentColor" opacity="0.9">chaud 🔥</text>
+    <text x="116" y="118" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.85">ventilateur</text>
+    <text x="206" y="62" textAnchor="end" fontSize="8.5" fill="currentColor" opacity="0.85">air chaud 🔥</text>
   </svg>
 );
 
@@ -171,7 +193,7 @@ const FRAICHEUR_TIPS: FraicheurTip[] = [
   {
     icon: <Wind className="w-5 h-5" />,
     titre: 'Créer un courant d\'air',
-    texte: 'Ouvrez 2 fenêtres opposées (nord-sud ou est-ouest). L\'air chaud monte : si possible, ouvrez en bas côté frais et en haut côté chaud. Le courant d\'air naturel rafraîchit sans clim.',
+    texte: 'Ouvrez 2 fenêtres opposées (nord-sud ou est-ouest) pour créer un courant d\'air traversant.\n💨 Astuce : placez un ventilateur juste devant une fenêtre, tourné vers l\'extérieur, pour chasser l\'air chaud plus vite.\n🌙 Le soir et la nuit = le moment idéal pour évacuer la chaleur accumulée.',
     schema: <VentilationSchema />,
   },
   {
