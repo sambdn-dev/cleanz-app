@@ -137,11 +137,12 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
         style={hasImage ? { maxWidth: '54%' } : undefined}
       >
         <span
-          className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
+          className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-md"
           style={{
-            background: hasImage ? (darkMode ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.8)') : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
+            background: hasImage ? (darkMode ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.85)') : (darkText ? 'rgba(45,31,61,0.12)' : 'rgba(255,255,255,0.3)'),
             color: txt,
-            boxShadow: hasImage && !darkMode ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
+            border: hasImage ? (darkMode ? '1px solid rgba(255,255,255,0.40)' : '1px solid rgba(0,0,0,0.06)') : 'none',
+            boxShadow: hasImage ? (darkMode ? '0 2px 10px rgba(0,0,0,0.35)' : '0 2px 8px rgba(0,0,0,0.06)') : 'none',
           }}
         >
           {spray.badge}
