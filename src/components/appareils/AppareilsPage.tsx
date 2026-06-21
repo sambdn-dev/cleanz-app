@@ -6,7 +6,23 @@ import { Card } from '@/components/ui/Card';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { ELECTROMENAGERS, PIECES, ENERGY_TIPS, EnergyTip, Piece } from '@/data/electromenager';
 import { Electromenager } from '@/types';
+import { ApplianceIcon } from '@/components/appareils/ApplianceIcons';
 import { Zap, Home, ChevronLeft, ChevronRight } from 'lucide-react';
+
+// Couleur pleine (trait des icônes) pour chaque classe Tailwind d'appareil
+const SOLID_COLOR: Record<string, string> = {
+  'bg-blue-500': '#3B82F6', 'bg-blue-400': '#60A5FA', 'bg-blue-600': '#2563EB',
+  'bg-cyan-500': '#06B6D4', 'bg-cyan-400': '#22D3EE',
+  'bg-emerald-500': '#10B981', 'bg-emerald-400': '#34D399',
+  'bg-orange-500': '#F97316', 'bg-orange-400': '#FB923C',
+  'bg-violet-500': '#8B5CF6', 'bg-purple-500': '#A855F7', 'bg-fuchsia-500': '#D946EF',
+  'bg-amber-700': '#B45309', 'bg-amber-500': '#F59E0B',
+  'bg-red-500': '#EF4444', 'bg-rose-500': '#F43F5E',
+  'bg-sky-500': '#0EA5E9', 'bg-sky-600': '#0284C7',
+  'bg-gray-500': '#6B7280', 'bg-slate-500': '#64748B',
+  'bg-teal-500': '#14B8A6', 'bg-teal-600': '#0D9488',
+  'bg-indigo-500': '#6366F1', 'bg-indigo-400': '#818CF8',
+};
 
 interface AppareilsPageProps {
   onApplianceClick: (appliance: Electromenager) => void;
@@ -142,21 +158,9 @@ const ApplianceCard = ({
 }) => {
   const { theme, darkMode } = useTheme();
 
-  // Mapping des couleurs de fond pour chaque appareil
-  const colorMap: Record<string, string> = {
-    'bg-blue-500': darkMode ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.1)',
-    'bg-cyan-500': darkMode ? 'rgba(6, 182, 212, 0.15)' : 'rgba(6, 182, 212, 0.1)',
-    'bg-emerald-500': darkMode ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.1)',
-    'bg-orange-500': darkMode ? 'rgba(249, 115, 22, 0.15)' : 'rgba(249, 115, 22, 0.1)',
-    'bg-violet-500': darkMode ? 'rgba(139, 92, 246, 0.15)' : 'rgba(139, 92, 246, 0.1)',
-    'bg-amber-700': darkMode ? 'rgba(180, 83, 9, 0.15)' : 'rgba(180, 83, 9, 0.1)',
-    'bg-red-500': darkMode ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.1)',
-    'bg-sky-500': darkMode ? 'rgba(14, 165, 233, 0.15)' : 'rgba(14, 165, 233, 0.1)',
-    'bg-purple-500': darkMode ? 'rgba(168, 85, 247, 0.15)' : 'rgba(168, 85, 247, 0.1)',
-    'bg-gray-500': darkMode ? 'rgba(107, 114, 128, 0.15)' : 'rgba(107, 114, 128, 0.1)',
-    'bg-slate-500': darkMode ? 'rgba(100, 116, 139, 0.15)' : 'rgba(100, 116, 139, 0.1)',
-    'bg-teal-500': darkMode ? 'rgba(20, 184, 166, 0.15)' : 'rgba(20, 184, 166, 0.1)',
-  };
+  const solid = SOLID_COLOR[appliance.color] || '#3B82F6';
+  // Voile de fond teinté dérivé de la couleur de l'appareil (~15% sombre / ~10% clair)
+  const tint = solid + (darkMode ? '26' : '1A');
 
   return (
     <Card
@@ -164,25 +168,22 @@ const ApplianceCard = ({
       onClick={onClick}
       className="p-4 relative overflow-hidden"
     >
-      {/* Decorative gradient background */}
-      <div
-        className="absolute inset-0 opacity-50"
-        style={{
-          background: colorMap[appliance.color] || colorMap['bg-blue-500']
-        }}
-      />
+      {/* Voile décoratif teinté */}
+      <div className="absolute inset-0 opacity-60" style={{ background: tint }} />
 
-      <div className="relative z-10">
-        {/* Emoji and name */}
-        <div className="text-center">
-          <span className="text-3xl block mb-2">{appliance.emoji}</span>
-          <span
-            className="text-xs font-semibold line-clamp-1"
-            style={{ color: theme.textPrimary }}
-          >
-            {appliance.nom}
-          </span>
-        </div>
+      {/* Emoji discret dans le coin */}
+      <span className="absolute top-2 right-2.5 text-sm leading-none opacity-70 z-10" aria-hidden>
+        {appliance.emoji}
+      </span>
+
+      <div className="relative z-10 flex flex-col items-center">
+        <ApplianceIcon id={appliance.id} color={solid} size={44} className="mb-2" />
+        <span
+          className="text-xs font-semibold line-clamp-1 text-center"
+          style={{ color: theme.textPrimary }}
+        >
+          {appliance.nom}
+        </span>
       </div>
     </Card>
   );

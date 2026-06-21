@@ -555,6 +555,83 @@ export const ELECTROMENAGERS: Electromenager[] = [
       economies: 'Un filtre propre consomme 20% d\'énergie en moins et purifie mieux l\'air',
       alertes: ['Indicateur de remplacement', 'Bruit de ventilation', 'Odeurs persistantes', 'Débit d\'air faible']
     }
+  },
+  {
+    id: 22,
+    nom: 'Nettoyeur haute pression',
+    emoji: '💧',
+    conso: '1,5-2 kW (ponctuel)',
+    consoPct: 0,
+    piece: 'Garage',
+    color: 'bg-sky-600',
+    nettoyer: {
+      titre: 'Entretien lance & filtre',
+      ingredients: ['Eau claire', 'Vinaigre blanc'],
+      instructions: 'Après usage, faites tourner à l\'eau claire pour purger le produit. Démontez et rincez le filtre d\'arrivée d\'eau. En cas de buse bouchée, trempez-la dans du vinaigre blanc tiède puis débouchez avec l\'aiguille fournie. Videz toujours l\'eau avant l\'hiver pour éviter le gel.',
+      duree: '20 min',
+      frequence: 'Après chaque usage'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque usage', taches: ['Purger à l\'eau claire', 'Vider le tuyau et la lance'] },
+        { periode: '1x/mois', taches: ['Nettoyer le filtre d\'arrivée d\'eau', 'Détartrer la buse au vinaigre'] },
+        { periode: 'Avant l\'hiver', taches: ['Vidanger entièrement', 'Stocker hors gel'] },
+        { periode: '1x/an', taches: ['Vérifier les joints', 'Contrôler le flexible haute pression'] }
+      ],
+      economies: 'Un filtre propre préserve la pompe et évite une perte de pression coûteuse à réparer',
+      alertes: ['Pression faible ou irrégulière', 'Fuite au niveau des raccords', 'Pompe qui s\'emballe', 'Buse qui crachote']
+    }
+  },
+  {
+    id: 23,
+    nom: 'Injecteur-extracteur',
+    emoji: '🛋️',
+    conso: '1 kW (ponctuel)',
+    consoPct: 0,
+    piece: 'Salon',
+    color: 'bg-teal-600',
+    nettoyer: {
+      titre: 'Nettoyage réservoirs & buse',
+      ingredients: ['Eau tiède', 'Vinaigre blanc'],
+      instructions: 'Videz et rincez les deux réservoirs (eau propre / eau sale) après chaque utilisation. Faites circuler un mélange eau tiède + vinaigre blanc dans le circuit pour éviter les odeurs et le calcaire. Nettoyez la buse et la brosse, puis laissez sécher à l\'air, réservoirs ouverts.',
+      duree: '15 min',
+      frequence: 'Après chaque usage'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque usage', taches: ['Vider et rincer les réservoirs', 'Nettoyer la buse', 'Laisser sécher ouvert'] },
+        { periode: '1x/mois', taches: ['Rincer le circuit au vinaigre', 'Vérifier le joint du réservoir'] },
+        { periode: '1x/an', taches: ['Détartrage complet', 'Contrôle des tuyaux internes'] }
+      ],
+      economies: 'Un entretien régulier évite les odeurs de moisi et prolonge la durée de vie de la pompe',
+      alertes: ['Odeur d\'humidité ou de moisi', 'Aspiration faible', 'Eau qui ne se pulvérise plus', 'Traces qui restent après passage']
+    }
+  },
+  {
+    id: 24,
+    nom: 'Aspirateur balai',
+    emoji: '🧹',
+    conso: '0,4 kWh/charge',
+    consoPct: 0,
+    piece: 'Salon',
+    color: 'bg-fuchsia-500',
+    nettoyer: {
+      titre: 'Bac, filtre & brosse',
+      ingredients: ['Eau claire'],
+      instructions: 'Videz le bac à poussière après chaque passage. Lavez le(s) filtre(s) à l\'eau claire (sans savon) et laissez-les sécher 24h complètes avant de les remettre — un filtre humide abîme le moteur. Démêlez les cheveux enroulés autour de la brosse avec des ciseaux.',
+      duree: '10 min',
+      frequence: '1x/semaine'
+    },
+    entretien: {
+      calendrier: [
+        { periode: 'Après chaque usage', taches: ['Vider le bac à poussière'] },
+        { periode: '1x/semaine', taches: ['Laver le filtre à l\'eau claire', 'Démêler la brosse rotative'] },
+        { periode: '1x/mois', taches: ['Vérifier l\'état de la batterie', 'Nettoyer les capteurs et contacts'] },
+        { periode: '1x/an', taches: ['Remplacer le filtre si usé', 'Contrôler l\'autonomie de la batterie'] }
+      ],
+      economies: 'Filtre propre + brosse démêlée = aspiration optimale et batterie qui dure plus longtemps',
+      alertes: ['Autonomie en forte baisse', 'Aspiration faible', 'Brosse qui ne tourne plus', 'Surchauffe pendant l\'usage']
+    }
   }
 ];
 
