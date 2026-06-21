@@ -79,28 +79,84 @@ const HorairesSchema = () => (
 );
 
 const VentilationSchema = () => (
-  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Courant d'air entre deux fenêtres opposées">
+  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Courant d'air traversant entre deux fenêtres opposées">
     {/* pièce */}
-    <rect x="20" y="14" width="180" height="60" rx="5" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.45" />
-    {/* fenêtre gauche (côté frais) */}
-    <rect x="11" y="26" width="16" height="40" rx="2" fill="currentColor" opacity="0.16" stroke="currentColor" strokeWidth="1.2" />
-    <line x1="19" y1="26" x2="19" y2="66" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
-    {/* fenêtre droite (côté chaud) */}
-    <rect x="193" y="26" width="16" height="40" rx="2" fill="currentColor" opacity="0.16" stroke="currentColor" strokeWidth="1.2" />
-    <line x1="201" y1="26" x2="201" y2="66" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
-    {/* flux bas (air frais qui traverse) */}
-    <path d="M 32 56 Q 110 64 188 54" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="11 9" opacity="0.9">
-      <animate attributeName="stroke-dashoffset" from="40" to="0" dur="1.1s" repeatCount="indefinite" />
+    <rect x="22" y="12" width="176" height="62" rx="6" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+    {/* fenêtre gauche ouverte (frais) */}
+    <rect x="10" y="24" width="14" height="40" rx="2" fill="currentColor" opacity="0.14" stroke="currentColor" strokeWidth="1.3" />
+    <line x1="17" y1="24" x2="17" y2="64" stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
+    {/* fenêtre droite ouverte (chaud) */}
+    <rect x="196" y="24" width="14" height="40" rx="2" fill="currentColor" opacity="0.14" stroke="currentColor" strokeWidth="1.3" />
+    <line x1="203" y1="24" x2="203" y2="64" stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
+    {/* trajectoire de l'air (guide pointillé léger qui défile) */}
+    <path d="M 26 52 C 80 66, 140 30, 196 40" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="2 7" opacity="0.35">
+      <animate attributeName="stroke-dashoffset" from="36" to="0" dur="1.4s" repeatCount="indefinite" />
     </path>
-    <polygon points="183,49 193,54 183,59" fill="currentColor" />
-    {/* flux haut (retour, plus lent) */}
-    <path d="M 32 38 Q 110 30 188 40" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="10 9" opacity="0.5">
-      <animate attributeName="stroke-dashoffset" from="38" to="0" dur="1.6s" repeatCount="indefinite" />
-    </path>
-    <polygon points="183,35 193,40 183,45" fill="currentColor" opacity="0.55" />
+    {/* flèche de sortie */}
+    <polygon points="189,34 200,40 189,46" fill="currentColor" opacity="0.85" />
+    {/* particules d'air qui traversent réellement la pièce */}
+    {[0, 0.7, 1.4].map((delay, i) => (
+      <circle key={i} r={i === 1 ? 3.4 : 2.5} fill="currentColor">
+        <animateMotion dur="2.1s" begin={`${delay}s`} repeatCount="indefinite" path="M 26 52 C 80 66, 140 30, 196 40" />
+        <animate attributeName="opacity" values="0;0.95;0.95;0" keyTimes="0;0.15;0.8;1" dur="2.1s" begin={`${delay}s`} repeatCount="indefinite" />
+      </circle>
+    ))}
     {/* libellés */}
     <text x="8" y="92" textAnchor="start" fontSize="9" fill="currentColor" opacity="0.9">❄️ frais</text>
     <text x="212" y="92" textAnchor="end" fontSize="9" fill="currentColor" opacity="0.9">chaud 🔥</text>
+  </svg>
+);
+
+const BlancMeudonSchema = () => (
+  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Le blanc de Meudon sur la vitre réfléchit la chaleur du soleil">
+    {/* soleil avec rayons pulsés */}
+    <circle cx="32" cy="30" r="11" fill="currentColor" opacity="0.9" />
+    <g opacity="0.7">
+      <animate attributeName="opacity" values="0.3;0.85;0.3" dur="2.4s" repeatCount="indefinite" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => {
+        const r = (a * Math.PI) / 180;
+        return (
+          <line
+            key={i}
+            x1={32 + 14 * Math.cos(r)}
+            y1={30 + 14 * Math.sin(r)}
+            x2={32 + 19 * Math.cos(r)}
+            y2={30 + 19 * Math.sin(r)}
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        );
+      })}
+    </g>
+    {/* fenêtre enduite de blanc de Meudon */}
+    <rect x="120" y="20" width="54" height="56" rx="3" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="147" y1="20" x2="147" y2="76" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+    <line x1="120" y1="48" x2="174" y2="48" stroke="currentColor" strokeWidth="1" opacity="0.4" />
+    {/* dépôt blanc (taches d'éponge) */}
+    <g opacity="0.5" fill="currentColor">
+      <circle cx="132" cy="34" r="3" />
+      <circle cx="160" cy="38" r="2.4" />
+      <circle cx="138" cy="61" r="2.6" />
+      <circle cx="162" cy="62" r="3" />
+      <circle cx="150" cy="30" r="2" />
+    </g>
+    {/* rayon entrant (soleil -> vitre) */}
+    <path d="M 45 31 L 116 37" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="7 6" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="26" to="0" dur="1s" repeatCount="indefinite" />
+    </path>
+    {/* rayon réfléchi (chaleur renvoyée) */}
+    <path d="M 116 45 L 50 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="7 6" opacity="0.85">
+      <animate attributeName="stroke-dashoffset" from="0" to="26" dur="1s" repeatCount="indefinite" />
+    </path>
+    <polygon points="56,59 46,65 55,69" fill="currentColor" />
+    {/* lumière douce qui passe (atténuée) */}
+    <path d="M 174 48 L 202 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 5" opacity="0.3">
+      <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1.4s" repeatCount="indefinite" />
+    </path>
+    {/* libellés */}
+    <text x="86" y="88" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.9">chaleur réfléchie</text>
+    <text x="188" y="42" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.55">lumière</text>
   </svg>
 );
 
@@ -120,8 +176,9 @@ const FRAICHEUR_TIPS: FraicheurTip[] = [
   },
   {
     icon: <Brush className="w-5 h-5" />,
-    titre: 'Bleu de Meudon sur vitres',
-    texte: 'Mélangez Bleu de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couleur blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !',
+    titre: 'Blanc de Meudon sur vitres',
+    texte: 'Mélangez Blanc de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couche blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !',
+    schema: <BlancMeudonSchema />,
   },
   {
     icon: <GlassWater className="w-5 h-5" />,
