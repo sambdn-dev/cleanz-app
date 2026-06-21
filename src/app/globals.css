@@ -62,9 +62,9 @@ body {
   -webkit-touch-callout: none;
 }
 
-/* Police d'affichage arrondie (logo + grands titres) */
+/* Titres : même police que toute l'app (Plus Jakarta Sans), léger resserrement */
 .font-display {
-  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   letter-spacing: -0.01em;
 }
 
@@ -138,6 +138,22 @@ body {
 
 .animate-slideDown {
   animation: slideDown 0.2s ease-out forwards;
+}
+
+/* Accordéon : révélation fiable (évite le bug grid 0fr/1fr sur iOS Safari) */
+@keyframes accordion-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-accordion-in {
+  animation: accordion-in 0.22s ease-out forwards;
 }
 
 /* Line clamp utilities */

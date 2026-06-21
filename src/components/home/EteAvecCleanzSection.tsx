@@ -311,16 +311,13 @@ export const EteAvecCleanzSection = () => {
                         style={{ color: theme.textMuted, transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
                       />
                     </div>
-                    <div
-                      className="grid transition-all duration-200"
-                      style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
-                    >
-                      <div className="overflow-hidden">
+                    {isOpen && (
+                      <div className="animate-accordion-in">
                         <p className="px-3 pb-2.5 text-[12px] leading-relaxed" style={{ color: theme.textSecondary }}>
                           {tip.texte}
                         </p>
                       </div>
-                    </div>
+                    )}
                   </button>
                 );
               })}
@@ -366,11 +363,8 @@ export const EteAvecCleanzSection = () => {
                         style={{ color: theme.textMuted, transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
                       />
                     </div>
-                    <div
-                      className="grid transition-all duration-200"
-                      style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
-                    >
-                      <div className="overflow-hidden">
+                    {isOpen && (
+                      <div className="animate-accordion-in">
                         {tip.schema && (
                           <div
                             className="mx-3 mb-2 p-2 rounded-lg"
@@ -393,7 +387,7 @@ export const EteAvecCleanzSection = () => {
                           {tip.texte}
                         </p>
                       </div>
-                    </div>
+                    )}
                   </button>
                 );
               })}

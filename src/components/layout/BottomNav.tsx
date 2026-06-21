@@ -115,8 +115,8 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   // Interpolate sizes from the continuous shrink value
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
-  const iconSize = lerp(25, 20);
-  const btnHeight = lerp(58, 40);
+  const iconSize = lerp(22, 20);
+  const btnHeight = lerp(46, 40);
   // Wider, airier buttons when expanded; collapse to compact icon size on scroll
   const btnMinWidth = lerp(56, 40);
   const btnPadX = lerp(11, 6);

@@ -8,12 +8,13 @@ import { useTheme } from '@/contexts/ThemeContext';
 export const SplashScreen = () => {
   const { darkMode } = useTheme();
   const [phase, setPhase] = useState<'visible' | 'fadeOut' | 'hidden'>('visible');
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const splashImage = darkMode ? '/images/splash-bg-dark.jpg' : '/images/splash-bg.jpg';
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setPhase('fadeOut'), 2000);
-    const hideTimer = setTimeout(() => setPhase('hidden'), 2500);
+    const fadeTimer = setTimeout(() => setPhase('fadeOut'), 2200);
+    const hideTimer = setTimeout(() => setPhase('hidden'), 2700);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
@@ -31,7 +32,7 @@ export const SplashScreen = () => {
         pointerEvents: phase === 'fadeOut' ? 'none' : 'auto',
       }}
     >
-      {/* Image de fond (light ou dark) */}
+      {/* Image de fond (light ou dark) avec déblur progressif au chargement */}
       <Image
         src={splashImage}
         alt=""
@@ -40,6 +41,12 @@ export const SplashScreen = () => {
         priority
         placeholder="blur"
         blurDataURL={getBlur(splashImage)}
+        onLoad={() => setImgLoaded(true)}
+        style={{
+          filter: imgLoaded ? 'blur(0px)' : 'blur(22px)',
+          transform: imgLoaded ? 'scale(1)' : 'scale(1.08)',
+          transition: 'filter 0.9s ease-out, transform 0.9s ease-out',
+        }}
       />
 
       {/* Overlay adapté au mode */}

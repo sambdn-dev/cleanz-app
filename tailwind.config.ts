@@ -11,7 +11,9 @@ export default {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-display)', 'var(--font-sans)', 'sans-serif'],
+        // « display » pointe désormais sur la police principale de l'app (Plus Jakarta Sans)
+        // pour une typographie 100% cohérente sur tous les titres.
+        display: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       colors: {
         cleanz: {
