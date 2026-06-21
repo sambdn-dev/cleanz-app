@@ -3,13 +3,14 @@
 import { useState, useMemo } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
-import { IngredientComplet } from '@/types';
+import { IngredientComplet, Surface, RecetteComplete } from '@/types';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
-import { Search, X, LayoutGrid, List } from 'lucide-react';
+import { LayoutGrid, List } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { IngredientCard } from './IngredientCard';
 import { IngredientRowSkeleton } from '@/components/ui/Skeleton';
+import { SmartSearch } from '@/components/layout/SmartSearch';
 import { haptic } from '@/utils/haptics';
 
 // 15 fonctions principales uniquement
@@ -21,11 +22,13 @@ const MAIN_FUNCTIONS = [
 
 interface IngredientsPageProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
+  onSurfaceClick: (surface: Surface) => void;
+  onRecipeClick: (recipe: RecetteComplete) => void;
 }
 
 type ViewMode = 'grid' | 'list';
 
-export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => {
+export const IngredientsPage = ({ onIngredientClick, onSurfaceClick, onRecipeClick }: IngredientsPageProps) => {
   const { theme, darkMode } = useTheme();
   const { isFavorite, toggleFavorite, isLoaded } = useIngredientFavoritesContext();
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,39 +66,22 @@ export const IngredientsPage = ({ onIngredientClick }: IngredientsPageProps) => 
         Ingrédients
       </h1>
 
-      {/* Barre de recherche + Toggle vue */}
+      {/* Recherche intelligente + Toggle vue */}
       <div className="flex items-center gap-3 mb-4">
-        <div
-          className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
-          }}
-        >
-          <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
-          <input
-            type="text"
-            placeholder="Rechercher un ingrédient..."
+        <div className="flex-1 relative z-[60]">
+          <SmartSearch
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: theme.textPrimary }}
+            onChange={setSearchQuery}
+            onSelectSurface={onSurfaceClick}
+            onSelectRecipe={onRecipeClick}
+            onSelectIngredient={onIngredientClick}
+            placeholder="Rechercher un ingrédient, recette, surface..."
           />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              aria-label="Effacer la recherche"
-              className="p-1 rounded-full transition-colors"
-              style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}
-            >
-              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
-            </button>
-          )}
         </div>
 
         {/* Toggle grille/liste */}
         <div
-          className="flex items-center rounded-xl overflow-hidden"
+          className="flex items-center rounded-xl overflow-hidden flex-shrink-0"
           style={{
             background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
             border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`

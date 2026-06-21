@@ -4,21 +4,24 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
-import { RecetteComplete } from '@/types';
+import { RecetteComplete, Surface, IngredientComplet } from '@/types';
 import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
 import { getBlur } from '@/data/imageBlur';
-import { Clock, Star, Search, Sparkles, Heart, X, ListChecks } from 'lucide-react';
+import { Clock, Star, Sparkles, Heart, ListChecks } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge';
 import { HeartBurst } from '@/components/ui/HeartBurst';
+import { SmartSearch } from '@/components/layout/SmartSearch';
 import { haptic } from '@/utils/haptics';
 
 interface RecipesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
+  onSurfaceClick: (surface: Surface) => void;
+  onIngredientClick: (ingredient: IngredientComplet) => void;
 }
 
-export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
+export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }: RecipesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { isFavorite, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const [activeCategory, setActiveCategory] = useState('all');
@@ -199,36 +202,16 @@ export const RecipesPage = ({ onRecipeClick }: RecipesPageProps) => {
 
   return (
     <div className="pt-2 pb-4">
-      {/* Search Bar */}
-      <div className="mb-4">
-        <div
-          className="flex items-center gap-3 px-4 py-3 rounded-2xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
-          }}
-        >
-          <Search className="w-5 h-5" style={{ color: theme.textMuted }} />
-          <input
-            type="text"
-            placeholder="Rechercher une recette, ingrédient..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent outline-none text-sm"
-            style={{ color: theme.textPrimary }}
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="p-1 rounded-full transition-colors"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
-              }}
-            >
-              <X className="w-4 h-4" style={{ color: theme.textMuted }} />
-            </button>
-          )}
-        </div>
+      {/* Recherche intelligente */}
+      <div className="relative z-[60] mb-4">
+        <SmartSearch
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onSelectSurface={onSurfaceClick}
+          onSelectRecipe={onRecipeClick}
+          onSelectIngredient={onIngredientClick}
+          placeholder="Rechercher une recette, surface, ingrédient..."
+        />
       </div>
 
       {/* Category Tabs */}

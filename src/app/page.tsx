@@ -254,11 +254,19 @@ function HomePageContent() {
         )}
 
         {activeNavTab === 'Recettes' && (
-          <RecipesPage onRecipeClick={setSelectedRecipe} />
+          <RecipesPage
+            onRecipeClick={setSelectedRecipe}
+            onSurfaceClick={setSelectedSurface}
+            onIngredientClick={setSelectedIngredientComplet}
+          />
         )}
 
         {activeNavTab === 'Ingrédients' && (
-          <IngredientsPage onIngredientClick={setSelectedIngredientComplet} />
+          <IngredientsPage
+            onIngredientClick={setSelectedIngredientComplet}
+            onSurfaceClick={setSelectedSurface}
+            onRecipeClick={setSelectedRecipe}
+          />
         )}
 
         {activeNavTab === 'Favoris' && (

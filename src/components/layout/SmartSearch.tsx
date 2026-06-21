@@ -122,7 +122,7 @@ export const SmartSearch = ({
         />
         {value && (
           <button
-            onClick={() => { onChange(''); inputRef.current?.focus(); }}
+            onClick={() => { onChange(''); inputRef.current?.blur(); setFocused(false); }}
             aria-label="Effacer la recherche"
             className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors"
             style={{ background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
