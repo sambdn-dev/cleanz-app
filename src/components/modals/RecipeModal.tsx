@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
+import { getSceneImage } from '@/data/scenes';
 import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
@@ -22,8 +23,11 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [comment, setComment] = useState('');
 
-  const hasImage = !!recipe.imageUrl;
-  const useDarkHeaderText = !hasImage && shouldUseDarkText(recipe.gradient);
+  // Photo dédiée si elle existe, sinon photo-scène générique de la catégorie.
+  const headerImageUrl = recipe.imageUrl ?? getSceneImage(recipe);
+  const hasImage = !!headerImageUrl;
+  // Gardé pour le repli dégradé (en-tête sans photo / image manquante).
+  const useDarkHeaderText = shouldUseDarkText(recipe.gradient);
 
   const favorite = isFavorite(recipe.id);
   const userRating = getRating(recipe.id);
@@ -68,7 +72,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       isOpen={true}
       onClose={onClose}
       headerGradient={recipe.gradient}
-      headerImageUrl={recipe.imageUrl}
+      headerImageUrl={headerImageUrl}
       headerImageUrlDark={recipe.imageUrlDark}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={

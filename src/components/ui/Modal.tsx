@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { X } from 'lucide-react';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getBlur } from '@/data/imageBlur';
 
@@ -22,7 +22,11 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
   const { theme, darkMode } = useTheme();
   // En mode sombre, privilégie la photo cosy dédiée si elle existe, sinon repli sur la photo claire.
   const effectiveImageUrl = (darkMode && headerImageUrlDark) ? headerImageUrlDark : headerImageUrl;
-  const hasImage = !!effectiveImageUrl;
+  // Si l'image échoue à charger (fichier manquant), repli propre sur le dégradé.
+  // On mémorise l'URL qui a échoué : si l'URL change, l'image est retentée
+  // sans avoir besoin d'un effet de réinitialisation.
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+  const hasImage = !!effectiveImageUrl && failedUrl !== effectiveImageUrl;
 
   // Block body scroll when modal is open
   useEffect(() => {
@@ -69,6 +73,7 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                   sizes="(max-width: 768px) 100vw, 500px"
                   placeholder={getBlur(effectiveImageUrl!) ? 'blur' : 'empty'}
                   blurDataURL={getBlur(effectiveImageUrl!)}
+                  onError={() => setFailedUrl(effectiveImageUrl!)}
                   priority
                 />
                 {/* Voile dégradé plus profond en bas pour ancrer le titre */}

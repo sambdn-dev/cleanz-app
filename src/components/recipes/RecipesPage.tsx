@@ -6,6 +6,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete, Surface, IngredientComplet } from '@/types';
 import { RECETTES } from '@/data/recettes';
+import { getRecetteImage } from '@/data/scenes';
 import { getBlur } from '@/data/imageBlur';
 import { Clock, Star, Sparkles, Heart, ListChecks } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
@@ -59,8 +60,9 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
     const favorite = isFavorite(recipe.id);
     const userRating = getRating(recipe.id);
     const [burst, setBurst] = useState(0);
-    // Photo cosy en mode sombre (repli sur la photo claire)
-    const heroImg = (darkMode && recipe.imageUrlDark) ? recipe.imageUrlDark : recipe.imageUrl;
+    const [imgError, setImgError] = useState(false);
+    // Photo dédiée si elle existe, sinon photo-scène de la catégorie (repli emoji)
+    const heroImg = getRecetteImage(recipe, darkMode);
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -102,7 +104,7 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
 
         <div className="flex items-start gap-3">
           {/* Vignette photo (ou emoji par défaut) */}
-          {heroImg ? (
+          {heroImg && !imgError ? (
             <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 relative" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
               <Image
                 src={heroImg}
@@ -112,6 +114,7 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
                 sizes="56px"
                 placeholder={getBlur(heroImg) ? 'blur' : 'empty'}
                 blurDataURL={getBlur(heroImg)}
+                onError={() => setImgError(true)}
               />
             </div>
           ) : (
