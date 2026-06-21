@@ -88,7 +88,6 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                     WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
                   }}
                 />
-                <div className="absolute inset-x-0 top-0 h-1/2 pointer-events-none bg-gradient-to-b from-black/35 to-transparent" />
               </>
             )}
 
