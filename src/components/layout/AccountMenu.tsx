@@ -165,6 +165,27 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
             <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
           </button>
 
+          {/* Nouveautés - rouvre l'encart du changelog à la demande */}
+          <button
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors"
+            style={menuItemBaseStyle}
+            onClick={() => {
+              haptic('selection');
+              window.dispatchEvent(new Event('cleanz:show-whatsnew'));
+              onClose();
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = theme.bgHover;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <span className="text-xl">✨</span>
+            <span className="flex-1 text-left text-sm font-medium">Nouveautés</span>
+            <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
+          </button>
+
           {/* Mon compte - Bientôt */}
           <button
             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-colors cursor-default"
@@ -235,7 +256,7 @@ export const AccountMenu = ({ isOpen, onClose, onNavigate }: AccountMenuProps) =
           style={{ borderColor: theme.borderLight }}
         >
           <p className="text-[10px] text-center" style={{ color: theme.textMuted }}>
-            Cleanz v1.1.01 • Made with 💚
+            Cleanz v1.2.0 • Made with 💚
           </p>
         </div>
       </div>

@@ -17,6 +17,46 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 10,
+    date: '2026-06-21',
+    emoji: '🔍',
+    title: 'Recherche intelligente',
+    description: 'Trouvez tout en un instant ! La recherche comprend les synonymes et l\'anglais, et propose surfaces, recettes et ingrédients dans un menu déroulant.',
+    steps: [
+      'Tapez « WC », « frigo » ou « baskets »',
+      'Les résultats apparaissent juste sous la barre',
+      'Touchez un résultat pour ouvrir sa fiche',
+    ],
+  },
+  {
+    id: 9,
+    date: '2026-06-21',
+    emoji: '🧪',
+    title: '+30 nouvelles recettes',
+    description: '130 recettes au total ! Chaque surface de la maison a désormais au moins une recette naturelle dédiée.',
+  },
+  {
+    id: 8,
+    date: '2026-06-21',
+    emoji: '☀️',
+    title: 'L\'été avec Cleanz',
+    description: 'Un encart saisonnier avec nos meilleures astuces de ménage d\'été et un guide complet anti-canicule (courants d\'air, hydratation, fraîcheur…).',
+  },
+  {
+    id: 7,
+    date: '2026-06-21',
+    emoji: '🖼️',
+    title: 'Écran de chargement cosy',
+    description: 'Un nouvel écran d\'accueil chaleureux, en version claire et sombre, avec une apparition tout en douceur.',
+  },
+  {
+    id: 6,
+    date: '2026-06-21',
+    emoji: '🔤',
+    title: 'Typographie unifiée',
+    description: 'Une police cohérente et lisible sur toute l\'application pour une expérience plus soignée.',
+  },
+  {
     id: 5,
     date: '2026-06-16',
     emoji: '📸',

@@ -32,6 +32,17 @@ export const WhatsNewModal = () => {
     }
   }, []);
 
+  // Réouverture manuelle depuis le menu (affiche TOUTES les nouveautés)
+  useEffect(() => {
+    const showAll = () => {
+      setUnseen([...NOUVEAUTES].sort((a, b) => b.id - a.id));
+      setIndex(0);
+      setOpen(true);
+    };
+    window.addEventListener('cleanz:show-whatsnew', showAll);
+    return () => window.removeEventListener('cleanz:show-whatsnew', showAll);
+  }, []);
+
   const finish = () => {
     setOpen(false);
     try {

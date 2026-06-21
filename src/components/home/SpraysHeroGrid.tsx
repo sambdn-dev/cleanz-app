@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
@@ -134,7 +134,7 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
       {/* Colonne gauche : badge + titre + CTA */}
       <div
         className={`flex flex-col min-w-0 pr-2 pointer-events-none ${hasImage ? 'relative z-10' : 'flex-1'}`}
-        style={hasImage ? { maxWidth: '64%' } : undefined}
+        style={hasImage ? { maxWidth: '54%' } : undefined}
       >
         <span
           className="self-start text-[10px] px-2.5 py-1 rounded-full font-semibold backdrop-blur-sm"
@@ -227,6 +227,17 @@ export const SpraysHeroGrid = ({ onSprayClick }: SpraysHeroGridProps) => {
     else if (!moved.current) { haptic('light'); onSprayClick(SPRAYS_INDISPENSABLES[index]); }
     setDrag(0);
   };
+
+  // Auto-défilement discret : avance toutes les ~6,5 s, en boucle.
+  // En pause pendant l'interaction et désactivé si « réduire les animations ».
+  useEffect(() => {
+    if (isDragging) return;
+    const reduce = typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const t = setTimeout(() => setIndex((i) => (i + 1) % TOTAL), 6500);
+    return () => clearTimeout(t);
+  }, [index, isDragging]);
 
   return (
     <div className="mb-5">

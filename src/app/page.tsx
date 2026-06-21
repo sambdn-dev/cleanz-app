@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/layout/Header';
 import { BottomNav, NavTab } from '@/components/layout/BottomNav';
-import { SearchBar } from '@/components/layout/SearchBar';
+import { SmartSearch } from '@/components/layout/SmartSearch';
 import { CategoryTabs } from '@/components/layout/CategoryTabs';
 import { SpraysHeroGrid } from '@/components/home/SpraysHeroGrid';
 import { SurfacesGrid } from '@/components/home/SurfacesGrid';
@@ -195,9 +195,15 @@ function HomePageContent() {
         <PageTransition key={activeNavTab}>
         {activeNavTab === 'Accueil' && (
           <>
-            {/* Search Bar */}
+            {/* Search Bar intelligente (dropdown : surfaces, recettes, ingrédients) */}
             <div className={`mb-4 transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+              <SmartSearch
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onSelectSurface={setSelectedSurface}
+                onSelectRecipe={setSelectedRecipe}
+                onSelectIngredient={setSelectedIngredientComplet}
+              />
             </div>
 
             {/* Sprays Section - hero + mini grid (juste sous la recherche) */}
