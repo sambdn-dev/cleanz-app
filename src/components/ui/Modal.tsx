@@ -82,10 +82,10 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                 <div
                   className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
                   style={{
-                    backdropFilter: 'blur(3px)',
-                    WebkitBackdropFilter: 'blur(3px)',
-                    maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
+                    backdropFilter: 'blur(5px)',
+                    WebkitBackdropFilter: 'blur(5px)',
+                    maskImage: 'linear-gradient(to bottom, black 32%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 32%, transparent 100%)',
                   }}
                 />
               </>
