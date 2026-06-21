@@ -12,7 +12,7 @@ import { SurfacesGrid } from '@/components/home/SurfacesGrid';
 import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
-import { EteAvecCleanzSection } from '@/components/home/EteAvecCleanzSection';
+import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
 import { AstucesSection } from '@/components/home/AstucesSection';
 import { ImpactStrip } from '@/components/home/ImpactStrip';
 import { AppareilsPage } from '@/components/appareils/AppareilsPage';
@@ -237,7 +237,7 @@ function HomePageContent() {
             <LeSaviezVousSection />
 
             {/* L'été avec Cleanz - encart saisonnier */}
-            {!searchQuery && <EteAvecCleanzSection />}
+            {!searchQuery && <SaisonCleanzSection />}
 
             {/* Les 8 Essentiels */}
             <EssentielsSection

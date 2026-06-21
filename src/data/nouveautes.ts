@@ -17,6 +17,25 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 16,
+    date: '2026-06-21',
+    emoji: '🎉',
+    title: 'Cleanz 2.0',
+    description: 'Une vraie refonte : accueil plus visuel, modales qui prennent les couleurs de leurs photos, surfaces simplifiées, appareils illustrés, et des conseils qui s\'adaptent à la saison.',
+  },
+  {
+    id: 15,
+    date: '2026-06-21',
+    emoji: '🍂',
+    title: 'Des conseils pour chaque saison',
+    description: 'La section spéciale saison affiche automatiquement les bons conseils du moment (été, automne, hiver, printemps). Tu peux aussi parcourir les autres saisons quand tu veux.',
+    steps: [
+      'Sur l\'accueil, repère l\'encart « Spécial saison »',
+      'La saison en cours est sélectionnée automatiquement',
+      'Touche une autre saison pour voir ses astuces',
+    ],
+  },
+  {
     id: 14,
     date: '2026-06-21',
     emoji: '📸',

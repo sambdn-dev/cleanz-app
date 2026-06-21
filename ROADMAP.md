@@ -5,10 +5,35 @@ désencombrement de l'accueil, design system) vit dans [`AUDIT.md`](./AUDIT.md).
 
 ---
 
-## ✅ V1 — l'app (en cours)
+## ✅ V1 — l'app (figée)
 
 App de ménage écolo : recettes, ingrédients, surfaces & appareils, astuces, favoris.
-Redesign 2026 en cours (voir `AUDIT.md`).
+Refonte 2026 terminée (voir `AUDIT.md`).
+🔖 **Snapshot figé dans le tag git `cleanz-v1`** (référence avant 2.0).
+
+---
+
+## 🎉 Cleanz 2.0 — en cours
+
+> La refonte justifie un vrai changement de version. App passée en **v2.0.0**.
+
+### Fait
+- Accueil photo-first, modales teintées par la couleur n°1 de la photo.
+- Surfaces fusionnées (90 → 82), 24 appareils avec icônes SVG.
+- ✅ **Conseils saisonniers autonomes** : la section « Spécial saison » détecte la
+  saison en cours et l'affiche par défaut ; l'utilisateur peut parcourir les 4
+  saisons (été/automne/hiver/printemps). Fonctionne tout seul même sans maintenance.
+
+### 🎨 Chantiers visuels (passer aux vraies photos)
+- 🖼️ **Appareils** : remplacer les icônes SVG par de **vraies photos** (texte centré,
+  gras, **blur dosé** derrière le texte). Idem pour la **modale d'un appareil**
+  (actuellement dégradé + emoji → fait « V1 »).
+- 🧪 **Page Ingrédients** : photos en formats **1×1 et 3×2** —
+  - Poudres
+  - Huiles essentielles (par huile : un **flacon** + les **fruits/fleurs** concernés)
+  - Liquides en bouteille
+  - Savon noir · Savon de Marseille · Huile d'olive verte
+- 🌗 Conserver l'identité Cleanz (cohérence dégradé rose→violet→cyan, ambiance naturelle).
 
 ---
 
