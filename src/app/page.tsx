@@ -195,8 +195,11 @@ function HomePageContent() {
         <PageTransition key={activeNavTab}>
         {activeNavTab === 'Accueil' && (
           <>
-            {/* Search Bar intelligente (dropdown : surfaces, recettes, ingrédients) */}
-            <div className={`mb-4 transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            {/* Search Bar intelligente (dropdown : surfaces, recettes, ingrédients)
+                relative z-[70] : indispensable pour que le dropdown passe AU-DESSUS
+                du carrousel/pilules qui suivent (sinon piégé par le contexte
+                d'empilement créé par le transform de l'animation d'entrée). */}
+            <div className={`relative z-[70] mb-4 transition-all duration-700 delay-100 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <SmartSearch
                 value={searchQuery}
                 onChange={setSearchQuery}
