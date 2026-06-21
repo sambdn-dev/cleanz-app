@@ -3,16 +3,17 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getBlur } from '@/data/imageBlur';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const SplashScreen = () => {
+  const { darkMode } = useTheme();
   const [phase, setPhase] = useState<'visible' | 'fadeOut' | 'hidden'>('visible');
 
-  useEffect(() => {
-    // Phase 1: Afficher l'animation (2s)
-    const fadeTimer = setTimeout(() => setPhase('fadeOut'), 2000);
-    // Phase 2: Cacher complètement après le fade (0.5s)
-    const hideTimer = setTimeout(() => setPhase('hidden'), 2500);
+  const splashImage = darkMode ? '/images/splash-bg-dark.jpg' : '/images/splash-bg.jpg';
 
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setPhase('fadeOut'), 2000);
+    const hideTimer = setTimeout(() => setPhase('hidden'), 2500);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
@@ -30,22 +31,24 @@ export const SplashScreen = () => {
         pointerEvents: phase === 'fadeOut' ? 'none' : 'auto',
       }}
     >
-      {/* Image de fond */}
+      {/* Image de fond (light ou dark) */}
       <Image
-        src="/images/splash-bg.jpg"
+        src={splashImage}
         alt=""
         fill
         className="object-cover"
         priority
         placeholder="blur"
-        blurDataURL={getBlur('/images/splash-bg.jpg')}
+        blurDataURL={getBlur(splashImage)}
       />
 
-      {/* Overlay doux pour lisibilité du logo sur fond sombre */}
+      {/* Overlay adapté au mode */}
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at center 45%, rgba(255,248,240,0.75) 0%, rgba(255,248,240,0.35) 45%, transparent 75%)',
+          background: darkMode
+            ? 'radial-gradient(ellipse 85% 65% at center 45%, rgba(15,10,5,0.6) 0%, rgba(10,8,5,0.3) 50%, transparent 80%)'
+            : 'radial-gradient(ellipse 80% 60% at center 45%, rgba(255,250,245,0.8) 0%, rgba(255,248,240,0.4) 45%, transparent 75%)',
         }}
       />
 
@@ -53,11 +56,13 @@ export const SplashScreen = () => {
       <div className="relative flex flex-col items-center animate-splash-logo">
         {/* Goutte / Icône */}
         <div
-          className="w-20 h-20 mb-4 animate-splash-bounce"
+          className="w-20 h-20 mb-4 animate-splash-bounce relative"
           style={{
             background: 'linear-gradient(135deg, #FF69B4 0%, #8B5CF6 50%, #06B6D4 100%)',
             borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
-            boxShadow: '0 8px 32px rgba(139, 92, 246, 0.4)',
+            boxShadow: darkMode
+              ? '0 8px 32px rgba(139, 92, 246, 0.5), 0 0 60px rgba(255,105,180,0.2)'
+              : '0 8px 32px rgba(139, 92, 246, 0.4)',
           }}
         >
           {/* Reflet sur la goutte */}
@@ -77,7 +82,7 @@ export const SplashScreen = () => {
             backgroundImage: 'linear-gradient(120deg, #FF69B4 0%, #8B5CF6 55%, #06B6D4 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            textShadow: '0 4px 20px rgba(139, 92, 246, 0.3)',
+            filter: darkMode ? 'drop-shadow(0 2px 8px rgba(139,92,246,0.5))' : 'none',
           }}
         >
           cleanz
@@ -86,7 +91,7 @@ export const SplashScreen = () => {
         {/* Tagline */}
         <p
           className="text-sm font-semibold tracking-wide mt-2 animate-splash-tagline"
-          style={{ color: '#9333EA' }}
+          style={{ color: darkMode ? '#C4B5FD' : '#7C3AED' }}
         >
           L&apos;entretien naturel
         </p>

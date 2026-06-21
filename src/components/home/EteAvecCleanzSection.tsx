@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getBlur } from '@/data/imageBlur';
 import { haptic } from '@/utils/haptics';
-import { Sun, ChevronRight, Wind, Moon, Droplets, ThermometerSnowflake } from 'lucide-react';
+import { Sun, ChevronRight, Wind, Moon, Droplets, ThermometerSnowflake, GlassWater, Dumbbell, ShowerHead, Clock, Brush } from 'lucide-react';
 
 const HERO_IMAGE = '/images/sections/ete-cleanz.jpg';
 
@@ -19,7 +19,8 @@ interface FraicheurTip {
   icon: React.ReactNode;
   titre: string;
   texte: string;
-  schema: React.ReactNode;
+  schema?: React.ReactNode;
+  important?: boolean;
 }
 
 const ETE_TIPS: EteTip[] = [
@@ -50,84 +51,134 @@ const ETE_TIPS: EteTip[] = [
   },
 ];
 
-// Schémas SVG pour les astuces fraîcheur
+// Schémas SVG
 const VentilationSchema = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-12">
-    <rect x="5" y="15" width="30" height="35" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <rect x="85" y="15" width="30" height="35" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <path d="M 38 32 Q 60 20 82 32" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
-    <polygon points="78,28 84,32 78,36" fill="currentColor" />
-    <path d="M 38 38 Q 60 50 82 38" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
-    <polygon points="42,42 36,38 42,34" fill="currentColor" />
-    <text x="60" y="58" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.7">courant d'air</text>
+  <svg viewBox="0 0 120 50" className="w-full h-10">
+    <rect x="5" y="10" width="28" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <rect x="87" y="10" width="28" height="32" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <path d="M 36 25 Q 60 12 84 25" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
+    <polygon points="80,21 86,25 80,29" fill="currentColor" />
+    <path d="M 36 32 Q 60 45 84 32" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="4 2" />
+    <polygon points="40,36 34,32 40,28" fill="currentColor" />
+    <text x="60" y="48" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">courant d&apos;air</text>
   </svg>
 );
 
-const VoletsSchema = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-12">
-    <rect x="20" y="10" width="35" height="40" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <line x1="25" y1="10" x2="25" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-    <line x1="30" y1="10" x2="30" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-    <line x1="35" y1="10" x2="35" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-    <circle cx="75" cy="20" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-    <line x1="75" y1="10" x2="75" y2="8" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="85" y1="20" x2="87" y2="20" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="65" y1="20" x2="63" y2="20" stroke="currentColor" strokeWidth="1.5" />
-    <text x="37" y="58" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.7">fermés</text>
-    <text x="85" y="58" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.7">journée</text>
+const HorairesSchema = () => (
+  <svg viewBox="0 0 120 50" className="w-full h-10">
+    <circle cx="30" cy="22" r="14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <line x1="30" y1="22" x2="30" y2="14" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="30" y1="22" x2="37" y2="22" stroke="currentColor" strokeWidth="1.5" />
+    <text x="30" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">6h-9h</text>
+    <rect x="55" y="15" width="15" height="18" rx="1" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1" />
+    <line x1="60" y1="15" x2="60" y2="33" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+    <line x1="65" y1="15" x2="65" y2="33" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+    <text x="62" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">fermé</text>
+    <circle cx="95" cy="22" r="14" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <line x1="95" y1="22" x2="95" y2="14" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="95" y1="22" x2="88" y2="26" stroke="currentColor" strokeWidth="1.5" />
+    <text x="95" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">21h-6h</text>
   </svg>
 );
 
-const DrapHumideSchema = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-12">
-    <rect x="35" y="5" width="50" height="35" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <path d="M 40 40 Q 45 48 50 40 Q 55 32 60 40 Q 65 48 70 40 Q 75 32 80 40" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
-    <circle cx="50" cy="52" r="2" fill="currentColor" opacity="0.5" />
-    <circle cx="60" cy="55" r="1.5" fill="currentColor" opacity="0.4" />
-    <circle cx="70" cy="53" r="2" fill="currentColor" opacity="0.5" />
-    <text x="60" y="8" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.6">fenêtre</text>
+const BleuMeudonSchema = () => (
+  <svg viewBox="0 0 120 50" className="w-full h-10">
+    <rect x="10" y="5" width="45" height="40" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <circle cx="20" cy="15" r="4" fill="currentColor" opacity="0.2" />
+    <circle cx="30" cy="22" r="5" fill="currentColor" opacity="0.15" />
+    <circle cx="42" cy="12" r="3" fill="currentColor" opacity="0.2" />
+    <circle cx="25" cy="32" r="4" fill="currentColor" opacity="0.18" />
+    <circle cx="40" cy="28" r="6" fill="currentColor" opacity="0.12" />
+    <circle cx="18" cy="38" r="3" fill="currentColor" opacity="0.15" />
+    <path d="M 70 25 L 85 25" stroke="currentColor" strokeWidth="2" />
+    <polygon points="82,21 90,25 82,29" fill="currentColor" />
+    <circle cx="103" cy="15" r="8" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.8" />
+    <line x1="103" y1="7" x2="103" y2="3" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="111" y1="15" x2="115" y2="15" stroke="currentColor" strokeWidth="1.5" />
+    <line x1="95" y1="15" x2="91" y2="15" stroke="currentColor" strokeWidth="1.5" />
+    <text x="103" y="44" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.7">-chaleur</text>
   </svg>
 );
 
-const VentiloSchema = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-12">
-    <circle cx="40" cy="30" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <circle cx="40" cy="30" r="4" fill="currentColor" opacity="0.4" />
-    <path d="M 40 26 Q 48 20 40 12" fill="none" stroke="currentColor" strokeWidth="2" />
-    <path d="M 44 30 Q 50 38 58 30" fill="none" stroke="currentColor" strokeWidth="2" />
-    <path d="M 40 34 Q 32 40 40 48" fill="none" stroke="currentColor" strokeWidth="2" />
-    <path d="M 36 30 Q 30 22 22 30" fill="none" stroke="currentColor" strokeWidth="2" />
-    <rect x="70" y="20" width="25" height="20" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
-    <rect x="75" y="25" width="5" height="10" rx="1" fill="currentColor" opacity="0.3" />
-    <rect x="82" y="25" width="5" height="10" rx="1" fill="currentColor" opacity="0.3" />
-    <text x="82" y="55" textAnchor="middle" fontSize="6" fill="currentColor" opacity="0.6">glaçons</text>
+const HydratationSchema = () => (
+  <svg viewBox="0 0 120 50" className="w-full h-10">
+    <path d="M 25 40 L 25 15 Q 25 10 30 10 L 40 10 Q 45 10 45 15 L 45 40 Q 45 45 40 45 L 30 45 Q 25 45 25 40" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <path d="M 28 38 L 28 20 L 42 20 L 42 38" fill="currentColor" opacity="0.15" />
+    <text x="35" y="34" textAnchor="middle" fontSize="10" fill="currentColor" opacity="0.6">💧</text>
+    <text x="35" y="8" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">1.5-2L/j</text>
+    <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
+    <line x1="67" y1="22" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
+    <line x1="67" y1="28" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
+    <circle cx="95" cy="25" r="15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.5" />
+    <text x="95" y="29" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.6">≠🧊</text>
+    <text x="95" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">pas glacée</text>
+  </svg>
+);
+
+const DoucheSchema = () => (
+  <svg viewBox="0 0 120 50" className="w-full h-10">
+    <circle cx="35" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <line x1="35" y1="20" x2="35" y2="24" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
+    <circle cx="32" cy="28" r="1" fill="currentColor" opacity="0.4" />
+    <circle cx="35" cy="30" r="1" fill="currentColor" opacity="0.4" />
+    <circle cx="38" cy="28" r="1" fill="currentColor" opacity="0.4" />
+    <circle cx="33" cy="33" r="1" fill="currentColor" opacity="0.3" />
+    <circle cx="37" cy="34" r="1" fill="currentColor" opacity="0.3" />
+    <text x="35" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">tiède/fraîche</text>
+    <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" strokeWidth="2" />
+    <circle cx="95" cy="25" r="15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" opacity="0.5" />
+    <text x="95" y="29" textAnchor="middle" fontSize="8" fill="currentColor" opacity="0.6">≠❄️</text>
+    <text x="95" y="46" textAnchor="middle" fontSize="5" fill="currentColor" opacity="0.6">pas froide</text>
   </svg>
 );
 
 const FRAICHEUR_TIPS: FraicheurTip[] = [
   {
+    icon: <Clock className="w-5 h-5" />,
+    titre: 'Quand ouvrir les fenêtres',
+    texte: '🌅 Matin 6h-9h : ouvrir en grand (air frais)\n☀️ 10h-21h : tout fermer (volets, rideaux)\n🌙 Soir 21h-6h : rouvrir pour la nuit\nBloquer la chaleur AVANT qu\'elle n\'entre = -5°C !',
+    schema: <HorairesSchema />,
+    important: true,
+  },
+  {
     icon: <Wind className="w-5 h-5" />,
-    titre: 'Ventilation croisée',
-    texte: 'Ouvrez 2 fenêtres opposées tôt le matin (6h-8h) et tard le soir. L\'air circule et rafraîchit toute la maison.',
+    titre: 'Créer un courant d\'air',
+    texte: 'Ouvrez 2 fenêtres opposées (nord-sud ou est-ouest). L\'air chaud monte : si possible, ouvrez en bas côté frais et en haut côté chaud. Le courant d\'air naturel rafraîchit sans clim.',
     schema: <VentilationSchema />,
   },
   {
-    icon: <Moon className="w-5 h-5" />,
-    titre: 'Volets fermés en journée',
-    texte: 'Fermez volets et rideaux côté soleil dès 10h. Bloquer la chaleur avant qu\'elle n\'entre = -5°C intérieur.',
-    schema: <VoletsSchema />,
+    icon: <Brush className="w-5 h-5" />,
+    titre: 'Bleu de Meudon sur vitres',
+    texte: 'Mélangez Bleu de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couleur blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !',
+    schema: <BleuMeudonSchema />,
   },
   {
-    icon: <Droplets className="w-5 h-5" />,
-    titre: 'Drap humide à la fenêtre',
-    texte: 'Suspendez un drap mouillé devant une fenêtre ouverte. L\'évaporation rafraîchit l\'air entrant naturellement.',
-    schema: <DrapHumideSchema />,
+    icon: <GlassWater className="w-5 h-5" />,
+    titre: 'S\'hydrater correctement',
+    texte: '💧 Boire 1,5 à 2L par jour, AVANT d\'avoir soif\n🚫 Éviter l\'eau GLACÉE (choc thermique, le corps chauffe pour compenser)\n✅ Eau fraîche ou température ambiante\n🍉 Manger des fruits d\'eau (pastèque, melon, concombre)',
+    schema: <HydratationSchema />,
+    important: true,
+  },
+  {
+    icon: <Dumbbell className="w-5 h-5" />,
+    titre: 'Sport & efforts physiques',
+    texte: '⚠️ En canicule : ÉVITER tout effort entre 11h et 21h\n✅ Si sport : tôt le matin (avant 8h) ou tard le soir\n💧 S\'hydrater toutes les 15 min pendant l\'effort\n🏠 Privilégier des activités calmes à l\'ombre',
+  },
+  {
+    icon: <ShowerHead className="w-5 h-5" />,
+    titre: 'Douches rafraîchissantes',
+    texte: '✅ Douche TIÈDE ou FRAÎCHE (pas froide !)\n🚫 L\'eau froide fait frissonner → le corps se réchauffe pour compenser\n💡 Mouiller nuque, poignets et chevilles = zones qui refroidissent vite\n🛁 Plusieurs douches courtes > 1 longue',
+    schema: <DoucheSchema />,
   },
   {
     icon: <ThermometerSnowflake className="w-5 h-5" />,
-    titre: 'Ventilateur + glaçons',
-    texte: 'Placez un bol de glaçons ou bouteilles congelées devant le ventilateur. Effet climatisation sans électricité.',
-    schema: <VentiloSchema />,
+    titre: 'Astuces rafraîchissantes',
+    texte: '🧊 Ventilateur + bol de glaçons devant = effet clim\n🧺 Drap humide devant fenêtre ouverte la nuit\n🧴 Brumisateur d\'eau au frigo\n🛏️ Oreiller au congélateur 30 min avant de dormir\n💡 Éteindre les appareils (ils chauffent !)',
+  },
+  {
+    icon: <Moon className="w-5 h-5" />,
+    titre: 'Bien dormir par forte chaleur',
+    texte: '🌙 Linge de lit en coton ou lin (respire)\n💧 Brumiser les draps légèrement\n🚫 Éviter l\'alcool le soir (déshydrate)\n🍽️ Dîner léger (la digestion réchauffe)\n💡 Dormir au rez-de-chaussée si possible (la chaleur monte)',
   },
 ];
 
@@ -216,7 +267,7 @@ export const EteAvecCleanzSection = () => {
                 : theme.textMuted,
             }}
           >
-            🧹 Ménage d&apos;été
+            🧹 Ménage
           </button>
           <button
             onClick={() => switchTab('fraicheur')}
@@ -230,7 +281,7 @@ export const EteAvecCleanzSection = () => {
                 : theme.textMuted,
             }}
           >
-            ❄️ Garder le frais
+            🌡️ Canicule
           </button>
         </div>
 
@@ -287,21 +338,28 @@ export const EteAvecCleanzSection = () => {
                     className="w-full text-left rounded-xl transition-all active:scale-[0.99]"
                     style={{
                       background: darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)',
-                      border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(14,165,233,0.15)'}`,
+                      border: tip.important
+                        ? `1.5px solid ${darkMode ? 'rgba(251,146,60,0.4)' : 'rgba(234,88,12,0.3)'}`
+                        : `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(14,165,233,0.15)'}`,
                     }}
                   >
                     <div className="flex items-center gap-2.5 py-2.5 px-3">
                       <div
                         className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{
-                          background: darkMode ? 'rgba(56,189,248,0.15)' : 'rgba(14,165,233,0.1)',
-                          color: darkMode ? '#38BDF8' : '#0284C7',
+                          background: tip.important
+                            ? (darkMode ? 'rgba(251,146,60,0.2)' : 'rgba(234,88,12,0.12)')
+                            : (darkMode ? 'rgba(56,189,248,0.15)' : 'rgba(14,165,233,0.1)'),
+                          color: tip.important
+                            ? (darkMode ? '#FB923C' : '#EA580C')
+                            : (darkMode ? '#38BDF8' : '#0284C7'),
                         }}
                       >
                         {tip.icon}
                       </div>
                       <span className="flex-1 text-[13px] font-semibold" style={{ color: theme.textPrimary }}>
                         {tip.titre}
+                        {tip.important && <span className="ml-1.5 text-[10px] opacity-60">⚠️</span>}
                       </span>
                       <ChevronRight
                         className="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200"
@@ -313,17 +371,25 @@ export const EteAvecCleanzSection = () => {
                       style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
                     >
                       <div className="overflow-hidden">
-                        {/* Schéma visuel */}
-                        <div
-                          className="mx-3 mb-2 p-2 rounded-lg"
-                          style={{
-                            background: darkMode ? 'rgba(56,189,248,0.08)' : 'rgba(14,165,233,0.06)',
-                            color: darkMode ? '#38BDF8' : '#0284C7',
-                          }}
+                        {tip.schema && (
+                          <div
+                            className="mx-3 mb-2 p-2 rounded-lg"
+                            style={{
+                              background: tip.important
+                                ? (darkMode ? 'rgba(251,146,60,0.1)' : 'rgba(234,88,12,0.06)')
+                                : (darkMode ? 'rgba(56,189,248,0.08)' : 'rgba(14,165,233,0.06)'),
+                              color: tip.important
+                                ? (darkMode ? '#FB923C' : '#EA580C')
+                                : (darkMode ? '#38BDF8' : '#0284C7'),
+                            }}
+                          >
+                            {tip.schema}
+                          </div>
+                        )}
+                        <p
+                          className="px-3 pb-2.5 text-[12px] leading-relaxed whitespace-pre-line"
+                          style={{ color: theme.textSecondary }}
                         >
-                          {tip.schema}
-                        </div>
-                        <p className="px-3 pb-2.5 text-[12px] leading-relaxed" style={{ color: theme.textSecondary }}>
                           {tip.texte}
                         </p>
                       </div>
