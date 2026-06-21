@@ -9,7 +9,11 @@ désencombrement de l'accueil, design system) vit dans [`AUDIT.md`](./AUDIT.md).
 
 App de ménage écolo : recettes, ingrédients, surfaces & appareils, astuces, favoris.
 Refonte 2026 terminée (voir `AUDIT.md`).
-🔖 **Snapshot figé dans le tag git `cleanz-v1`** (référence avant 2.0).
+
+🔖 **Référence V1 figée — commit `beb21e4`** (sur `origin`, avant le passage à 2.0).
+Pour y revenir plus tard : `git checkout beb21e4` (ou créer une branche depuis ce
+commit en local). *(Le proxy git de l'environnement n'autorise pas la création de
+tags/branches d'archive sur le remote ; la référence est donc consignée ici.)*
 
 ---
 

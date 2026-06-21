@@ -78,6 +78,17 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                 />
                 {/* Voile dégradé plus profond en bas pour ancrer le titre */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                {/* Léger flou en haut (fondu vers le bas) : fait ressortir le titre + le ✕ sans masquer la photo */}
+                <div
+                  className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+                  style={{
+                    backdropFilter: 'blur(3px)',
+                    WebkitBackdropFilter: 'blur(3px)',
+                    maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
+                  }}
+                />
+                <div className="absolute inset-x-0 top-0 h-1/2 pointer-events-none bg-gradient-to-b from-black/35 to-transparent" />
               </>
             )}
 
