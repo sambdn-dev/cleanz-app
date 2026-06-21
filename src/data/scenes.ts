@@ -23,7 +23,14 @@ export type SceneKey =
   | 'voitureInt'
   | 'voitureExt'
   | 'multiUsage'
-  | 'entretien';
+  | 'multiUsage2'
+  | 'multiUsage3'
+  | 'entretien'
+  | 'entretien2'
+  | 'entretien3'
+  | 'jardin'
+  | 'vitres'
+  | 'ecrans';
 
 /** Chemin public de chaque photo-scène. */
 export const SCENE_FILES: Record<SceneKey, string> = {
@@ -38,7 +45,14 @@ export const SCENE_FILES: Record<SceneKey, string> = {
   voitureInt: '/images/scenes/scene-voiture-int.jpg',
   voitureExt: '/images/scenes/scene-voiture-ext.jpg',
   multiUsage: '/images/scenes/scene-multi-usage.jpg',
+  multiUsage2: '/images/scenes/scene-multi-usage-2.jpg',
+  multiUsage3: '/images/scenes/scene-multi-usage-3.jpg',
   entretien: '/images/scenes/scene-entretien.jpg',
+  entretien2: '/images/scenes/scene-entretien-2.jpg',
+  entretien3: '/images/scenes/scene-entretien-3.jpg',
+  jardin: '/images/scenes/scene-jardin.jpg',
+  vitres: '/images/scenes/scene-vitres.jpg',
+  ecrans: '/images/scenes/scene-ecrans.jpg',
 };
 
 /**
@@ -64,7 +78,31 @@ export const SCENES_DISPONIBLES = new Set<SceneKey>([
   'voitureExt',
   'multiUsage',
   'entretien',
+  // 👉 À activer quand les photos arrivent (déclinaisons + nouvelles scènes) :
+  // 'multiUsage2', 'multiUsage3',   // variantes multi-usage (rotation auto)
+  // 'entretien2', 'entretien3',     // variantes entretien (rotation auto)
+  // 'jardin',                       // surfaces Extérieur (terrasse, plantes…)
+  // 'vitres',                       // Vitres / Miroirs
+  // 'ecrans',                       // Électronique (écrans, ordi, téléphone)
 ]);
+
+// Déclinaisons d'une scène (la 1re = scène d'origine). Les recettes/surfaces
+// d'une même catégorie sont réparties sur les variantes DISPONIBLES → moins de
+// répétition. Tant qu'une variante n'est pas activée, elle est simplement ignorée.
+const SCENE_VARIANTS: Partial<Record<SceneKey, SceneKey[]>> = {
+  multiUsage: ['multiUsage', 'multiUsage2', 'multiUsage3'],
+  entretien: ['entretien', 'entretien2', 'entretien3'],
+};
+
+/** Choisit une variante disponible de façon déterministe (par id). */
+function pickVariant(key: SceneKey, id: number): SceneKey {
+  const variants = (SCENE_VARIANTS[key] ?? [key]).filter((k) => SCENES_DISPONIBLES.has(k));
+  return variants.length ? variants[id % variants.length] : key;
+}
+
+/** Renvoie `key` si la scène est activée, sinon `fallback` (garantit la couverture). */
+const opt = (key: SceneKey, fallback: SceneKey): SceneKey =>
+  SCENES_DISPONIBLES.has(key) ? key : fallback;
 
 // Minuscules + suppression des accents pour la détection par mots-clés.
 const norm = (s: string) =>
@@ -107,7 +145,7 @@ export function getSceneKey(recette: RecetteComplete): SceneKey {
 
 /** Photo-scène générique d'une recette, si elle est disponible (sinon undefined). */
 export function getSceneImage(recette: RecetteComplete): string | undefined {
-  const key = getSceneKey(recette);
+  const key = pickVariant(getSceneKey(recette), recette.id);
   return SCENES_DISPONIBLES.has(key) ? SCENE_FILES[key] : undefined;
 }
 
@@ -136,9 +174,13 @@ export function getSurfaceSceneKey(surface: Surface): SceneKey {
   if (has('wc', 'toilette', 'cuvette')) return 'sdbWc';
   if (has('four', 'friteuse', 'airfryer', 'hotte', 'vitroceram', 'plaque', 'barbecue', 'casserol', 'poel'))
     return 'cuisineFour';
-  if (has('tapis', 'moquette', 'parquet', 'terrasse')) return 'sol';
   if (has('carross', 'jante', 'pneu', 'phare', 'vitres auto', 'voiture')) return 'voitureExt';
   if (has('siege', 'ceinture', 'casque moto', 'selle', 'cuir', 'habitacle')) return 'voitureInt';
+  if (has('vitre', 'miroir')) return opt('vitres', 'multiUsage');
+  if (has('ecran', 'ordinateur', 'telephone', 'tablette', 'clavier')) return opt('ecrans', 'multiUsage');
+  if (has('terrasse', 'toiture', 'jardin', 'plante', 'fleur', 'mobilier', 'piscine', 'engrais', 'herbe', 'tondeuse'))
+    return opt('jardin', 'multiUsage');
+  if (has('tapis', 'moquette', 'parquet')) return 'sol';
   if (has('linge', 'lessive', 'draps', 'torchon', 'microfibre', 'doudoune', 'matelas', 'sommier', 'rideau', 'lit'))
     return 'lingeMachine';
 
@@ -149,12 +191,14 @@ export function getSurfaceSceneKey(surface: Surface): SceneKey {
     case 'Buanderie': return 'lingeMachine';
     case 'Véhicule': return 'voitureInt';
     case 'Garage': return 'entretien';
-    default: return 'multiUsage'; // Salon, Chambre, Corps, Électronique, Extérieur…
+    case 'Électronique': return opt('ecrans', 'multiUsage');
+    case 'Extérieur': return opt('jardin', 'multiUsage');
+    default: return 'multiUsage'; // Salon, Chambre, Corps…
   }
 }
 
 /** Photo-scène générique d'une surface, si disponible (sinon undefined → emoji). */
 export function getSurfaceImage(surface: Surface): string | undefined {
-  const key = getSurfaceSceneKey(surface);
+  const key = pickVariant(getSurfaceSceneKey(surface), surface.id);
   return SCENES_DISPONIBLES.has(key) ? SCENE_FILES[key] : undefined;
 }
