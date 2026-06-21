@@ -58,14 +58,24 @@ export const SectionTitle = ({
   );
 };
 
-/** Pastille / tag aux tons naturels. */
-export const Chip = ({ children, tone = 'neutral' }: { children: ReactNode; tone?: Tone }) => {
+/** Pastille / tag aux tons naturels. `bg`/`color` permettent un accent sur mesure (ex. teinte de la photo). */
+export const Chip = ({
+  children,
+  tone = 'neutral',
+  bg,
+  color,
+}: {
+  children: ReactNode;
+  tone?: Tone;
+  bg?: string;
+  color?: string;
+}) => {
   const { darkMode } = useTheme();
   const t = TONES[tone];
   return (
     <span
       className="text-xs px-3 py-1.5 rounded-full font-medium"
-      style={{ background: darkMode ? t.d : t.l, color: darkMode ? t.fd : t.fl }}
+      style={{ background: bg ?? (darkMode ? t.d : t.l), color: color ?? (darkMode ? t.fd : t.fl) }}
     >
       {children}
     </span>

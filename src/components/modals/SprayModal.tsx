@@ -5,6 +5,8 @@ import { Spray } from '@/types';
 import { AlertTriangle, Clock } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, ACCENT } from '@/components/ui/ModalParts';
+import { getImageColor } from '@/data/imageColors';
+import { deriveAccent } from '@/utils/accentFromColor';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 
 interface SprayModalProps {
@@ -16,6 +18,10 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
   const { theme, darkMode } = useTheme();
   const hasImage = !!spray.imageUrl;
   const useDarkHeaderText = !hasImage && shouldUseDarkText(spray.gradient);
+
+  // Accent dérivé de la couleur « n°1 » de la photo affichée.
+  const colorSource = darkMode && spray.imageUrlDark ? spray.imageUrlDark : spray.imageUrl;
+  const accent = deriveAccent(getImageColor(colorSource), darkMode);
 
   // Découpe les instructions (chaîne unique) en étapes courtes.
   const steps = spray.instructions
@@ -65,7 +71,7 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
     >
       {/* Ingrédients & dosages */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.sage}>Ingrédients &amp; dosages</SectionTitle>
+        <SectionTitle accent={accent.bar}>Ingrédients &amp; dosages</SectionTitle>
         <div className="space-y-0">
           {spray.ingredients.map((ing, index) => (
             <div
@@ -82,7 +88,7 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
 
       {/* Préparation */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.brand}>Préparation</SectionTitle>
+        <SectionTitle accent={accent.bar}>Préparation</SectionTitle>
         {steps.length > 1 ? (
           <Steps items={steps} />
         ) : (
@@ -92,10 +98,10 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
 
       {/* Surfaces compatibles */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.sage}>Surfaces compatibles</SectionTitle>
+        <SectionTitle accent={accent.bar}>Surfaces compatibles</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {spray.surfaces.map((surface, index) => (
-            <Chip key={index} tone="sage">{surface}</Chip>
+            <Chip key={index} bg={accent.chipBg} color={accent.chipText}>{surface}</Chip>
           ))}
         </div>
       </div>
@@ -114,10 +120,10 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
 
       {/* Astuces pro */}
       <div className="mb-6">
-        <Callout accent={ACCENT.sage} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
+        <Callout accent={accent.bar} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
           {spray.astuces.map((astuce, index) => (
             <div key={index} className="flex items-baseline gap-2">
-              <span className="text-sm leading-none" style={{ color: ACCENT.sage }}>•</span>
+              <span className="text-sm leading-none" style={{ color: accent.bar }}>•</span>
               <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</span>
             </div>
           ))}
@@ -129,7 +135,7 @@ export const SprayModal = ({ spray, onClose }: SprayModalProps) => {
         className="flex items-center gap-3 py-3 border-y"
         style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
       >
-        <Clock className="w-4 h-4 flex-shrink-0" style={{ color: ACCENT.blue }} />
+        <Clock className="w-4 h-4 flex-shrink-0" style={{ color: accent.bar }} />
         <span className="text-xs" style={{ color: theme.textMuted }}>Se conserve</span>
         <span className="text-sm font-medium ml-auto" style={{ color: theme.textPrimary }}>{spray.conservation}</span>
       </div>

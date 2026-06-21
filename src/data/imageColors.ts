@@ -1,0 +1,41 @@
+// Généré automatiquement (sharp) — couleur « n°1 » caractéristique de chaque image,
+// pour teinter les modales selon leur visuel. Ne pas éditer à la main.
+export const IMAGE_COLOR: Record<string, string> = {
+  "/images/scenes/scene-cuisine-four.jpg": "#261c13",
+  "/images/scenes/scene-cuisine-plan.jpg": "#e6eac8",
+  "/images/scenes/scene-ecrans.jpg": "#2a180a",
+  "/images/scenes/scene-entretien-2.jpg": "#362b18",
+  "/images/scenes/scene-entretien-3.jpg": "#d5ab84",
+  "/images/scenes/scene-entretien.jpg": "#472909",
+  "/images/scenes/scene-indispensables.jpg": "#955a24",
+  "/images/scenes/scene-jardin.jpg": "#673709",
+  "/images/scenes/scene-linge-detachant.jpg": "#e3e6ee",
+  "/images/scenes/scene-linge-machine.jpg": "#492609",
+  "/images/scenes/scene-multi-usage-2.jpg": "#e7d8ca",
+  "/images/scenes/scene-multi-usage-3.jpg": "#2a3705",
+  "/images/scenes/scene-multi-usage.jpg": "#865a05",
+  "/images/scenes/scene-sdb-douche.jpg": "#372916",
+  "/images/scenes/scene-sdb-wc.jpg": "#2a1406",
+  "/images/scenes/scene-sol.jpg": "#673a17",
+  "/images/scenes/scene-vitres.jpg": "#fdf4d7",
+  "/images/scenes/scene-voiture-ext.jpg": "#371704",
+  "/images/scenes/scene-voiture-int.jpg": "#f7e5c6",
+  "/images/sections/ete-cleanz.jpg": "#f9e4c8",
+  "/images/splash-bg-dark.jpg": "#492703",
+  "/images/splash-bg.jpg": "#291809",
+  "/images/sprays/degraissant-dark.jpg": "#152325",
+  "/images/sprays/degraissant.jpg": "#d4e9e5",
+  "/images/sprays/desinfectant-dark.jpg": "#081b27",
+  "/images/sprays/desinfectant.jpg": "#d6e2f3",
+  "/images/sprays/multi-usage-dark.jpg": "#271319",
+  "/images/sprays/multi-usage.jpg": "#f4ddea",
+  "/images/sprays/poussiere-dark.jpg": "#262619",
+  "/images/sprays/poussiere.jpg": "#e3ede2",
+  "/images/sprays/textile-dark.jpg": "#281318",
+  "/images/sprays/textile.jpg": "#fadde2",
+  "/images/sprays/vitres-dark.jpg": "#1b0d1d",
+  "/images/sprays/vitres.jpg": "#e1d1f5"
+};
+
+export const getImageColor = (src?: string): string | undefined =>
+  src ? IMAGE_COLOR[src] : undefined;

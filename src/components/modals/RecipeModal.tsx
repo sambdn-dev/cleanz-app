@@ -5,10 +5,12 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { getSceneImage } from '@/data/scenes';
+import { getImageColor } from '@/data/imageColors';
 import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { Disclaimer } from '@/components/ui/Disclaimer';
+import { deriveAccent } from '@/utils/accentFromColor';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 import { haptic } from '@/utils/haptics';
 import { slugify, buildShareText, shareOrCopy } from '@/utils/share';
@@ -29,6 +31,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const hasImage = !!headerImageUrl;
   // Gardé pour le repli dégradé (en-tête sans photo / image manquante).
   const useDarkHeaderText = shouldUseDarkText(recipe.gradient);
+
+  // Accent de la modale dérivé de la couleur « n°1 » de la photo affichée.
+  const colorSource = darkMode && recipe.imageUrlDark ? recipe.imageUrlDark : headerImageUrl;
+  const accent = deriveAccent(getImageColor(colorSource), darkMode);
 
   const favorite = isFavorite(recipe.id);
   const userRating = getRating(recipe.id);
@@ -122,7 +128,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
 
       {/* Ingrédients & dosages */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.sage}>Ingrédients &amp; dosages</SectionTitle>
+        <SectionTitle accent={accent.bar}>Ingrédients &amp; dosages</SectionTitle>
         <div className="space-y-0">
           {recipe.ingredients.map((ing, index) => (
             <div
@@ -145,10 +151,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       {/* Matériel nécessaire */}
       {recipe.materiel && recipe.materiel.length > 0 && (
         <div className="mb-6">
-          <SectionTitle accent={ACCENT.neutral}>Matériel</SectionTitle>
+          <SectionTitle accent={accent.bar}>Matériel</SectionTitle>
           <div className="flex flex-wrap gap-2">
             {recipe.materiel.map((item, index) => (
-              <Chip key={index} tone="neutral">{item}</Chip>
+              <Chip key={index} bg={accent.chipBg} color={accent.chipText}>{item}</Chip>
             ))}
           </div>
         </div>
@@ -156,16 +162,16 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
 
       {/* Instructions */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.brand}>Préparation</SectionTitle>
+        <SectionTitle accent={accent.bar}>Préparation</SectionTitle>
         <Steps items={recipe.instructions} />
       </div>
 
       {/* Surfaces compatibles */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.sage}>Surfaces compatibles</SectionTitle>
+        <SectionTitle accent={accent.bar}>Surfaces compatibles</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {recipe.surfaces.map((surface, index) => (
-            <Chip key={index} tone="sage">{surface}</Chip>
+            <Chip key={index} bg={accent.chipBg} color={accent.chipText}>{surface}</Chip>
           ))}
         </div>
       </div>
@@ -187,10 +193,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       {/* Astuces */}
       {recipe.astuces.length > 0 && (
         <div className="mb-6">
-          <Callout accent={ACCENT.sage} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
+          <Callout accent={accent.bar} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
             {recipe.astuces.map((astuce, index) => (
               <div key={index} className="flex items-baseline gap-2">
-                <span className="text-sm leading-none" style={{ color: ACCENT.sage }}>•</span>
+                <span className="text-sm leading-none" style={{ color: accent.bar }}>•</span>
                 <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{astuce}</p>
               </div>
             ))}
@@ -203,7 +209,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         className="flex items-center gap-3 mb-6 py-3 border-y"
         style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
       >
-        <Archive className="w-4 h-4 flex-shrink-0" style={{ color: ACCENT.blue }} />
+        <Archive className="w-4 h-4 flex-shrink-0" style={{ color: accent.bar }} />
         <span className="text-xs" style={{ color: theme.textMuted }}>Se conserve</span>
         <span className="text-sm font-medium ml-auto" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
       </div>
