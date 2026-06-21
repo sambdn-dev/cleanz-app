@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete, Surface, IngredientComplet } from '@/types';
-import { RECETTES, CATEGORIES_RECETTES } from '@/data/recettes';
+import { RECETTES } from '@/data/recettes';
 import { getBlur } from '@/data/imageBlur';
 import { Clock, Star, Sparkles, Heart, ListChecks } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
@@ -24,30 +24,17 @@ interface RecipesPageProps {
 export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }: RecipesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { isFavorite, toggleFavorite, getRating } = useRecipeInteractionsContext();
-  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filtrage des recettes
-  const getFilteredRecipes = () => {
-    let recipes = RECETTES;
-
-    if (activeCategory !== 'all') {
-      recipes = recipes.filter(r => r.categorie === activeCategory);
-    }
-
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      recipes = recipes.filter(r =>
-        r.nom.toLowerCase().includes(query) ||
-        r.ingredients.some(ing => ing.nom.toLowerCase().includes(query)) ||
-        r.surfaces.some(s => s.toLowerCase().includes(query))
-      );
-    }
-
-    return recipes;
-  };
-
-  const filteredRecipes = getFilteredRecipes();
+  // Filtrage des recettes par recherche texte
+  const filteredRecipes = searchQuery
+    ? RECETTES.filter(r => {
+        const query = searchQuery.toLowerCase();
+        return r.nom.toLowerCase().includes(query) ||
+          r.ingredients.some(ing => ing.nom.toLowerCase().includes(query)) ||
+          r.surfaces.some(s => s.toLowerCase().includes(query));
+      })
+    : RECETTES;
 
   // Séparer les indispensables du reste
   const indispensables = filteredRecipes.filter(r => r.categorie === 'Indispensable');
@@ -214,48 +201,18 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
         />
       </div>
 
-      {/* Category Tabs */}
-      <div className="mb-5 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4">
-        <div className="flex gap-2">
-          {CATEGORIES_RECETTES.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl whitespace-nowrap transition-all"
-                style={{
-                  background: isActive
-                    ? darkMode
-                      ? 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)'
-                      : 'linear-gradient(135deg, #A78BFA 0%, #F472B6 100%)'
-                    : darkMode
-                      ? 'rgba(255,255,255,0.05)'
-                      : 'rgba(255,255,255,0.7)',
-                  color: isActive ? 'white' : theme.textSecondary,
-                  border: isActive ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`
-                }}
-              >
-                <span className="text-sm">{cat.emoji}</span>
-                <span className="text-xs font-medium">{cat.nom}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Résultats */}
       {filteredRecipes.length === 0 ? (
         <EmptyState
           title="Aucune recette trouvée"
-          message="Essayez avec d'autres mots-clés ou changez de catégorie"
+          message="Essayez avec d'autres mots-clés"
           emoji="📋"
           searchQuery={searchQuery}
         />
       ) : (
         <>
           {/* Section Les Indispensables */}
-          {(activeCategory === 'all' || activeCategory === 'Indispensable') && indispensables.length > 0 && (
+          {indispensables.length > 0 && (
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-yellow-500" />
@@ -283,11 +240,11 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
           {/* Autres recettes */}
           {autresRecettes.length > 0 && (
             <div>
-              {(activeCategory === 'all' || activeCategory === 'Indispensable') && indispensables.length > 0 && (
+              {indispensables.length > 0 && (
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-base">🧪</span>
                   <h2 className="font-display font-bold text-[17px]" style={{ color: theme.textPrimary }}>
-                    Autres recettes
+                    Toutes les recettes
                   </h2>
                   <span
                     className="text-xs px-2 py-0.5 rounded-full"
@@ -305,15 +262,6 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
                   <RecipeCard key={recipe.id} recipe={recipe} />
                 ))}
               </div>
-            </div>
-          )}
-
-          {/* Si on n'affiche que les autres (pas les indispensables) */}
-          {activeCategory !== 'all' && activeCategory !== 'Indispensable' && (
-            <div className="text-center mt-6 pt-4" style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` }}>
-              <p className="text-xs" style={{ color: theme.textMuted }}>
-                {filteredRecipes.length} recette{filteredRecipes.length > 1 ? 's' : ''} dans cette catégorie
-              </p>
             </div>
           )}
         </>

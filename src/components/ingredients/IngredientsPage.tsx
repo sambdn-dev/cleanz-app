@@ -5,7 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
 import { IngredientComplet, Surface, RecetteComplete } from '@/types';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
-import { LayoutGrid, List } from 'lucide-react';
+import { LayoutGrid, List, Sparkles } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { IngredientCard } from './IngredientCard';
@@ -59,12 +59,22 @@ export const IngredientsPage = ({ onIngredientClick, onSurfaceClick, onRecipeCli
     });
   }, [activeFilters, searchQuery]);
 
+  // Séparer les essentiels
+  const essentiels = filteredIngredients.filter(i => i.essentiel);
+  const autres = filteredIngredients.filter(i => !i.essentiel);
+  const showSections = !searchQuery && activeFilters.length === 0;
+
   return (
     <div className="pb-4">
-      {/* Titre */}
-      <h1 className="font-display text-2xl font-extrabold mb-4" style={{ color: theme.textPrimary }}>
-        Ingrédients
-      </h1>
+      {/* En-tête éditorial */}
+      <div className="mb-5">
+        <h1 className="font-display text-2xl font-extrabold mb-1" style={{ color: theme.textPrimary }}>
+          Ingrédients naturels
+        </h1>
+        <p className="text-sm" style={{ color: theme.textMuted }}>
+          {INGREDIENTS_COMPLETS.length} ingrédients pour un ménage 100% écologique
+        </p>
+      </div>
 
       {/* Recherche intelligente + Toggle vue */}
       <div className="flex items-center gap-3 mb-4">
@@ -159,13 +169,6 @@ export const IngredientsPage = ({ onIngredientClick, onSurfaceClick, onRecipeCli
         </div>
       </div>
 
-      {/* Compteur de résultats */}
-      <div className="mb-4">
-        <p style={{ color: theme.textMuted }} className="text-sm">
-          {filteredIngredients.length} ingrédient{filteredIngredients.length > 1 ? 's' : ''}
-        </p>
-      </div>
-
       {/* Contenu */}
       {!isLoaded ? (
         <div className="space-y-3">
@@ -178,32 +181,106 @@ export const IngredientsPage = ({ onIngredientClick, onSurfaceClick, onRecipeCli
           emoji="🧪"
           searchQuery={searchQuery}
         />
-      ) : viewMode === 'list' ? (
-        <div className="space-y-3">
-          {filteredIngredients.map(ingredient => (
-            <IngredientCard
-              key={ingredient.id}
-              ingredient={ingredient}
-              view="list"
-              favorite={isFavorite(ingredient.id)}
-              onClick={() => onIngredientClick(ingredient)}
-              onToggleFavorite={() => toggleFavorite(ingredient.id)}
-            />
-          ))}
-        </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4">
-          {filteredIngredients.map(ingredient => (
-            <IngredientCard
-              key={ingredient.id}
-              ingredient={ingredient}
-              view="grid"
-              favorite={isFavorite(ingredient.id)}
-              onClick={() => onIngredientClick(ingredient)}
-              onToggleFavorite={() => toggleFavorite(ingredient.id)}
-            />
-          ))}
-        </div>
+        <>
+          {/* Section Essentiels */}
+          {showSections && essentiels.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-5 h-5 text-yellow-500" />
+                <h2 className="font-display font-bold text-[17px]" style={{ color: theme.textPrimary }}>
+                  Les 8 Essentiels
+                </h2>
+                <span
+                  className="text-xs px-2 py-0.5 rounded-full"
+                  style={{
+                    background: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)',
+                    color: darkMode ? '#FCD34D' : '#D97706'
+                  }}
+                >
+                  Indispensables
+                </span>
+              </div>
+              {viewMode === 'list' ? (
+                <div className="space-y-3">
+                  {essentiels.map(ingredient => (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      view="list"
+                      favorite={isFavorite(ingredient.id)}
+                      onClick={() => onIngredientClick(ingredient)}
+                      onToggleFavorite={() => toggleFavorite(ingredient.id)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {essentiels.map(ingredient => (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      view="grid"
+                      favorite={isFavorite(ingredient.id)}
+                      onClick={() => onIngredientClick(ingredient)}
+                      onToggleFavorite={() => toggleFavorite(ingredient.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Section Autres ingrédients */}
+          {(showSections ? autres : filteredIngredients).length > 0 && (
+            <div>
+              {showSections && autres.length > 0 && (
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-base">🧪</span>
+                  <h2 className="font-display font-bold text-[17px]" style={{ color: theme.textPrimary }}>
+                    Tous les ingrédients
+                  </h2>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-full"
+                    style={{
+                      background: darkMode ? 'rgba(79, 209, 197, 0.2)' : 'rgba(79, 209, 197, 0.15)',
+                      color: darkMode ? '#5EEAD4' : '#14B8A6'
+                    }}
+                  >
+                    {autres.length} ingrédients
+                  </span>
+                </div>
+              )}
+              {viewMode === 'list' ? (
+                <div className="space-y-3">
+                  {(showSections ? autres : filteredIngredients).map(ingredient => (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      view="list"
+                      favorite={isFavorite(ingredient.id)}
+                      onClick={() => onIngredientClick(ingredient)}
+                      onToggleFavorite={() => toggleFavorite(ingredient.id)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {(showSections ? autres : filteredIngredients).map(ingredient => (
+                    <IngredientCard
+                      key={ingredient.id}
+                      ingredient={ingredient}
+                      view="grid"
+                      favorite={isFavorite(ingredient.id)}
+                      onClick={() => onIngredientClick(ingredient)}
+                      onToggleFavorite={() => toggleFavorite(ingredient.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {/* Disclaimer */}
