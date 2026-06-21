@@ -213,8 +213,9 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                   color: isActive ? activeColor : theme.textMuted,
                   transition: 'color 0.3s',
                 }}
-                strokeWidth={isActive ? 2.5 : 2}
-                fill={isActive && isFavoris ? 'currentColor' : 'none'}
+                strokeWidth={isActive ? 2.2 : 2}
+                fill={isActive ? 'currentColor' : 'none'}
+                fillOpacity={isActive ? (isFavoris ? 1 : 0.22) : 0}
               />
               {/* Label: visible when expanded, collapses on scroll down */}
               <span

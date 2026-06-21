@@ -61,6 +61,23 @@ export const SplashScreen = () => {
 
       {/* Logo central */}
       <div className="relative flex flex-col items-center animate-splash-logo">
+        {/* Halo de verre dépoli derrière le logo (fait ressortir logo + typo) */}
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none"
+          style={{
+            width: '320px',
+            height: '320px',
+            borderRadius: '50%',
+            background: darkMode
+              ? 'radial-gradient(circle, rgba(20,14,30,0.55) 0%, rgba(20,14,30,0.32) 45%, transparent 72%)'
+              : 'radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.42) 45%, transparent 72%)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            maskImage: 'radial-gradient(circle, black 55%, transparent 72%)',
+            WebkitMaskImage: 'radial-gradient(circle, black 55%, transparent 72%)',
+          }}
+        />
+
         {/* Goutte / Icône */}
         <div
           className="w-20 h-20 mb-4 animate-splash-bounce relative"
@@ -98,9 +115,12 @@ export const SplashScreen = () => {
         {/* Tagline */}
         <p
           className="text-sm font-semibold tracking-wide mt-2 animate-splash-tagline"
-          style={{ color: darkMode ? '#C4B5FD' : '#7C3AED' }}
+          style={{
+            color: darkMode ? '#C4B5FD' : '#7C3AED',
+            textShadow: darkMode ? '0 1px 6px rgba(0,0,0,0.4)' : '0 1px 6px rgba(255,255,255,0.6)',
+          }}
         >
-          L&apos;entretien naturel
+          L&apos;entretien naturel, simplifié.
         </p>
 
         {/* Loader dots */}
