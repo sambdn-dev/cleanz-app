@@ -17,6 +17,39 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 14,
+    date: '2026-06-21',
+    emoji: '📸',
+    title: 'Des photos pour tout',
+    description: 'Chaque recette ET chaque surface a désormais sa photo cosy — fini les emojis tout seuls, l\'app est bien plus visuelle.',
+  },
+  {
+    id: 13,
+    date: '2026-06-21',
+    emoji: '🛒',
+    title: 'Ma liste de courses',
+    description: 'Prépare tes courses en un geste : ajoute des articles à la main ou importe les ingrédients de tes recettes favorites, et coche-les en magasin.',
+    steps: [
+      'Menu (en haut à droite) → « Ma liste de courses »',
+      'Touche « Ajouter les ingrédients de mes recettes favorites »',
+      'Coche les articles au fur et à mesure',
+    ],
+  },
+  {
+    id: 12,
+    date: '2026-06-21',
+    emoji: '📱',
+    title: 'Mon compte & Mes appareils',
+    description: 'Deux nouvelles pages dans le menu : un espace « Mon compte » avec tes stats, et « Mes appareils » pour suivre l\'entretien de ton électroménager.',
+  },
+  {
+    id: 11,
+    date: '2026-06-21',
+    emoji: '🔗',
+    title: 'Partage repensé',
+    description: 'Quand tu partages une recette, le message est prérempli (ingrédients, durée…) et le lien affiche un bel aperçu.',
+  },
+  {
     id: 10,
     date: '2026-06-21',
     emoji: '🔍',

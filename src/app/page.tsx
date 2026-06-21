@@ -26,6 +26,9 @@ import { AccountMenu } from '@/components/layout/AccountMenu';
 import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
+import { AccountPage } from '@/components/account/AccountPage';
+import { ShoppingListPage } from '@/components/account/ShoppingListPage';
+import { MyDevicesPage } from '@/components/account/MyDevicesPage';
 import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
@@ -68,6 +71,7 @@ function HomePageContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllSurfaces, setShowAllSurfaces] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const [accountPage, setAccountPage] = useState<null | 'compte' | 'courses' | 'appareils'>(null);
 
   // États pour les modals
   const [selectedSurface, setSelectedSurface] = useState<Surface | null>(null);
@@ -337,13 +341,32 @@ function HomePageContent() {
         isOpen={showAccountMenu}
         onClose={() => setShowAccountMenu(false)}
         onNavigate={(page) => {
-          // Handle navigation based on page
+          setShowAccountMenu(false);
           if (page === 'favoris') {
             setActiveNavTab('Favoris');
-            setShowAccountMenu(false);
+            window.scrollTo(0, 0);
+          } else if (page === 'compte' || page === 'courses' || page === 'appareils') {
+            setAccountPage(page);
           }
         }}
       />
+
+      {/* Pages du menu (overlays plein écran) */}
+      {accountPage === 'compte' && (
+        <AccountPage
+          onClose={() => setAccountPage(null)}
+          onOpenFavoris={() => { setAccountPage(null); setActiveNavTab('Favoris'); window.scrollTo(0, 0); }}
+        />
+      )}
+      {accountPage === 'courses' && (
+        <ShoppingListPage onClose={() => setAccountPage(null)} />
+      )}
+      {accountPage === 'appareils' && (
+        <MyDevicesPage
+          onClose={() => setAccountPage(null)}
+          onApplianceClick={(a) => { setAccountPage(null); setSelectedAppliance(a); }}
+        />
+      )}
     </>
   );
 }

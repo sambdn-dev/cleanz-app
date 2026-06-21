@@ -77,13 +77,14 @@ export const SCENES_DISPONIBLES = new Set<SceneKey>([
   'voitureInt',
   'voitureExt',
   'multiUsage',
+  'multiUsage2',
+  'multiUsage3',
   'entretien',
-  // 👉 À activer quand les photos arrivent (déclinaisons + nouvelles scènes) :
-  // 'multiUsage2', 'multiUsage3',   // variantes multi-usage (rotation auto)
-  // 'entretien2', 'entretien3',     // variantes entretien (rotation auto)
-  // 'jardin',                       // surfaces Extérieur (terrasse, plantes…)
-  // 'vitres',                       // Vitres / Miroirs
-  // 'ecrans',                       // Électronique (écrans, ordi, téléphone)
+  'entretien2',
+  'entretien3',
+  'jardin', // surfaces Extérieur (terrasse, plantes…)
+  'vitres', // Vitres / Miroirs
+  'ecrans', // Électronique (écrans, ordi, téléphone)
 ]);
 
 // Déclinaisons d'une scène (la 1re = scène d'origine). Les recettes/surfaces

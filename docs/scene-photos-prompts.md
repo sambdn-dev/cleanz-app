@@ -13,6 +13,8 @@ avec **12 photos-scènes** génériques. Chaque recette est **mappée automatiqu
   (~90–220 Ko/image, mozjpeg q82).
 - **Style** : photo produit **cosy / naturel**, tons beige / vert / lavande,
   lumière douce latérale.
+- ⚠️ **Toujours ajouter « French labels » à chaque prompt** (sinon les étiquettes
+  des flacons/bocaux sont générées en anglais).
 - **Emplacement** : `public/images/scenes/`.
 
 ---
