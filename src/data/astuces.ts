@@ -78,5 +78,18 @@ export const ASTUCES_DU_JOUR: Astuce[] = [
     conseil: 'L\'eau doit être à minimum 40°C pour activer le percarbonate.',
     surface: 'Joints',
     gradient: 'linear-gradient(135deg, #89F7FE 0%, #66A6FF 100%)'
+  },
+  {
+    id: 7,
+    titre: 'Poils d\'animaux envolés',
+    emoji: '🐾',
+    duree: '5min',
+    note: 4.8,
+    ingredients: ['Raclette à douche'],
+    resume: 'Décollez les poils de chien et de chat des tapis, canapés et sièges auto, sans aspirateur',
+    instructions: 'Passez la raclette à douche en caoutchouc sur le tapis, le canapé ou les sièges de voiture, toujours dans le même sens. Le caoutchouc crée une charge statique qui agglomère les poils en petits tas. Ramassez les amas formés, puis aspirez ou retirez-les à la main.',
+    conseil: 'Sur les sièges de voiture, humidifiez très légèrement la raclette : les poils incrustés remontent d\'un seul coup. Tellement plus simple et efficace !',
+    surface: 'Tapis & sièges',
+    gradient: 'linear-gradient(135deg, #D4A373 0%, #BC8A5F 100%)'
   }
 ];
