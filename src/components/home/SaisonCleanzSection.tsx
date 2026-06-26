@@ -420,9 +420,10 @@ export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionP
   const saison = SAISONS[selected];
   const accent = darkMode ? saison.accentDark : saison.accent;
 
-  // Onglets affichés : pendant une canicule, « Canicule » passe en premier dans l'été.
+  // « Canicule » est TOUJOURS l'onglet prioritaire (premier + sélectionné par défaut)
+  // dans l'été — indépendamment de la météo.
   let displayTabs = saison.tabs;
-  if (heatActive && saison.key === 'ete') {
+  if (saison.key === 'ete') {
     const idx = saison.tabs.findIndex((t) => /canicule/i.test(t.label));
     if (idx > 0) {
       displayTabs = [...saison.tabs];
