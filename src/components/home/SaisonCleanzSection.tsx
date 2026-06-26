@@ -144,6 +144,89 @@ const BlancMeudonSchema = () => (
   </svg>
 );
 
+const ToitFraisSchema = () => (
+  <svg viewBox="0 0 220 116" className="w-full h-auto" role="img" aria-label="Arroser le toit le soir : l'eau s'évapore et emporte la chaleur stockée dans les tuiles">
+    {/* Soleil couchant en haut à gauche : la chaleur stockée la journée */}
+    <circle cx="30" cy="26" r="10" fill="currentColor" opacity="0.9" />
+    <g opacity="0.7">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.6s" repeatCount="indefinite" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => {
+        const r = (a * Math.PI) / 180;
+        return (
+          <line key={i} x1={30 + 13 * Math.cos(r)} y1={26 + 13 * Math.sin(r)} x2={30 + 17 * Math.cos(r)} y2={26 + 17 * Math.sin(r)} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        );
+      })}
+    </g>
+
+    {/* Toit en pente vu de côté (parallélogramme) */}
+    <polygon points="48,92 132,38 200,38 116,92" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    {/* Faîtage et avant-toit renforcés */}
+    <line x1="132" y1="38" x2="200" y2="38" stroke="currentColor" strokeWidth="1.6" opacity="0.6" />
+    <line x1="48" y1="92" x2="116" y2="92" stroke="currentColor" strokeWidth="1.6" opacity="0.6" />
+
+    {/* Divisions des tuiles le long de la pente */}
+    {[0, 1, 2, 3].map((k, i) => {
+      const t = (k + 1) / 5;
+      const x1 = 132 - 84 * t;
+      const x2 = 200 - 84 * t;
+      return (
+        <line key={`row${i}`} x1={x1} y1={38 + 54 * t} x2={x2} y2={38 + 54 * t} stroke="currentColor" strokeWidth="1" opacity="0.4" />
+      );
+    })}
+    {/* Joints transversaux suivant la pente, pour la texture */}
+    {[0.28, 0.62].map((u, i) => {
+      const xTop = 132 + (200 - 132) * u;
+      const xBot = 48 + (116 - 48) * u;
+      return (
+        <line key={`col${i}`} x1={xTop} y1="38" x2={xBot} y2="92" stroke="currentColor" strokeWidth="0.8" opacity="0.3" />
+      );
+    })}
+
+    {/* Gouttes d'eau qui tombent SUR les tuiles */}
+    {[
+      { x: 150, y: 60, delay: 0 },
+      { x: 168, y: 53, delay: 0.5 },
+      { x: 186, y: 46, delay: 1 },
+    ].map((d, i) => (
+      <path key={`drop${i}`} d="M 0 -4 Q 2.4 0 0 3 Q -2.4 0 0 -4 Z" fill="currentColor" opacity="0.85">
+        <animateMotion dur="1.5s" begin={`${d.delay}s`} repeatCount="indefinite" path={`M ${d.x} 18 L ${d.x} ${d.y}`} />
+        <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.15;0.85;1" dur="1.5s" begin={`${d.delay}s`} repeatCount="indefinite" />
+      </path>
+    ))}
+
+    {/* Vapeur ondulée qui s'élève des tuiles mouillées */}
+    {[
+      { x: 144, delay: 0 },
+      { x: 168, delay: 0.7 },
+    ].map((v, i) => (
+      <path
+        key={`vap${i}`}
+        d={`M ${v.x} 62 q 6 -8 0 -16 q -6 -8 0 -16 q 6 -8 0 -16`}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeDasharray="7 7"
+        opacity="0.7"
+      >
+        <animate attributeName="stroke-dashoffset" from="28" to="0" dur="1.4s" begin={`${v.delay}s`} repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.15;0.75;0.15" dur="2.8s" begin={`${v.delay}s`} repeatCount="indefinite" />
+      </path>
+    ))}
+
+    {/* Marqueur de chaleur 🔥 emporté vers le haut par la vapeur */}
+    <g>
+      <animateMotion dur="3.2s" repeatCount="indefinite" path="M 158 58 Q 168 24 176 4" />
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.2;0.7;1" dur="3.2s" repeatCount="indefinite" />
+      <text x="0" y="0" textAnchor="middle" fontSize="13" fill="currentColor">🔥</text>
+    </g>
+
+    {/* Étiquettes */}
+    <text x="76" y="108" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.85">💧 arroser le soir</text>
+    <text x="170" y="108" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.85">chaleur évacuée 🔥</text>
+  </svg>
+);
+
 /* ------------------------------------------------------------------ */
 /*  Données des 4 saisons                                              */
 /* ------------------------------------------------------------------ */
@@ -176,6 +259,7 @@ const SAISONS: Record<SaisonKey, Saison> = {
           { icon: <Clock className="w-5 h-5" />, titre: 'Quand ouvrir les fenêtres', texte: '🌅 Matin 6h-9h : ouvrir en grand (air frais)\n☀️ 10h-21h : tout fermer (volets, rideaux)\n🌙 Soir 21h-6h : rouvrir pour la nuit\nBloquer la chaleur AVANT qu\'elle n\'entre = -5°C !', schema: <HorairesSchema />, important: true },
           { icon: <Wind className="w-5 h-5" />, titre: 'Créer un courant d\'air', texte: 'Ouvrez 2 fenêtres opposées (nord-sud ou est-ouest) pour créer un courant d\'air traversant.\n💨 Astuce : placez un ventilateur juste devant une fenêtre, tourné vers l\'extérieur, pour chasser l\'air chaud plus vite.\n🌙 Le soir et la nuit = le moment idéal pour évacuer la chaleur accumulée.', schema: <VentilationSchema /> },
           { icon: <Brush className="w-5 h-5" />, titre: 'Blanc de Meudon sur vitres', texte: 'Mélangez Blanc de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couche blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !', schema: <BlancMeudonSchema /> },
+          { icon: <Droplets className="w-5 h-5" />, titre: 'Rafraîchir toits & terrasses', texte: '💧 Le soir venu, arrosez les tuiles, dalles et murs encore brûlants : en s\'évaporant, l\'eau emporte la chaleur emmagasinée toute la journée.\n🌡️ L\'évaporation refroidit la surface — et l\'air autour. Sur un toit ou une terrasse plein sud, on le ressent jusque dans les pièces du dessous.\n⏰ À faire en fin de journée ou à la tombée de la nuit : en plein soleil l\'eau s\'évapore trop vite (et le calcaire marque).\n🌱 Privilégiez l\'eau de pluie récupérée et restez sobre en cas de restrictions sécheresse.', schema: <ToitFraisSchema /> },
           { icon: <GlassWater className="w-5 h-5" />, titre: 'S\'hydrater correctement', texte: '💧 Boire 1,5 à 2L par jour, AVANT d\'avoir soif\n🚫 Éviter l\'eau GLACÉE (choc thermique)\n✅ Eau fraîche ou température ambiante\n🍉 Manger des fruits d\'eau (pastèque, melon, concombre)', important: true },
           { icon: <Dumbbell className="w-5 h-5" />, titre: 'Sport & efforts physiques', texte: '⚠️ En canicule : ÉVITER tout effort entre 11h et 21h\n✅ Si sport : tôt le matin (avant 8h) ou tard le soir\n💧 S\'hydrater toutes les 15 min\n🏠 Privilégier des activités calmes à l\'ombre' },
           { icon: <ShowerHead className="w-5 h-5" />, titre: 'Douches rafraîchissantes', texte: '✅ Douche TIÈDE ou FRAÎCHE (pas froide !)\n🚫 L\'eau froide fait frissonner → le corps se réchauffe pour compenser\n💡 Mouiller nuque, poignets et chevilles\n🛁 Plusieurs douches courtes > 1 longue' },
