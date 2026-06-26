@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getBlur } from '@/data/imageBlur';
@@ -182,15 +182,24 @@ const ToitFraisSchema = () => (
       );
     })}
 
-    {/* Gouttes d'eau qui tombent SUR les tuiles */}
-    {[
-      { x: 150, y: 60, delay: 0 },
-      { x: 168, y: 53, delay: 0.5 },
-      { x: 186, y: 46, delay: 1 },
-    ].map((d, i) => (
-      <path key={`drop${i}`} d="M 0 -4 Q 2.4 0 0 3 Q -2.4 0 0 -4 Z" fill="currentColor" opacity="0.85">
-        <animateMotion dur="1.5s" begin={`${d.delay}s`} repeatCount="indefinite" path={`M ${d.x} 18 L ${d.x} ${d.y}`} />
-        <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.15;0.85;1" dur="1.5s" begin={`${d.delay}s`} repeatCount="indefinite" />
+    {/* Petit jet d'eau : un arc qui part de la gauche et arrose les tuiles */}
+    {/* Buse / point de départ du jet */}
+    <circle cx="58" cy="64" r="2" fill="currentColor" opacity="0.7" />
+    {/* Filet d'eau continu en arc */}
+    <path d="M 60 63 Q 118 26 158 60" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeDasharray="7 8" opacity="0.7">
+      <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.7s" repeatCount="indefinite" />
+    </path>
+    {/* Gouttes qui suivent le jet et éclaboussent sur les tuiles */}
+    {[0, 0.35, 0.7].map((delay, i) => (
+      <path key={`jet${i}`} d="M 0 -3.6 Q 2.1 0 0 2.6 Q -2.1 0 0 -3.6 Z" fill="currentColor" opacity="0.9">
+        <animateMotion dur="1.1s" begin={`${delay}s`} repeatCount="indefinite" path="M 60 63 Q 118 26 158 60" />
+        <animate attributeName="opacity" values="0;0.95;0.95;0" keyTimes="0;0.12;0.82;1" dur="1.1s" begin={`${delay}s`} repeatCount="indefinite" />
+      </path>
+    ))}
+    {/* Petite éclaboussure au point de chute */}
+    {[-1, 1].map((dir, i) => (
+      <path key={`splash${i}`} d={`M 158 60 q ${dir * 5} -4 ${dir * 8} -1`} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity="0.5">
+        <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.4;1" dur="1.1s" begin={`${0.1 + i * 0.05}s`} repeatCount="indefinite" />
       </path>
     ))}
 
@@ -375,17 +384,43 @@ const ORDER: SaisonKey[] = ['printemps', 'ete', 'automne', 'hiver'];
 /* ------------------------------------------------------------------ */
 /*  Composant                                                          */
 /* ------------------------------------------------------------------ */
-export const SaisonCleanzSection = () => {
+interface SaisonCleanzSectionProps {
+  /** Période de chaleur détectée : met l'Été + l'onglet Canicule en avant. */
+  heatActive?: boolean;
+}
+
+export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionProps) => {
   const { theme, darkMode } = useTheme();
   const saisonActuelle = getSaison();
-  const [selected, setSelected] = useState<SaisonKey>(saisonActuelle);
+  const [selected, setSelected] = useState<SaisonKey>(heatActive ? 'ete' : saisonActuelle);
   const [imgError, setImgError] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState<number | null>(0);
 
+  // En période de chaleur : bascule auto sur Été + onglet Canicule (même hors plein été).
+  useEffect(() => {
+    if (heatActive) {
+      setSelected('ete');
+      setActiveTab(0);
+      setOpen(0);
+      setImgError(false);
+    }
+  }, [heatActive]);
+
   const saison = SAISONS[selected];
   const accent = darkMode ? saison.accentDark : saison.accent;
-  const tab = saison.tabs[activeTab];
+
+  // Onglets affichés : pendant une canicule, « Canicule » passe en premier dans l'été.
+  let displayTabs = saison.tabs;
+  if (heatActive && saison.key === 'ete') {
+    const idx = saison.tabs.findIndex((t) => /canicule/i.test(t.label));
+    if (idx > 0) {
+      displayTabs = [...saison.tabs];
+      displayTabs.unshift(displayTabs.splice(idx, 1)[0]);
+    }
+  }
+
+  const tab = displayTabs[activeTab] ?? displayTabs[0];
 
   const pickSaison = (k: SaisonKey) => {
     if (k === selected) return;
@@ -407,7 +442,7 @@ export const SaisonCleanzSection = () => {
   };
 
   return (
-    <div className="mb-5">
+    <div className="mb-5" id="saison-cleanz">
       {/* Sélecteur de saison (par défaut : saison en cours) */}
       <div className="flex gap-1.5 mb-2.5 overflow-x-auto scrollbar-hide -mx-1 px-1">
         {ORDER.map((k) => {
@@ -478,7 +513,7 @@ export const SaisonCleanzSection = () => {
 
         {/* Onglets */}
         <div className="flex gap-1.5 px-3 pt-3">
-          {saison.tabs.map((t, i) => (
+          {displayTabs.map((t, i) => (
             <button
               key={i}
               onClick={() => switchTab(i)}

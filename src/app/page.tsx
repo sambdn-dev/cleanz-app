@@ -13,6 +13,7 @@ import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
+import { CaniculeBanner } from '@/components/home/CaniculeBanner';
 import { AstucesSection } from '@/components/home/AstucesSection';
 import { ImpactStrip } from '@/components/home/ImpactStrip';
 import { AppareilsPage } from '@/components/appareils/AppareilsPage';
@@ -40,6 +41,7 @@ import { RECETTES } from '@/data/recettes';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
 import { parseFicheParam } from '@/utils/sprayUtils';
+import { useHeatAlert } from '@/hooks/useHeatAlert';
 import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
 
 // Fonction pour générer un slug à partir du nom
@@ -65,6 +67,7 @@ const findAstuceBySlug = (slug: string): Astuce | undefined => {
 function HomePageContent() {
   const { theme, darkMode } = useTheme();
   const searchParams = useSearchParams();
+  const heat = useHeatAlert();
   const [isLoaded, setIsLoaded] = useState(true);
   const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
   const [activeCategory, setActiveCategory] = useState('Tout');
@@ -148,6 +151,14 @@ function HomePageContent() {
     if (tab !== 'Tout') setShowAllSurfaces(true);
   };
 
+  // Encart canicule → défile vers les conseils saisonniers (déjà calés sur Été/Canicule)
+  const openCanicule = () => {
+    setActiveNavTab('Accueil');
+    requestAnimationFrame(() => {
+      document.getElementById('saison-cleanz')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
   // Handle nav tab change with scroll to top
   const handleNavTabChange = (tab: NavTab) => {
     setActiveNavTab(tab);
@@ -199,6 +210,11 @@ function HomePageContent() {
         <PageTransition key={activeNavTab}>
         {activeNavTab === 'Accueil' && (
           <>
+            {/* Encart canicule : visible UNIQUEMENT en période de forte chaleur (>= seuil). */}
+            {heat.isHeat && !searchQuery && (
+              <CaniculeBanner tempMax={heat.tempMax} city={heat.city} onOpen={openCanicule} />
+            )}
+
             {/* Search Bar intelligente (dropdown : surfaces, recettes, ingrédients)
                 relative z-[70] : indispensable pour que le dropdown passe AU-DESSUS
                 du carrousel/pilules qui suivent (sinon piégé par le contexte
@@ -237,7 +253,7 @@ function HomePageContent() {
             <LeSaviezVousSection />
 
             {/* L'été avec Cleanz - encart saisonnier */}
-            {!searchQuery && <SaisonCleanzSection />}
+            {!searchQuery && <SaisonCleanzSection heatActive={heat.isHeat} />}
 
             {/* Les 8 Essentiels */}
             <EssentielsSection
