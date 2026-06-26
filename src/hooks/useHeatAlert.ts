@@ -5,39 +5,46 @@ import { useEffect, useState } from 'react';
 /**
  * Détection automatique d'une CANICULE via la météo locale.
  *
- * Définition retenue (proche Météo-France, simplifiée) : il fait « canicule »
- * quand la chaleur tient JOUR ET NUIT. On déclenche l'alerte si l'UNE de ces
- * conditions est vraie :
- *   - moyenne des températures en journée (9 h → 20 h) ≥ 30 °C ;
- *   - nuit « tropicale » : la température ne redescend pas sous 23 °C ;
- *   - jour franchement caniculaire : max du jour ≥ 33 °C (filet de sécurité).
+ * Critères (déclenche si l'UN d'eux est vrai) :
+ *   - max du jour ≥ 30 °C            → « plus de 30 °C dans la journée » ;
+ *   - moyenne diurne (9 h-20 h) ≥ 29 °C ;
+ *   - nuit « tropicale » ≥ 23 °C     → la chaleur tient aussi la nuit.
  *
  * Choix techniques :
- * - Géolocalisation par IP avec PLUSIEURS fournisseurs en repli (certains sont
- *   bloqués par des bloqueurs de pub / VPN) → bien plus fiable.
+ * - Géoloc par IP avec PLUSIEURS fournisseurs en repli (certains bloqués par des
+ *   bloqueurs de pub / VPN) → bien plus fiable.
  * - Météo via Open-Meteo : gratuit, sans clé, CORS ouvert, vie privée respectée.
- * - On NE met PAS les échecs en cache (sinon une panne réseau ponctuelle masquerait
- *   l'alerte 3 h durant). Seuls les succès sont mis en cache 3 h.
- * - Override de test : `?canicule=1` force l'alerte, `?canicule=0` la coupe.
- * - Tout est fail-safe : la moindre erreur ⇒ pas d'alerte ⇒ app inchangée.
+ * - On NE met PAS les échecs en cache (sinon une panne ponctuelle masquerait
+ *   l'alerte 3 h). Seuls les succès sont mis en cache 3 h.
+ * - `?canicule=1` force l'alerte, `?canicule=0` la coupe (test).
+ * - `?meteo=debug` : les valeurs détectées sont exposées via `debug` (cf. MeteoDebugCard).
+ * - Fail-safe : toute erreur ⇒ pas d'alerte ⇒ app inchangée.
  */
 
-const HEAT_DAY_AVG = 30; // °C — moyenne diurne
+const HEAT_DAY_MAX = 30; // °C — max du jour
+const HEAT_DAY_AVG = 29; // °C — moyenne diurne
 const HEAT_NIGHT_MIN = 23; // °C — nuit tropicale
-const HEAT_DAY_MAX_HARD = 33; // °C — jour franchement caniculaire (sécurité)
 
-const CACHE_KEY = 'cleanz_heat_v2';
+const CACHE_KEY = 'cleanz_heat_v3';
 const TTL_MS = 3 * 60 * 60 * 1000; // 3 heures
 
-export interface HeatState {
-  /** true tant qu'on n'a pas de réponse (évite tout flash d'encart au chargement). */
-  loading: boolean;
-  /** true si l'une des conditions de canicule est remplie. */
-  isHeat: boolean;
-  /** Température max attendue aujourd'hui (°C, arrondie), pour l'affichage. */
-  tempMax: number | null;
-  /** Ville approximative déduite de l'IP, ou null. */
+export interface HeatDebug {
+  source: string | null; // 'override' | 'cache' | 'ipwho.is' | 'ipapi.co' | 'geojs' | null
   city: string | null;
+  lat: number | null;
+  lon: number | null;
+  dayMax: number | null;
+  dayAvg: number | null;
+  nightMin: number | null;
+  error: string | null;
+}
+
+export interface HeatState {
+  loading: boolean;
+  isHeat: boolean;
+  tempMax: number | null;
+  city: string | null;
+  debug: HeatDebug;
 }
 
 interface CacheShape {
@@ -45,9 +52,17 @@ interface CacheShape {
   isHeat: boolean;
   tempMax: number | null;
   city: string | null;
+  dayMax: number | null;
+  dayAvg: number | null;
+  nightMin: number | null;
 }
 
-const INITIAL: HeatState = { loading: true, isHeat: false, tempMax: null, city: null };
+const EMPTY_DEBUG: HeatDebug = {
+  source: null, city: null, lat: null, lon: null,
+  dayMax: null, dayAvg: null, nightMin: null, error: null,
+};
+
+const INITIAL: HeatState = { loading: true, isHeat: false, tempMax: null, city: null, debug: EMPTY_DEBUG };
 
 const num = (v: unknown): number | null =>
   typeof v === 'number' && Number.isFinite(v) ? v : null;
@@ -62,43 +77,49 @@ interface Geo {
   lat: number;
   lon: number;
   city: string | null;
+  source: string;
 }
 
 /** Plusieurs fournisseurs de géoloc IP testés dans l'ordre jusqu'au premier valide. */
 async function geolocateByIP(): Promise<Geo | null> {
-  const providers: Array<() => Promise<Geo | null>> = [
-    async () => {
-      const g = (await fetchJson('https://ipwho.is/')) as Record<string, unknown>;
-      if (g && g.success !== false) {
-        return { lat: g.latitude as number, lon: g.longitude as number, city: (g.city as string) ?? null };
-      }
-      return null;
+  const providers: Array<{ name: string; run: () => Promise<Geo | null> }> = [
+    {
+      name: 'ipwho.is',
+      run: async () => {
+        const g = (await fetchJson('https://ipwho.is/')) as Record<string, unknown>;
+        if (g && g.success !== false) {
+          return { lat: g.latitude as number, lon: g.longitude as number, city: (g.city as string) ?? null, source: 'ipwho.is' };
+        }
+        return null;
+      },
     },
-    async () => {
-      const g = (await fetchJson('https://ipapi.co/json/')) as Record<string, unknown>;
-      if (g && !g.error) {
-        return { lat: g.latitude as number, lon: g.longitude as number, city: (g.city as string) ?? null };
-      }
-      return null;
+    {
+      name: 'ipapi.co',
+      run: async () => {
+        const g = (await fetchJson('https://ipapi.co/json/')) as Record<string, unknown>;
+        if (g && !g.error) {
+          return { lat: g.latitude as number, lon: g.longitude as number, city: (g.city as string) ?? null, source: 'ipapi.co' };
+        }
+        return null;
+      },
     },
-    async () => {
-      const g = (await fetchJson('https://get.geojs.io/v1/ip/geo.json')) as Record<string, unknown>;
-      if (g) {
-        return {
-          lat: parseFloat(g.latitude as string),
-          lon: parseFloat(g.longitude as string),
-          city: (g.city as string) ?? null,
-        };
-      }
-      return null;
+    {
+      name: 'geojs',
+      run: async () => {
+        const g = (await fetchJson('https://get.geojs.io/v1/ip/geo.json')) as Record<string, unknown>;
+        if (g) {
+          return { lat: parseFloat(g.latitude as string), lon: parseFloat(g.longitude as string), city: (g.city as string) ?? null, source: 'geojs' };
+        }
+        return null;
+      },
     },
   ];
 
   for (const p of providers) {
     try {
-      const r = await p();
+      const r = await p.run();
       if (r && Number.isFinite(r.lat) && Number.isFinite(r.lon)) {
-        return { lat: r.lat, lon: r.lon, city: typeof r.city === 'string' ? r.city : null };
+        return { lat: r.lat, lon: r.lon, city: typeof r.city === 'string' ? r.city : null, source: r.source };
       }
     } catch {
       /* fournisseur suivant */
@@ -110,7 +131,15 @@ async function geolocateByIP(): Promise<Geo | null> {
 interface Reading {
   isHeat: boolean;
   tempMax: number | null;
+  dayMax: number | null;
+  dayAvg: number | null;
+  nightMin: number | null;
 }
+
+const computeIsHeat = (dayMax: number | null, dayAvg: number | null, nightMin: number | null): boolean =>
+  (dayMax != null && dayMax >= HEAT_DAY_MAX) ||
+  (dayAvg != null && dayAvg >= HEAT_DAY_AVG) ||
+  (nightMin != null && nightMin >= HEAT_NIGHT_MIN);
 
 async function readWeather(lat: number, lon: number): Promise<Reading | null> {
   const url =
@@ -130,10 +159,9 @@ async function readWeather(lat: number, lon: number): Promise<Reading | null> {
   const times = w?.hourly?.time ?? [];
   const temps = w?.hourly?.temperature_2m ?? [];
 
-  // Moyenne diurne (aujourd'hui 9 h–20 h) et minimum nocturne (ce soir 21 h → demain 7 h).
   let daySum = 0;
   let dayN = 0;
-  let nightMin = Infinity;
+  let nightMinRaw = Infinity;
   for (let i = 0; i < times.length; i++) {
     const t = times[i];
     const temp = temps[i];
@@ -145,23 +173,18 @@ async function readWeather(lat: number, lon: number): Promise<Reading | null> {
       dayN += 1;
     }
     if ((date === today && hour >= 21) || (date === tomorrow && hour <= 7)) {
-      if (temp < nightMin) nightMin = temp;
+      if (temp < nightMinRaw) nightMinRaw = temp;
     }
   }
 
-  const dayAvg = dayN > 0 ? daySum / dayN : dayMax;
-  const nightLow = Number.isFinite(nightMin) ? nightMin : dailyMin0;
+  const dayAvgRaw = dayN > 0 ? daySum / dayN : dayMax;
+  const dayAvg = dayAvgRaw != null ? Math.round(dayAvgRaw) : null;
+  const nightMin = Number.isFinite(nightMinRaw) ? Math.round(nightMinRaw) : dailyMin0 != null ? Math.round(dailyMin0) : null;
 
-  // Si on n'a vraiment aucune donnée exploitable, on considère l'appel raté.
-  if (dayAvg == null && nightLow == null && dayMax == null) return null;
+  if (dayMax == null && dayAvg == null && nightMin == null) return null;
 
-  const isHeat =
-    (dayAvg != null && dayAvg >= HEAT_DAY_AVG) ||
-    (nightLow != null && nightLow >= HEAT_NIGHT_MIN) ||
-    (dayMax != null && dayMax >= HEAT_DAY_MAX_HARD);
-
-  const tempMax = dayMax != null ? Math.round(dayMax) : dayAvg != null ? Math.round(dayAvg) : null;
-  return { isHeat, tempMax };
+  const tempMax = dayMax != null ? Math.round(dayMax) : dayAvg;
+  return { isHeat: computeIsHeat(dayMax, dayAvg, nightMin), tempMax, dayMax: dayMax != null ? Math.round(dayMax) : null, dayAvg, nightMin };
 }
 
 export function useHeatAlert(): HeatState {
@@ -177,43 +200,49 @@ export function useHeatAlert(): HeatState {
     try {
       const force = new URLSearchParams(window.location.search).get('canicule');
       if (force === '1') {
-        commit({ loading: false, isHeat: true, tempMax: 34, city: null });
+        commit({ loading: false, isHeat: true, tempMax: 34, city: null, debug: { ...EMPTY_DEBUG, source: 'override', dayMax: 34 } });
         return;
       }
       if (force === '0') {
-        commit({ loading: false, isHeat: false, tempMax: null, city: null });
+        commit({ loading: false, isHeat: false, tempMax: null, city: null, debug: { ...EMPTY_DEBUG, source: 'override' } });
         return;
       }
     } catch {
       /* pas de window → ignoré */
     }
 
-    // 1) Cache encore valide ? → réponse immédiate.
+    // 1) Cache encore valide ?
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (raw) {
         const c = JSON.parse(raw) as CacheShape;
         if (c && typeof c.ts === 'number' && Date.now() - c.ts < TTL_MS) {
-          commit({ loading: false, isHeat: !!c.isHeat, tempMax: c.tempMax ?? null, city: c.city ?? null });
+          commit({
+            loading: false,
+            isHeat: !!c.isHeat,
+            tempMax: c.tempMax ?? null,
+            city: c.city ?? null,
+            debug: { ...EMPTY_DEBUG, source: 'cache', city: c.city ?? null, dayMax: c.dayMax ?? null, dayAvg: c.dayAvg ?? null, nightMin: c.nightMin ?? null },
+          });
           return;
         }
       }
     } catch {
-      /* cache illisible → on refait l'appel */
+      /* cache illisible */
     }
 
     (async () => {
       try {
         const geo = await geolocateByIP();
         if (!geo) {
-          commit({ loading: false, isHeat: false, tempMax: null, city: null });
-          return; // échec géoloc → PAS de cache (on retentera à la prochaine ouverture)
+          commit({ loading: false, isHeat: false, tempMax: null, city: null, debug: { ...EMPTY_DEBUG, error: 'géoloc indisponible' } });
+          return; // pas de cache → on retentera
         }
 
         const reading = await readWeather(geo.lat, geo.lon);
         if (!reading) {
-          commit({ loading: false, isHeat: false, tempMax: null, city: geo.city });
-          return; // échec météo → PAS de cache
+          commit({ loading: false, isHeat: false, tempMax: null, city: geo.city, debug: { ...EMPTY_DEBUG, source: geo.source, city: geo.city, lat: geo.lat, lon: geo.lon, error: 'météo indisponible' } });
+          return; // pas de cache
         }
 
         const next: HeatState = {
@@ -221,6 +250,7 @@ export function useHeatAlert(): HeatState {
           isHeat: reading.isHeat,
           tempMax: reading.tempMax,
           city: geo.city,
+          debug: { source: geo.source, city: geo.city, lat: geo.lat, lon: geo.lon, dayMax: reading.dayMax, dayAvg: reading.dayAvg, nightMin: reading.nightMin, error: null },
         };
 
         try {
@@ -229,15 +259,18 @@ export function useHeatAlert(): HeatState {
             isHeat: next.isHeat,
             tempMax: next.tempMax,
             city: next.city,
+            dayMax: reading.dayMax,
+            dayAvg: reading.dayAvg,
+            nightMin: reading.nightMin,
           };
           localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
         } catch {
-          /* quota / mode privé → tant pis pour le cache */
+          /* quota / privé */
         }
 
         commit(next);
-      } catch {
-        commit({ loading: false, isHeat: false, tempMax: null, city: null });
+      } catch (e) {
+        commit({ loading: false, isHeat: false, tempMax: null, city: null, debug: { ...EMPTY_DEBUG, error: e instanceof Error ? e.message : 'erreur' } });
       }
     })();
 

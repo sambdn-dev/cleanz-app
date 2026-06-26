@@ -14,6 +14,7 @@ import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
+import { MeteoDebugCard } from '@/components/home/MeteoDebugCard';
 import { AstucesSection } from '@/components/home/AstucesSection';
 import { ImpactStrip } from '@/components/home/ImpactStrip';
 import { AppareilsPage } from '@/components/appareils/AppareilsPage';
@@ -210,6 +211,9 @@ function HomePageContent() {
         <PageTransition key={activeNavTab}>
         {activeNavTab === 'Accueil' && (
           <>
+            {/* Diagnostic météo (uniquement avec ?meteo=debug) */}
+            {searchParams.get('meteo') === 'debug' && <MeteoDebugCard heat={heat} />}
+
             {/* Encart canicule : visible UNIQUEMENT en période de forte chaleur (>= seuil). */}
             {heat.isHeat && !searchQuery && (
               <CaniculeBanner tempMax={heat.tempMax} city={heat.city} onOpen={openCanicule} />
