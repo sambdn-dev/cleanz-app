@@ -182,25 +182,35 @@ const ToitFraisSchema = () => (
       );
     })}
 
-    {/* Petit jet d'eau : un arc qui part de la gauche et arrose les tuiles */}
-    {/* Buse / point de départ du jet */}
-    <circle cx="58" cy="64" r="2" fill="currentColor" opacity="0.7" />
-    {/* Filet d'eau continu en arc */}
-    <path d="M 60 63 Q 118 26 158 60" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeDasharray="7 8" opacity="0.7">
-      <animate attributeName="stroke-dashoffset" from="30" to="0" dur="0.7s" repeatCount="indefinite" />
-    </path>
-    {/* Gouttes qui suivent le jet et éclaboussent sur les tuiles */}
-    {[0, 0.35, 0.7].map((delay, i) => (
-      <path key={`jet${i}`} d="M 0 -3.6 Q 2.1 0 0 2.6 Q -2.1 0 0 -3.6 Z" fill="currentColor" opacity="0.9">
-        <animateMotion dur="1.1s" begin={`${delay}s`} repeatCount="indefinite" path="M 60 63 Q 118 26 158 60" />
-        <animate attributeName="opacity" values="0;0.95;0.95;0" keyTimes="0;0.12;0.82;1" dur="1.1s" begin={`${delay}s`} repeatCount="indefinite" />
-      </path>
+    {/* Petit jet d'eau BLEU, diffus en fines gouttelettes, qui arrose les tuiles */}
+    {/* Buse */}
+    <circle cx="56" cy="64" r="1.8" fill="#0EA5E9" opacity="0.85" />
+    {/* Éventail de fines gouttelettes : chaque goutte suit un arc légèrement différent */}
+    {[
+      { lx: 118, ly: 79, peak: 40, r: 1.3, dur: 1.25, delay: 0.0 },
+      { lx: 130, ly: 74, peak: 34, r: 1.0, dur: 1.35, delay: 0.18 },
+      { lx: 140, ly: 70, peak: 30, r: 1.35, dur: 1.2, delay: 0.45 },
+      { lx: 150, ly: 66, peak: 28, r: 1.05, dur: 1.4, delay: 0.62 },
+      { lx: 159, ly: 63, peak: 29, r: 0.85, dur: 1.28, delay: 0.3 },
+      { lx: 168, ly: 60, peak: 32, r: 1.2, dur: 1.32, delay: 0.78 },
+      { lx: 146, ly: 67, peak: 25, r: 0.8, dur: 1.45, delay: 0.95 },
+      { lx: 134, ly: 72, peak: 33, r: 0.95, dur: 1.22, delay: 0.55 },
+    ].map((d, i) => (
+      <circle key={`spray${i}`} r={d.r} fill="#38BDF8">
+        <animateMotion dur={`${d.dur}s`} begin={`${d.delay}s`} repeatCount="indefinite" path={`M 56 64 Q ${Math.round((56 + d.lx) / 2)} ${d.peak} ${d.lx} ${d.ly}`} />
+        <animate attributeName="opacity" values="0;0.95;0.8;0" keyTimes="0;0.18;0.8;1" dur={`${d.dur}s`} begin={`${d.delay}s`} repeatCount="indefinite" />
+      </circle>
     ))}
-    {/* Petite éclaboussure au point de chute */}
-    {[-1, 1].map((dir, i) => (
-      <path key={`splash${i}`} d={`M 158 60 q ${dir * 5} -4 ${dir * 8} -1`} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity="0.5">
-        <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.4;1" dur="1.1s" begin={`${0.1 + i * 0.05}s`} repeatCount="indefinite" />
-      </path>
+    {/* Voile de micro-gouttelettes qui scintille au point de chute (effet brume) */}
+    {[
+      { x: 150, y: 65, delay: 0.2 },
+      { x: 160, y: 62, delay: 0.5 },
+      { x: 142, y: 69, delay: 0.8 },
+      { x: 168, y: 60, delay: 1.0 },
+    ].map((m, i) => (
+      <circle key={`mist${i}`} cx={m.x} cy={m.y} r="0.7" fill="#7DD3FC">
+        <animate attributeName="opacity" values="0;0.7;0" keyTimes="0;0.5;1" dur="1.3s" begin={`${m.delay}s`} repeatCount="indefinite" />
+      </circle>
     ))}
 
     {/* Vapeur ondulée qui s'élève des tuiles mouillées */}
