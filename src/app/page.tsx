@@ -14,6 +14,7 @@ import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
+import { CaniculeModal } from '@/components/home/CaniculeModal';
 import { MeteoDebugCard } from '@/components/home/MeteoDebugCard';
 import { AstucesSection } from '@/components/home/AstucesSection';
 import { ImpactStrip } from '@/components/home/ImpactStrip';
@@ -76,6 +77,29 @@ function HomePageContent() {
   const [showAllSurfaces, setShowAllSurfaces] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [accountPage, setAccountPage] = useState<null | 'compte' | 'courses' | 'appareils'>(null);
+  const [caniculeModalOpen, setCaniculeModalOpen] = useState(false);
+
+  // Ouverture auto de la grande alerte canicule : une fois par jour tant qu'il fait chaud.
+  useEffect(() => {
+    if (!heat.isHeat) return;
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      if (localStorage.getItem('cleanz_canicule_seen') !== today) {
+        setCaniculeModalOpen(true);
+      }
+    } catch {
+      setCaniculeModalOpen(true);
+    }
+  }, [heat.isHeat]);
+
+  const closeCaniculeModal = () => {
+    setCaniculeModalOpen(false);
+    try {
+      localStorage.setItem('cleanz_canicule_seen', new Date().toISOString().slice(0, 10));
+    } catch {
+      /* mode privé : tant pis, elle pourra se rouvrir */
+    }
+  };
 
   // États pour les modals
   const [selectedSurface, setSelectedSurface] = useState<Surface | null>(null);
@@ -216,7 +240,7 @@ function HomePageContent() {
 
             {/* Encart canicule : visible UNIQUEMENT en période de forte chaleur (>= seuil). */}
             {heat.isHeat && !searchQuery && (
-              <CaniculeBanner tempMax={heat.tempMax} city={heat.city} onOpen={openCanicule} />
+              <CaniculeBanner tempMax={heat.tempMax} city={heat.city} onOpen={() => setCaniculeModalOpen(true)} />
             )}
 
             {/* Search Bar intelligente (dropdown : surfaces, recettes, ingrédients)
@@ -306,6 +330,17 @@ function HomePageContent() {
 
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeNavTab} onTabChange={handleNavTabChange} />
+
+      {/* Grande alerte canicule (auto pendant les fortes chaleurs + via l'encart) */}
+      {heat.isHeat && caniculeModalOpen && (
+        <CaniculeModal
+          tempMax={heat.tempMax}
+          nightMin={heat.nightMin ?? null}
+          city={heat.city}
+          onClose={closeCaniculeModal}
+          onSeeAll={() => { closeCaniculeModal(); openCanicule(); }}
+        />
+      )}
 
       {/* PWA Install Prompt */}
       <PWAInstallPrompt />

@@ -43,6 +43,8 @@ export interface HeatState {
   loading: boolean;
   isHeat: boolean;
   tempMax: number | null;
+  /** Minimum nocturne attendu (°C), pour signaler les nuits tropicales. */
+  nightMin?: number | null;
   city: string | null;
   debug: HeatDebug;
 }
@@ -200,7 +202,7 @@ export function useHeatAlert(): HeatState {
     try {
       const force = new URLSearchParams(window.location.search).get('canicule');
       if (force === '1') {
-        commit({ loading: false, isHeat: true, tempMax: 34, city: null, debug: { ...EMPTY_DEBUG, source: 'override', dayMax: 34 } });
+        commit({ loading: false, isHeat: true, tempMax: 34, nightMin: 24, city: null, debug: { ...EMPTY_DEBUG, source: 'override', dayMax: 34, nightMin: 24 } });
         return;
       }
       if (force === '0') {
@@ -221,6 +223,7 @@ export function useHeatAlert(): HeatState {
             loading: false,
             isHeat: !!c.isHeat,
             tempMax: c.tempMax ?? null,
+            nightMin: c.nightMin ?? null,
             city: c.city ?? null,
             debug: { ...EMPTY_DEBUG, source: 'cache', city: c.city ?? null, dayMax: c.dayMax ?? null, dayAvg: c.dayAvg ?? null, nightMin: c.nightMin ?? null },
           });
@@ -249,6 +252,7 @@ export function useHeatAlert(): HeatState {
           loading: false,
           isHeat: reading.isHeat,
           tempMax: reading.tempMax,
+          nightMin: reading.nightMin,
           city: geo.city,
           debug: { source: geo.source, city: geo.city, lat: geo.lat, lon: geo.lon, dayMax: reading.dayMax, dayAvg: reading.dayAvg, nightMin: reading.nightMin, error: null },
         };
