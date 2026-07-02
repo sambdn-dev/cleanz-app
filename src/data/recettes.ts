@@ -4094,6 +4094,182 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['Toujours arrêter la pompe avant de manipuler la vanne', 'Ne jamais tourner la vanne 6 voies pompe allumée', 'Cartouche : remplacement 1x/an même bien entretenue'],
     astuces: ['Pression du manomètre +0,3 bar au-dessus de la normale = filtre encrassé', 'Le contre-lavage consomme de l\'eau : complétez le niveau après', 'Sable : remplacement tous les 5 ans (ou verre filtrant, plus durable)'],
     conservation: 'Cartouche : rinçage 2x/mois en saison'
+  },
+  // === NUISIBLES + DETAILING AUTO (07/2026) ===
+  {
+    id: 145,
+    nom: 'Nourrissant Cuir Auto',
+    emoji: '🪑',
+    categorie: 'Voiture',
+    badge: 'Cuir souple',
+    gradient: 'linear-gradient(135deg, #A1887F 0%, #5D4037 100%)',
+    temps: '30min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Savon de Marseille', quantite: '1 c.à.c (nettoyage)', emoji: '🧼' },
+      { nom: 'Eau tiède', quantite: '250ml', emoji: '💧' },
+      { nom: 'Huile de lin', quantite: '2 c.à.s', emoji: '🌾' },
+      { nom: 'Vinaigre blanc', quantite: '1 c.à.s', emoji: '🧴' }
+    ],
+    materiel: ['2 chiffons doux (coton ou microfibre)', 'Petit bol'],
+    instructions: [
+      'Aspirez et dépoussiérez le cuir (coutures comprises)',
+      'Nettoyez au chiffon à peine humide + savon de Marseille, par petites zones',
+      'Séchez immédiatement au chiffon sec',
+      'Préparez le lait nourrissant : huile de lin + vinaigre blanc (2:1), secouez pour émulsionner',
+      'Appliquez en couche TRÈS fine au chiffon doux, mouvements circulaires',
+      'Laissez pénétrer 15 min, puis lustrez au chiffon propre pour retirer tout excédent'
+    ],
+    surfaces: ['Sièges auto cuir', 'Cuir', 'Selle moto', 'Volant cuir (sans excès)'],
+    precautions: ['TEST obligatoire sur une zone cachée', 'Pas sur alcantara/suédine ni cuir perforé (l\'huile bouche les perforations)', 'Volant : quasi à sec, un cuir glissant est dangereux', 'Excédent non lustré = cuir collant qui attire la poussière'],
+    astuces: ['Un cuir nourri 2x/an ne craquelle pas', 'La chaleur de l\'été dessèche le cuir : nourrissez au printemps', 'Sièges clairs : nettoyage plus fréquent, nutrition identique'],
+    conservation: 'Lait huile/vinaigre : 1 mois, agiter avant usage'
+  },
+  {
+    id: 146,
+    nom: 'Rénovateur Plastiques Extérieurs',
+    emoji: '🖤',
+    categorie: 'Voiture',
+    badge: 'Anti-grisaille',
+    gradient: 'linear-gradient(135deg, #616161 0%, #212121 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Huile de lin', quantite: '1 c.à.s', emoji: '🌾' },
+      { nom: 'Eau savonneuse (préparation)', quantite: '500ml', emoji: '🫧' }
+    ],
+    materiel: ['Chiffon microfibre', 'Éponge'],
+    instructions: [
+      'Lavez d\'abord les plastiques (pare-chocs, baguettes, rétroviseurs) à l\'eau savonneuse',
+      'Séchez complètement — l\'huile ne tient pas sur support humide',
+      'Versez quelques gouttes d\'huile de lin sur le chiffon (jamais directement sur le plastique)',
+      'Massez le plastique grisé : la couleur noire revient instantanément',
+      'Essuyez l\'excédent au chiffon sec pour un fini satiné non gras'
+    ],
+    surfaces: ['Plastiques extérieurs', 'Pare-chocs', 'Baguettes', 'Coques de rétroviseurs', 'Pneus (flancs)'],
+    precautions: ['Ne pas appliquer au soleil ni sur surface chaude', 'Éviter le pare-brise et les zones de contact (poignées)', 'Essuyer l\'excédent : sinon la poussière colle'],
+    astuces: ['Tient 4-8 semaines selon la météo', 'Sur les flancs de pneus : même geste (cf. Brillance Pneus)', 'Bien moins cher que les rénovateurs du commerce, sans silicone'],
+    conservation: 'Huile de lin : 12 mois à l\'abri de la lumière'
+  },
+  {
+    id: 147,
+    nom: 'Detailing des Interstices',
+    emoji: '🖌️',
+    categorie: 'Voiture',
+    badge: 'Niveau pro',
+    gradient: 'linear-gradient(135deg, #7986CB 0%, #3949AB 100%)',
+    temps: '30min',
+    difficulte: 'Moyen',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '250ml', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '1/2 c.à.c', emoji: '⚫' }
+    ],
+    materiel: ['Pinceaux de detailing à poils souples (plusieurs tailles)', 'Coton-tiges', 'Microfibre', 'Brosse à dents souple'],
+    instructions: [
+      'Préparez la solution douce : eau tiède + savon noir',
+      'Grilles d\'aération : pinceau souple SEC d\'abord (la poussière sèche s\'envole), puis à peine humide',
+      'Contours de boutons, commandes au volant : pinceau fin trempé puis essoré',
+      'Rainures du levier de vitesse et porte-gobelets : coton-tige imbibé',
+      'Rails de sièges et charnières de portes : brosse à dents + microfibre',
+      'Coutures de sellerie : pinceau sec uniquement',
+      'Finissez chaque zone à la microfibre sèche'
+    ],
+    surfaces: ['Grilles d\'aération', 'Boutons & commandes', 'Console centrale', 'Rails de sièges', 'Contours de compteurs'],
+    precautions: ['Pinceau à peine humide près de l\'électronique', 'Jamais de pinceau dur (micro-rayures sur plastiques laqués)', 'Écrans : microfibre sèche uniquement'],
+    astuces: ['Le pinceau de detailing est L\'outil qui change tout : 3 tailles suffisent (large, moyen, fin)', 'Un coup de pinceau sec chaque semaine = plus jamais de gros nettoyage', 'Marquez vos pinceaux intérieur/jantes pour ne jamais les mélanger'],
+    conservation: 'Solution : à préparer au moment'
+  },
+  {
+    id: 148,
+    nom: 'Barrière Anti-Fourmis',
+    emoji: '🐜',
+    categorie: 'Entretien',
+    badge: 'Sans insecticide',
+    gradient: 'linear-gradient(135deg, #8D6E63 0%, #4E342E 100%)',
+    temps: '10min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '200ml', emoji: '🧴' },
+      { nom: 'Jus de citron', quantite: '1/2 citron', emoji: '🍋' },
+      { nom: 'Marc de café (barrière)', quantite: '2 c.à.s', emoji: '☕' },
+      { nom: 'Craie (barrière)', quantite: '1 bâton', emoji: '⚪' }
+    ],
+    materiel: ['Vaporisateur', 'Chiffon'],
+    instructions: [
+      'Repérez le chemin des fourmis et leur point d\'entrée (plinthe, fenêtre, fissure)',
+      'Vaporisez vinaigre + citron sur TOUT le trajet : cela efface les phéromones qui guident la colonie',
+      'Essuyez, puis re-vaporisez au point d\'entrée sans essuyer',
+      'Tracez une barrière : ligne de craie épaisse OU cordon de marc de café au point d\'entrée',
+      'Renouvelez 3 jours de suite : la piste chimique disparaît et la colonie change d\'itinéraire',
+      'Supprimez la cause : miettes, sucre ouvert, fruits mûrs à l\'air libre'
+    ],
+    surfaces: ['Nuisibles', 'Plinthes', 'Rebords de fenêtres', 'Plans de travail', 'Terrasse'],
+    precautions: ['Vinaigre : éviter marbre et pierre naturelle', 'Ne tue pas les fourmis : les détourne (c\'est le but 😌)', 'Si nid DANS la maison : traiter le nid, pas le trajet'],
+    astuces: ['Les fourmis suivent des pistes de phéromones : sans piste, pas de colonne', 'La cannelle en poudre marche aussi en barrière', 'Dehors, ne les combattez pas : elles aèrent le sol du jardin'],
+    conservation: 'Spray : 2 semaines'
+  },
+  {
+    id: 149,
+    nom: 'Piège à Moucherons & Mouches',
+    emoji: '🪰',
+    categorie: 'Entretien',
+    badge: 'Redoutable',
+    gradient: 'linear-gradient(135deg, #AED581 0%, #558B2F 100%)',
+    temps: '5min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre de cidre', quantite: '100ml', emoji: '🍎' },
+      { nom: 'Liquide vaisselle', quantite: '2 gouttes', emoji: '🫧' },
+      { nom: 'Film alimentaire', quantite: '1 carré', emoji: '🎞️' }
+    ],
+    materiel: ['Petit bol ou verre', 'Cure-dent'],
+    instructions: [
+      'Versez le vinaigre de cidre dans le bol (l\'odeur fruitée les attire irrésistiblement)',
+      'Ajoutez 2 gouttes de liquide vaisselle : il casse la tension de l\'eau, les moucherons coulent au lieu de flotter',
+      'Tendez le film alimentaire sur le bol',
+      'Percez 5-6 petits trous au cure-dent (ils entrent, ne ressortent pas)',
+      'Placez près des fruits, de la poubelle ou des plantes concernées',
+      'Videz et renouvelez tous les 3 jours'
+    ],
+    surfaces: ['Nuisibles', 'Cuisine', 'Corbeille de fruits', 'Plantes d\'intérieur'],
+    precautions: ['Hors de portée des enfants et animaux', 'Moucherons de terreau : laissez aussi sécher la terre entre deux arrosages', 'Ne remplace pas la suppression de la cause (fruits trop mûrs, poubelle)'],
+    astuces: ['Le vinaigre de cidre attire 10x plus que le vinaigre blanc', 'Un fond de vin rouge fonctionne aussi très bien', 'Moucherons de plantes : une allumette plantée tête en bas dans le terreau (le soufre les repousse)'],
+    conservation: 'Piège actif 3 jours'
+  },
+  {
+    id: 150,
+    nom: 'Anti-Mites Placards & Vêtements',
+    emoji: '🦋',
+    categorie: 'Entretien',
+    badge: 'Protection textile',
+    gradient: 'linear-gradient(135deg, #B39DDB 0%, #673AB7 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Lavande séchée', quantite: '4 c.à.s', emoji: '💜' },
+      { nom: 'Clous de girofle', quantite: '1 c.à.s', emoji: '🟤' },
+      { nom: 'Bois de cèdre (blocs ou copeaux)', quantite: '2-3', emoji: '🪵' },
+      { nom: 'HE lavande (recharge)', quantite: '5 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Sachets en tissu ou vieux collants', 'Ficelle'],
+    instructions: [
+      'Videz le placard et aspirez les angles et rainures (les larves s\'y cachent)',
+      'Lavez à 60° (ou congelez 72h) les lainages suspects : ce sont les LARVES qui mangent la laine',
+      'Confectionnez les sachets : lavande + clous de girofle dans un carré de tissu noué',
+      'Placez un sachet par étagère + les blocs de cèdre entre les pulls',
+      'Rechargez les sachets tous les 2 mois (5 gouttes d\'HE de lavande) et poncez légèrement le cèdre',
+      'Rangez les lainages d\'été PROPRES : les mites adorent la laine portée (sueur)'
+    ],
+    surfaces: ['Nuisibles', 'Placards', 'Penderies', 'Tiroirs', 'Lainages'],
+    precautions: ['La lavande repousse mais ne tue pas : traiter d\'abord toute infestation active', 'HE de lavande : pas au contact direct des textiles délicats', 'Housses hermétiques pour les pièces précieuses'],
+    astuces: ['Mites alimentaires (cuisine) : mêmes sachets + bocaux hermétiques pour farines et céréales', 'Un pull jamais porté mais rangé sale = buffet à larves', 'Le cèdre perd son parfum : un léger ponçage le réactive'],
+    conservation: 'Sachets : recharge tous les 2 mois'
   }
 ];
 
@@ -4152,12 +4328,12 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   39: [44],                  // Jantes -> Nettoyant Jantes
   40: [114, 142],            // Phares -> Rénovateur Phares, Anti-Insectes
   41: [3, 24, 25, 26, 27],   // Vitres auto -> Anti-traces, Lave-Glaces, Dégivrant
-  42: [47, 64, 118],         // Sièges auto -> Tissu, Cuir, Selle & Cuir
-  43: [137],                 // Plastiques voiture -> Plastiques Intérieurs Auto
-  44: [115],                 // Pneus -> Brillance Pneus
+  42: [47, 145, 64, 118],    // Sièges auto -> Tissu, Nourrissant Cuir, Détachant Cuir, Selle & Cuir
+  43: [137, 147, 146],       // Plastiques -> Intérieurs, Detailing Interstices, Rénovateur Extérieurs
+  44: [115, 146],            // Pneus -> Brillance Pneus, Rénovateur Plastiques Ext.
   45: [116],                 // Ceintures -> Nettoyant Ceintures
   46: [117],                 // Casque moto -> Nettoyant Casque
-  47: [118],                 // Selle moto -> Selle & Cuir
+  47: [118, 145],            // Selle moto -> Selle & Cuir, Nourrissant Cuir
   48: [46, 122, 66, 80, 77, 69], // Terrasse -> Anti-Mousses x2, Raviveur Bois, Désherbage joints, Anti-Moustiques, Dégivrant
   49: [119, 2],              // Barbecue -> Dégraissant Grille, Dégraissant Puissant
   50: [120, 143, 144],       // Piscine -> Équilibrage Eau, Ligne d'Eau, Filtre
@@ -4181,7 +4357,7 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   72: [99, 37],              // Planches à découper -> Eau Bouillante, Vaisselle Impeccable
   73: [62, 17, 5, 56, 66, 103], // Meubles bois -> Soin, Anti-Poussière x2, Polish, Raviveur, Parquet
   74: [103, 66, 56, 62],     // Parquet -> Parquet Bois Naturel, Raviveur, Polish, Soin
-  75: [64, 59],              // Cuir -> Détachant Cuir, Terre de Sommières
+  75: [64, 145, 59],         // Cuir -> Détachant Cuir, Nourrissant Cuir, Terre de Sommières
   76: [55, 127],             // Argenterie -> Polish Argenterie, Bijoux Éclat
   77: [140, 55],             // Cuivre & Laiton -> Pâte Cuivre & Laiton, Polish
   78: [128],                 // Mobilier de jardin -> Nettoyant Mobilier
@@ -4195,4 +4371,5 @@ export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
   87: [83],                  // Fer à repasser -> Semelle Fer
   88: [85, 105, 8, 28, 13],  // Baignoire -> Pierre Blanche, Crème Douce, Anti-Calcaire, Parois, Déboucheur
   90: [139, 90],             // Murs -> Murs Peints & Traces, Décoller Papier Peint
+  91: [148, 149, 150, 70, 74, 77], // Nuisibles -> Fourmis, Moucherons, Mites, Terre de diatomées, Souris, Moustiques
 };

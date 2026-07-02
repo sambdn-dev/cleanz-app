@@ -17,6 +17,25 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 21,
+    date: '2026-07-02',
+    emoji: '🚗',
+    title: 'Detailing Auto',
+    description: 'Lave ta voiture comme un pro : les bons gestes au nettoyeur haute pression (distance, zones interdites), le canon à mousse, la méthode des 2 seaux et le nettoyage des interstices au pinceau. + 3 nouvelles recettes auto (cuir, plastiques, interstices).',
+    steps: [
+      'Sur l\'accueil, descends jusqu\'à « Detailing Auto »',
+      'Trois onglets : Haute pression, Mousse, Interstices',
+      'Les recettes auto sont aussi dans les fiches surfaces Véhicule',
+    ],
+  },
+  {
+    id: 20,
+    date: '2026-07-02',
+    emoji: '🐜',
+    title: 'SOS Nuisibles',
+    description: 'Fourmis, moucherons, mites, souris, moustiques : une nouvelle carte « Nuisibles » regroupe 6 solutions naturelles, sans insecticide chimique. Cherche « fourmis » ou « moucherons » dans la recherche !',
+  },
+  {
     id: 19,
     date: '2026-07-02',
     emoji: '🏊',

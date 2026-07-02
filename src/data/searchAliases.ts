@@ -103,4 +103,5 @@ export const SURFACE_ALIASES: Record<number, string[]> = {
   87: ['fer à repasser', 'fer a repasser', 'iron', 'semelle'],
   88: ['baignoire', 'bath', 'bathtub', 'tub'],
   90: ['murs', 'mur', 'papier peint', 'walls', 'wallpaper'],
+  91: ['nuisibles', 'fourmis', 'fourmi', 'cafards', 'cafard', 'mites', 'mite', 'moucherons', 'moucheron', 'mouches', 'mouche', 'souris', 'moustiques', 'moustique', 'insectes', 'insecte', 'ants', 'moths', 'flies', 'mice', 'pests'],
 };

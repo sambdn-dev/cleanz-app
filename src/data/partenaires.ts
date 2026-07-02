@@ -17,6 +17,7 @@ export type CategorieProduit =
   | 'aspiration'
   | 'injecteur-extracteur'
   | 'piscine-spa'
+  | 'auto'
   | 'produits';
 
 export interface ProduitPartenaire {
@@ -107,6 +108,56 @@ export const PRODUITS_PARTENAIRES: ProduitPartenaire[] = [
     categorie: 'produits',
     prixIndicatif: '≈ 6 €',
     rechercheAmazon: 'The Pink Stuff pâte nettoyante',
+  },
+  /* ---------------- Detailing Auto ---------------- */
+  {
+    id: 'karcher-k5',
+    nom: 'Nettoyeur haute pression K 5',
+    marque: 'Kärcher',
+    emoji: '💦',
+    description: 'La référence du lavage auto à domicile — puissance réglable, idéal carrosserie.',
+    categorie: 'auto',
+    prixIndicatif: '≈ 330 €',
+    rechercheAmazon: 'Kärcher K5 nettoyeur haute pression',
+  },
+  {
+    id: 'karcher-foam',
+    nom: 'Canon à mousse FJ 10 C',
+    marque: 'Kärcher',
+    emoji: '🫧',
+    description: 'La neige de mousse qui décolle la saleté avant même de frotter.',
+    categorie: 'auto',
+    prixIndicatif: '≈ 30 €',
+    rechercheAmazon: 'Kärcher FJ 10 C canon à mousse',
+  },
+  {
+    id: 'karcher-shampoo',
+    nom: 'Shampoing auto 3-en-1',
+    marque: 'Kärcher',
+    emoji: '🚙',
+    description: 'Le fameux produit bleu : nettoie, protège et fait briller en un passage.',
+    categorie: 'auto',
+    prixIndicatif: '≈ 12 €',
+    rechercheAmazon: 'Kärcher shampoing auto 3 en 1 RM 610',
+  },
+  {
+    id: 'cleanz-car-brushes',
+    nom: 'Kit pinceaux detailing',
+    marque: 'Cleanz Car',
+    emoji: '🖌️',
+    description: '3 pinceaux à poils souples (large, moyen, fin) pour grilles, boutons et interstices.',
+    categorie: 'auto',
+    prixIndicatif: 'bientôt',
+  },
+  {
+    id: 'gant-lavage',
+    nom: 'Gant de lavage microfibre',
+    marque: 'Accessoire',
+    emoji: '🧤',
+    description: 'Indispensable de la méthode des 2 seaux — zéro micro-rayure.',
+    categorie: 'auto',
+    prixIndicatif: '≈ 10 €',
+    rechercheAmazon: 'gant lavage auto microfibre',
   },
   /* ---------------- Piscine & Spa ---------------- */
   {

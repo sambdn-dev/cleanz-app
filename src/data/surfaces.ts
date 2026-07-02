@@ -101,4 +101,6 @@ export const SURFACES: Surface[] = [
   { id: 87, nom: 'Fer à repasser', emoji: '👔', piece: 'Buanderie', categorie: 'Maison', frequence: '1x/mois' },
   { id: 88, nom: 'Baignoire', emoji: '🛁', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
   { id: 90, nom: 'Murs & Papier peint', emoji: '🏠', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin', vapeurOk: true, vapeurRecetteId: 90 },
+  // Nuisibles (fourmis, mites, moucherons, souris, moustiques…)
+  { id: 91, nom: 'Nuisibles', emoji: '🐜', piece: 'Toute la maison', categorie: 'Maison', frequence: 'Selon besoin' },
 ];

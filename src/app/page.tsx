@@ -14,6 +14,7 @@ import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
 import { PiscineSpaSection } from '@/components/home/PiscineSpaSection';
+import { DetailingAutoSection } from '@/components/home/DetailingAutoSection';
 import { CreateursSection } from '@/components/home/CreateursSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
 import { CaniculeModal } from '@/components/home/CaniculeModal';
@@ -287,6 +288,9 @@ function HomePageContent() {
 
             {/* Piscine & Spa — conseils + produits partenaires */}
             {!searchQuery && <PiscineSpaSection />}
+
+            {/* Detailing Auto — conseils Kärcher + équipement */}
+            {!searchQuery && <DetailingAutoSection />}
 
             {/* Les stars du clean — vitrine créateurs */}
             {!searchQuery && <CreateursSection />}
