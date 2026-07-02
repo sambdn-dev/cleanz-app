@@ -330,6 +330,7 @@ function HomePageContent() {
             onRecipeClick={setSelectedRecipe}
             onSprayClick={setSelectedSpray}
             onIngredientClick={setSelectedIngredientComplet}
+            onExploreRecipes={() => handleNavTabChange('Recettes')}
           />
         )}
         </PageTransition>

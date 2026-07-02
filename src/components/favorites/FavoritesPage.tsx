@@ -20,9 +20,11 @@ interface FavoritesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
   onSprayClick: (spray: Spray) => void;
   onIngredientClick: (ingredient: IngredientComplet) => void;
+  /** Navigation vers l'onglet Recettes (CTA de l'état vide) */
+  onExploreRecipes?: () => void;
 }
 
-export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick }: FavoritesPageProps) => {
+export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, onExploreRecipes }: FavoritesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { favorites, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const ingFav = useIngredientFavoritesContext();
@@ -182,48 +184,85 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick }
 
       {/* Header Favoris */}
       <div className="mb-5">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-1">
           <Heart className="w-6 h-6 text-pink-500 fill-pink-500" />
           <h1 className="font-display text-2xl font-extrabold" style={{ color: theme.textPrimary }}>
             Mes Favoris
           </h1>
         </div>
-        <p className="text-sm" style={{ color: theme.textMuted }}>
-          {favoriteRecipes.length + favoriteIngredients.length > 0
-            ? `${favoriteRecipes.length} recette${favoriteRecipes.length > 1 ? 's' : ''} · ${favoriteIngredients.length} ingrédient${favoriteIngredients.length > 1 ? 's' : ''}`
-            : 'Aucun favori pour le moment'
-          }
-        </p>
+        {favoriteRecipes.length + favoriteIngredients.length > 0 && (
+          <p className="text-sm" style={{ color: theme.textMuted }}>
+            {favoriteRecipes.length} recette{favoriteRecipes.length > 1 ? 's' : ''} · {favoriteIngredients.length} ingrédient{favoriteIngredients.length > 1 ? 's' : ''}
+          </p>
+        )}
       </div>
 
       {/* État vide global */}
       {favoriteRecipes.length === 0 && favoriteIngredients.length === 0 ? (
-        <div className="text-center py-16">
-          <div
-            className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
-            style={{
-              background: darkMode
-                ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)'
-                : 'linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)'
-            }}
-          >
-            <Heart className="w-10 h-10 text-pink-400" />
+        <div className="py-6">
+          <div className="text-center mb-8">
+            <div
+              className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center animate-bounce-gentle"
+              style={{
+                background: darkMode
+                  ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)'
+                  : 'linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)'
+              }}
+            >
+              <Heart className="w-10 h-10 text-pink-400" />
+            </div>
+            <h3 className="font-bold text-lg mb-2" style={{ color: theme.textPrimary }}>
+              Aucun favori pour le moment
+            </h3>
+            <p className="text-sm mb-5 max-w-xs mx-auto" style={{ color: theme.textMuted }}>
+              Appuie sur le <Heart className="w-3.5 h-3.5 inline text-pink-400 fill-pink-400 -mt-0.5" /> d&apos;une
+              recette ou d&apos;un ingrédient pour le retrouver ici.
+            </p>
+            <button
+              onClick={() => { haptic('light'); onExploreRecipes?.(); }}
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-bold text-white transition-all active:scale-95"
+              style={{
+                background: 'linear-gradient(135deg, #FF69B4 0%, #8B5CF6 100%)',
+                boxShadow: '0 8px 22px rgba(139,92,246,0.35)',
+              }}
+            >
+              <Sparkles className="w-4 h-4" />
+              Découvrir les recettes
+            </button>
           </div>
-          <h3 className="font-bold text-lg mb-2" style={{ color: theme.textPrimary }}>
-            Aucun favori
-          </h3>
-          <p className="text-sm mb-6 max-w-xs mx-auto" style={{ color: theme.textMuted }}>
-            Appuie sur le cœur d’une recette ou d’un ingrédient pour le sauvegarder ici et y accéder rapidement.
-          </p>
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
-            style={{
-              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
-              color: theme.textMuted
-            }}
-          >
-            <Sparkles className="w-4 h-4" />
-            Découvre nos recettes
+
+          {/* Suggestions pour démarrer */}
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: theme.textMuted }}>
+              Nos coups de cœur pour démarrer
+            </p>
+            <div className="space-y-2.5">
+              {RECETTES.filter((r) => r.categorie === 'Indispensable').slice(0, 3).map((r) => (
+                <button
+                  key={r.id}
+                  onClick={() => { haptic('light'); onRecipeClick(r); }}
+                  className="w-full flex items-center gap-3 p-3 rounded-2xl text-left transition-all active:scale-[0.99]"
+                  style={{
+                    background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
+                    border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+                  }}
+                >
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: r.gradient }}
+                  >
+                    <span className="text-xl" aria-hidden>{r.emoji}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold truncate" style={{ color: theme.textPrimary }}>{r.nom}</p>
+                    <p className="text-[11px]" style={{ color: theme.textMuted }}>
+                      {r.temps} · {r.difficulte} · {r.ingredients.length} ingrédients
+                    </p>
+                  </div>
+                  <Heart className="w-4 h-4 flex-shrink-0" style={{ color: theme.textMuted }} />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
