@@ -3714,6 +3714,386 @@ export const RECETTES: RecetteComplete[] = [
     precautions: ['NE JAMAIS toucher au brûleur ni aux pièces internes', 'Ne jamais intervenir sur le gaz', 'L\'entretien annuel obligatoire reste du ressort d\'un professionnel', 'En cas de doute ou d\'anomalie, couper et appeler un chauffagiste'],
     astuces: ['Faites ce check-up chaque automne avant la saison de chauffe', 'Une purge annuelle évite les bruits dans les radiateurs', 'Une chaudière dépoussiérée = meilleur rendement et moins de pannes'],
     conservation: 'À faire 1x/an, avant l\'hiver'
+  },
+  // === NOUVELLES RECETTES (audit 07/2026) ===
+  {
+    id: 132,
+    nom: 'Entretien Lave-linge',
+    emoji: '🧺',
+    categorie: 'Entretien',
+    badge: 'Indispensable',
+    gradient: 'linear-gradient(135deg, #64B5F6 0%, #1E88E5 100%)',
+    temps: '2h (cycle)',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '500ml', emoji: '🧴' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Cristaux de soude', quantite: '1 c.à.s', emoji: '💎' },
+      { nom: 'HE tea tree', quantite: '5 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Chiffon microfibre', 'Vieille brosse à dents', 'Bassine'],
+    instructions: [
+      'Versez 500 ml de vinaigre blanc directement dans le tambour vide',
+      'Saupoudrez 2 c.à.s de bicarbonate dans le tambour',
+      'Lancez un cycle à 90° à vide (le plus long)',
+      'Pendant le cycle : sortez le bac à lessive et faites-le tremper dans une bassine d\'eau chaude + 1 c.à.s de cristaux de soude, brossez, rincez',
+      'Après le cycle : essuyez le joint de hublot avec un chiffon imbibé de vinaigre + 5 gouttes de tea tree (insistez dans les replis)',
+      'Nettoyez le filtre de vidange (trappe en bas) : dévissez au-dessus d\'une serpillière, retirez peluches et objets',
+      'Laissez le hublot et le bac ouverts pour sécher'
+    ],
+    surfaces: ['Lave-linge', 'Tambour', 'Joint de hublot', 'Bac à lessive'],
+    precautions: ['Ne jamais mélanger vinaigre et eau de Javel', 'Vérifier le manuel : certains fabricants déconseillent le vinaigre en usage très fréquent (1x/mois est sans risque)', 'Filtre de vidange : prévoir l\'écoulement d\'eau'],
+    astuces: ['Un lave-linge encrassé = linge qui sent le renfermé, même propre', 'Laissez TOUJOURS le hublot entrouvert entre deux lessives', 'Le joint noir moisi est la 1ʳᵉ cause de mauvaises odeurs'],
+    conservation: 'À faire 1x/mois'
+  },
+  {
+    id: 133,
+    nom: 'Entretien Lave-vaisselle',
+    emoji: '🍽️',
+    categorie: 'Cuisine',
+    badge: 'Machine chouchoutée',
+    gradient: 'linear-gradient(135deg, #4DD0E1 0%, #00ACC1 100%)',
+    temps: '30min + cycle',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '250ml', emoji: '🧴' },
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Acide citrique (si calcaire)', quantite: '2 c.à.s', emoji: '🍋' }
+    ],
+    materiel: ['Bol', 'Vieille brosse à dents', 'Chiffon microfibre'],
+    instructions: [
+      'Retirez le filtre au fond de la cuve, rincez-le au jet chaud et brossez-le (liquide vaisselle si très gras)',
+      'Vérifiez les bras d\'aspersion : débouchez les trous avec un cure-dent',
+      'Essuyez les joints de porte au chiffon + bicarbonate',
+      'Placez un bol de 250 ml de vinaigre blanc debout dans le panier supérieur',
+      'Lancez un cycle chaud à vide',
+      'Calcaire installé : remplacez le vinaigre par 2 c.à.s d\'acide citrique directement dans la cuve'
+    ],
+    surfaces: ['Lave-vaisselle', 'Filtre', 'Bras d\'aspersion', 'Joints'],
+    precautions: ['Le bol doit être calé debout (pas renversé)', 'Ne pas mélanger acide citrique et produit chloré', 'Filtre : remettre correctement en place avant usage'],
+    astuces: ['Un filtre sale = verres voilés et vaisselle qui sent', 'Faites tourner le robinet d\'eau chaude avant de lancer un cycle : la machine chauffe moins', 'Ce nettoyage 1x/mois prolonge la machine de plusieurs années'],
+    conservation: 'À faire 1x/mois'
+  },
+  {
+    id: 134,
+    nom: 'Nettoyant Airfryer Doux',
+    emoji: '🍤',
+    categorie: 'Cuisine',
+    badge: 'Spécial antiadhésif',
+    gradient: 'linear-gradient(135deg, #FFB74D 0%, #F57C00 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau chaude', quantite: '500ml', emoji: '💧' },
+      { nom: 'Liquide vaisselle', quantite: '1 c.à.s', emoji: '🫧' },
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Éponge douce (côté jaune uniquement)', 'Chiffon microfibre', 'Brosse souple'],
+    instructions: [
+      'Débranchez et laissez refroidir complètement',
+      'Faites tremper panier et cuve 10 min dans l\'eau chaude + liquide vaisselle',
+      'Résidus collés : pâte de bicarbonate (1 c.à.s + quelques gouttes d\'eau), posez 5 min, frottez à l\'éponge DOUCE',
+      'Rincez et séchez soigneusement',
+      'Résistance (en haut) : chiffon à peine humide une fois l\'appareil froid, jamais d\'eau directe'
+    ],
+    surfaces: ['Airfryer', 'Panier antiadhésif', 'Cuve', 'Friteuse à air'],
+    precautions: ['JAMAIS de cristaux de soude ni d\'éponge abrasive : le revêtement antiadhésif se raye définitivement', 'Ne jamais immerger le bloc moteur', 'Sécher avant de rebrancher'],
+    astuces: ['Un fond de papier cuisson perforé limite l\'encrassement', 'Nettoyez après chaque usage gras : 2 min à chaud (tiède), 15 min une fois sec', 'Odeurs : demi-citron passé sur le panier'],
+    conservation: 'Après chaque usage gras'
+  },
+  {
+    id: 135,
+    nom: 'Nettoyant Gourdes & Bouteilles',
+    emoji: '🧴',
+    categorie: 'Cuisine',
+    badge: 'Contact alimentaire',
+    gradient: 'linear-gradient(135deg, #81C784 0%, #43A047 100%)',
+    temps: '10min (+ nuit si odeurs)',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '1 c.à.s', emoji: '⚪' },
+      { nom: 'Eau chaude', quantite: 'Jusqu\'au goulot', emoji: '💧' },
+      { nom: 'Vinaigre blanc (odeurs tenaces)', quantite: '100ml', emoji: '🧴' },
+      { nom: 'Gros sel (fond étroit)', quantite: '1 c.à.s', emoji: '🧂' }
+    ],
+    materiel: ['Goupillon', 'Petite brosse pour le bouchon'],
+    instructions: [
+      'Versez le bicarbonate puis l\'eau chaude dans la gourde',
+      'Fermez, secouez énergiquement 30 secondes, laissez agir 10 min',
+      'Passez le goupillon sur les parois et le fond',
+      'Brossez le bouchon et son joint (nid à bactéries n° 1)',
+      'Odeurs tenaces : 100 ml de vinaigre blanc pur toute une nuit',
+      'Fond inaccessible : gros sel + un fond d\'eau, secouez fort (effet gommage)',
+      'Rincez 3 fois à l\'eau claire et séchez OUVERT, tête en bas'
+    ],
+    surfaces: ['Gourdes', 'Bouteilles réutilisables', 'Thermos', 'Shakers'],
+    precautions: ['Pas d\'alcool ménager ni d\'huiles essentielles : contact alimentaire', 'Rinçage abondant obligatoire', 'Joint de bouchon : le retirer pour le nettoyer si possible'],
+    astuces: ['Séchage ouvert = pas d\'odeur de renfermé', 'Thermos : mêmes gestes, jamais immergé', 'Au quotidien : rinçage eau chaude suffit si seulement de l\'eau'],
+    conservation: 'Nettoyage complet 1x/semaine'
+  },
+  {
+    id: 136,
+    nom: 'Nettoyant Écrans Ultra-doux',
+    emoji: '🖥️',
+    categorie: 'Multi-usage',
+    badge: 'Zéro risque',
+    gradient: 'linear-gradient(135deg, #90A4AE 0%, #546E7A 100%)',
+    temps: '2min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau déminéralisée', quantite: '100ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc (traces grasses)', quantite: '2-3 gouttes', emoji: '🧴' }
+    ],
+    materiel: ['Chiffon microfibre propre (spécial optique idéalement)'],
+    instructions: [
+      'Éteignez l\'écran (les traces se voient mieux, zéro risque électrique)',
+      'Dépoussiérez d\'abord à sec, sans appuyer',
+      'Humidifiez À PEINE la microfibre avec l\'eau déminéralisée — jamais de pulvérisation sur l\'écran',
+      'Essuyez en mouvements larges et réguliers, sans pression',
+      'Traces grasses : ajoutez 2-3 gouttes de vinaigre blanc dans les 100 ml, toujours sur le chiffon',
+      'Finissez avec un coin sec de la microfibre'
+    ],
+    surfaces: ['Écrans', 'TV', 'Ordinateur', 'Tablette', 'Smartphone', 'Lunettes'],
+    precautions: ['Jamais d\'alcool pur ni de produit vitres : ils attaquent les revêtements antireflet et oléophobes', 'Jamais de liquide pulvérisé directement (infiltrations)', 'Jamais d\'essuie-tout (micro-rayures)'],
+    astuces: ['La microfibre sèche suffit dans 80% des cas', 'Écran tactile très sale : la microfibre légèrement humide, puis sec immédiat', 'Lavez vos microfibres sans assouplissant (il les rend inefficaces)'],
+    conservation: 'Préparer au moment'
+  },
+  {
+    id: 137,
+    nom: 'Nettoyant Plastiques Intérieurs Auto',
+    emoji: '🎛️',
+    categorie: 'Voiture',
+    badge: 'Fini mat propre',
+    gradient: 'linear-gradient(135deg, #78909C 0%, #37474F 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '1 c.à.c', emoji: '⚫' },
+      { nom: 'Huile de lin (finition)', quantite: '2-3 gouttes', emoji: '🌾' }
+    ],
+    materiel: ['2 chiffons microfibre', 'Pinceau souple (grilles d\'aération)'],
+    instructions: [
+      'Dépoussiérez les grilles d\'aération et boutons au pinceau souple',
+      'Mélangez eau tiède + savon noir, imbibez la microfibre et ESSOREZ bien',
+      'Essuyez tableau de bord, contre-portes, console (chiffon humide, jamais trempé)',
+      'Séchez immédiatement avec la 2ᵉ microfibre',
+      'Finition anti-poussière : 2-3 gouttes d\'huile de lin sur le chiffon sec, lustrez légèrement (fini mat, non gras)'
+    ],
+    surfaces: ['Plastiques', 'Tableau de bord', 'Contre-portes', 'Console centrale'],
+    precautions: ['Pas d\'alcool ménager : il blanchit et ternit les plastiques', 'Jamais de produit brillant gras sur le volant (glissant = dangereux)', 'Écrans du véhicule : microfibre sèche uniquement'],
+    astuces: ['L\'huile de lin en micro-dose retarde la poussière statique', 'Les lingettes brillantes du commerce attirent la poussière : le fini mat reste propre plus longtemps', 'Boutons collants : coton-tige à peine humide'],
+    conservation: 'Solution : à préparer au moment'
+  },
+  {
+    id: 138,
+    nom: 'Détachant Urine & Auréoles Matelas',
+    emoji: '🛏️',
+    categorie: 'Entretien',
+    badge: 'SOS parents',
+    gradient: 'linear-gradient(135deg, #9575CD 0%, #5E35B1 100%)',
+    temps: '30min + 6h séchage',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '200ml', emoji: '🧴' },
+      { nom: 'Eau tiède', quantite: '200ml', emoji: '💧' },
+      { nom: 'Bicarbonate de soude', quantite: '150g', emoji: '⚪' },
+      { nom: 'Liquide vaisselle (tache ancienne)', quantite: '1 c.à.c', emoji: '🫧' }
+    ],
+    materiel: ['Vaporisateur', 'Chiffons propres', 'Aspirateur'],
+    instructions: [
+      'Tache fraîche : épongez d\'abord au maximum en TAMPONNANT (jamais frotter, ça étale)',
+      'Vaporisez généreusement le mélange vinaigre + eau tiède sur la zone',
+      'Laissez agir 10 min, tamponnez avec un chiffon sec pour pomper l\'humidité',
+      'Tache ancienne/odeur forte : ajoutez 1 c.à.c de liquide vaisselle au mélange',
+      'Recouvrez toute la zone de bicarbonate (couche épaisse)',
+      'Laissez sécher 6h minimum (idéalement une journée, fenêtre ouverte)',
+      'Aspirez soigneusement le bicarbonate'
+    ],
+    surfaces: ['Matelas', 'Sommier tissu', 'Canapé', 'Tapis'],
+    precautions: ['Ne pas détremper le matelas (moisissures) : vaporiser, pas verser', 'Sécher COMPLÈTEMENT avant de refaire le lit', 'Mousse à mémoire de forme : encore plus parcimonieux en liquide'],
+    astuces: ['Le vinaigre neutralise l\'ammoniaque de l\'urine (odeur)', 'Le bicarbonate pompe l\'humidité résiduelle ET les odeurs', 'Protège-matelas imperméable = plus jamais ce problème 😉'],
+    conservation: 'Spray vinaigre/eau : 1 mois'
+  },
+  {
+    id: 139,
+    nom: 'Nettoyant Murs Peints & Traces',
+    emoji: '🏠',
+    categorie: 'Entretien',
+    badge: 'Traces de doigts',
+    gradient: 'linear-gradient(135deg, #A1887F 0%, #6D4C41 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 4,
+    ingredients: [
+      { nom: 'Eau tiède', quantite: '1L', emoji: '💧' },
+      { nom: 'Savon noir liquide', quantite: '1 c.à.s', emoji: '⚫' },
+      { nom: 'Bicarbonate (traces de crayon)', quantite: '1 c.à.s', emoji: '⚪' }
+    ],
+    materiel: ['Éponge douce', '2 chiffons microfibre'],
+    instructions: [
+      'TEST OBLIGATOIRE dans un angle discret (les peintures mates supportent mal l\'eau)',
+      'Mélangez eau tiède + savon noir',
+      'Éponge bien essorée : nettoyez de BAS en HAUT (les coulures sur mur sale marquent définitivement)',
+      'Traces de doigts autour des interrupteurs : insistez doucement en cercles',
+      'Crayon/feutre : pâte de bicarbonate sur chiffon humide, frottez très légèrement',
+      'Rincez à l\'éponge claire essorée, séchez au chiffon'
+    ],
+    surfaces: ['Murs', 'Murs peints', 'Interrupteurs', 'Encadrements de porte'],
+    precautions: ['Peinture mate : tamponner seulement, ne jamais frotter', 'Papier peint non lessivable : gomme blanche à sec uniquement', 'Toujours essorer : l\'eau qui coule laisse des traces'],
+    astuces: ['De bas en haut : contre-intuitif mais essentiel', 'La gomme magique (mélamine) marche aussi mais use la peinture : réservez-la aux cas désespérés', 'Traces de meubles : bicarbonate à sec sur chiffon'],
+    conservation: 'Solution : à préparer au moment'
+  },
+  {
+    id: 140,
+    nom: 'Pâte Cuivre & Laiton',
+    emoji: '🔔',
+    categorie: 'Multi-usage',
+    badge: 'Recette de grand-mère',
+    gradient: 'linear-gradient(135deg, #FFB74D 0%, #E65100 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Farine', quantite: '1 c.à.s', emoji: '🌾' },
+      { nom: 'Gros sel', quantite: '1 c.à.s', emoji: '🧂' },
+      { nom: 'Vinaigre blanc', quantite: 'Pour former une pâte', emoji: '🧴' }
+    ],
+    materiel: ['Bol', 'Chiffon doux', 'Gants (conseillé)'],
+    instructions: [
+      'Mélangez farine et sel dans un bol',
+      'Ajoutez le vinaigre progressivement jusqu\'à obtenir une pâte à tartiner',
+      'Appliquez sur le cuivre/laiton en couche fine',
+      'Laissez agir 15 min (la pâte s\'assombrit : elle capte l\'oxydation)',
+      'Rincez à l\'eau tiède, séchez immédiatement',
+      'Lustrez au chiffon doux : l\'éclat revient'
+    ],
+    surfaces: ['Cuivre', 'Laiton', 'Casseroles en cuivre', 'Poignées laiton', 'Objets déco'],
+    precautions: ['Objets vernis : le vernis bloque la recette (juste eau savonneuse)', 'Rincer et sécher immédiatement : le vinaigre qui stagne re-oxyde', 'Bijoux anciens de valeur : demander à un pro'],
+    astuces: ['Le sel = abrasif doux, le vinaigre dissout l\'oxydation, la farine tient le tout en place', 'Demi-citron + gros sel : même effet en version express', 'Un voile d\'huile d\'olive retarde la prochaine oxydation'],
+    conservation: 'Pâte : à préparer au moment'
+  },
+  {
+    id: 141,
+    nom: 'Joints & Moisissures Frigo',
+    emoji: '🧊',
+    categorie: 'Cuisine',
+    badge: 'Anti-moisissures',
+    gradient: 'linear-gradient(135deg, #4FC3F7 0%, #0288D1 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Eau tiède', quantite: '200ml', emoji: '💧' },
+      { nom: 'Vinaigre blanc', quantite: '100ml', emoji: '🧴' },
+      { nom: 'HE tea tree (points noirs)', quantite: '5 gouttes', emoji: '🌿' }
+    ],
+    materiel: ['Vieille brosse à dents', 'Chiffons propres', 'Coton-tiges'],
+    instructions: [
+      'Mélangez bicarbonate + eau tiède',
+      'Brossez les joints de porte pli par pli à la brosse à dents',
+      'Recoins inaccessibles : coton-tige imbibé',
+      'Points noirs de moisissure : vinaigre + tea tree sur la brosse, insistez, laissez agir 10 min',
+      'Essuyez au chiffon humide propre',
+      'SÉCHEZ complètement : la moisissure adore l\'humidité résiduelle'
+    ],
+    surfaces: ['Réfrigérateur', 'Joints de frigo', 'Joints de congélateur'],
+    precautions: ['Tea tree : bien essuyer (odeur forte près des aliments)', 'Ne pas tirer sur le joint (il se déforme)', 'Javel déconseillée : elle durcit et fissure le caoutchouc'],
+    astuces: ['Un joint sain = frigo étanche = moins de consommation électrique', 'Testez l\'étanchéité : une feuille de papier coincée doit résister quand on tire', 'Vérifiez les joints à chaque nettoyage complet du frigo (1x/mois)'],
+    conservation: 'Solution : à préparer au moment'
+  },
+  {
+    id: 142,
+    nom: 'Anti-Insectes Carrosserie',
+    emoji: '🚗',
+    categorie: 'Voiture',
+    badge: 'Sans rayures',
+    gradient: 'linear-gradient(135deg, #4DB6AC 0%, #00695C 100%)',
+    temps: '15min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Bicarbonate de soude', quantite: '2 c.à.s', emoji: '⚪' },
+      { nom: 'Eau tiède', quantite: '500ml', emoji: '💧' },
+      { nom: 'Savon noir (renfort)', quantite: '1 c.à.c', emoji: '⚫' }
+    ],
+    materiel: ['Vaporisateur', 'Microfibre épaisse', 'Filet à insectes ou bas nylon (astuce)'],
+    instructions: [
+      'À faire AVANT le lavage complet, sur carrosserie froide et à l\'ombre',
+      'Vaporisez généreusement le mélange sur les impacts (pare-chocs, capot, rétros, bas de pare-brise)',
+      'Laissez agir 5 min : le bicarbonate ramollit les insectes séchés',
+      'Essuyez à la microfibre HUMIDE sans appuyer (les carapaces sèches rayent)',
+      'Impacts tenaces : re-vaporisez et posez la microfibre trempée dessus 2 min',
+      'Rincez et enchaînez sur le lavage habituel'
+    ],
+    surfaces: ['Carrosserie', 'Pare-chocs', 'Phares', 'Rétroviseurs', 'Bas de pare-brise'],
+    precautions: ['Ne JAMAIS gratter à sec (micro-rayures dans le vernis)', 'Pas en plein soleil (auréoles)', 'Ne pas laisser sécher le produit sur la carrosserie'],
+    astuces: ['Les insectes sont acides : plus on attend, plus ils attaquent le vernis', 'Un bas nylon roulé en boule fait une éponge anti-insectes douce', 'En été, un coup de spray après chaque long trajet évite l\'incrustation'],
+    conservation: 'Spray : 1 semaine'
+  },
+  {
+    id: 143,
+    nom: 'Ligne d\'Eau Piscine',
+    emoji: '🏊',
+    categorie: 'Entretien',
+    badge: 'Sans chimie',
+    gradient: 'linear-gradient(135deg, #4DD0E1 0%, #0097A7 100%)',
+    temps: '20min',
+    difficulte: 'Facile',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Pierre blanche (ou pierre d\'argile)', quantite: '1 pot', emoji: '🪨' },
+      { nom: 'Bicarbonate de soude (alternative)', quantite: '3 c.à.s + eau (pâte)', emoji: '⚪' }
+    ],
+    materiel: ['Éponge non abrasive', 'Gants'],
+    instructions: [
+      'Frottez la ligne d\'eau avec l\'éponge chargée de pierre blanche',
+      'Travaillez par sections de 50 cm, en cercles',
+      'La trace grasse (crèmes solaires, pollution, pollens) se dissout sans rayer le liner',
+      'Alternative : pâte de bicarbonate (3 c.à.s + un peu d\'eau)',
+      'Rincez l\'éponge régulièrement',
+      'Pas besoin de vider ni de rincer : ces produits sont sans danger pour l\'équilibre de l\'eau en quantité résiduelle'
+    ],
+    surfaces: ['Piscine', 'Ligne d\'eau', 'Liner', 'Coque polyester', 'Spa'],
+    precautions: ['Éponge NON abrasive uniquement sur liner', 'Éviter les produits ménagers classiques (moussants = catastrophe dans l\'eau)', 'Piscine carrelée : brosse OK'],
+    astuces: ['À faire 2x/mois en saison, la trace part 10x plus vite quand elle est récente', 'Baisser légèrement le niveau d\'eau facilite le travail', 'Une ligne d\'eau propre = moins de produits de traitement consommés'],
+    conservation: 'Pierre blanche : 12 mois'
+  },
+  {
+    id: 144,
+    nom: 'Nettoyage Filtre Piscine',
+    emoji: '🌀',
+    categorie: 'Entretien',
+    badge: '80% de la qualité d\'eau',
+    gradient: 'linear-gradient(135deg, #26C6DA 0%, #00838F 100%)',
+    temps: '30min (+ nuit si détartrage)',
+    difficulte: 'Moyen',
+    efficacite: 5,
+    ingredients: [
+      { nom: 'Vinaigre blanc', quantite: '1L (bain 50/50)', emoji: '🧴' },
+      { nom: 'Eau', quantite: '1L', emoji: '💧' }
+    ],
+    materiel: ['Jet d\'eau', 'Grand seau ou bassine', 'Gants'],
+    instructions: [
+      'FILTRE CARTOUCHE : arrêtez la filtration, sortez la cartouche',
+      'Rincez au jet entre chaque pli, de haut en bas (pas de nettoyeur haute pression : il déchire les plis)',
+      'Encrassement gras/calcaire : bain vinaigre blanc + eau (50/50) toute une nuit',
+      'Rincez abondamment et laissez sécher avant remontage (une cartouche de rechange permet la rotation)',
+      'FILTRE À SABLE : vanne sur « contre-lavage/backwash » 2-3 min jusqu\'à eau claire dans le voyant',
+      'Puis vanne sur « rinçage » 30 secondes avant de repasser en filtration'
+    ],
+    surfaces: ['Piscine', 'Filtre cartouche', 'Filtre à sable', 'Spa'],
+    precautions: ['Toujours arrêter la pompe avant de manipuler la vanne', 'Ne jamais tourner la vanne 6 voies pompe allumée', 'Cartouche : remplacement 1x/an même bien entretenue'],
+    astuces: ['Pression du manomètre +0,3 bar au-dessus de la normale = filtre encrassé', 'Le contre-lavage consomme de l\'eau : complétez le niveau après', 'Sable : remplacement tous les 5 ans (ou verre filtrant, plus durable)'],
+    conservation: 'Cartouche : rinçage 2x/mois en saison'
   }
 ];
 
@@ -3732,95 +4112,87 @@ export const CATEGORIES_RECETTES = [
 
 // Mapping des recettes par surface pour le modal surface
 export const RECETTES_PAR_SURFACE: Record<number, number[]> = {
-  1: [2, 15, 88],  // Four -> Dégraissant Puissant, Pâte Nettoyante Four, Four Vapeur
-  2: [9],          // Lave-vaisselle -> Nettoyant Sol Carrelage
-  3: [1, 40, 57, 71], // Réfrigérateur -> Spray Multi-usage, Désodorisant Frigo, Désodorisant Placards, Spray Désinfectant Tea Tree
-  4: [49],         // Micro-ondes -> Nettoyant Micro-ondes
-  5: [2],          // Friteuse -> Dégraissant Puissant
-  6: [2],          // Airfryer -> Dégraissant Puissant
-  7: [36, 39, 58], // Poêles & casseroles -> Pierre Blanche, Poêle Antiadhésive Récupérée, Récurant Casseroles
-  8: [35, 12, 32, 33, 105], // Évier -> Spray Alcool Ménager, Nettoyant Inox, Nettoyant WC Spray, Déboucheur Canalisations, Crème à Récurer
-  9: [41, 95],     // Poubelles -> Désodorisant Poubelle, Poubelles Vapeur
-  10: [106],       // Torchons -> Blanchisseur Torchons & Linge de Cuisine
-  11: [9, 30, 32, 75], // Carrelage sdb -> Nettoyant Sol Carrelage, Nettoyant Sols Universel, Nettoyant WC Spray, Nettoyant Sol Pin
-  13: [8, 32, 33, 85], // Lavabo sdb -> + Baignoire Pierre Blanche
-  14: [35, 8, 28, 33, 72, 91, 102], // Parois de douche -> + Spray Anti-moisissures
-  15: [107, 129],  // Pommeau -> Détartrant Pommeau de Douche, Spray Anti-Calcaire Express
-  16: [35, 8, 129], // Robinetterie sdb -> Spray Alcool Ménager, Spray Anti-Calcaire, Spray Anti-Calcaire Express
-  17: [35, 7, 6, 31, 32, 34, 96, 101], // WC -> + Détartrant WC Moussant
-  18: [8, 20, 72, 86, 89, 102], // Joints -> + Spray Anti-moisissures
-  20: [11, 45, 65, 81, 4, 19], // Draps & lit -> Lessive, Blanchisseur, Détachant Sang (+ Détachant Textile/Tapis du lit)
-  21: [4, 73, 79, 104], // Rideaux -> + Désodorisant Textile & Canapé
-  22: [3, 8, 129], // Gourdes -> Anti-traces Vitres, Spray Anti-Calcaire, Spray Anti-Calcaire Express
-  23: [108, 130],  // Chaussures -> Nettoyant Chaussures Toile, Désodorisant Baskets Poudre
-  24: [109],       // Doudounes -> Lavage Doudoune & Manteaux
-  25: [42, 59, 73, 97], // Tapis -> + Tapis Vapeur
-  26: [42, 59, 97], // Moquette -> + Tapis Vapeur
-  27: [59, 73, 78, 94, 104], // Canapé -> + Désodorisant Textile & Canapé
-  28: [35, 6, 71], // Interrupteurs -> Spray Alcool Ménager, Désinfectant Naturel, Spray Désinfectant Tea Tree
-  29: [35, 110, 71, 60], // Portes (+ charnières) -> Spray Alcool, Nettoyant Portes & Plinthes, Tea Tree, Lubrifiant Charnières
-  30: [11],        // Lave-linge -> Lessive Maison
-  31: [111],       // Microfibres -> Lavage Chiffons Microfibres
-  32: [35, 11, 45, 59, 65, 67, 79, 81, 98], // Linge -> + Détachant Graisse Eau Chaude
-  33: [35, 22],    // Téléphone -> Spray Alcool Ménager, Spray Désinfectant Express
-  34: [35, 23],    // Ordinateur -> Spray Alcool Ménager, Nettoyant Écrans
-  35: [112],       // Aspirateur -> Entretien Filtre d'Aspirateur
-  36: [131],       // Chaudière -> Entretien Préventif Chaudière
-  37: [113, 131],  // Radiateurs -> Dépoussiérant Radiateurs, Entretien Préventif Chaudière
-  38: [54],        // Carrosserie -> Nettoyant Carrosserie
-  39: [44],        // Jantes -> Nettoyant Jantes Auto
-  40: [114],       // Phares -> Rénovateur Phares Jaunis
-  42: [47, 64, 118], // Sièges auto -> Nettoyant Sièges Auto Tissu, Détachant Cuir, Entretien Selle Moto & Cuir
-  43: [35],        // Plastiques voiture -> Spray Alcool Ménager
-  44: [115],       // Pneus -> Brillance Pneus Naturelle
-  45: [116],       // Ceintures -> Nettoyant Ceintures de Sécurité
-  46: [117],       // Casque moto -> Nettoyant Casque Moto
-  47: [118],       // Selle moto -> Entretien Selle Moto & Cuir
-  48: [46, 66, 69, 122], // Terrasse -> + Anti-Mousse Toiture & Façade
-  49: [119, 2],    // Barbecue -> Dégraissant Grille de Barbecue, Dégraissant Puissant
-  50: [120],       // Piscine -> Équilibrage Eau de Piscine
-  51: [121],       // Tondeuse -> Nettoyant Carter de Tondeuse
-  52: [122],       // Toiture -> Anti-Mousse Toiture & Façade
-  54: [124],       // Engrais -> Engrais Naturel pour Plantes
-  55: [125, 100],  // Canalisations ext. -> Déboucheur Canalisations Extérieures, Débouchage Express
-  56: [126],       // Mains -> Nettoyant Mains Dégraissant
-  57: [127, 55],   // Bijoux -> Nettoyant Bijoux Éclat, Polish Argenterie
-  58: [35, 3, 29, 68, 91], // Vitres & miroirs -> Spray Alcool, Anti-traces Vitres, ..., Vitres Vapeur
-  59: [35, 1, 71], // Poignées -> + Spray Désinfectant Tea Tree
-  60: [35, 3, 23], // Écrans -> Spray Alcool Ménager, Anti-traces Vitres (dilué), Nettoyant Écrans
-  61: [13, 33, 100], // Canalisations -> + Débouchage Express Eau Bouillante
-  62: [4, 19, 84, 108, 130], // Baskets -> + Nettoyant Chaussures Toile, Désodorisant Baskets Poudre
-  41: [3, 24, 25, 26, 27], // Vitres auto -> Anti-traces Vitres, Lave-Glace Été/Hiver/4 Saisons, Spray Dégivrant
-  // Porcelaine / Vaisselle
-  63: [36, 37],    // Tasses & Mugs -> Pierre Blanche, Vaisselle Impeccable
-  65: [36, 37],    // Vaisselle (+ assiettes) -> Pierre Blanche, Vaisselle Impeccable
-  // Casseroles & Poêles (inox)
-  67: [36, 38, 58], // Casseroles & poêles inox -> Pierre Blanche, Casseroles Inox Brillantes, Récurant Casseroles
-  // Électroménager supplémentaire
-  69: [48],        // Bouilloire -> Détartrant Bouilloire
-  70: [51],        // Cafetière -> Détartrant Cafetière
-  71: [2, 43],     // Hotte -> Dégraissant Puissant, Dégraissant Hotte
-  72: [37, 99],    // Planches à découper -> + Planches Eau Bouillante
-  // Meubles et bois
-  73: [56, 62, 66, 103], // Meubles en bois -> + Nettoyant Parquet Bois Naturel
-  74: [56, 62, 66, 103], // Parquet -> + Nettoyant Parquet Bois Naturel
-  // Cuir
-  75: [59, 64],    // Cuir -> Détachant Gras Textile, Détachant Cuir
-  // Métaux précieux
-  76: [55],        // Argenterie -> Polish Argenterie
-  77: [55],        // Cuivre & Laiton -> Polish Argenterie
-  // Jardin & Extérieur
-  78: [128],       // Mobilier de jardin -> Nettoyant Mobilier de Jardin
-  79: [53, 124, 123], // Plantes & fleurs -> Insecticide Plantes, Engrais Naturel, Conservateur Fleurs Coupées
-  80: [50, 80],    // Mauvaises herbes -> Désherbant Naturel, Désherbage Eau Bouillante
-  81: [52, 63],    // Outils de jardin -> Anti-Rouille Naturel, Protection Outils Jardin
-  // Autres
-  82: [73, 78, 93, 104], // Matelas & sommier -> Désodorisant, Anti-Punaises Vapeur, ...
-  83: [92],        // Jouets -> Jouets Enfants Vapeur
-  84: [61],        // Autocollants -> Décollant Autocollants
-  // Surfaces supplémentaires
-  86: [82, 105],   // Plaques vitrocéramique -> Vitrocéramique Pierre Blanche, Crème à Récurer
-  87: [83],        // Fer à repasser -> Semelle Fer à Repasser
-  88: [85, 105],   // Baignoire -> Baignoire Pierre Blanche, Crème à Récurer
-  90: [90],        // Murs & Papier peint -> Décoller Papier Peint
+  // Ordre = pertinence (recette dédiée d'abord, généralistes en dernier) — audit 07/2026
+  1: [15, 88, 2],            // Four -> Pâte Four, Four Vapeur, Dégraissant Puissant
+  2: [10, 133],              // Lave-vaisselle -> Poudre LV, Entretien Lave-vaisselle
+  3: [40, 141, 1, 71, 57],   // Réfrigérateur -> Désodorisant, Joints Frigo, Multi-usage, Tea Tree, Marc de café
+  4: [49],                   // Micro-ondes -> Nettoyant Micro-ondes
+  5: [2],                    // Friteuse -> Dégraissant Puissant
+  6: [134, 2],               // Airfryer -> Airfryer Doux (le dégraissant reste pour cuves inox)
+  7: [36, 39, 58],           // Poêles & casseroles -> Pierre Blanche, Antiadhésive, Récurant
+  8: [105, 12, 21, 16, 13, 35], // Évier -> Crème Douce, Inox, Crème à Récurer, Liquide Vaisselle, Déboucheur, Alcool
+  9: [41, 95],               // Poubelles -> Désodorisant, Poubelles Vapeur
+  10: [106, 98, 45],         // Torchons -> Blanchisseur Torchons, Détachant Graisse, Blanchisseur Linge
+  11: [75, 9, 30],           // Carrelage sdb -> Sol Pin, Sol Carrelage, Sols Universel
+  13: [85, 8, 13, 33],       // Lavabo -> Pierre Blanche, Anti-Calcaire, Déboucheur Naturel, Déboucheur bicarbonate
+  14: [28, 8, 91, 72, 102, 14, 35], // Parois douche -> Spray Parois, Anti-Calcaire, Vitres Vapeur, Anti-Moisissures x3, Alcool
+  15: [107, 129],            // Pommeau -> Détartrant Pommeau, Anti-Calcaire Express
+  16: [8, 129, 35],          // Robinetterie -> Anti-Calcaire, Anti-Calcaire Express, Alcool
+  17: [7, 34, 101, 31, 96, 32, 6, 35], // WC -> Mousse Active, Détartrants, Poudre, WC Vapeur, WC Spray, Désinfectants
+  18: [20, 89, 72, 14, 86, 102, 8], // Joints -> Joints Carrelage, Joints Vapeur, Anti-Moisissures, Pierre Blanche...
+  20: [11, 18, 45, 81, 65, 4], // Draps & lit -> Lessive, Assouplissant, Blanchisseur, Sang x2, Détachant
+  21: [4, 73, 79, 104, 77],  // Rideaux -> Détachant, Lavande, Défroissage Vapeur, Désodorisant, Anti-Moustiques
+  22: [135, 129],            // Gourdes -> Gourdes & Bouteilles, Anti-Calcaire Express (rinçage ++)
+  23: [108, 130],            // Chaussures -> Toile, Désodorisant Poudre
+  24: [109],                 // Doudounes -> Lavage Doudoune
+  25: [97, 42, 19, 59, 73],  // Tapis -> Vapeur, Désodorisant, Détachant, Terre de Sommières, Lavande
+  26: [97, 42, 59],          // Moquette -> Vapeur, Désodorisant, Terre de Sommières
+  27: [94, 104, 138, 59, 19, 73], // Canapé -> Vapeur, Désodorisant, Détachant Urine, Sommières, Détachant, Lavande
+  28: [22, 87, 6, 35],       // Interrupteurs -> Désinfectant Express, Plastiques Jaunis, Désinfectant, Alcool
+  29: [110, 139, 71, 60, 35], // Portes -> Portes & Plinthes, Murs Peints, Tea Tree, Charnières, Alcool
+  30: [132, 11, 18],         // Lave-linge -> Entretien Lave-linge, Lessive, Assouplissant
+  31: [111],                 // Microfibres -> Lavage Microfibres
+  32: [11, 18, 45, 4, 67, 81, 65, 98, 59, 79], // Linge -> Lessive, Assouplissant, Blanchisseurs, Détachants, Défroissage
+  33: [22, 35],              // Téléphone -> Désinfectant Express, Alcool 70°
+  34: [23, 136],             // Ordinateur -> Écrans & Électronique, Écrans Ultra-doux
+  35: [112],                 // Aspirateur -> Entretien Filtre
+  36: [131],                 // Chaudière -> Entretien Préventif
+  37: [113, 131],            // Radiateurs -> Dépoussiérant, Entretien Préventif
+  38: [54, 142],             // Carrosserie -> Nettoyant Carrosserie, Anti-Insectes
+  39: [44],                  // Jantes -> Nettoyant Jantes
+  40: [114, 142],            // Phares -> Rénovateur Phares, Anti-Insectes
+  41: [3, 24, 25, 26, 27],   // Vitres auto -> Anti-traces, Lave-Glaces, Dégivrant
+  42: [47, 64, 118],         // Sièges auto -> Tissu, Cuir, Selle & Cuir
+  43: [137],                 // Plastiques voiture -> Plastiques Intérieurs Auto
+  44: [115],                 // Pneus -> Brillance Pneus
+  45: [116],                 // Ceintures -> Nettoyant Ceintures
+  46: [117],                 // Casque moto -> Nettoyant Casque
+  47: [118],                 // Selle moto -> Selle & Cuir
+  48: [46, 122, 66, 80, 77, 69], // Terrasse -> Anti-Mousses x2, Raviveur Bois, Désherbage joints, Anti-Moustiques, Dégivrant
+  49: [119, 2],              // Barbecue -> Dégraissant Grille, Dégraissant Puissant
+  50: [120, 143, 144],       // Piscine -> Équilibrage Eau, Ligne d'Eau, Filtre
+  51: [121],                 // Tondeuse -> Carter de Tondeuse
+  52: [122, 46],             // Toiture -> Anti-Mousse Toiture, Anti-Mousses percarbonate
+  54: [124],                 // Engrais -> Engrais Naturel
+  55: [125, 100],            // Canalisations ext. -> Déboucheur Ext., Débouchage Express
+  56: [126],                 // Mains -> Nettoyant Mains
+  57: [127, 55],             // Bijoux -> Bijoux Éclat, Polish Argenterie
+  58: [29, 3, 91, 68, 35],   // Vitres & miroirs -> Vitres & Miroirs, Anti-traces, Vapeur, Cendre, Alcool
+  59: [1, 71, 35],           // Poignées -> Multi-usage, Tea Tree, Alcool
+  60: [136, 23],             // Écrans -> Écrans Ultra-doux, Écrans & Électronique
+  61: [13, 33, 100],         // Canalisations -> Déboucheurs, Débouchage Express
+  62: [108, 130, 84, 19, 4], // Baskets -> Toile, Désodorisant, Cuir Blanc, Détachants
+  63: [37, 36],              // Tasses & Mugs -> Vaisselle Impeccable, Pierre Blanche
+  65: [37, 16, 10, 36],      // Vaisselle -> Vaisselle Impeccable, Liquide Vaisselle, Poudre LV, Pierre Blanche
+  67: [38, 36, 58],          // Casseroles inox -> Inox Brillantes, Pierre Blanche, Récurant
+  69: [48],                  // Bouilloire -> Détartrant Bouilloire
+  70: [51],                  // Cafetière -> Détartrant Cafetière
+  71: [43, 2],               // Hotte -> Dégraissant Hotte, Dégraissant Puissant
+  72: [99, 37],              // Planches à découper -> Eau Bouillante, Vaisselle Impeccable
+  73: [62, 17, 5, 56, 66, 103], // Meubles bois -> Soin, Anti-Poussière x2, Polish, Raviveur, Parquet
+  74: [103, 66, 56, 62],     // Parquet -> Parquet Bois Naturel, Raviveur, Polish, Soin
+  75: [64, 59],              // Cuir -> Détachant Cuir, Terre de Sommières
+  76: [55, 127],             // Argenterie -> Polish Argenterie, Bijoux Éclat
+  77: [140, 55],             // Cuivre & Laiton -> Pâte Cuivre & Laiton, Polish
+  78: [128],                 // Mobilier de jardin -> Nettoyant Mobilier
+  79: [53, 124, 123],        // Plantes & fleurs -> Insecticide, Engrais, Conservateur Fleurs
+  80: [50, 80],              // Mauvaises herbes -> Désherbant, Désherbage Eau Bouillante
+  81: [52, 63],              // Outils de jardin -> Anti-Rouille, Protection
+  82: [78, 138, 42, 93, 104, 73], // Matelas -> Vapeur, Détachant Urine, Désodorisant, Anti-Punaises, Textile, Lavande
+  83: [92],                  // Jouets -> Jouets Vapeur
+  84: [61],                  // Autocollants -> Décollant
+  86: [82, 105],             // Plaques vitrocéramique -> Pierre Blanche, Crème Douce
+  87: [83],                  // Fer à repasser -> Semelle Fer
+  88: [85, 105, 8, 28, 13],  // Baignoire -> Pierre Blanche, Crème Douce, Anti-Calcaire, Parois, Déboucheur
+  90: [139, 90],             // Murs -> Murs Peints & Traces, Décoller Papier Peint
 };
