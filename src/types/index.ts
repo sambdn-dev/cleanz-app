@@ -13,6 +13,10 @@ export interface Surface {
   piece: string;
   categorie: string;
   frequence: string;
+  /** Le nettoyage vapeur seul suffit pour cette surface (mise en avant dédiée) */
+  vapeurOk?: boolean;
+  /** Recette vapeur associée (id dans RECETTES) */
+  vapeurRecetteId?: number;
 }
 
 export interface Ingredient {

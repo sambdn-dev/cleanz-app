@@ -13,6 +13,8 @@ import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
+import { PiscineSpaSection } from '@/components/home/PiscineSpaSection';
+import { CreateursSection } from '@/components/home/CreateursSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
 import { CaniculeModal } from '@/components/home/CaniculeModal';
 import { MeteoDebugCard } from '@/components/home/MeteoDebugCard';
@@ -282,6 +284,12 @@ function HomePageContent() {
 
             {/* L'été avec Cleanz - encart saisonnier */}
             {!searchQuery && <SaisonCleanzSection heatActive={heat.isHeat} />}
+
+            {/* Piscine & Spa — conseils + produits partenaires */}
+            {!searchQuery && <PiscineSpaSection />}
+
+            {/* Les stars du clean — vitrine créateurs */}
+            {!searchQuery && <CreateursSection />}
 
             {/* Les 8 Essentiels */}
             <EssentielsSection

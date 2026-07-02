@@ -2,11 +2,13 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Surface, RecetteComplete } from '@/types';
-import { ChevronRight, Star } from 'lucide-react';
+import { ChevronRight, Star, Wind } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
 import { getSurfaceImage } from '@/data/scenes';
+import { getProduitsParCategorie } from '@/data/partenaires';
+import { PartnerProductCard } from '@/components/ui/PartnerProductCard';
 
 interface SurfaceModalProps {
   surface: Surface;
@@ -83,6 +85,9 @@ const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string;
 export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalProps) => {
   const { theme, darkMode } = useTheme();
   const recettes = getRecettesForSurface(surface.id);
+  const vapeurRecette = surface.vapeurRecetteId
+    ? RECETTES.find((r) => r.id === surface.vapeurRecetteId)
+    : undefined;
   // Photo-scène de la surface (repli emoji + dégradé géré par <Modal />)
   const headerImageUrl = getSurfaceImage(surface);
   const hasImage = !!headerImageUrl;
@@ -139,6 +144,56 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
           { label: 'Catégorie', value: <span className="text-xs">{surface.categorie}</span> },
         ]}
       />
+
+      {/* La vapeur suffit — mise en avant du nettoyage 100% eau */}
+      {surface.vapeurOk && (
+        <div
+          className="mb-6 rounded-2xl overflow-hidden"
+          style={{
+            background: darkMode
+              ? 'linear-gradient(135deg, rgba(94,234,212,0.10) 0%, rgba(56,189,248,0.10) 100%)'
+              : 'linear-gradient(135deg, rgba(94,234,212,0.14) 0%, rgba(56,189,248,0.12) 100%)',
+            border: `1.5px solid ${darkMode ? 'rgba(94,234,212,0.30)' : 'rgba(20,184,166,0.30)'}`,
+          }}
+        >
+          <div className="p-3.5">
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ background: darkMode ? 'rgba(94,234,212,0.18)' : 'rgba(20,184,166,0.15)' }}
+              >
+                <Wind className="w-4 h-4" style={{ color: darkMode ? '#5EEAD4' : '#0D9488' }} />
+              </div>
+              <div>
+                <p className="text-[13px] font-extrabold leading-tight" style={{ color: theme.textPrimary }}>
+                  Ici, la vapeur suffit ✨
+                </p>
+                <p className="text-[10px]" style={{ color: theme.textMuted }}>
+                  0 produit · 0 résidu · désinfection à 100 °C
+                </p>
+              </div>
+            </div>
+            {vapeurRecette && onRecipeClick && (
+              <button
+                onClick={() => onRecipeClick(vapeurRecette)}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all active:scale-[0.98]"
+                style={{ background: darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.65)' }}
+              >
+                <span className="text-xs font-semibold" style={{ color: theme.textPrimary }}>
+                  {vapeurRecette.emoji} {vapeurRecette.nom}
+                </span>
+                <ChevronRight className="w-3.5 h-3.5" style={{ color: theme.textMuted }} />
+              </button>
+            )}
+          </div>
+          {/* Matériel vapeur (partenaires — placeholders tant que l'affiliation est inactive) */}
+          <div className="px-3.5 pb-3.5 flex gap-2.5 overflow-x-auto scrollbar-hide">
+            {getProduitsParCategorie('vapeur').map((p) => (
+              <PartnerProductCard key={p.id} produit={p} compact accent={darkMode ? '#5EEAD4' : '#0D9488'} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Recettes maison */}
       {recettes.length > 0 ? (

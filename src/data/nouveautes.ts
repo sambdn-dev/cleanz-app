@@ -17,6 +17,32 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 19,
+    date: '2026-07-02',
+    emoji: '🏊',
+    title: 'Piscine & Spa',
+    description: 'Nouvelle section complète sur l\'accueil : équilibre de l\'eau, filtration, ligne d\'eau à la pierre d\'argile, entretien du spa, et les solutions SOS (eau verte, eau trouble…).',
+    steps: [
+      'Sur l\'accueil, descends jusqu\'à l\'encart « Piscine & Spa »',
+      'Trois onglets : Piscine, Spa et SOS',
+      'Touche un conseil pour voir le détail',
+    ],
+  },
+  {
+    id: 18,
+    date: '2026-07-02',
+    emoji: '💨',
+    title: 'La vapeur suffit !',
+    description: 'Sur 12 surfaces (four, WC, joints, matelas, canapé…), le nettoyage vapeur seul désinfecte sans aucun produit. Repère le badge « vapeur » sur les surfaces et l\'encart dédié dans leur fiche.',
+  },
+  {
+    id: 17,
+    date: '2026-07-02',
+    emoji: '⭐',
+    title: 'Les stars du clean',
+    description: 'Begin Clean, L\'Homme de Ménage, Jonathan Coni… Retrouve nos créateurs ménage préférés sur l\'accueil, avec leurs boutiques et leur livre. Sélection 100% indépendante.',
+  },
+  {
     id: 16,
     date: '2026-06-21',
     emoji: '🎉',

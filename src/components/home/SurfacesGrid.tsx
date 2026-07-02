@@ -76,6 +76,15 @@ export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClic
             <span className="absolute top-1.5 left-2 text-base" style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.5))' }}>
               {surface.emoji}
             </span>
+            {/* Badge vapeur : la vapeur seule suffit sur cette surface */}
+            {surface.vapeurOk && (
+              <span
+                className="absolute top-1.5 right-1.5 text-[8px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded-full text-white"
+                style={{ background: 'rgba(13,148,136,0.85)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+              >
+                💨 vapeur
+              </span>
+            )}
             <span
               className="absolute inset-x-0 bottom-0 p-2 text-[11px] font-bold text-white leading-tight line-clamp-2"
               style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
