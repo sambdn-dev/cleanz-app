@@ -103,16 +103,25 @@ export const LeSaviezVousSection = () => {
           </button>
         </div>
 
-        {/* Compteur discret (remplace les 20 points) */}
-        <span
-          className="inline-block mt-3 text-[10px] font-semibold px-2.5 py-1 rounded-full"
-          style={{
-            background: darkMode ? 'rgba(255,133,192,0.12)' : 'rgba(255,105,180,0.1)',
-            color: darkMode ? 'rgba(255,133,192,0.85)' : 'rgba(255,105,180,0.8)',
-          }}
-        >
-          {currentTipIndex + 1} / {TIPS_DATA.length}
-        </span>
+        {/* 4 points : indiquent le défilement (le point actif tourne) */}
+        <div className="flex items-center justify-center gap-1.5 mt-3.5" aria-hidden>
+          {[0, 1, 2, 3].map((i) => {
+            const active = currentTipIndex % 4 === i;
+            return (
+              <span
+                key={i}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  width: active ? 18 : 6,
+                  height: 6,
+                  background: active
+                    ? (darkMode ? '#FF85C0' : '#FF69B4')
+                    : (darkMode ? 'rgba(255,133,192,0.25)' : 'rgba(255,105,180,0.25)'),
+                }}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
