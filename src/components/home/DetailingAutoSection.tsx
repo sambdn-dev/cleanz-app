@@ -173,7 +173,7 @@ export const DetailingAutoSection = () => {
             <button
               key={i}
               onClick={() => switchTab(i)}
-              className="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+              className="flex-1 py-2 px-2 rounded-xl text-[13px] font-bold transition-all flex items-center justify-center gap-1.5"
               style={{
                 background: activeTab === i ? `${accent}26` : 'transparent',
                 color: activeTab === i ? accent : theme.textMuted,
@@ -203,7 +203,7 @@ export const DetailingAutoSection = () => {
               >
                 <div className="flex items-center gap-2.5 py-2.5 px-3">
                   <span className="text-lg flex-shrink-0" aria-hidden>{tip.emoji}</span>
-                  <span className="flex-1 text-[13px] font-semibold" style={{ color: theme.textPrimary }}>
+                  <span className="flex-1 text-[15px] font-semibold" style={{ color: theme.textPrimary }}>
                     {tip.titre}
                     {tip.important && <span className="ml-1.5 text-[10px] opacity-60">⭐</span>}
                   </span>
@@ -214,7 +214,7 @@ export const DetailingAutoSection = () => {
                 </div>
                 {isOpen && (
                   <div className="animate-accordion-in">
-                    <p className="px-3 pb-2.5 text-[12px] leading-relaxed whitespace-pre-line" style={{ color: theme.textSecondary }}>
+                    <p className="px-3 pb-2.5 text-[14px] leading-relaxed whitespace-pre-line" style={{ color: theme.textSecondary }}>
                       {tip.texte}
                     </p>
                   </div>

@@ -12,9 +12,7 @@ import { SurfacesGrid } from '@/components/home/SurfacesGrid';
 import { EssentielsSection } from '@/components/home/EssentielsSection';
 import { EntretienSection } from '@/components/home/EntretienSection';
 import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
-import { SaisonCleanzSection } from '@/components/home/SaisonCleanzSection';
-import { PiscineSpaSection } from '@/components/home/PiscineSpaSection';
-import { DetailingAutoSection } from '@/components/home/DetailingAutoSection';
+import { GuidesCarousel } from '@/components/home/GuidesCarousel';
 import { CreateursSection } from '@/components/home/CreateursSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
 import { CaniculeModal } from '@/components/home/CaniculeModal';
@@ -283,14 +281,9 @@ function HomePageContent() {
             {/* Le saviez-vous ? - Tips carousel */}
             <LeSaviezVousSection />
 
-            {/* L'été avec Cleanz - encart saisonnier */}
-            {!searchQuery && <SaisonCleanzSection heatActive={heat.isHeat} />}
-
-            {/* Piscine & Spa — conseils + produits partenaires */}
-            {!searchQuery && <PiscineSpaSection />}
-
-            {/* Detailing Auto — conseils Kärcher + équipement */}
-            {!searchQuery && <DetailingAutoSection />}
+            {/* Les guides Cleanz — Saison, Piscine & Spa, Detailing Auto
+                en carrousel coulissant (contenu complet en plein écran) */}
+            {!searchQuery && <GuidesCarousel heatActive={heat.isHeat} />}
 
             {/* Les stars du clean — vitrine créateurs */}
             {!searchQuery && <CreateursSection />}

@@ -29,7 +29,7 @@ const TIPS_DATA = [
 ];
 
 export const LeSaviezVousSection = () => {
-  const { darkMode } = useTheme();
+  const { theme, darkMode } = useTheme();
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   // Auto-rotation calme (9 secondes) pour réduire le bruit visuel
@@ -46,115 +46,73 @@ export const LeSaviezVousSection = () => {
   return (
     <div className="mb-5">
       <div
-        className="p-4 rounded-3xl relative overflow-hidden"
+        className="p-5 rounded-3xl relative overflow-hidden text-center"
         style={{
-          background: darkMode
-            ? 'linear-gradient(135deg, rgba(255,105,180,0.15) 0%, rgba(221,160,221,0.1) 50%, rgba(79,209,197,0.1) 100%)'
-            : 'linear-gradient(135deg, #FFF0F5 0%, #FFE4EC 50%, #F8E1F4 100%)',
-          border: darkMode
-            ? '1px solid rgba(255,105,180,0.25)'
-            : '1px solid rgba(255,182,193,0.4)',
-          boxShadow: darkMode
-            ? 'none'
-            : '0 4px 20px rgba(255,105,180,0.12), inset 0 1px 0 rgba(255,255,255,0.8)'
+          // Fond blanc (feedback utilisateurs) — carte solide en mode sombre
+          background: darkMode ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.95)',
+          border: darkMode ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.05)',
+          boxShadow: darkMode ? 'none' : '0 6px 24px rgba(149,108,180,0.14)',
         }}
       >
-        {/* Cercles décoratifs en fond */}
-        <div
-          className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-40"
-          style={{ background: 'radial-gradient(circle, rgba(255,182,193,0.5) 0%, transparent 70%)' }}
-        />
-        <div
-          className="absolute -bottom-10 -left-10 w-24 h-24 rounded-full opacity-30"
-          style={{ background: 'radial-gradient(circle, rgba(221,160,221,0.5) 0%, transparent 70%)' }}
-        />
-
-        <div className="relative">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              {/* Icône ampoule */}
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
-                style={{
-                  background: darkMode
-                    ? 'linear-gradient(135deg, rgba(255,105,180,0.3) 0%, rgba(221,160,221,0.2) 100%)'
-                    : 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
-                  boxShadow: darkMode ? 'none' : '0 2px 8px rgba(255,105,180,0.3)'
-                }}
-              >
-                <span className="text-lg">💡</span>
-              </div>
-              {/* Titre */}
-              <span
-                className="text-[10px] font-black uppercase tracking-widest"
-                style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }}
-              >
-                Le saviez-vous ?
-              </span>
-            </div>
-            {/* Compteur */}
-            <span
-              className="text-[10px] font-semibold px-2 py-1 rounded-full"
-              style={{
-                background: darkMode ? 'rgba(255,105,180,0.15)' : 'rgba(255,105,180,0.15)',
-                color: darkMode ? 'rgba(255,133,192,0.8)' : 'rgba(255,105,180,0.7)'
-              }}
-            >
-              {currentTipIndex + 1}/{TIPS_DATA.length}
-            </span>
+        {/* Header centré */}
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <div
+            className="w-8 h-8 rounded-xl flex items-center justify-center"
+            style={{
+              background: darkMode
+                ? 'rgba(255,133,192,0.18)'
+                : 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 100%)',
+              boxShadow: darkMode ? 'none' : '0 2px 8px rgba(255,105,180,0.3)',
+            }}
+          >
+            <span className="text-base" aria-hidden>💡</span>
           </div>
+          <span
+            className="text-[11px] font-black uppercase tracking-widest"
+            style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }}
+          >
+            Le saviez-vous ?
+          </span>
+        </div>
 
-          {/* Texte du tip */}
+        {/* Texte : grand, centré, lisible */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={prevTip}
+            aria-label="Astuce précédente"
+            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90"
+            style={{ background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,105,180,0.1)' }}
+          >
+            <ChevronLeft className="w-4 h-4" style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }} />
+          </button>
+
           <p
-            className="text-[15px] leading-relaxed font-medium mb-4"
-            style={{ color: darkMode ? '#F5E6FF' : '#5A4A6A' }}
+            className="flex-1 text-[17px] leading-snug font-semibold min-h-[76px] flex items-center justify-center"
+            style={{ color: theme.textPrimary }}
           >
             {TIPS_DATA[currentTipIndex]}
           </p>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-between">
-            {/* Flèche gauche */}
-            <button
-              onClick={prevTip}
-              aria-label="Astuce précédente"
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
-              style={{ background: darkMode ? 'rgba(255,105,180,0.15)' : 'rgba(255,105,180,0.15)' }}
-            >
-              <ChevronLeft className="w-4 h-4" style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }} />
-            </button>
-
-            {/* Dots */}
-            <div className="flex gap-1.5">
-              {TIPS_DATA.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentTipIndex(idx)}
-                  className="transition-all duration-300"
-                  style={{
-                    width: idx === currentTipIndex ? '16px' : '5px',
-                    height: '5px',
-                    borderRadius: '3px',
-                    background: idx === currentTipIndex
-                      ? (darkMode ? '#FF85C0' : '#FF69B4')
-                      : (darkMode ? 'rgba(255,105,180,0.25)' : 'rgba(255,105,180,0.3)')
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Flèche droite */}
-            <button
-              onClick={nextTip}
-              aria-label="Astuce suivante"
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
-              style={{ background: darkMode ? 'rgba(255,105,180,0.15)' : 'rgba(255,105,180,0.15)' }}
-            >
-              <ChevronRight className="w-4 h-4" style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }} />
-            </button>
-          </div>
+          <button
+            onClick={nextTip}
+            aria-label="Astuce suivante"
+            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all active:scale-90"
+            style={{ background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,105,180,0.1)' }}
+          >
+            <ChevronRight className="w-4 h-4" style={{ color: darkMode ? '#FF85C0' : '#FF69B4' }} />
+          </button>
         </div>
+
+        {/* Compteur discret (remplace les 20 points) */}
+        <span
+          className="inline-block mt-3 text-[10px] font-semibold px-2.5 py-1 rounded-full"
+          style={{
+            background: darkMode ? 'rgba(255,133,192,0.12)' : 'rgba(255,105,180,0.1)',
+            color: darkMode ? 'rgba(255,133,192,0.85)' : 'rgba(255,105,180,0.8)',
+          }}
+        >
+          {currentTipIndex + 1} / {TIPS_DATA.length}
+        </span>
       </div>
     </div>
   );

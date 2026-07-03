@@ -17,6 +17,13 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 22,
+    date: '2026-07-03',
+    emoji: '🧭',
+    title: 'Accueil allégé, lecture facilitée',
+    description: 'Grâce à vos retours : les guides Saison, Piscine & Spa et Detailing Auto sont maintenant 3 cartes à faire glisser (le détail s\'ouvre en plein écran), les textes sont plus grands, et « Le saviez-vous ? » fait peau neuve.',
+  },
+  {
     id: 21,
     date: '2026-07-02',
     emoji: '🚗',
