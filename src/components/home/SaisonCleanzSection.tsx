@@ -397,9 +397,11 @@ const ORDER: SaisonKey[] = ['printemps', 'ete', 'automne', 'hiver'];
 interface SaisonCleanzSectionProps {
   /** Période de chaleur détectée : met l'Été + l'onglet Canicule en avant. */
   heatActive?: boolean;
+  /** Affiché dans la feuille plein écran : masque la bannière hero + le chrome de carte. */
+  embedded?: boolean;
 }
 
-export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionProps) => {
+export const SaisonCleanzSection = ({ heatActive = false, embedded = false }: SaisonCleanzSectionProps) => {
   const { theme, darkMode } = useTheme();
   const saisonActuelle = getSaison();
   const [selected, setSelected] = useState<SaisonKey>(heatActive ? 'ete' : saisonActuelle);
@@ -453,7 +455,7 @@ export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionP
   };
 
   return (
-    <div className="mb-5" id="saison-cleanz">
+    <div className={embedded ? '' : 'mb-5'} id="saison-cleanz">
       {/* Sélecteur de saison (par défaut : saison en cours) */}
       <div className="flex gap-1.5 mb-2.5 overflow-x-auto scrollbar-hide -mx-1 px-1">
         {ORDER.map((k) => {
@@ -489,12 +491,13 @@ export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionP
       <div
         className="rounded-3xl overflow-hidden relative"
         style={{
-          background: darkMode ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)' : 'rgba(255,255,255,0.55)',
-          border: `1px solid ${accent}38`,
-          boxShadow: darkMode ? 'none' : `0 8px 28px ${accent}24`,
+          background: embedded ? 'transparent' : darkMode ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)' : 'rgba(255,255,255,0.55)',
+          border: embedded ? 'none' : `1px solid ${accent}38`,
+          boxShadow: embedded ? 'none' : darkMode ? 'none' : `0 8px 28px ${accent}24`,
         }}
       >
-        {/* Bannière */}
+        {/* Bannière (masquée en mode embedded : la feuille a déjà sa bannière photo) */}
+        {!embedded && (
         <div className="relative h-32 w-full overflow-hidden">
           {saison.heroImage && !imgError ? (
             <Image
@@ -521,6 +524,7 @@ export const SaisonCleanzSection = ({ heatActive = false }: SaisonCleanzSectionP
             </div>
           </div>
         </div>
+        )}
 
         {/* Onglets */}
         <div className="flex gap-1.5 px-3 pt-3">

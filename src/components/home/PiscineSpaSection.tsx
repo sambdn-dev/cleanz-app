@@ -122,7 +122,7 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
 /* ------------------------------------------------------------------ */
 /*  Section                                                            */
 /* ------------------------------------------------------------------ */
-export const PiscineSpaSection = () => {
+export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) => {
   const { theme, darkMode } = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState<number | null>(0);
@@ -143,16 +143,17 @@ export const PiscineSpaSection = () => {
   };
 
   return (
-    <div className="mb-5" id="piscine-spa">
+    <div className={embedded ? '' : 'mb-5'} id="piscine-spa">
       <div
         className="rounded-3xl overflow-hidden relative"
         style={{
-          background: darkMode ? 'linear-gradient(135deg, #0E2A3F 0%, #0A1A2E 100%)' : 'rgba(255,255,255,0.55)',
-          border: `1px solid ${accent}38`,
-          boxShadow: darkMode ? 'none' : `0 8px 28px ${accent}22`,
+          background: embedded ? 'transparent' : darkMode ? 'linear-gradient(135deg, #0E2A3F 0%, #0A1A2E 100%)' : 'rgba(255,255,255,0.55)',
+          border: embedded ? 'none' : `1px solid ${accent}38`,
+          boxShadow: embedded ? 'none' : darkMode ? 'none' : `0 8px 28px ${accent}22`,
         }}
       >
-        {/* Bannière */}
+        {/* Bannière (masquée en mode embedded : la feuille a déjà sa bannière photo) */}
+        {!embedded && (
         <div
           className="relative h-24 w-full overflow-hidden"
           style={{
@@ -177,6 +178,7 @@ export const PiscineSpaSection = () => {
           </div>
           <span className="absolute top-2.5 right-3 text-2xl" aria-hidden>🏊</span>
         </div>
+        )}
 
         {/* Onglets */}
         <div className="flex gap-1.5 px-3 pt-3">
