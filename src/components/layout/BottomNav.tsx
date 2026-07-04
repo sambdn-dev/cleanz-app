@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Home, Zap, BookOpen, FlaskConical, Heart } from 'lucide-react';
+import { Home, Zap, BookOpen, Wrench, Heart } from 'lucide-react';
 import { haptic } from '@/utils/haptics';
 
-export type NavTab = 'Accueil' | 'Appareils' | 'Recettes' | 'Ingrédients' | 'Favoris';
+export type NavTab = 'Accueil' | 'Appareils' | 'Recettes' | 'Matériel' | 'Favoris';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -16,7 +16,7 @@ const navItems: { icon: typeof Home; label: NavTab }[] = [
   { icon: Home, label: 'Accueil' },
   { icon: Zap, label: 'Appareils' },
   { icon: BookOpen, label: 'Recettes' },
-  { icon: FlaskConical, label: 'Ingrédients' },
+  { icon: Wrench, label: 'Matériel' },
   { icon: Heart, label: 'Favoris' },
 ];
 

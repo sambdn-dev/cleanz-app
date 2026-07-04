@@ -28,7 +28,7 @@ import { AstuceModal } from '@/components/modals/AstuceModal';
 import { RecipeModal } from '@/components/modals/RecipeModal';
 import { AccountMenu } from '@/components/layout/AccountMenu';
 import { RecipesPage } from '@/components/recipes/RecipesPage';
-import { IngredientsPage } from '@/components/ingredients/IngredientsPage';
+import { MaterielPage } from '@/components/materiel/MaterielPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { AccountPage } from '@/components/account/AccountPage';
 import { ShoppingListPage } from '@/components/account/ShoppingListPage';
@@ -307,7 +307,7 @@ function HomePageContent() {
             {/* Les 8 Essentiels */}
             <EssentielsSection
               onIngredientClick={setSelectedIngredient}
-              onViewAll={() => setActiveNavTab('Ingrédients')}
+              onViewAll={() => handleNavTabChange('Recettes')}
             />
 
             {/* Astuces du jour */}
@@ -330,12 +330,8 @@ function HomePageContent() {
           />
         )}
 
-        {activeNavTab === 'Ingrédients' && (
-          <IngredientsPage
-            onIngredientClick={setSelectedIngredientComplet}
-            onSurfaceClick={setSelectedSurface}
-            onRecipeClick={setSelectedRecipe}
-          />
+        {activeNavTab === 'Matériel' && (
+          <MaterielPage onSurfaceClick={setSelectedSurface} />
         )}
 
         {activeNavTab === 'Favoris' && (

@@ -17,6 +17,18 @@ export interface Nouveaute {
 
 export const NOUVEAUTES: Nouveaute[] = [
   {
+    id: 23,
+    date: '2026-07-04',
+    emoji: '🛠️',
+    title: 'Nouvel onglet Matériel',
+    description: 'Les 5 machines qui changent vraiment le ménage — vapeur, aspirateur balai, robot laveur, injecteur-extracteur, haute pression — avec nos conseils pour bien choisir. Et les ingrédients ont déménagé : retrouve-les en carrousel en haut de l\'onglet Recettes.',
+    steps: [
+      'L\'onglet Matériel remplace l\'onglet Ingrédients',
+      'Tous les ingrédients sont en tête de l\'onglet Recettes',
+      'Dans Matériel, touche une surface « Idéal pour » pour ouvrir sa fiche',
+    ],
+  },
+  {
     id: 22,
     date: '2026-07-03',
     emoji: '🧭',

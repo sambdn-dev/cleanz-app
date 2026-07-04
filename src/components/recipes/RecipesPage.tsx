@@ -14,6 +14,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge';
 import { HeartBurst } from '@/components/ui/HeartBurst';
 import { SmartSearch } from '@/components/layout/SmartSearch';
+import { IngredientsCarousel } from './IngredientsCarousel';
 import { haptic } from '@/utils/haptics';
 
 interface RecipesPageProps {
@@ -203,6 +204,9 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
           placeholder="Rechercher une recette, surface, ingrédient..."
         />
       </div>
+
+      {/* Le garde-manger : tous les ingrédients en carrousel (masqué pendant une recherche) */}
+      {!searchQuery && <IngredientsCarousel onIngredientClick={onIngredientClick} />}
 
       {/* Résultats */}
       {filteredRecipes.length === 0 ? (
