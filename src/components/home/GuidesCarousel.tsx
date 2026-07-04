@@ -15,7 +15,7 @@ type GuideKey = 'saison' | 'piscine' | 'auto';
 
 /* Habillage de la carte Saison selon la saison en cours (image = repli sur dégradé si absente) */
 const SAISON_CARD: Record<SaisonKey, { emoji: string; label: string; gradient: string; image?: string }> = {
-  printemps: { emoji: '🌸', label: 'Le printemps avec Cleanz', gradient: 'linear-gradient(135deg, #34D399 0%, #059669 100%)' },
+  printemps: { emoji: '🌸', label: 'Le printemps avec Cleanz', gradient: 'linear-gradient(135deg, #34D399 0%, #059669 100%)', image: '/images/scenes/guide-printemps.jpg' },
   ete: { emoji: '☀️', label: "L'été avec Cleanz", gradient: 'linear-gradient(135deg, #FBBF24 0%, #F97316 100%)', image: '/images/scenes/guide-ete.jpg' },
   automne: { emoji: '🍂', label: "L'automne avec Cleanz", gradient: 'linear-gradient(135deg, #FB923C 0%, #B45309 100%)', image: '/images/scenes/guide-automne.jpg' },
   hiver: { emoji: '❄️', label: "L'hiver avec Cleanz", gradient: 'linear-gradient(135deg, #60A5FA 0%, #1D4ED8 100%)', image: '/images/scenes/guide-hiver.jpg' },
