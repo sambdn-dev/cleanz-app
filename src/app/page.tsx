@@ -203,6 +203,22 @@ function HomePageContent() {
       <WhatsNewModal />
 
       <div className="min-h-screen relative">
+        {/* Blur progressif tout en haut : évite que le contenu défilé se
+            superpose à la barre d'état (heure, réseau, batterie). */}
+        <div
+          className="fixed top-0 left-0 right-0 z-40 pointer-events-none"
+          style={{
+            height: 'calc(env(safe-area-inset-top, 0px) + 14px)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+            background: darkMode
+              ? 'linear-gradient(to bottom, rgba(30,16,56,0.55) 0%, transparent 100%)'
+              : 'linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, transparent 100%)',
+          }}
+        />
+
         {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {!darkMode && (

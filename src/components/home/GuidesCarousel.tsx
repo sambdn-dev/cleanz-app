@@ -113,7 +113,7 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
     : openGuide === 'piscine' ? '🏊' : '🚗';
 
   return (
-    <div className="mb-5">
+    <div className="mb-1">
       {/* Titre de section */}
       <div className="flex items-center gap-2 mb-3">
         <BookOpen className="w-5 h-5" style={{ color: theme.accentPink }} />
@@ -125,9 +125,9 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
         </span>
       </div>
 
-      {/* Carrousel coulissant */}
+      {/* Carrousel coulissant (padding vertical : laisse respirer l'ombre des cartes) */}
       <div
-        className="flex gap-3 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4 pb-1 snap-x snap-mandatory"
+        className="flex gap-3 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4 pt-1 pb-6 snap-x snap-mandatory"
         style={{ scrollPaddingLeft: 16 }}
       >
         {cards.map((c) => (
@@ -135,7 +135,13 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
             key={c.key}
             onClick={() => open(c.key)}
             className="relative w-[240px] h-[140px] flex-shrink-0 snap-start rounded-3xl overflow-hidden text-left transition-transform active:scale-[0.98]"
-            style={{ background: c.gradient, boxShadow: darkMode ? '0 8px 24px rgba(0,0,0,0.35)' : '0 8px 24px rgba(0,0,0,0.14)' }}
+            style={{
+              background: c.gradient,
+              // Ombre douce et diffuse (deux couches) — plus de découpe nette
+              boxShadow: darkMode
+                ? '0 10px 20px rgba(0,0,0,0.28), 0 3px 8px rgba(0,0,0,0.22)'
+                : '0 10px 24px rgba(80,60,120,0.16), 0 3px 8px rgba(80,60,120,0.10)',
+            }}
           >
             {/* Photo de fond (repli sur le dégradé si absente) */}
             {c.image && (
