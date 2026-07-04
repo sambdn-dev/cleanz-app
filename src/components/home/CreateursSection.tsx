@@ -1,15 +1,22 @@
 'use client';
 
+import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { CREATEURS, Createur } from '@/data/createurs';
+import { getBlur } from '@/data/imageBlur';
 import { haptic } from '@/utils/haptics';
 import { ExternalLink, BookOpen, ShoppingBag, BadgeCheck, Users } from 'lucide-react';
 
-const LinkIcon = ({ type }: { type: string }) =>
-  type === 'livre' ? <BookOpen className="w-3 h-3" /> : type === 'boutique' ? <ShoppingBag className="w-3 h-3" /> : <ExternalLink className="w-3 h-3" />;
+const LinkIcon = ({ type, className }: { type: string; className?: string }) =>
+  type === 'livre' ? <BookOpen className={className} /> : type === 'boutique' ? <ShoppingBag className={className} /> : <ExternalLink className={className} />;
 
+/**
+ * Carte créateur « poster » : la photo remplit toute la carte, un panneau de
+ * verre dépoli (backdrop-blur) en bas porte le nom + spécialité + lien.
+ */
 const CreateurCard = ({ createur }: { createur: Createur }) => {
   const { theme, darkMode } = useTheme();
+  const lien = createur.liens[0];
 
   const openLink = (url: string) => {
     haptic('light');
@@ -17,82 +24,77 @@ const CreateurCard = ({ createur }: { createur: Createur }) => {
   };
 
   return (
-    <div
-      className="w-[240px] flex-shrink-0 rounded-2xl overflow-hidden"
-      style={{
-        background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)',
-        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)'}`,
-      }}
+    <button
+      onClick={() => lien && openLink(lien.url)}
+      className="relative w-[186px] h-[260px] flex-shrink-0 snap-start rounded-3xl overflow-hidden text-left transition-transform active:scale-[0.98]"
+      style={{ boxShadow: darkMode ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.16)' }}
     >
-      {/* En-tête dégradé + avatar */}
-      <div className="relative h-14" style={{ background: createur.gradient }}>
+      {/* Photo plein cadre (repli emoji + dégradé) */}
+      {createur.photo ? (
+        <Image
+          src={createur.photo}
+          alt={createur.nom}
+          fill
+          className="object-cover"
+          sizes="186px"
+          placeholder={getBlur(createur.photo) ? 'blur' : 'empty'}
+          blurDataURL={getBlur(createur.photo)}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-5xl" style={{ background: createur.gradient }} aria-hidden>
+          {createur.emoji}
+        </div>
+      )}
+
+      {/* Badge partenaire (si signé) */}
+      {createur.partenaire && (
+        <span className="absolute top-2.5 left-2.5 flex items-center gap-1 text-[9px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/25 text-white backdrop-blur-sm">
+          <BadgeCheck className="w-3 h-3" /> Partenaire
+        </span>
+      )}
+
+      {/* Spécialité n°1 en pastille flottante */}
+      {createur.specialites[0] && (
+        <span
+          className="absolute top-2.5 right-2.5 text-[9px] font-bold px-2 py-1 rounded-full text-white"
+          style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+        >
+          {createur.specialites[0]}
+        </span>
+      )}
+
+      {/* Panneau de verre dépoli sous le texte */}
+      <div
+        className="absolute inset-x-0 bottom-0 p-3 pt-8"
+        style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)',
+        }}
+      >
         <div
-          className="absolute -bottom-5 left-3.5 w-11 h-11 rounded-2xl flex items-center justify-center text-xl"
+          className="rounded-2xl px-3 py-2.5"
           style={{
-            background: createur.gradient,
-            border: `2.5px solid ${darkMode ? '#241838' : '#fff'}`,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+            background: 'rgba(255,255,255,0.16)',
+            backdropFilter: 'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            border: '1px solid rgba(255,255,255,0.25)',
           }}
         >
-          <span aria-hidden>{createur.emoji}</span>
-        </div>
-        {createur.partenaire && (
-          <span className="absolute top-2 right-2 flex items-center gap-1 text-[9px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-white/25 text-white backdrop-blur-sm">
-            <BadgeCheck className="w-3 h-3" /> Partenaire
-          </span>
-        )}
-      </div>
-
-      <div className="pt-7 px-3.5 pb-3.5">
-        <h4 className="text-sm font-extrabold leading-tight" style={{ color: theme.textPrimary }}>
-          {createur.nom}
-        </h4>
-        <p className="text-[10px] font-semibold mb-1.5" style={{ color: theme.textMuted }}>
-          {createur.pseudo}
-        </p>
-
-        <p className="text-[11px] leading-snug mb-2.5 line-clamp-4" style={{ color: theme.textSecondary }}>
-          {createur.bio}
-        </p>
-
-        {/* Spécialités */}
-        <div className="flex flex-wrap gap-1 mb-3">
-          {createur.specialites.map((s, i) => (
-            <span
-              key={i}
-              className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                color: theme.textSecondary,
-              }}
+          <p className="text-[15px] font-extrabold text-white leading-tight" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
+            {createur.nom}
+          </p>
+          <p className="text-[10px] font-semibold text-white/85 mb-2">{createur.pseudo}</p>
+          {lien && (
+            <span className="flex items-center justify-center gap-1.5 text-[11px] font-bold text-white px-2.5 py-1.5 rounded-xl"
+              style={{ background: 'rgba(255,255,255,0.2)' }}
             >
-              {s}
+              <LinkIcon type={lien.type} className="w-3 h-3" />
+              {lien.type === 'livre' ? 'Son livre' : 'Sa boutique'}
+              <ExternalLink className="w-3 h-3 opacity-70" />
             </span>
-          ))}
-        </div>
-
-        {/* Liens */}
-        <div className="space-y-1.5">
-          {createur.liens.map((lien, i) => (
-            <button
-              key={i}
-              onClick={() => openLink(lien.url)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all active:scale-[0.98]"
-              style={{
-                background: darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.035)',
-                color: theme.textPrimary,
-              }}
-            >
-              <span className="flex items-center gap-1.5 text-[11px] font-bold">
-                <LinkIcon type={lien.type} />
-                {lien.label}
-              </span>
-              <ExternalLink className="w-3 h-3" style={{ color: theme.textMuted }} />
-            </button>
-          ))}
+          )}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -115,7 +117,7 @@ export const CreateursSection = () => {
         Nos créateurs préférés — sélection indépendante de l&apos;équipe Cleanz
       </p>
 
-      <div className="flex gap-3 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4 pb-1">
+      <div className="flex gap-3 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4 pb-1 snap-x snap-mandatory">
         {CREATEURS.map((c) => (
           <CreateurCard key={c.id} createur={c} />
         ))}
