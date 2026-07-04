@@ -149,17 +149,18 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
                 blurDataURL={getBlur(c.image)}
               />
             )}
-            {/* Voile bas pour la lisibilité */}
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 55%, transparent 80%)' }} />
+            {/* Voile pour la lisibilité (renforcé : le texte doit primer sur la photo) */}
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.18)' }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 42%, rgba(0,0,0,0.15) 70%, transparent 100%)' }} />
             <span className="absolute top-3 right-3.5 text-3xl" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.25))' }} aria-hidden>
               {c.emoji}
             </span>
             <div className="absolute inset-x-0 bottom-0 p-3.5">
-              <p className="text-[9px] font-black uppercase tracking-widest text-white/75">{c.kicker}</p>
-              <h3 className="font-display text-[17px] font-extrabold text-white leading-tight mb-0.5" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.35)' }}>
+              <p className="text-[9px] font-black uppercase tracking-widest text-white/85" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>{c.kicker}</p>
+              <h3 className="font-display text-[17px] font-extrabold text-white leading-tight mb-0.5" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}>
                 {c.titre}
               </h3>
-              <p className="text-[11px] text-white/85 leading-snug line-clamp-2">{c.description}</p>
+              <p className="text-[11px] text-white/95 leading-snug line-clamp-2" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.55)' }}>{c.description}</p>
             </div>
             <span
               className="absolute top-3 left-3.5 flex items-center gap-1 text-[10px] font-bold text-white/90 px-2 py-1 rounded-full"
