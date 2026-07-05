@@ -354,6 +354,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 11,
     nom: 'Alcool ménager',
+    imageUrl: '/images/ingredients/ing-alcool-menager.jpg',
     emoji: '🔬',
     gradient: 'linear-gradient(135deg, #B2EBF2 0%, #4DD0E1 100%)',
     badge: 'Désinfectant',
@@ -388,6 +389,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 12,
     nom: 'Terre de Sommières',
+    imageUrl: '/images/ingredients/ing-terre-sommieres.jpg',
     emoji: '🏜️',
     gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
     badge: 'Détachant sec',
@@ -422,6 +424,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 13,
     nom: 'Blanc de Meudon',
+    imageUrl: '/images/ingredients/ing-blanc-meudon.jpg',
     emoji: '🪨',
     gradient: 'linear-gradient(135deg, #FAFAFA 0%, #E0E0E0 100%)',
     badge: 'Polissant',
@@ -456,6 +459,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 14,
     nom: 'Glycérine végétale',
+    imageUrl: '/images/ingredients/ing-glycerine.jpg',
     emoji: '🌿',
     gradient: 'linear-gradient(135deg, #DCEDC8 0%, #AED581 100%)',
     badge: 'Assouplissant',
@@ -490,6 +494,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 15,
     nom: 'Huile d\'olive',
+    imageUrl: '/images/ingredients/ing-huile-olive.jpg',
     emoji: '🫒',
     gradient: 'linear-gradient(135deg, #C5E1A5 0%, #9CCC65 100%)',
     badge: 'Nourrissant',
@@ -524,6 +529,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 16,
     nom: 'Sel',
+    imageUrl: '/images/ingredients/ing-sel.jpg',
     emoji: '🧂',
     gradient: 'linear-gradient(135deg, #F5F5F5 0%, #EEEEEE 100%)',
     badge: 'Abrasif',
@@ -558,6 +564,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 17,
     nom: 'Eau oxygénée',
+    imageUrl: '/images/ingredients/ing-eau-oxygenee.jpg',
     emoji: '💧',
     gradient: 'linear-gradient(135deg, #E3F2FD 0%, #90CAF9 100%)',
     badge: 'Blanchissant',
@@ -592,6 +599,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 18,
     nom: 'Huile essentielle d\'eucalyptus',
+    imageUrl: '/images/ingredients/ing-he-eucalyptus.jpg',
     emoji: '🍃',
     gradient: 'linear-gradient(135deg, #C8E6C9 0%, #81C784 100%)',
     badge: 'Purifiant',
@@ -626,6 +634,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 19,
     nom: 'Liquide vaisselle écologique',
+    imageUrl: '/images/ingredients/ing-liquide-vaisselle.jpg',
     emoji: '🫧',
     gradient: 'linear-gradient(135deg, #B3E5FC 0%, #4FC3F7 100%)',
     badge: 'Tensioactif',
@@ -660,6 +669,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 20,
     nom: 'Cire d\'abeille',
+    imageUrl: '/images/ingredients/ing-cire-abeille.jpg',
     emoji: '🐝',
     gradient: 'linear-gradient(135deg, #FFE082 0%, #FFD54F 100%)',
     badge: 'Protecteur',
