@@ -13,12 +13,9 @@ interface IngredientsCarouselProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
 }
 
-/** Libellé compact pour les tuiles : évite la troncature des noms longs.
- *  « HE » est la convention déjà utilisée dans les fiches recettes. */
-const shortName = (nom: string): string =>
-  nom
-    .replace(/^Huile essentielle d[e']\s*/i, 'HE ')
-    .replace(/\s*écologique$/i, '');
+/** Libellé de tuile : nom complet, on retire juste le suffixe « écologique »
+ *  (redondant et long). « Huile essentielle » reste écrit en toutes lettres. */
+const shortName = (nom: string): string => nom.replace(/\s*écologique$/i, '');
 
 /**
  * Le garde-manger du ménage : les 28 ingrédients en carrousel compact en tête
@@ -64,29 +61,33 @@ export const IngredientsCarousel = ({ onIngredientClick }: IngredientsCarouselPr
             className="w-[84px] flex-shrink-0 flex flex-col items-center gap-1.5 transition-transform active:scale-95"
             aria-label={ing.essentiel ? `${ing.nom} — essentiel` : ing.nom}
           >
-            <span
-              className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl overflow-hidden"
-              style={{
-                background: ing.gradient,
-                boxShadow: darkMode ? '0 4px 12px rgba(0,0,0,0.3)' : '0 4px 12px rgba(0,0,0,0.12)',
-              }}
-            >
-              {ing.imageUrl ? (
-                <Image
-                  src={ing.imageUrl}
-                  alt={ing.nom}
-                  fill
-                  className="object-cover"
-                  sizes="56px"
-                  placeholder={getBlur(ing.imageUrl) ? 'blur' : 'empty'}
-                  blurDataURL={getBlur(ing.imageUrl)}
-                />
-              ) : (
-                <span aria-hidden>{ing.emoji}</span>
-              )}
+            <span className="relative w-14 h-14">
+              {/* Conteneur image (rogné aux coins arrondis) */}
+              <span
+                className="absolute inset-0 rounded-2xl overflow-hidden flex items-center justify-center text-2xl"
+                style={{
+                  background: ing.gradient,
+                  boxShadow: darkMode ? '0 4px 12px rgba(0,0,0,0.3)' : '0 4px 12px rgba(0,0,0,0.12)',
+                }}
+              >
+                {ing.imageUrl ? (
+                  <Image
+                    src={ing.imageUrl}
+                    alt={ing.nom}
+                    fill
+                    className="object-cover"
+                    sizes="56px"
+                    placeholder={getBlur(ing.imageUrl) ? 'blur' : 'empty'}
+                    blurDataURL={getBlur(ing.imageUrl)}
+                  />
+                ) : (
+                  <span aria-hidden>{ing.emoji}</span>
+                )}
+              </span>
+              {/* Étoile essentiel — hors du conteneur rogné pour ne pas être coupée */}
               {ing.essentiel && (
                 <span
-                  className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px]"
+                  className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px] z-10"
                   style={{
                     background: darkMode ? '#FBBF24' : '#F59E0B',
                     border: `2px solid ${darkMode ? '#241838' : '#fff'}`,
