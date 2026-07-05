@@ -1,19 +1,121 @@
 'use client';
 
+import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Surface } from '@/types';
 import { SURFACES } from '@/data/surfaces';
-import { FAMILLES_MATERIEL, FamilleMateriel } from '@/data/materiel';
-import { getProduitById } from '@/data/partenaires';
-import { PartnerProductCard } from '@/components/ui/PartnerProductCard';
+import { FAMILLES_MATERIEL, FamilleMateriel, Reference, getLienReference } from '@/data/materiel';
+import { getBlur } from '@/data/imageBlur';
 import { haptic } from '@/utils/haptics';
-import { Check, ChevronRight, Wallet } from 'lucide-react';
+import { Check, ChevronRight, Wallet, ExternalLink, Lock } from 'lucide-react';
 
 interface MaterielPageProps {
   onSurfaceClick: (surface: Surface) => void;
 }
 
 const surfaceById = new Map(SURFACES.map((s) => [s.id, s]));
+
+/* ------------------------------------------------------------------ */
+/*  Carte d'une référence produit (top 5)                              */
+/* ------------------------------------------------------------------ */
+const ReferenceCard = ({
+  ref,
+  rank,
+  accent,
+  gradient,
+}: {
+  ref: Reference;
+  rank: number;
+  accent: string;
+  gradient: string;
+}) => {
+  const { theme, darkMode } = useTheme();
+  const lien = getLienReference(ref);
+
+  const open = () => {
+    if (!lien) return;
+    haptic('light');
+    window.open(lien, '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    <div
+      onClick={open}
+      className={`w-[200px] flex-shrink-0 rounded-2xl overflow-hidden ${lien ? 'cursor-pointer active:scale-[0.98]' : ''} transition-transform`}
+      style={{
+        background: darkMode ? 'rgba(255,255,255,0.05)' : '#fff',
+        border: `1px solid ${darkMode ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)'}`,
+      }}
+    >
+      {/* Visuel : photo si dispo, sinon placeholder de marque soigné */}
+      <div className="relative h-24 w-full overflow-hidden" style={{ background: gradient }}>
+        {ref.image ? (
+          <Image
+            src={ref.image}
+            alt={`${ref.marque} ${ref.modele}`}
+            fill
+            className="object-contain p-2"
+            sizes="200px"
+            placeholder={getBlur(ref.image) ? 'blur' : 'empty'}
+            blurDataURL={getBlur(ref.image)}
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span
+              className="font-display text-xl font-black tracking-tight text-white leading-none"
+              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}
+            >
+              {ref.marque}
+            </span>
+            <span className="text-[10px] font-semibold text-white/85 mt-0.5">{ref.modele}</span>
+          </div>
+        )}
+        {/* Rang */}
+        <span
+          className="absolute top-2 left-2 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black text-white"
+          style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+        >
+          {rank}
+        </span>
+        {/* Mention (Made in France, Le n°1…) */}
+        {ref.note && (
+          <span
+            className="absolute top-2 right-2 flex items-center gap-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white"
+            style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+          >
+            {ref.francaise && <span aria-hidden>🇫🇷</span>}
+            {ref.note}
+          </span>
+        )}
+      </div>
+
+      {/* Infos */}
+      <div className="p-3">
+        <p className="text-[13px] font-extrabold leading-tight" style={{ color: theme.textPrimary }}>
+          {ref.marque} <span className="font-semibold" style={{ color: theme.textSecondary }}>{ref.modele}</span>
+        </p>
+        <p className="text-[11px] leading-snug mt-1 mb-2.5 line-clamp-3" style={{ color: theme.textSecondary }}>
+          {ref.argument}
+        </p>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[13px] font-black" style={{ color: accent }}>{ref.prix}</span>
+          {lien ? (
+            <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-1.5 rounded-lg text-white" style={{ background: accent }}>
+              Voir <ExternalLink className="w-3 h-3" />
+            </span>
+          ) : (
+            <span
+              className="flex items-center gap-1 text-[9px] font-semibold px-2 py-1.5 rounded-lg"
+              style={{ background: darkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)', color: theme.textMuted }}
+            >
+              <Lock className="w-2.5 h-2.5" /> Bientôt
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ------------------------------------------------------------------ */
 /*  Carte d'une famille de matériel                                    */
@@ -27,9 +129,6 @@ const FamilleCard = ({
 }) => {
   const { theme, darkMode } = useTheme();
   const accent = darkMode ? famille.accentDark : famille.accent;
-  const produits = famille.produitIds
-    .map(getProduitById)
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
   const surfaces = famille.surfaceIds
     .map((id) => surfaceById.get(id))
     .filter((s): s is Surface => Boolean(s));
@@ -98,7 +197,7 @@ const FamilleCard = ({
 
         {/* Idéal pour → deep-links vers les fiches surfaces */}
         {surfaces.length > 0 && (
-          <div className="mb-1">
+          <div>
             <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: theme.textMuted }}>
               Idéal pour
             </p>
@@ -124,16 +223,17 @@ const FamilleCard = ({
         )}
       </div>
 
-      {/* Produits recommandés */}
-      {produits.length > 0 && (
-        <div className="px-4 pb-4">
-          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide -mx-4 px-4">
-            {produits.map((p) => (
-              <PartnerProductCard key={p.id} produit={p} compact accent={accent} />
-            ))}
-          </div>
+      {/* Top 5 des références */}
+      <div className="px-4 pb-4">
+        <p className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: theme.textMuted }}>
+          Notre top 5
+        </p>
+        <div className="flex gap-2.5 overflow-x-auto scrollbar-hide -mx-4 px-4">
+          {famille.references.map((r, i) => (
+            <ReferenceCard key={`${r.marque}-${r.modele}`} ref={r} rank={i + 1} accent={accent} gradient={famille.gradient} />
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -158,7 +258,7 @@ export const MaterielPage = ({ onSurfaceClick }: MaterielPageProps) => {
         </h1>
         <p className="text-sm leading-relaxed" style={{ color: theme.textMuted }}>
           Les recettes font 90 % du travail. Pour les 10 % restants, ces 5 machines
-          changent vraiment la donne — voici comment bien les choisir.
+          changent vraiment la donne — avec notre top 5 des meilleures références.
         </p>
       </div>
 
@@ -190,7 +290,7 @@ export const MaterielPage = ({ onSurfaceClick }: MaterielPageProps) => {
 
       {/* Transparence */}
       <p className="mt-5 text-[12px] leading-relaxed text-center px-4" style={{ color: theme.textMuted }}>
-        Sélection indépendante de l&apos;équipe Cleanz. Les liens produits arrivent
+        Sélection indépendante de l&apos;équipe Cleanz. Les liens d&apos;achat arrivent
         bientôt — quand ils seront actifs, Cleanz pourra percevoir une commission,
         sans surcoût pour vous.
       </p>
