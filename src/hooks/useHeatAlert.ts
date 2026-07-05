@@ -11,8 +11,12 @@ import { useEffect, useState } from 'react';
  *   - nuit « tropicale » ≥ 23 °C     → la chaleur tient aussi la nuit.
  *
  * Choix techniques :
- * - Géoloc par IP avec PLUSIEURS fournisseurs en repli (certains bloqués par des
- *   bloqueurs de pub / VPN) → bien plus fiable.
+ * - Géoloc PRÉCISE du navigateur (GPS/WiFi) en priorité → ville exacte.
+ *   Repli sur la géoloc par IP (plusieurs fournisseurs) UNIQUEMENT pour la
+ *   température : sur mobile l'IP pointe le nœud de l'opérateur (ville fausse),
+ *   donc on N'AFFICHE PAS de ville quand la source est l'IP.
+ * - Reverse-geocoding (BigDataCloud, sans clé, CORS ouvert) pour nommer la ville
+ *   à partir des coordonnées GPS.
  * - Météo via Open-Meteo : gratuit, sans clé, CORS ouvert, vie privée respectée.
  * - On NE met PAS les échecs en cache (sinon une panne ponctuelle masquerait
  *   l'alerte 3 h). Seuls les succès sont mis en cache 3 h.
@@ -25,7 +29,7 @@ const HEAT_DAY_MAX = 30; // °C — max du jour
 const HEAT_DAY_AVG = 29; // °C — moyenne diurne
 const HEAT_NIGHT_MIN = 23; // °C — nuit tropicale
 
-const CACHE_KEY = 'cleanz_heat_v3';
+const CACHE_KEY = 'cleanz_heat_v4'; // v4 : géoloc précise + ville masquée si source IP
 const TTL_MS = 3 * 60 * 60 * 1000; // 3 heures
 
 export interface HeatDebug {
@@ -80,6 +84,33 @@ interface Geo {
   lon: number;
   city: string | null;
   source: string;
+}
+
+/** Géoloc précise du navigateur (GPS/WiFi). Résout null si refusée/indisponible. */
+function geolocatePrecise(): Promise<{ lat: number; lon: number } | null> {
+  return new Promise((resolve) => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) return resolve(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => resolve(null),
+      // city-level suffit : pas de haute précision (plus rapide, moins de batterie),
+      // position récente réutilisée jusqu'à 30 min → pas de re-prompt intempestif.
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 30 * 60 * 1000 }
+    );
+  });
+}
+
+/** Nomme la ville à partir des coordonnées (BigDataCloud, sans clé). */
+async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
+  try {
+    const g = (await fetchJson(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=fr`
+    )) as Record<string, unknown>;
+    const city = (g.city as string) || (g.locality as string) || (g.principalSubdivision as string) || null;
+    return typeof city === 'string' && city.trim() ? city : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Plusieurs fournisseurs de géoloc IP testés dans l'ordre jusqu'au premier valide. */
@@ -236,7 +267,19 @@ export function useHeatAlert(): HeatState {
 
     (async () => {
       try {
-        const geo = await geolocateByIP();
+        // 1) Géoloc précise (GPS/WiFi) → ville exacte. Sinon repli IP (SANS ville).
+        let geo: Geo | null = null;
+        const precise = await geolocatePrecise();
+        if (precise) {
+          const city = await reverseGeocode(precise.lat, precise.lon);
+          geo = { lat: precise.lat, lon: precise.lon, city, source: 'gps' };
+        } else {
+          const ip = await geolocateByIP();
+          // IP = nœud opérateur sur mobile → coordonnées OK pour la météo régionale,
+          // mais ville peu fiable : on ne l'affiche pas.
+          if (ip) geo = { ...ip, city: null, source: `ip:${ip.source}` };
+        }
+
         if (!geo) {
           commit({ loading: false, isHeat: false, tempMax: null, city: null, debug: { ...EMPTY_DEBUG, error: 'géoloc indisponible' } });
           return; // pas de cache → on retentera
