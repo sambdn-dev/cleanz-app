@@ -11,6 +11,13 @@ interface IngredientsCarouselProps {
   onIngredientClick: (ingredient: IngredientComplet) => void;
 }
 
+/** Libellé compact pour les tuiles : évite la troncature des noms longs.
+ *  « HE » est la convention déjà utilisée dans les fiches recettes. */
+const shortName = (nom: string): string =>
+  nom
+    .replace(/^Huile essentielle d[e']\s*/i, 'HE ')
+    .replace(/\s*écologique$/i, '');
+
 /**
  * Le garde-manger du ménage : les 28 ingrédients en carrousel compact en tête
  * de la page Recettes (remplace l'ancien onglet Ingrédients).
@@ -80,7 +87,7 @@ export const IngredientsCarousel = ({ onIngredientClick }: IngredientsCarouselPr
               className="text-xs font-semibold leading-tight text-center line-clamp-2 w-full"
               style={{ color: theme.textSecondary }}
             >
-              {ing.nom}
+              {shortName(ing.nom)}
             </span>
           </button>
         ))}
