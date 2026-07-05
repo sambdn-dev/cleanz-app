@@ -20,6 +20,7 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
   const [showAllRecipes, setShowAllRecipes] = useState(false);
 
   const useDarkHeaderText = shouldUseDarkText(ingredient.gradient);
+  const hasImage = !!ingredient.imageUrl;
   const recettesAssociees = RECETTES.filter((r) => ingredient.recettesIds.includes(r.id));
 
   const ecoLeaves = (
@@ -43,23 +44,40 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
       isOpen={true}
       onClose={onClose}
       headerGradient={ingredient.gradient}
+      headerImageUrl={ingredient.imageUrl}
       useDarkHeaderText={useDarkHeaderText}
       headerContent={
-        <div className="text-center" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
-          <div className="text-5xl mb-3">{ingredient.emoji}</div>
-          <h2 className="font-display text-xl font-extrabold mb-1">{ingredient.nom}</h2>
-          {ingredient.badge && (
-            <span
-              className="inline-block px-3 py-1 rounded-full text-sm"
-              style={{
-                background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
-                color: useDarkHeaderText ? '#374151' : '#FFFFFF',
-              }}
-            >
-              {ingredient.badge}
-            </span>
-          )}
-        </div>
+        hasImage ? (
+          <div className="flex flex-col justify-end" style={{ minHeight: 130 }}>
+            <h2 className="font-display text-2xl font-extrabold text-white" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+              <span className="mr-2">{ingredient.emoji}</span>{ingredient.nom}
+            </h2>
+            {ingredient.badge && (
+              <span
+                className="inline-block mt-1.5 self-start px-3 py-1 rounded-full text-sm font-semibold text-white"
+                style={{ background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}
+              >
+                {ingredient.badge}
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className="text-center" style={{ color: useDarkHeaderText ? '#1F2937' : '#FFFFFF' }}>
+            <div className="text-5xl mb-3">{ingredient.emoji}</div>
+            <h2 className="font-display text-xl font-extrabold mb-1">{ingredient.nom}</h2>
+            {ingredient.badge && (
+              <span
+                className="inline-block px-3 py-1 rounded-full text-sm"
+                style={{
+                  background: useDarkHeaderText ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.2)',
+                  color: useDarkHeaderText ? '#374151' : '#FFFFFF',
+                }}
+              >
+                {ingredient.badge}
+              </span>
+            )}
+          </div>
+        )
       }
     >
       {/* Description */}

@@ -4,6 +4,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 1,
     nom: 'Vinaigre blanc',
+    imageUrl: '/images/ingredients/ing-vinaigre.jpg',
     emoji: '🧴',
     gradient: 'linear-gradient(135deg, #A8E6CF 0%, #88D8B0 100%)',
     badge: 'Incontournable',
@@ -38,6 +39,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 2,
     nom: 'Bicarbonate de soude',
+    imageUrl: '/images/ingredients/ing-bicarbonate.jpg',
     emoji: '⚪',
     gradient: 'linear-gradient(135deg, #E8E8E8 0%, #D4D4D4 100%)',
     badge: 'Polyvalent',
@@ -72,6 +74,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 3,
     nom: 'Savon noir',
+    imageUrl: '/images/ingredients/ing-savon-noir.jpg',
     emoji: '⚫',
     gradient: 'linear-gradient(135deg, #434343 0%, #000000 100%)',
     badge: 'Multi-usage',
@@ -106,6 +109,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 4,
     nom: 'Savon de Marseille',
+    imageUrl: '/images/ingredients/ing-savon-marseille.jpg',
     emoji: '🧼',
     gradient: 'linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%)',
     badge: 'Traditionnel',
@@ -140,6 +144,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 5,
     nom: 'Cristaux de soude',
+    imageUrl: '/images/ingredients/ing-cristaux.jpg',
     emoji: '💎',
     gradient: 'linear-gradient(135deg, #87CEEB 0%, #4169E1 100%)',
     badge: 'Puissant',

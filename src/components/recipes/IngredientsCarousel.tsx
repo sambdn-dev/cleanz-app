@@ -1,9 +1,11 @@
 'use client';
 
 import { useMemo } from 'react';
+import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
+import { getBlur } from '@/data/imageBlur';
 import { haptic } from '@/utils/haptics';
 import { FlaskConical } from 'lucide-react';
 
@@ -63,13 +65,25 @@ export const IngredientsCarousel = ({ onIngredientClick }: IngredientsCarouselPr
             aria-label={ing.essentiel ? `${ing.nom} — essentiel` : ing.nom}
           >
             <span
-              className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              className="relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl overflow-hidden"
               style={{
                 background: ing.gradient,
                 boxShadow: darkMode ? '0 4px 12px rgba(0,0,0,0.3)' : '0 4px 12px rgba(0,0,0,0.12)',
               }}
             >
-              <span aria-hidden>{ing.emoji}</span>
+              {ing.imageUrl ? (
+                <Image
+                  src={ing.imageUrl}
+                  alt={ing.nom}
+                  fill
+                  className="object-cover"
+                  sizes="56px"
+                  placeholder={getBlur(ing.imageUrl) ? 'blur' : 'empty'}
+                  blurDataURL={getBlur(ing.imageUrl)}
+                />
+              ) : (
+                <span aria-hidden>{ing.emoji}</span>
+              )}
               {ing.essentiel && (
                 <span
                   className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px]"
