@@ -179,6 +179,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 6,
     nom: 'Acide citrique',
+    imageUrl: '/images/ingredients/ing-acide-citrique.jpg',
     emoji: '🍋',
     gradient: 'linear-gradient(135deg, #FFF176 0%, #FFEB3B 100%)',
     badge: 'Anti-calcaire',
@@ -213,6 +214,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 7,
     nom: 'Percarbonate de soude',
+    imageUrl: '/images/ingredients/ing-percarbonate.jpg',
     emoji: '✨',
     gradient: 'linear-gradient(135deg, #E1F5FE 0%, #81D4FA 100%)',
     badge: 'Blanchisseur',
@@ -247,6 +249,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 8,
     nom: 'Huile essentielle de citron',
+    imageUrl: '/images/ingredients/ing-he-citron.jpg',
     emoji: '🍋',
     gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FDD835 100%)',
     badge: 'Assainissant',
@@ -281,6 +284,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 9,
     nom: 'Huile essentielle de tea tree',
+    imageUrl: '/images/ingredients/ing-he-tea-tree.jpg',
     emoji: '🌿',
     gradient: 'linear-gradient(135deg, #A5D6A7 0%, #66BB6A 100%)',
     badge: 'Désinfectant',
@@ -315,6 +319,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
   {
     id: 10,
     nom: 'Huile essentielle de lavande',
+    imageUrl: '/images/ingredients/ing-he-lavande.jpg',
     emoji: '💜',
     gradient: 'linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%)',
     badge: 'Apaisant',
