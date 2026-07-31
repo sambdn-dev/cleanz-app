@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Home, Zap, BookOpen, Wrench, Heart } from 'lucide-react';
+import { Home, Zap, BookOpen, Wrench, Heart, CalendarDays } from 'lucide-react';
 import { haptic } from '@/utils/haptics';
 
-export type NavTab = 'Accueil' | 'Appareils' | 'Recettes' | 'Matériel' | 'Favoris';
+export type NavTab = 'Accueil' | 'Planning' | 'Appareils' | 'Recettes' | 'Matériel' | 'Favoris';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -14,11 +14,15 @@ interface BottomNavProps {
 
 const navItems: { icon: typeof Home; label: NavTab }[] = [
   { icon: Home, label: 'Accueil' },
+  { icon: CalendarDays, label: 'Planning' },
   { icon: Zap, label: 'Appareils' },
   { icon: BookOpen, label: 'Recettes' },
   { icon: Wrench, label: 'Matériel' },
   { icon: Heart, label: 'Favoris' },
 ];
+
+/** Au-delà de 5 onglets, la pilule doit se resserrer pour tenir sur un mobile. */
+const DENSE = navItems.length > 5;
 
 export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const { theme, darkMode } = useTheme();
@@ -115,13 +119,13 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   // Interpolate sizes from the continuous shrink value
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
-  const iconSize = lerp(22, 20);
+  const iconSize = lerp(DENSE ? 21 : 22, 20);
   const btnHeight = lerp(46, 40);
   // Wider, airier buttons when expanded; collapse to compact icon size on scroll
-  const btnMinWidth = lerp(56, 40);
-  const btnPadX = lerp(11, 6);
-  const navGap = lerp(6, 4);
-  const navPadX = lerp(13, 8);
+  const btnMinWidth = lerp(DENSE ? 44 : 56, DENSE ? 36 : 40);
+  const btnPadX = lerp(DENSE ? 5 : 11, DENSE ? 4 : 6);
+  const navGap = lerp(DENSE ? 2 : 6, DENSE ? 2 : 4);
+  const navPadX = lerp(DENSE ? 8 : 13, DENSE ? 6 : 8);
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));

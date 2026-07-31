@@ -29,6 +29,7 @@ import { RecipeModal } from '@/components/modals/RecipeModal';
 import { AccountMenu } from '@/components/layout/AccountMenu';
 import { RecipesPage } from '@/components/recipes/RecipesPage';
 import { MaterielPage } from '@/components/materiel/MaterielPage';
+import { PlanningPage } from '@/components/planning/PlanningPage';
 import { FavoritesPage } from '@/components/favorites/FavoritesPage';
 import { AccountPage } from '@/components/account/AccountPage';
 import { ShoppingListPage } from '@/components/account/ShoppingListPage';
@@ -328,6 +329,10 @@ function HomePageContent() {
             onSurfaceClick={setSelectedSurface}
             onIngredientClick={setSelectedIngredientComplet}
           />
+        )}
+
+        {activeNavTab === 'Planning' && (
+          <PlanningPage onSurfaceClick={setSelectedSurface} />
         )}
 
         {activeNavTab === 'Matériel' && (
