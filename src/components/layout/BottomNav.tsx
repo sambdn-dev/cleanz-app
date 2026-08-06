@@ -126,6 +126,9 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const btnPadX = lerp(DENSE ? 5 : 11, DENSE ? 4 : 6);
   const navGap = lerp(DENSE ? 2 : 6, DENSE ? 2 : 4);
   const navPadX = lerp(DENSE ? 8 : 13, DENSE ? 6 : 8);
+  // Marge latérale de la pilule : un peu plus généreuse en mode compact, où
+  // elle se resserre naturellement.
+  const navMarginX = lerp(10, 16);
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
@@ -156,10 +159,14 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
 
       {/* Floating pill */}
       <nav
-        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center rounded-[30px] will-change-transform"
+        className="pointer-events-auto absolute left-1/2 -translate-x-1/2 flex items-center justify-between rounded-[30px] will-change-transform"
         style={{
           gap: navGap,
-          maxWidth: 'calc(100vw - 16px)',
+          // La pilule occupe toute la largeur utile en gardant une marge
+          // constante de chaque côté, au lieu de se dimensionner sur la
+          // longueur des libellés (ce qui la laissait étriquée au centre).
+          width: `calc(100vw - ${navMarginX * 2}px)`,
+          maxWidth: 460,
           bottom: `calc(env(safe-area-inset-bottom) + ${lerp(16, 12)}px)`,
           padding: `${lerp(8, 6)}px ${navPadX}px`,
           transition: 'box-shadow 0.3s ease',
@@ -185,6 +192,8 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
               aria-current={isActive ? 'page' : undefined}
               className="relative flex flex-col items-center justify-center active:scale-90"
               style={{
+                // Chaque onglet prend une part égale de la largeur disponible.
+                flex: '1 1 0',
                 height: btnHeight,
                 minWidth: btnMinWidth,
                 paddingLeft: btnPadX,

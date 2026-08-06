@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/layout/Header';
 import { BottomNav, NavTab } from '@/components/layout/BottomNav';
@@ -10,14 +9,7 @@ import { SmartSearch } from '@/components/layout/SmartSearch';
 import { CategoryTabs } from '@/components/layout/CategoryTabs';
 import { SpraysHeroGrid } from '@/components/home/SpraysHeroGrid';
 import { SurfacesGrid } from '@/components/home/SurfacesGrid';
-import { EssentielsSection } from '@/components/home/EssentielsSection';
-import { EntretienSection } from '@/components/home/EntretienSection';
-import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
-import { GuidesCarousel } from '@/components/home/GuidesCarousel';
-import { CreateursSection } from '@/components/home/CreateursSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
-import { AstucesSection } from '@/components/home/AstucesSection';
-import { ImpactStrip } from '@/components/home/ImpactStrip';
 
 /**
  * PERFORMANCE — chargement à la demande.
@@ -46,10 +38,22 @@ const RecipeModal = dynamic(() => import('@/components/modals/RecipeModal').then
 const IngredientDetailModal = dynamic(() => import('@/components/modals/IngredientDetailModal').then((m) => m.IngredientDetailModal), { ssr: false });
 const CaniculeModal = dynamic(() => import('@/components/home/CaniculeModal').then((m) => m.CaniculeModal), { ssr: false });
 const MeteoDebugCard = dynamic(() => import('@/components/home/MeteoDebugCard').then((m) => m.MeteoDebugCard), { ssr: false });
+// Sections de l'accueil situées sous la ligne de flottaison : leur code n'est
+// téléchargé qu'au moment où l'on fait défiler jusqu'à elles (cf. LazySection).
+const EntretienSection = dynamic(() => import('@/components/home/EntretienSection').then((m) => m.EntretienSection), { ssr: false });
+const LeSaviezVousSection = dynamic(() => import('@/components/home/LeSaviezVousSection').then((m) => m.LeSaviezVousSection), { ssr: false });
+const GuidesCarousel = dynamic(() => import('@/components/home/GuidesCarousel').then((m) => m.GuidesCarousel), { ssr: false });
+const CreateursSection = dynamic(() => import('@/components/home/CreateursSection').then((m) => m.CreateursSection), { ssr: false });
+const EssentielsSection = dynamic(() => import('@/components/home/EssentielsSection').then((m) => m.EssentielsSection), { ssr: false });
+const AstucesSection = dynamic(() => import('@/components/home/AstucesSection').then((m) => m.AstucesSection), { ssr: false });
+const ImpactStrip = dynamic(() => import('@/components/home/ImpactStrip').then((m) => m.ImpactStrip), { ssr: false });
+
 const WhatsNewModal = dynamic(() => import('@/components/ui/WhatsNewModal').then((m) => m.WhatsNewModal), { ssr: false });
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
+import { LazySection } from '@/components/ui/LazySection';
+import { LiensPartages } from '@/components/layout/LiensPartages';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
@@ -75,7 +79,6 @@ const findAstuceBySlug = (slug: string): Astuce | undefined => {
 
 function HomePageContent() {
   const { theme, darkMode } = useTheme();
-  const searchParams = useSearchParams();
   const heat = useHeatAlert();
   const [isLoaded, setIsLoaded] = useState(true);
   const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
@@ -85,6 +88,7 @@ function HomePageContent() {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [accountPage, setAccountPage] = useState<null | 'compte' | 'courses' | 'appareils'>(null);
   const [caniculeModalOpen, setCaniculeModalOpen] = useState(false);
+  const [meteoDebug, setMeteoDebug] = useState(false);
 
   // Ouverture auto de la grande alerte canicule : une fois par jour tant qu'il fait chaud.
   useEffect(() => {
@@ -117,57 +121,8 @@ function HomePageContent() {
   const [selectedAstuce, setSelectedAstuce] = useState<Astuce | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<RecetteComplete | null>(null);
 
-  // Handle URL parameters for shared links
-  useEffect(() => {
-    setIsLoaded(true);
-
-    // Clean slug: extract only the valid slug part (before any space or invalid characters)
-    const cleanSlug = (slug: string): string => {
-      // Take only the part that matches a valid slug pattern (letters, numbers, hyphens)
-      const match = slug.match(/^[a-z0-9-]+/);
-      return match ? match[0] : slug;
-    };
-
-    // QR code d'un flacon "Mes Sprays" : ?fiche=spray-3 ou ?fiche=recette-12
-    const fiche = parseFicheParam(searchParams.get('fiche'));
-    const recipeSlug = searchParams.get('recette');
-    const astuceSlug = searchParams.get('astuce');
-
-    let annule = false;
-
-    // PERFORMANCE : le catalogue de recettes (~200 Ko) n'est chargé que si le
-    // lien ouvert en désigne une. Un démarrage normal ne le télécharge pas.
-    const ouvrirDepuisLien = async () => {
-      if (fiche) {
-        if (fiche.type === 'spray') {
-          const spray = SPRAYS_INDISPENSABLES.find(s => s.id === fiche.id);
-          if (spray) { setSelectedSpray(spray); return; }
-        } else {
-          const { RECETTES } = await import('@/data/recettes');
-          if (annule) return;
-          const recipe = RECETTES.find(r => r.id === fiche.id);
-          if (recipe) { setSelectedRecipe(recipe); return; }
-        }
-      }
-
-      if (recipeSlug) {
-        const { RECETTES } = await import('@/data/recettes');
-        if (annule) return;
-        const cleanedSlug = cleanSlug(recipeSlug.toLowerCase());
-        const recipe = RECETTES.find(r => generateSlug(r.nom) === cleanedSlug);
-        if (recipe) { setSelectedRecipe(recipe); return; }
-      }
-
-      if (astuceSlug) {
-        const cleanedSlug = cleanSlug(astuceSlug.toLowerCase());
-        const astuce = findAstuceBySlug(cleanedSlug);
-        if (astuce) setSelectedAstuce(astuce);
-      }
-    };
-
-    ouvrirDepuisLien();
-    return () => { annule = true; };
-  }, [searchParams]);
+  // Les liens partagés sont traités par <LiensPartages/> (voir le rendu) :
+  // il isole `useSearchParams`, qui sinon empêcherait le pré-rendu de l'accueil.
 
   // Filtrage des surfaces
   const getFilteredSurfaces = () => {
@@ -212,6 +167,17 @@ function HomePageContent() {
   return (
     <>
       {/* Splash screen avec image de fond */}
+      {/* Isolé dans sa propre frontière : `useSearchParams` ne doit pas
+          désactiver le pré-rendu de tout l'accueil. */}
+      <Suspense fallback={null}>
+        <LiensPartages
+          onSpray={setSelectedSpray}
+          onRecette={setSelectedRecipe}
+          onAstuce={setSelectedAstuce}
+          onMeteoDebug={setMeteoDebug}
+        />
+      </Suspense>
+
       <SplashScreen />
 
       {/* Nouveautés (s'affiche après le splash si features non vues) */}
@@ -268,7 +234,7 @@ function HomePageContent() {
         {activeNavTab === 'Accueil' && (
           <>
             {/* Diagnostic météo (uniquement avec ?meteo=debug) */}
-            {searchParams.get('meteo') === 'debug' && <MeteoDebugCard heat={heat} />}
+            {meteoDebug && <MeteoDebugCard heat={heat} />}
 
             {/* Encart canicule : visible UNIQUEMENT en période de forte chaleur (>= seuil). */}
             {heat.isHeat && !searchQuery && (
@@ -306,30 +272,54 @@ function HomePageContent() {
               searchQuery={searchQuery}
             />
 
+            {/* PERFORMANCE — tout ce qui suit est sous la ligne de flottaison :
+                chaque section n'est téléchargée et assemblée qu'à l'approche du
+                défilement, au lieu d'alourdir le démarrage. */}
+
             {/* Entretien électroménager */}
-            <EntretienSection onApplianceClick={setSelectedAppliance} />
+            <LazySection minHeight={260}>
+              <EntretienSection onApplianceClick={setSelectedAppliance} />
+            </LazySection>
 
             {/* Le saviez-vous ? - Tips carousel */}
-            <LeSaviezVousSection />
+            <LazySection minHeight={190}>
+              <LeSaviezVousSection />
+            </LazySection>
 
             {/* Les guides Cleanz — Saison, Piscine & Spa, Detailing Auto
                 en carrousel coulissant (contenu complet en plein écran) */}
-            {!searchQuery && <GuidesCarousel heatActive={heat.isHeat} />}
+            {!searchQuery && (
+              <LazySection minHeight={300}>
+                <GuidesCarousel heatActive={heat.isHeat} />
+              </LazySection>
+            )}
 
             {/* Les stars du clean — vitrine créateurs */}
-            {!searchQuery && <CreateursSection />}
+            {!searchQuery && (
+              <LazySection minHeight={280}>
+                <CreateursSection />
+              </LazySection>
+            )}
 
             {/* Les 8 Essentiels */}
-            <EssentielsSection
-              onIngredientClick={setSelectedIngredient}
-              onViewAll={() => handleNavTabChange('Recettes')}
-            />
+            <LazySection minHeight={230}>
+              <EssentielsSection
+                onIngredientClick={setSelectedIngredient}
+                onViewAll={() => handleNavTabChange('Recettes')}
+              />
+            </LazySection>
 
             {/* Astuces du jour */}
-            <AstucesSection onAstuceClick={setSelectedAstuce} />
+            <LazySection minHeight={270}>
+              <AstucesSection onAstuceClick={setSelectedAstuce} />
+            </LazySection>
 
             {/* Impact (version compacte, sans carrousel animé) */}
-            {!searchQuery && <ImpactStrip />}
+            {!searchQuery && (
+              <LazySection minHeight={210}>
+                <ImpactStrip />
+              </LazySection>
+            )}
           </>
         )}
 
@@ -464,9 +454,7 @@ function HomePageContent() {
 }
 
 export default function HomePage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Chargement...</div>}>
-      <HomePageContent />
-    </Suspense>
-  );
+  // Plus de <Suspense> autour de l'accueil : il ne lit plus les paramètres
+  // d'URL, il est donc pré-rendu et visible dès la première image.
+  return <HomePageContent />;
 }

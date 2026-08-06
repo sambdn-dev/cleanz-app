@@ -13,62 +13,33 @@ export const SplashScreen = () => {
   const splashImage = darkMode ? '/images/splash-bg-dark.jpg' : '/images/splash-bg.jpg';
 
   /**
-   * Le splash ne doit JAMAIS retarder l'application : il s'efface dès que la
-   * page est prête. On garde seulement un minimum court (pour éviter un flash
-   * désagréable) et un plafond ferme (pour ne pas punir une connexion lente).
+   * L'effacement lui-même est piloté par CSS (classe `splash-auto-out`), donc
+   * calé sur la peinture de la page et non sur l'hydratation JavaScript, qui
+   * arrive une à deux secondes plus tard sur un téléphone modeste.
+   *
+   * Le JavaScript ne sert plus qu'à retirer le nœud du DOM une fois l'animation
+   * terminée. Si l'hydratation intervient après coup, on retire directement.
    */
   useEffect(() => {
-    const MIN_VISIBLE = 380;
-    const MAX_VISIBLE = 900;
-    const DUREE_FONDU = 320;
-    // Au-delà de ce délai, l'application est déjà affichée : recouvrir le
-    // contenu d'un écran de démarrage à ce moment-là ne ferait que retarder
-    // l'utilisateur. On saute donc le splash.
-    const TROP_TARD = 1400;
+    const FIN_ANIMATION = 1050; // 620 ms d'attente + 360 ms de fondu, arrondi
 
-    if (performance.now() > TROP_TARD) {
+    if (performance.now() > FIN_ANIMATION) {
       setPhase('hidden');
       return;
     }
-
-    const debut = performance.now();
-    let ferme = false;
-    let timerFondu: ReturnType<typeof setTimeout>;
-    let timerMasque: ReturnType<typeof setTimeout>;
-
-    const fermer = () => {
-      if (ferme) return;
-      ferme = true;
-      const reste = Math.max(0, MIN_VISIBLE - (performance.now() - debut));
-      timerFondu = setTimeout(() => {
-        setPhase('fadeOut');
-        timerMasque = setTimeout(() => setPhase('hidden'), DUREE_FONDU);
-      }, reste);
-    };
-
-    if (document.readyState === 'complete') fermer();
-    else window.addEventListener('load', fermer, { once: true });
-
-    const plafond = setTimeout(fermer, MAX_VISIBLE);
-
-    return () => {
-      window.removeEventListener('load', fermer);
-      clearTimeout(plafond);
-      clearTimeout(timerFondu);
-      clearTimeout(timerMasque);
-    };
+    const timer = setTimeout(
+      () => setPhase('hidden'),
+      FIN_ANIMATION - performance.now()
+    );
+    return () => clearTimeout(timer);
   }, []);
 
   if (phase === 'hidden') return null;
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
-      style={{
-        opacity: phase === 'fadeOut' ? 0 : 1,
-        transition: 'opacity 0.32s ease-out',
-        pointerEvents: phase === 'fadeOut' ? 'none' : 'auto',
-      }}
+      className="splash-auto-out fixed inset-0 z-[9999] flex items-center justify-center"
+      aria-hidden
     >
       {/* Image de fond (light ou dark) avec déblur progressif au chargement */}
       <Image

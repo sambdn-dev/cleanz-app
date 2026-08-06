@@ -397,3 +397,30 @@ body {
     animation: none !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Écran de démarrage : effacement piloté par CSS                     */
+/*                                                                     */
+/*  L'accueil est pré-rendu, donc visible dès la première image. Le    */
+/*  splash doit donc s'effacer sur la même horloge que la peinture —   */
+/*  et surtout PAS attendre l'hydratation JavaScript, qui arrive bien  */
+/*  plus tard sur un téléphone modeste. L'animation démarre avec le    */
+/*  document ; le JavaScript ne fait plus que retirer le nœud ensuite. */
+/* ------------------------------------------------------------------ */
+@keyframes splash-auto-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.splash-auto-out {
+  animation: splash-auto-out 360ms ease-out 620ms forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-auto-out {
+    animation-duration: 1ms;
+    animation-delay: 250ms;
+  }
+}
