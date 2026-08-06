@@ -196,9 +196,8 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
                   src={guideImage}
                   alt={guideTitle}
                   fill
-                  priority
                   className="object-cover"
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 90vw, 420px"
                   placeholder={getBlur(guideImage) ? 'blur' : 'empty'}
                   blurDataURL={getBlur(guideImage)}
                 />

@@ -110,6 +110,9 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
       {/* Photo de fond (produit à droite, zone calme à gauche) */}
       {hasImage && (
         <>
+          {/* PERFORMANCE : seule la 1re diapo est prioritaire ; les suivantes se
+              chargent paresseusement. Inutile de télécharger 6 photos plein
+              écran avant même que l'utilisateur ait fait défiler. */}
           <Image
             src={effectiveImage!}
             alt={spray.nom}
@@ -119,7 +122,6 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
             placeholder={blur ? 'blur' : 'empty'}
             blurDataURL={blur}
             priority={priority}
-            {...(!priority && { loading: 'eager' as const })}
             draggable={false}
           />
           {/* Voile à gauche pour la lisibilité du texte (clair en jour, sombre en nuit) */}

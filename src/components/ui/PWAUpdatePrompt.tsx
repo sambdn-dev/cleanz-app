@@ -47,9 +47,17 @@ export const PWAUpdatePrompt = () => {
         /* enregistrement impossible (ex. navigation privée) : on ignore */
       });
 
-    // Recharge la page une fois le nouveau worker actif (après clic « Actualiser »)
+    // Recharge la page une fois le nouveau worker actif (après clic « Actualiser »).
+    //
+    // ⚠️ PERFORMANCE : `controllerchange` se déclenche AUSSI à la toute première
+    // visite, quand le service worker s'installe et appelle `clients.claim()`.
+    // Recharger dans ce cas faisait charger la page DEUX FOIS à chaque première
+    // ouverture — la cause principale de la lenteur au démarrage. On ne recharge
+    // donc que s'il y avait déjà un worker aux commandes (vraie mise à jour).
+    const avaitUnControleur = !!navigator.serviceWorker.controller;
     let refreshing = false;
     const onControllerChange = () => {
+      if (!avaitUnControleur) return;
       if (!refreshing) {
         refreshing = true;
         window.location.reload();

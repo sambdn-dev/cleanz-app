@@ -31,18 +31,30 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
           >
             {greeting} 👋
           </p>
-          <h1
-            className="font-display text-[34px] leading-none font-extrabold tracking-tight bg-clip-text text-transparent mt-0.5"
-            style={{
-              backgroundImage: darkMode
-                ? 'linear-gradient(120deg, #FF85C0 0%, #A78BFA 55%, #5EEAD4 100%)'
-                : 'linear-gradient(120deg, #FF69B4 0%, #8B5CF6 55%, #06B6D4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            cleanz
-          </h1>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <h1
+              className="font-display text-[34px] leading-none font-extrabold tracking-tight bg-clip-text text-transparent"
+              style={{
+                backgroundImage: darkMode
+                  ? 'linear-gradient(120deg, #FF85C0 0%, #A78BFA 55%, #5EEAD4 100%)'
+                  : 'linear-gradient(120deg, #FF69B4 0%, #8B5CF6 55%, #06B6D4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              cleanz
+            </h1>
+            <span
+              className="self-start mt-1 text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+              style={{
+                background: darkMode ? 'rgba(255,133,192,0.18)' : 'rgba(255,105,180,0.14)',
+                color: darkMode ? '#FF85C0' : '#DB2777',
+                border: `1px solid ${darkMode ? 'rgba(255,133,192,0.35)' : 'rgba(255,105,180,0.28)'}`,
+              }}
+            >
+              bêta
+            </span>
+          </div>
         </div>
 
         <button

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/layout/Header';
@@ -15,33 +16,42 @@ import { LeSaviezVousSection } from '@/components/home/LeSaviezVousSection';
 import { GuidesCarousel } from '@/components/home/GuidesCarousel';
 import { CreateursSection } from '@/components/home/CreateursSection';
 import { CaniculeBanner } from '@/components/home/CaniculeBanner';
-import { CaniculeModal } from '@/components/home/CaniculeModal';
-import { MeteoDebugCard } from '@/components/home/MeteoDebugCard';
 import { AstucesSection } from '@/components/home/AstucesSection';
 import { ImpactStrip } from '@/components/home/ImpactStrip';
-import { AppareilsPage } from '@/components/appareils/AppareilsPage';
-import { SprayModal } from '@/components/modals/SprayModal';
-import { SurfaceModal } from '@/components/modals/SurfaceModal';
-import { IngredientModal } from '@/components/modals/IngredientModal';
-import { ElectromenagerModal } from '@/components/modals/ElectromenagerModal';
-import { AstuceModal } from '@/components/modals/AstuceModal';
-import { RecipeModal } from '@/components/modals/RecipeModal';
-import { AccountMenu } from '@/components/layout/AccountMenu';
-import { RecipesPage } from '@/components/recipes/RecipesPage';
-import { MaterielPage } from '@/components/materiel/MaterielPage';
-import { PlanningPage } from '@/components/planning/PlanningPage';
-import { FavoritesPage } from '@/components/favorites/FavoritesPage';
-import { AccountPage } from '@/components/account/AccountPage';
-import { ShoppingListPage } from '@/components/account/ShoppingListPage';
-import { MyDevicesPage } from '@/components/account/MyDevicesPage';
-import { IngredientDetailModal } from '@/components/modals/IngredientDetailModal';
+
+/**
+ * PERFORMANCE — chargement à la demande.
+ *
+ * Seul l'accueil est nécessaire au démarrage. Les autres onglets et toutes les
+ * modales ne sont téléchargés qu'au moment où ils s'affichent réellement, ce
+ * qui allège d'autant le premier chargement (leur code ET leurs données, comme
+ * les 200 Ko du catalogue de recettes).
+ */
+const AppareilsPage = dynamic(() => import('@/components/appareils/AppareilsPage').then((m) => m.AppareilsPage), { ssr: false });
+const RecipesPage = dynamic(() => import('@/components/recipes/RecipesPage').then((m) => m.RecipesPage), { ssr: false });
+const MaterielPage = dynamic(() => import('@/components/materiel/MaterielPage').then((m) => m.MaterielPage), { ssr: false });
+const PlanningPage = dynamic(() => import('@/components/planning/PlanningPage').then((m) => m.PlanningPage), { ssr: false });
+const FavoritesPage = dynamic(() => import('@/components/favorites/FavoritesPage').then((m) => m.FavoritesPage), { ssr: false });
+const AccountPage = dynamic(() => import('@/components/account/AccountPage').then((m) => m.AccountPage), { ssr: false });
+const ShoppingListPage = dynamic(() => import('@/components/account/ShoppingListPage').then((m) => m.ShoppingListPage), { ssr: false });
+const MyDevicesPage = dynamic(() => import('@/components/account/MyDevicesPage').then((m) => m.MyDevicesPage), { ssr: false });
+const AccountMenu = dynamic(() => import('@/components/layout/AccountMenu').then((m) => m.AccountMenu), { ssr: false });
+
+const SprayModal = dynamic(() => import('@/components/modals/SprayModal').then((m) => m.SprayModal), { ssr: false });
+const SurfaceModal = dynamic(() => import('@/components/modals/SurfaceModal').then((m) => m.SurfaceModal), { ssr: false });
+const IngredientModal = dynamic(() => import('@/components/modals/IngredientModal').then((m) => m.IngredientModal), { ssr: false });
+const ElectromenagerModal = dynamic(() => import('@/components/modals/ElectromenagerModal').then((m) => m.ElectromenagerModal), { ssr: false });
+const AstuceModal = dynamic(() => import('@/components/modals/AstuceModal').then((m) => m.AstuceModal), { ssr: false });
+const RecipeModal = dynamic(() => import('@/components/modals/RecipeModal').then((m) => m.RecipeModal), { ssr: false });
+const IngredientDetailModal = dynamic(() => import('@/components/modals/IngredientDetailModal').then((m) => m.IngredientDetailModal), { ssr: false });
+const CaniculeModal = dynamic(() => import('@/components/home/CaniculeModal').then((m) => m.CaniculeModal), { ssr: false });
+const MeteoDebugCard = dynamic(() => import('@/components/home/MeteoDebugCard').then((m) => m.MeteoDebugCard), { ssr: false });
+const WhatsNewModal = dynamic(() => import('@/components/ui/WhatsNewModal').then((m) => m.WhatsNewModal), { ssr: false });
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
-import { WhatsNewModal } from '@/components/ui/WhatsNewModal';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
-import { RECETTES } from '@/data/recettes';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { ASTUCES_DU_JOUR } from '@/data/astuces';
 import { parseFicheParam } from '@/utils/sprayUtils';
@@ -56,11 +66,6 @@ const generateSlug = (name: string): string => {
     .replace(/[\u0300-\u036f]/g, '') // Remove accents
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
-};
-
-// Fonction pour trouver une recette par slug
-const findRecipeBySlug = (slug: string): RecetteComplete | undefined => {
-  return RECETTES.find(r => generateSlug(r.nom) === slug);
 };
 
 // Fonction pour trouver une astuce par slug
@@ -116,18 +121,6 @@ function HomePageContent() {
   useEffect(() => {
     setIsLoaded(true);
 
-    // QR code d'un flacon "Mes Sprays" : ?fiche=spray-3 ou ?fiche=recette-12
-    const fiche = parseFicheParam(searchParams.get('fiche'));
-    if (fiche) {
-      if (fiche.type === 'spray') {
-        const spray = SPRAYS_INDISPENSABLES.find(s => s.id === fiche.id);
-        if (spray) { setSelectedSpray(spray); return; }
-      } else {
-        const recipe = RECETTES.find(r => r.id === fiche.id);
-        if (recipe) { setSelectedRecipe(recipe); return; }
-      }
-    }
-
     // Clean slug: extract only the valid slug part (before any space or invalid characters)
     const cleanSlug = (slug: string): string => {
       // Take only the part that matches a valid slug pattern (letters, numbers, hyphens)
@@ -135,24 +128,45 @@ function HomePageContent() {
       return match ? match[0] : slug;
     };
 
+    // QR code d'un flacon "Mes Sprays" : ?fiche=spray-3 ou ?fiche=recette-12
+    const fiche = parseFicheParam(searchParams.get('fiche'));
     const recipeSlug = searchParams.get('recette');
-    if (recipeSlug) {
-      const cleanedSlug = cleanSlug(recipeSlug.toLowerCase());
-      const recipe = findRecipeBySlug(cleanedSlug);
-      if (recipe) {
-        setSelectedRecipe(recipe);
-        return;
-      }
-    }
-
     const astuceSlug = searchParams.get('astuce');
-    if (astuceSlug) {
-      const cleanedSlug = cleanSlug(astuceSlug.toLowerCase());
-      const astuce = findAstuceBySlug(cleanedSlug);
-      if (astuce) {
-        setSelectedAstuce(astuce);
+
+    let annule = false;
+
+    // PERFORMANCE : le catalogue de recettes (~200 Ko) n'est chargé que si le
+    // lien ouvert en désigne une. Un démarrage normal ne le télécharge pas.
+    const ouvrirDepuisLien = async () => {
+      if (fiche) {
+        if (fiche.type === 'spray') {
+          const spray = SPRAYS_INDISPENSABLES.find(s => s.id === fiche.id);
+          if (spray) { setSelectedSpray(spray); return; }
+        } else {
+          const { RECETTES } = await import('@/data/recettes');
+          if (annule) return;
+          const recipe = RECETTES.find(r => r.id === fiche.id);
+          if (recipe) { setSelectedRecipe(recipe); return; }
+        }
       }
-    }
+
+      if (recipeSlug) {
+        const { RECETTES } = await import('@/data/recettes');
+        if (annule) return;
+        const cleanedSlug = cleanSlug(recipeSlug.toLowerCase());
+        const recipe = RECETTES.find(r => generateSlug(r.nom) === cleanedSlug);
+        if (recipe) { setSelectedRecipe(recipe); return; }
+      }
+
+      if (astuceSlug) {
+        const cleanedSlug = cleanSlug(astuceSlug.toLowerCase());
+        const astuce = findAstuceBySlug(cleanedSlug);
+        if (astuce) setSelectedAstuce(astuce);
+      }
+    };
+
+    ouvrirDepuisLien();
+    return () => { annule = true; };
   }, [searchParams]);
 
   // Filtrage des surfaces

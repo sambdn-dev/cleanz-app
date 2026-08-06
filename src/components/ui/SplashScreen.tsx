@@ -12,12 +12,50 @@ export const SplashScreen = () => {
 
   const splashImage = darkMode ? '/images/splash-bg-dark.jpg' : '/images/splash-bg.jpg';
 
+  /**
+   * Le splash ne doit JAMAIS retarder l'application : il s'efface dès que la
+   * page est prête. On garde seulement un minimum court (pour éviter un flash
+   * désagréable) et un plafond ferme (pour ne pas punir une connexion lente).
+   */
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setPhase('fadeOut'), 2200);
-    const hideTimer = setTimeout(() => setPhase('hidden'), 2700);
+    const MIN_VISIBLE = 380;
+    const MAX_VISIBLE = 900;
+    const DUREE_FONDU = 320;
+    // Au-delà de ce délai, l'application est déjà affichée : recouvrir le
+    // contenu d'un écran de démarrage à ce moment-là ne ferait que retarder
+    // l'utilisateur. On saute donc le splash.
+    const TROP_TARD = 1400;
+
+    if (performance.now() > TROP_TARD) {
+      setPhase('hidden');
+      return;
+    }
+
+    const debut = performance.now();
+    let ferme = false;
+    let timerFondu: ReturnType<typeof setTimeout>;
+    let timerMasque: ReturnType<typeof setTimeout>;
+
+    const fermer = () => {
+      if (ferme) return;
+      ferme = true;
+      const reste = Math.max(0, MIN_VISIBLE - (performance.now() - debut));
+      timerFondu = setTimeout(() => {
+        setPhase('fadeOut');
+        timerMasque = setTimeout(() => setPhase('hidden'), DUREE_FONDU);
+      }, reste);
+    };
+
+    if (document.readyState === 'complete') fermer();
+    else window.addEventListener('load', fermer, { once: true });
+
+    const plafond = setTimeout(fermer, MAX_VISIBLE);
+
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(hideTimer);
+      window.removeEventListener('load', fermer);
+      clearTimeout(plafond);
+      clearTimeout(timerFondu);
+      clearTimeout(timerMasque);
     };
   }, []);
 
@@ -28,7 +66,7 @@ export const SplashScreen = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center"
       style={{
         opacity: phase === 'fadeOut' ? 0 : 1,
-        transition: 'opacity 0.5s ease-out',
+        transition: 'opacity 0.32s ease-out',
         pointerEvents: phase === 'fadeOut' ? 'none' : 'auto',
       }}
     >
@@ -39,6 +77,12 @@ export const SplashScreen = () => {
         fill
         className="object-cover"
         priority
+        // `sizes` explicite : sans lui, le préchargement et la balise <img>
+        // choisissaient deux tailles différentes → l'image était téléchargée
+        // DEUX fois. L'image est de toute façon floutée puis voilée : une
+        // petite définition et une qualité modeste suffisent.
+        sizes="60vw"
+        quality={55}
         placeholder="blur"
         blurDataURL={getBlur(splashImage)}
         onLoad={() => setImgLoaded(true)}

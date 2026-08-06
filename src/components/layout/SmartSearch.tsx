@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Search, X, ChevronRight, Layers, FlaskConical, Sparkles } from 'lucide-react';
 import { haptic } from '@/utils/haptics';
-import { searchAll, splitHighlight } from '@/utils/search';
+import type { SearchResults } from '@/utils/search';
 import { Surface, RecetteComplete, IngredientComplet } from '@/types';
 
 interface SmartSearchProps {
@@ -16,10 +16,28 @@ interface SmartSearchProps {
   placeholder?: string;
 }
 
+/**
+ * PERFORMANCE — l'index de recherche (catalogue de recettes, surfaces,
+ * ingrédients : ~250 Ko) n'est chargé qu'au premier contact avec le champ.
+ * L'accueil démarre donc sans lui.
+ */
+type ModuleRecherche = typeof import('@/utils/search');
+const RESULTATS_VIDES: SearchResults = { surfaces: [], recipes: [], ingredients: [], total: 0 };
+
 // Surligne la portion de texte correspondant à la requête
-const Highlight = ({ label, query, color }: { label: string; query: string; color: string }) => (
+const Highlight = ({
+  label,
+  query,
+  color,
+  decouper,
+}: {
+  label: string;
+  query: string;
+  color: string;
+  decouper?: ModuleRecherche['splitHighlight'];
+}) => (
   <>
-    {splitHighlight(label, query).map((seg, i) =>
+    {(decouper ? decouper(label, query) : [{ text: label, hit: false }]).map((seg, i) =>
       seg.hit ? (
         <mark key={i} style={{ background: 'transparent', color, fontWeight: 800 }}>
           {seg.text}
@@ -44,7 +62,26 @@ export const SmartSearch = ({
   const wrapRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const results = useMemo(() => searchAll(value), [value]);
+  // Module de recherche chargé paresseusement (voir plus haut).
+  const [recherche, setRecherche] = useState<ModuleRecherche | null>(null);
+  const chargementRef = useRef(false);
+  const chargerRecherche = () => {
+    if (chargementRef.current) return;
+    chargementRef.current = true;
+    import('@/utils/search').then(setRecherche);
+  };
+
+  // Si l'utilisateur tape (collage, autocomplétion) sans être passé par le
+  // focus, on charge quand même.
+  useEffect(() => {
+    if (value.trim().length >= 2) chargerRecherche();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  const results = useMemo(
+    () => (recherche ? recherche.searchAll(value) : RESULTATS_VIDES),
+    [recherche, value]
+  );
   const open = focused && value.trim().length >= 2;
 
   // Ferme le dropdown au tap en dehors
@@ -114,7 +151,7 @@ export const SmartSearch = ({
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setFocused(true)}
+          onFocus={() => { setFocused(true); chargerRecherche(); }}
           className={`w-full py-3.5 pl-12 pr-10 bg-transparent outline-none text-sm font-medium ${
             darkMode ? 'placeholder:text-gray-400' : 'placeholder:text-gray-500'
           }`}
@@ -147,7 +184,16 @@ export const SmartSearch = ({
             overflowY: 'auto',
           }}
         >
-          {results.total === 0 ? (
+          {!recherche ? (
+            /* L'index arrive (chargé à la demande) — on ne dit surtout pas
+               « aucun résultat » avant de l'avoir interrogé. */
+            <div className="px-4 py-8 text-center">
+              <span className="text-3xl block mb-2 animate-pulse">🔍</span>
+              <p className="text-sm font-semibold" style={{ color: theme.textMuted }}>
+                Recherche…
+              </p>
+            </div>
+          ) : results.total === 0 ? (
             <div className="px-4 py-8 text-center">
               <span className="text-3xl block mb-2">🔍</span>
               <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>
@@ -176,7 +222,7 @@ export const SmartSearch = ({
                         <span className="text-xl flex-shrink-0">{surface.emoji}</span>
                         <span className="flex-1 min-w-0">
                           <span className="block text-sm font-semibold truncate" style={{ color: theme.textPrimary }}>
-                            <Highlight label={surface.nom} query={value} color={accent} />
+                            <Highlight label={surface.nom} query={value} color={accent} decouper={recherche?.splitHighlight} />
                           </span>
                           <span className="block text-[11px] truncate" style={{ color: theme.textMuted }}>
                             {surface.piece} · {recipeCount} recette{recipeCount > 1 ? 's' : ''}
@@ -206,7 +252,7 @@ export const SmartSearch = ({
                         <span className="text-xl flex-shrink-0">{recipe.emoji}</span>
                         <span className="flex-1 min-w-0">
                           <span className="block text-sm font-semibold truncate" style={{ color: theme.textPrimary }}>
-                            <Highlight label={recipe.nom} query={value} color={accent} />
+                            <Highlight label={recipe.nom} query={value} color={accent} decouper={recherche?.splitHighlight} />
                           </span>
                           <span className="block text-[11px] truncate" style={{ color: theme.textMuted }}>
                             {recipe.categorie} · {recipe.temps} · {recipe.difficulte}
@@ -236,7 +282,7 @@ export const SmartSearch = ({
                         <span className="text-xl flex-shrink-0">{ingredient.emoji}</span>
                         <span className="flex-1 min-w-0">
                           <span className="block text-sm font-semibold truncate" style={{ color: theme.textPrimary }}>
-                            <Highlight label={ingredient.nom} query={value} color={accent} />
+                            <Highlight label={ingredient.nom} query={value} color={accent} decouper={recherche?.splitHighlight} />
                           </span>
                           {ingredient.fonctions?.[0] && (
                             <span className="block text-[11px] truncate" style={{ color: theme.textMuted }}>
