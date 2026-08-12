@@ -2,9 +2,9 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Surface, RecetteComplete } from '@/types';
-import { AlertTriangle, ChevronRight, Droplets, Flame, Sparkles, Star, Wind } from 'lucide-react';
+import { ChevronRight, Droplets, Flame, Sparkles, Star, Wind } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
-import { Callout, SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
+import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
 import { getSurfaceImage } from '@/data/scenes';
 
@@ -67,27 +67,6 @@ const INGREDIENTS_RECOMMANDES: Record<string, { nom: string; emoji: string }[]> 
     { nom: 'Bicarbonate', emoji: '⚪' },
   ],
 };
-
-// « Aussi parfait pour » — usages génériques de la vapeur, identiques sur
-// toutes les fiches vapeurOk (liste informative, pas de deep-link : la moitié
-// de ces usages n'ont pas de fiche Surface dédiée dans le catalogue).
-const VAPEUR_AUSSI_PARFAIT_POUR: { emoji: string; label: string }[] = [
-  { emoji: '🪟', label: 'Fenêtres' },
-  { emoji: '🧱', label: 'Plinthes' },
-  { emoji: '🔍', label: 'Recoins' },
-  { emoji: '🚪', label: 'Armoires' },
-  { emoji: '🖥️', label: 'Bureau' },
-  { emoji: '🟫', label: 'Parquet' },
-  { emoji: '⬜', label: 'Sols durs' },
-  { emoji: '🏷️', label: 'Traces de colle' },
-];
-
-// Consigne de sécurité — affichée uniquement pour les surfaces en pièce
-// « Salle de bain » (couvre aussi les WC, qui partagent cette valeur de piece).
-const VAPEUR_PRECAUTIONS_SDB: string[] = [
-  'Portez un masque : la chaleur de la vapeur remet en suspension bactéries, moisissures et poussières dans une pièce fermée.',
-  "Aérez bien pendant et après le nettoyage pour évacuer l'humidité et la chaleur.",
-];
 
 const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string; emoji: string }[] => {
   const ingredientsMap = new Map<string, string>();
@@ -259,57 +238,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
                 </button>
               )}
             </div>
-
-            {/* Aussi parfait pour — remplace les suggestions d'appareils */}
-            <div
-              className="relative px-4 pb-4 pt-3"
-              style={{ borderTop: `1px solid ${darkMode ? 'rgba(94,234,212,0.15)' : 'rgba(20,184,166,0.15)'}` }}
-            >
-              <p
-                className="text-[10px] uppercase tracking-wide font-semibold mb-2"
-                style={{ color: theme.textMuted }}
-              >
-                Aussi parfait pour
-              </p>
-              <div className="flex flex-wrap gap-1.5">
-                {VAPEUR_AUSSI_PARFAIT_POUR.map((u) => (
-                  <span
-                    key={u.label}
-                    className="text-[11px] font-medium px-2.5 py-1 rounded-full"
-                    style={{
-                      background: vapeurGlass,
-                      backdropFilter: 'blur(10px)',
-                      WebkitBackdropFilter: 'blur(10px)',
-                      color: theme.textSecondary,
-                      boxShadow: `inset 0 1px 0 ${vapeurGlassBorder}`,
-                    }}
-                  >
-                    {u.emoji} {u.label}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
-
-          {/* Sécurité — vapeur en espace fermé (salle de bain / sanitaires uniquement) */}
-          {surface.piece === 'Salle de bain' && (
-            <div className="mt-3">
-              <Callout
-                accent={ACCENT.clay}
-                icon={<AlertTriangle className="w-4 h-4" style={{ color: ACCENT.clay }} />}
-                title="Précautions"
-              >
-                {VAPEUR_PRECAUTIONS_SDB.map((precaution, index) => (
-                  <div key={index} className="flex items-baseline gap-2">
-                    <span className="text-sm leading-none" style={{ color: ACCENT.clay }}>•</span>
-                    <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
-                      {precaution}
-                    </span>
-                  </div>
-                ))}
-              </Callout>
-            </div>
-          )}
         </div>
       )}
 

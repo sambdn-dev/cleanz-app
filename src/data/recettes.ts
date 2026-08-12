@@ -2492,7 +2492,7 @@ export const RECETTES: RecetteComplete[] = [
       'Essuyez avec le chiffon microfibre',
       'Répétez si nécessaire sur les zones tenaces'
     ],
-    surfaces: ['Four', 'Parois four', 'Grilles four'],
+    surfaces: ['Four', 'Parois four', 'Grilles four', 'Hotte', 'Plaques vitrocéramique'],
     precautions: ['Four tiède, pas brûlant', 'Attention aux brûlures vapeur', 'Bien aérer'],
     astuces: ['Aucun produit chimique nécessaire', 'La chaleur + vapeur = dégraissage naturel', 'Idéal pour entretien régulier'],
     conservation: 'Méthode sans produit'
@@ -2519,8 +2519,8 @@ export const RECETTES: RecetteComplete[] = [
       'Essuyez l\'excédent d\'eau',
       'Laissez sécher, aérez la pièce'
     ],
-    surfaces: ['Joints carrelage', 'Joints salle de bain', 'Joints douche'],
-    precautions: ['Ne pas rester trop longtemps au même endroit', 'Attention aux projections chaudes', 'Laisser sécher pour éviter moisissures'],
+    surfaces: ['Joints carrelage', 'Joints salle de bain', 'Joints douche', 'Carrelage', 'Robinetterie', 'Pommeau de douche'],
+    precautions: ['Ne pas rester trop longtemps au même endroit', 'Attention aux projections chaudes', 'Laisser sécher pour éviter moisissures', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
     astuces: ['Tue 99% des germes sans produit', 'Idéal contre moisissures naissantes', 'Combiner avec traitement anti-moisissures si tenace'],
     conservation: 'Méthode sans produit'
   },
@@ -2574,7 +2574,7 @@ export const RECETTES: RecetteComplete[] = [
       'Résultat sans traces garanti'
     ],
     surfaces: ['Vitres', 'Miroirs', 'Parois de douche', 'Baies vitrées'],
-    precautions: ['Ne pas utiliser sur vitres fissurées (choc thermique)', 'Éviter par temps très froid', 'Bien essuyer les bords'],
+    precautions: ['Ne pas utiliser sur vitres fissurées (choc thermique)', 'Éviter par temps très froid', 'Bien essuyer les bords', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
     astuces: ['La vapeur dissout les graisses et saletés', 'Aucun produit = aucune trace', 'Plus rapide que le nettoyage classique'],
     conservation: 'Méthode sans produit'
   },
@@ -2710,7 +2710,7 @@ export const RECETTES: RecetteComplete[] = [
       'Essuyez les surfaces avec un chiffon'
     ],
     surfaces: ['WC', 'Cuvette', 'Abattant', 'Sol WC'],
-    precautions: ['Attention aux projections d\'eau chaude', 'Bien aérer après'],
+    precautions: ['Attention aux projections d\'eau chaude', 'Bien aérer après', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
     astuces: ['Désinfection totale sans produit chimique', 'Élimine calcaire léger', 'La vapeur atteint les zones inaccessibles'],
     conservation: 'Méthode sans produit'
   },

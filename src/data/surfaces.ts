@@ -20,11 +20,11 @@ export const SURFACES: Surface[] = [
   { id: 8, nom: 'Évier', emoji: '🚰', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/jour' },
   { id: 9, nom: 'Poubelles', emoji: '🗑️', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/semaine', vapeurOk: true, vapeurRecetteId: 95 },
   { id: 10, nom: 'Torchons', emoji: '🧻', piece: 'Cuisine', categorie: 'Maison', frequence: '2x/semaine' },
-  { id: 11, nom: 'Carrelage', emoji: '⬜', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
+  { id: 11, nom: 'Carrelage', emoji: '⬜', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine', vapeurOk: true, vapeurRecetteId: 89 },
   { id: 13, nom: 'Lavabo', emoji: '🚿', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
   { id: 14, nom: 'Parois de douche', emoji: '🚿', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine', vapeurOk: true, vapeurRecetteId: 91 },
-  { id: 15, nom: 'Pommeau', emoji: '🚿', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/mois' },
-  { id: 16, nom: 'Robinetterie', emoji: '🚰', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
+  { id: 15, nom: 'Pommeau', emoji: '🚿', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/mois', vapeurOk: true, vapeurRecetteId: 89 },
+  { id: 16, nom: 'Robinetterie', emoji: '🚰', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine', vapeurOk: true, vapeurRecetteId: 89 },
   { id: 17, nom: 'WC', emoji: '🚽', piece: 'Salle de bain', categorie: 'Maison', frequence: '2x/semaine', vapeurOk: true, vapeurRecetteId: 96 },
   { id: 18, nom: 'Joints', emoji: '⬜', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/mois', vapeurOk: true, vapeurRecetteId: 89 },
   { id: 20, nom: 'Draps & lit', emoji: '🛏️', piece: 'Chambre', categorie: 'Maison', frequence: '1x/semaine' },
@@ -77,7 +77,7 @@ export const SURFACES: Surface[] = [
   // Électroménager supplémentaire
   { id: 69, nom: 'Bouilloire', emoji: '🫖', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
   { id: 70, nom: 'Cafetière', emoji: '☕', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
-  { id: 71, nom: 'Hotte', emoji: '🌀', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois' },
+  { id: 71, nom: 'Hotte', emoji: '🌀', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/mois', vapeurOk: true, vapeurRecetteId: 88 },
   { id: 72, nom: 'Planches à découper', emoji: '🪵', piece: 'Cuisine', categorie: 'Maison', frequence: 'Après usage' },
   // Meubles et bois
   { id: 73, nom: 'Meubles en bois', emoji: '🪑', piece: 'Salon', categorie: 'Maison', frequence: '1x/mois' },
@@ -97,7 +97,7 @@ export const SURFACES: Surface[] = [
   { id: 83, nom: 'Jouets', emoji: '🧸', piece: 'Chambre', categorie: 'Maison', frequence: '1x/mois', vapeurOk: true, vapeurRecetteId: 92 },
   { id: 84, nom: 'Autocollants', emoji: '🏷️', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin' },
   // Surfaces supplémentaires
-  { id: 86, nom: 'Plaques vitrocéramique', emoji: '🔥', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/semaine' },
+  { id: 86, nom: 'Plaques vitrocéramique', emoji: '🔥', piece: 'Cuisine', categorie: 'Maison', frequence: '1x/semaine', vapeurOk: true, vapeurRecetteId: 88 },
   { id: 87, nom: 'Fer à repasser', emoji: '👔', piece: 'Buanderie', categorie: 'Maison', frequence: '1x/mois' },
   { id: 88, nom: 'Baignoire', emoji: '🛁', piece: 'Salle de bain', categorie: 'Maison', frequence: '1x/semaine' },
   { id: 90, nom: 'Murs & Papier peint', emoji: '🏠', piece: 'Salon', categorie: 'Maison', frequence: 'Selon besoin', vapeurOk: true, vapeurRecetteId: 90 },
