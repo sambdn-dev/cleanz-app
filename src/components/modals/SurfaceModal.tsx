@@ -2,13 +2,11 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Surface, RecetteComplete } from '@/types';
-import { ChevronRight, Star, Wind } from 'lucide-react';
+import { AlertTriangle, ChevronRight, Droplets, Flame, Sparkles, Star, Wind } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
-import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
+import { Callout, SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
 import { getSurfaceImage } from '@/data/scenes';
-import { getProduitsParCategorie } from '@/data/partenaires';
-import { PartnerProductCard } from '@/components/ui/PartnerProductCard';
 
 interface SurfaceModalProps {
   surface: Surface;
@@ -70,6 +68,27 @@ const INGREDIENTS_RECOMMANDES: Record<string, { nom: string; emoji: string }[]> 
   ],
 };
 
+// « Aussi parfait pour » — usages génériques de la vapeur, identiques sur
+// toutes les fiches vapeurOk (liste informative, pas de deep-link : la moitié
+// de ces usages n'ont pas de fiche Surface dédiée dans le catalogue).
+const VAPEUR_AUSSI_PARFAIT_POUR: { emoji: string; label: string }[] = [
+  { emoji: '🪟', label: 'Fenêtres' },
+  { emoji: '🧱', label: 'Plinthes' },
+  { emoji: '🔍', label: 'Recoins' },
+  { emoji: '🚪', label: 'Armoires' },
+  { emoji: '🖥️', label: 'Bureau' },
+  { emoji: '🟫', label: 'Parquet' },
+  { emoji: '⬜', label: 'Sols durs' },
+  { emoji: '🏷️', label: 'Traces de colle' },
+];
+
+// Consigne de sécurité — affichée uniquement pour les surfaces en pièce
+// « Salle de bain » (couvre aussi les WC, qui partagent cette valeur de piece).
+const VAPEUR_PRECAUTIONS_SDB: string[] = [
+  'Portez un masque : la chaleur de la vapeur remet en suspension bactéries, moisissures et poussières dans une pièce fermée.',
+  "Aérez bien pendant et après le nettoyage pour évacuer l'humidité et la chaleur.",
+];
+
 const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string; emoji: string }[] => {
   const ingredientsMap = new Map<string, string>();
   recettes.forEach((recette) => {
@@ -88,6 +107,11 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
   const vapeurRecette = surface.vapeurRecetteId
     ? RECETTES.find((r) => r.id === surface.vapeurRecetteId)
     : undefined;
+  // Identité teal de la vapeur, réutilisée partout dans la carte (icône, pastilles, séparateur).
+  const vapeurAccent = darkMode ? '#5EEAD4' : '#0D9488';
+  // Verre dépoli translucide (effet « Liquid Glass ») pour les pastilles et le bouton recette.
+  const vapeurGlass = darkMode ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.55)';
+  const vapeurGlassBorder = darkMode ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.75)';
   // Photo-scène de la surface (repli emoji + dégradé géré par <Modal />)
   const headerImageUrl = getSurfaceImage(surface);
   const hasImage = !!headerImageUrl;
@@ -147,51 +171,145 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
 
       {/* La vapeur suffit — mise en avant du nettoyage 100% eau */}
       {surface.vapeurOk && (
-        <div
-          className="mb-6 rounded-2xl overflow-hidden"
-          style={{
-            background: darkMode
-              ? 'linear-gradient(135deg, rgba(94,234,212,0.10) 0%, rgba(56,189,248,0.10) 100%)'
-              : 'linear-gradient(135deg, rgba(94,234,212,0.14) 0%, rgba(56,189,248,0.12) 100%)',
-            border: `1.5px solid ${darkMode ? 'rgba(94,234,212,0.30)' : 'rgba(20,184,166,0.30)'}`,
-          }}
-        >
-          <div className="p-3.5">
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: darkMode ? 'rgba(94,234,212,0.18)' : 'rgba(20,184,166,0.15)' }}
-              >
-                <Wind className="w-4 h-4" style={{ color: darkMode ? '#5EEAD4' : '#0D9488' }} />
+        <div className="mb-6">
+          <div
+            className="rounded-2xl overflow-hidden relative"
+            style={{
+              background: darkMode
+                ? 'linear-gradient(135deg, rgba(94,234,212,0.14) 0%, rgba(56,189,248,0.10) 100%)'
+                : 'linear-gradient(135deg, rgba(94,234,212,0.18) 0%, rgba(56,189,248,0.13) 100%)',
+              border: `1.5px solid ${darkMode ? 'rgba(94,234,212,0.30)' : 'rgba(20,184,166,0.30)'}`,
+              boxShadow: darkMode
+                ? 'inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(20,184,166,0.10)'
+                : 'inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px rgba(20,184,166,0.12)',
+            }}
+          >
+            {/* Reflet « verre » diagonal, purement décoratif */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: darkMode
+                  ? 'linear-gradient(115deg, rgba(255,255,255,0.10) 0%, transparent 35%)'
+                  : 'linear-gradient(115deg, rgba(255,255,255,0.55) 0%, transparent 40%)',
+              }}
+              aria-hidden
+            />
+
+            <div className="relative p-4">
+              {/* Icône agrandie + titre + pastilles stats en verre dépoli */}
+              <div className="flex items-start gap-3 mb-3">
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: vapeurGlass,
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    boxShadow: `inset 0 1px 0 ${vapeurGlassBorder}, inset 0 0 0 1px ${darkMode ? 'rgba(94,234,212,0.25)' : 'rgba(20,184,166,0.22)'}`,
+                  }}
+                >
+                  <Wind className="w-5 h-5" style={{ color: vapeurAccent }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="font-display text-[14px] font-extrabold leading-tight mb-1.5"
+                    style={{ color: theme.textPrimary }}
+                  >
+                    Ici, la vapeur suffit ✨
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { Icon: Droplets, label: '0 produit' },
+                      { Icon: Sparkles, label: '0 résidu' },
+                      { Icon: Flame, label: '100 °C' },
+                    ].map(({ Icon, label }) => (
+                      <span
+                        key={label}
+                        className="inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full"
+                        style={{
+                          background: vapeurGlass,
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          color: vapeurAccent,
+                          boxShadow: `inset 0 1px 0 ${vapeurGlassBorder}`,
+                        }}
+                      >
+                        <Icon className="w-3 h-3" />
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-[13px] font-extrabold leading-tight" style={{ color: theme.textPrimary }}>
-                  Ici, la vapeur suffit ✨
-                </p>
-                <p className="text-[10px]" style={{ color: theme.textMuted }}>
-                  0 produit · 0 résidu · désinfection à 100 °C
-                </p>
+
+              {vapeurRecette && onRecipeClick && (
+                <button
+                  onClick={() => onRecipeClick(vapeurRecette)}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all active:scale-[0.98]"
+                  style={{
+                    background: vapeurGlass,
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    boxShadow: `inset 0 1px 0 ${vapeurGlassBorder}`,
+                  }}
+                >
+                  <span className="text-xs font-semibold" style={{ color: theme.textPrimary }}>
+                    {vapeurRecette.emoji} {vapeurRecette.nom}
+                  </span>
+                  <ChevronRight className="w-3.5 h-3.5" style={{ color: theme.textMuted }} />
+                </button>
+              )}
+            </div>
+
+            {/* Aussi parfait pour — remplace les suggestions d'appareils */}
+            <div
+              className="relative px-4 pb-4 pt-3"
+              style={{ borderTop: `1px solid ${darkMode ? 'rgba(94,234,212,0.15)' : 'rgba(20,184,166,0.15)'}` }}
+            >
+              <p
+                className="text-[10px] uppercase tracking-wide font-semibold mb-2"
+                style={{ color: theme.textMuted }}
+              >
+                Aussi parfait pour
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {VAPEUR_AUSSI_PARFAIT_POUR.map((u) => (
+                  <span
+                    key={u.label}
+                    className="text-[11px] font-medium px-2.5 py-1 rounded-full"
+                    style={{
+                      background: vapeurGlass,
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      color: theme.textSecondary,
+                      boxShadow: `inset 0 1px 0 ${vapeurGlassBorder}`,
+                    }}
+                  >
+                    {u.emoji} {u.label}
+                  </span>
+                ))}
               </div>
             </div>
-            {vapeurRecette && onRecipeClick && (
-              <button
-                onClick={() => onRecipeClick(vapeurRecette)}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all active:scale-[0.98]"
-                style={{ background: darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.65)' }}
+          </div>
+
+          {/* Sécurité — vapeur en espace fermé (salle de bain / sanitaires uniquement) */}
+          {surface.piece === 'Salle de bain' && (
+            <div className="mt-3">
+              <Callout
+                accent={ACCENT.clay}
+                icon={<AlertTriangle className="w-4 h-4" style={{ color: ACCENT.clay }} />}
+                title="Précautions"
               >
-                <span className="text-xs font-semibold" style={{ color: theme.textPrimary }}>
-                  {vapeurRecette.emoji} {vapeurRecette.nom}
-                </span>
-                <ChevronRight className="w-3.5 h-3.5" style={{ color: theme.textMuted }} />
-              </button>
-            )}
-          </div>
-          {/* Matériel vapeur (partenaires — placeholders tant que l'affiliation est inactive) */}
-          <div className="px-3.5 pb-3.5 flex gap-2.5 overflow-x-auto scrollbar-hide">
-            {getProduitsParCategorie('vapeur').map((p) => (
-              <PartnerProductCard key={p.id} produit={p} compact accent={darkMode ? '#5EEAD4' : '#0D9488'} />
-            ))}
-          </div>
+                {VAPEUR_PRECAUTIONS_SDB.map((precaution, index) => (
+                  <div key={index} className="flex items-baseline gap-2">
+                    <span className="text-sm leading-none" style={{ color: ACCENT.clay }}>•</span>
+                    <span className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+                      {precaution}
+                    </span>
+                  </div>
+                ))}
+              </Callout>
+            </div>
+          )}
         </div>
       )}
 
