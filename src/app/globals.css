@@ -424,3 +424,9 @@ body {
     animation-delay: 250ms;
   }
 }
+
+/* Matériel — fondu enchaîné du hero et entrée du contenu */
+@keyframes materiel-fade { from { opacity: 0; } to { opacity: 1; } }
+.materiel-fade-in { animation: materiel-fade 480ms ease both; }
+@keyframes materiel-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.materiel-rise-in { animation: materiel-rise 380ms ease both; }

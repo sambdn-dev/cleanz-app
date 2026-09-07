@@ -46,6 +46,8 @@ export interface FamilleMateriel {
   /** Accent clair / sombre */
   accent: string;
   accentDark: string;
+  /** Photo d'ambiance de la famille (portrait 3:4, /images/materiel/…) */
+  photo: string;
 }
 
 /** Lien sortant d'une référence — null tant que l'affiliation est inactive. */
@@ -58,6 +60,7 @@ export const getLienReference = (ref: Reference): string | null => {
 export const FAMILLES_MATERIEL: FamilleMateriel[] = [
   {
     id: 'vapeur',
+    photo: '/images/materiel/materiel-vapeur.jpg',
     nom: 'Nettoyeur vapeur',
     emoji: '💨',
     tagline: 'Désinfecte tout, sans aucun produit',
@@ -83,6 +86,7 @@ export const FAMILLES_MATERIEL: FamilleMateriel[] = [
   },
   {
     id: 'aspirateur',
+    photo: '/images/materiel/materiel-aspirateur.jpg',
     nom: 'Aspirateur balai',
     emoji: '🌀',
     tagline: 'Le quotidien sans la corvée',
@@ -108,6 +112,7 @@ export const FAMILLES_MATERIEL: FamilleMateriel[] = [
   },
   {
     id: 'robot',
+    photo: '/images/materiel/materiel-robot.jpg',
     nom: 'Robot aspirateur-laveur',
     emoji: '🤖',
     tagline: 'Il travaille, vous vivez',
@@ -133,6 +138,7 @@ export const FAMILLES_MATERIEL: FamilleMateriel[] = [
   },
   {
     id: 'injecteur',
+    photo: '/images/materiel/materiel-injecteur.jpg',
     nom: 'Injecteur-extracteur',
     emoji: '🛋️',
     tagline: 'La renaissance des tissus',
@@ -158,6 +164,7 @@ export const FAMILLES_MATERIEL: FamilleMateriel[] = [
   },
   {
     id: 'haute-pression',
+    photo: '/images/materiel/materiel-haute-pression.jpg',
     nom: 'Nettoyeur haute pression',
     emoji: '💦',
     tagline: 'Terrasse, façade, voiture',
