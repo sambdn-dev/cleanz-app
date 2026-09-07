@@ -5,9 +5,41 @@ les prompts ChatGPT des lots suivants. Chaque prompt se termine par le nom de
 fichier à donner au téléchargement : c'est ce nom qui permet l'intégration
 automatique.
 
+## ⚠️ Une image par message
+
+**Ne colle jamais un lot entier dans ChatGPT** : il en fait une planche-collage
+inutilisable (dix vignettes de 300 px). Un prompt = un message = une image.
+
+Le plus simple : ouvrir une conversation par lot, coller une fois le **message
+d'ouverture** ci-dessous, puis coller les prompts **un par un**, en attendant
+l'image entre chaque.
+
+> **Message d'ouverture (à coller une seule fois, en début de conversation)**
+>
+> Je vais te donner des descriptions une par une. Pour chacune, génère UNE
+> SEULE image, en format paysage 3:2 (1536×1024), sans jamais faire de collage,
+> de planche ou de grille, même si je t'en envoie plusieurs. Toutes les images
+> partagent ce style : photo réaliste, intérieur scandinave chaleureux (bois
+> clair, blanc cassé, plantes vertes, textiles en lin), lumière naturelle douce
+> venant d'une fenêtre, tons chauds légèrement désaturés, faible profondeur de
+> champ (sujet net, arrière-plan doucement flou), sujet au centre et dans les
+> deux tiers inférieurs, un ou deux accessoires naturels discrets (citron,
+> éponge végétale, bocal de bicarbonate, vinaigre blanc, chiffon en coton),
+> surface propre et fraîchement entretenue. Aucune personne, aucun texte, aucun
+> logo, aucune marque, aucun produit chimique du commerce. Pour les sujets
+> voiture et extérieur, même lumière et même palette mais en extérieur (allée
+> pavée claire, garage lumineux, jardin verdoyant en fin d'après-midi).
+> Réponds seulement par l'image. Attends ma description suivante.
+
+Ensuite, pour chaque surface, envoyer **uniquement la description** (la phrase
+après le tiret), par exemple :
+
+> Pile de torchons en lin propres, pliés sur un plan de travail en bois clair,
+> un torchon rayé suspendu à une barre en laiton, citron coupé à côté.
+
 ## Intégration d'un lot
 
-1. Générer les images avec le **bloc de style** + le prompt de la surface.
+1. Générer les images une par une comme décrit ci-dessus.
 2. Renommer chaque fichier comme indiqué (`surface-<slug>.png`).
 3. Déposer le dossier, puis :
 
@@ -19,21 +51,6 @@ npm run build
 Le script redimensionne en 1200×800, génère le flou de chargement, ajoute
 l'entrée dans `SURFACE_PHOTOS` et signale tout nom qui ne correspond à aucune
 surface ou appareil.
-
-## Bloc de style (à coller avant chaque prompt)
-
-> Photo réaliste, format paysage 3:2 (1536×1024). Intérieur scandinave chaleureux :
-> bois clair, blanc cassé, plantes vertes, textiles en lin. Lumière naturelle douce
-> venant d'une fenêtre, tons chauds légèrement désaturés, faible profondeur de
-> champ (sujet net, arrière-plan doucement flou). Le sujet occupe le centre et
-> les deux tiers inférieurs de l'image. Un ou deux accessoires naturels discrets
-> (citron, éponge végétale, bocal de bicarbonate, vinaigre blanc, chiffon en
-> coton). Surface propre et fraîchement entretenue. Aucune personne, aucun texte,
-> aucun logo, aucune marque, aucun produit chimique du commerce.
-
-Les surfaces « Véhicule » et « Extérieur » gardent la même lumière et la même
-palette, mais en extérieur : allée pavée claire, garage lumineux, jardin
-verdoyant en fin d'après-midi.
 
 ---
 

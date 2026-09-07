@@ -119,8 +119,8 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   // Interpolate sizes from the continuous shrink value
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
-  const iconSize = lerp(DENSE ? 19 : 20, 18);
-  const btnHeight = lerp(40, 34);
+  const iconSize = lerp(DENSE ? 20 : 21, 19);
+  const btnHeight = lerp(44, 38);
   // Wider, airier buttons when expanded; collapse to compact icon size on scroll
   const btnMinWidth = lerp(DENSE ? 44 : 56, DENSE ? 36 : 40);
   const btnPadX = lerp(DENSE ? 5 : 11, DENSE ? 4 : 6);
@@ -132,7 +132,7 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
-  const labelHeight = labelReveal * 12;
+  const labelHeight = labelReveal * 13;
   const compact = shrink > 0.5;
 
   return (
@@ -168,8 +168,10 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
           width: `calc(100vw - ${navMarginX * 2}px)`,
           maxWidth: 460,
           // Plus bas qu'avant : on récupère de la hauteur utile pour le contenu.
-          bottom: `calc(env(safe-area-inset-bottom) + ${lerp(6, 4)}px)`,
-          padding: `${lerp(5, 4)}px ${navPadX}px`,
+          // Sur iPhone, la pilule descend DANS la zone sûre (au ras de la barre
+          // d'accueil, comme les barres d'onglets natives) ; ailleurs, 10 px du bord.
+          bottom: `max(10px, calc(env(safe-area-inset-bottom) - ${lerp(14, 16)}px))`,
+          padding: `${lerp(6, 5)}px ${navPadX}px`,
           transition: 'box-shadow 0.3s ease',
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
@@ -236,7 +238,7 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 style={{
                   height: labelHeight,
                   opacity: labelReveal,
-                  fontSize: 9,
+                  fontSize: 9.5,
                   color: isActive ? activeColor : theme.textMuted,
                 }}
               >
