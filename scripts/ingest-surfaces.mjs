@@ -31,14 +31,17 @@ const OUT_DIR = path.join(ROOT, 'public/images/surfaces');
 const BLUR_TS = path.join(ROOT, 'src/data/imageBlur.ts');
 const SCENES_TS = path.join(ROOT, 'src/data/scenes.ts');
 const SURFACES_TS = path.join(ROOT, 'src/data/surfaces.ts');
+const ELECTRO_TS = path.join(ROOT, 'src/data/electromenager.ts');
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const slugify = (s) => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-// Slugs connus (noms des surfaces) pour signaler une faute de frappe.
+// Slugs connus (surfaces + appareils, qui partagent la même table) pour signaler une faute de frappe.
 const surfaceSlugs = new Set(
-  [...fs.readFileSync(SURFACES_TS, 'utf8').matchAll(/nom:\s*'([^']+)'/g)].map((m) => slugify(m[1]))
+  [SURFACES_TS, ELECTRO_TS].flatMap((f) =>
+    [...fs.readFileSync(f, 'utf8').matchAll(/nom:\s*'((?:[^'\\]|\\.)+)'/g)].map((m) => slugify(m[1].replace(/\\'/g, "'")))
+  )
 );
 
 let blurTs = fs.readFileSync(BLUR_TS, 'utf8');
