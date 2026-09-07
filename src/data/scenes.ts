@@ -134,6 +134,16 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'friteuse': '/images/surfaces/surface-friteuse.jpg',
   'airfryer': '/images/surfaces/surface-airfryer.jpg',
   'poeles-casseroles': '/images/surfaces/surface-poeles-casseroles.jpg',
+  'argenterie': '/images/surfaces/surface-argenterie.jpg',
+  'bouilloire': '/images/surfaces/surface-bouilloire.jpg',
+  'cafetiere': '/images/surfaces/surface-cafetiere.jpg',
+  'casseroles-poeles-inox': '/images/surfaces/surface-casseroles-poeles-inox.jpg',
+  'fer-a-repasser': '/images/surfaces/surface-fer-a-repasser.jpg',
+  'microfibres': '/images/surfaces/surface-microfibres.jpg',
+  'planches-a-decouper': '/images/surfaces/surface-planches-a-decouper.jpg',
+  'tasses-mugs': '/images/surfaces/surface-tasses-mugs.jpg',
+  'torchons': '/images/surfaces/surface-torchons.jpg',
+  'vaisselle': '/images/surfaces/surface-vaisselle.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */

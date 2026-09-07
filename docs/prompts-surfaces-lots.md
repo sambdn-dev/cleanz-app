@@ -7,10 +7,16 @@ automatique.
 
 ## Un seul message par lot
 
-Chaque lot a son prompt complet dans `docs/prompts/lot-N.md`, au format exact
-qui a produit les 10 images du lot 1 : le bloc de style, puis pour chaque image
-son nom de fichier suivi de sa description. À coller tel quel, en un seul
-message ChatGPT. Télécharger chaque image sous le nom indiqué au-dessus d'elle.
+Chaque lot a son prompt complet dans `docs/prompts/lot-N.md`, au format qui a
+produit les lots 1 et 2 en un seul message ChatGPT (structure à conserver) :
+
+1. une phrase d'ouverture « Génère moi ces N images… » ;
+2. le bloc STYLE COMMUN ;
+3. pour chaque image, son nom de fichier sur une ligne, puis sa description.
+
+ChatGPT rend les images dans l'ordre. Elles se téléchargent sous des noms
+génériques numérotés (1) à (N) : ce numéro suffit, l'intégration les renomme
+d'après l'ordre du lot.
 
 ## Intégration d'un lot
 
