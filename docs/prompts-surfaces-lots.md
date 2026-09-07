@@ -5,37 +5,18 @@ les prompts ChatGPT des lots suivants. Chaque prompt se termine par le nom de
 fichier à donner au téléchargement : c'est ce nom qui permet l'intégration
 automatique.
 
-## ⚠️ Une image par message
+## Un seul message par lot
 
-**Ne colle jamais un lot entier dans ChatGPT** : il en fait une planche-collage
-inutilisable (dix vignettes de 300 px). Un prompt = un message = une image.
+Chaque lot a son prompt complet, prêt à coller en un seul message ChatGPT :
 
-Le plus simple : ouvrir une conversation par lot, coller une fois le **message
-d'ouverture** ci-dessous, puis coller les prompts **un par un**, en attendant
-l'image entre chaque.
+- `docs/prompts/lot-2.md` — Lot 2 — Cuisine (2/2) & petit entretien (10 images)
+- `docs/prompts/lot-3.md` — Lot 3 — Salle de bain & corps (10 images)
+- `docs/prompts/lot-4.md` — Lot 4 — Chambre, linge & textiles (10 images)
+- `docs/prompts/lot-5.md` — Lot 5 — Salon & pièces de vie (11 images)
+- `docs/prompts/lot-7.md` — Lot 7 — Voiture & moto (10 images)
+- `docs/prompts/lot-8.md` — Lot 8 — Extérieur & jardin (11 images)
 
-> **Message d'ouverture (à coller une seule fois, en début de conversation)**
->
-> Je vais te donner des descriptions une par une. Pour chacune, génère UNE
-> SEULE image, en format paysage 3:2 (1536×1024), sans jamais faire de collage,
-> de planche ou de grille, même si je t'en envoie plusieurs. Toutes les images
-> partagent ce style : photo réaliste, intérieur scandinave chaleureux (bois
-> clair, blanc cassé, plantes vertes, textiles en lin), lumière naturelle douce
-> venant d'une fenêtre, tons chauds légèrement désaturés, faible profondeur de
-> champ (sujet net, arrière-plan doucement flou), sujet au centre et dans les
-> deux tiers inférieurs, un ou deux accessoires naturels discrets (citron,
-> éponge végétale, bocal de bicarbonate, vinaigre blanc, chiffon en coton),
-> surface propre et fraîchement entretenue. Aucune personne, aucun texte, aucun
-> logo, aucune marque, aucun produit chimique du commerce. Pour les sujets
-> voiture et extérieur, même lumière et même palette mais en extérieur (allée
-> pavée claire, garage lumineux, jardin verdoyant en fin d'après-midi).
-> Réponds seulement par l'image. Attends ma description suivante.
-
-Ensuite, pour chaque surface, envoyer **uniquement la description** (la phrase
-après le tiret), par exemple :
-
-> Pile de torchons en lin propres, pliés sur un plan de travail en bois clair,
-> un torchon rayé suspendu à une barre en laiton, citron coupé à côté.
+Colle tout le contenu du fichier tel quel. ChatGPT produit alors les images une par une dans la même réponse. S'il s'arrête avant la fin (limite d'images par réponse), réponds simplement « continue ». Télécharge chaque image sous le nom indiqué entre parenthèses.
 
 ## Intégration d'un lot
 
