@@ -154,6 +154,16 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'mains': '/images/surfaces/surface-mains.jpg',
   'pommeau': '/images/surfaces/surface-pommeau.jpg',
   'robinetterie': '/images/surfaces/surface-robinetterie.jpg',
+  'baskets': '/images/surfaces/surface-baskets.jpg',
+  'chaussures': '/images/surfaces/surface-chaussures.jpg',
+  'cuir': '/images/surfaces/surface-cuir.jpg',
+  'doudounes': '/images/surfaces/surface-doudounes.jpg',
+  'draps-lit': '/images/surfaces/surface-draps-lit.jpg',
+  'gourdes': '/images/surfaces/surface-gourdes.jpg',
+  'jouets': '/images/surfaces/surface-jouets.jpg',
+  'matelas-sommier': '/images/surfaces/surface-matelas-sommier.jpg',
+  'nuisibles': '/images/surfaces/surface-nuisibles.jpg',
+  'rideaux': '/images/surfaces/surface-rideaux.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
