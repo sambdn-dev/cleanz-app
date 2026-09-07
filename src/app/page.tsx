@@ -222,7 +222,7 @@ function HomePageContent() {
 
       {/* Content with safe area padding */}
       <div
-        className="relative z-10 max-w-md mx-auto px-4 pb-24"
+        className="relative z-10 max-w-md mx-auto px-4 pb-20"
         style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       >
         {/* Header */}

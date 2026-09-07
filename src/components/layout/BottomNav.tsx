@@ -119,20 +119,20 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
   // Interpolate sizes from the continuous shrink value
   const lerp = (from: number, to: number) => from + (to - from) * shrink;
   // Expanded = larger pill with visible labels; Compact (scroll down) = icon-only (unchanged size)
-  const iconSize = lerp(DENSE ? 21 : 22, 20);
-  const btnHeight = lerp(46, 40);
+  const iconSize = lerp(DENSE ? 19 : 20, 18);
+  const btnHeight = lerp(40, 34);
   // Wider, airier buttons when expanded; collapse to compact icon size on scroll
   const btnMinWidth = lerp(DENSE ? 44 : 56, DENSE ? 36 : 40);
   const btnPadX = lerp(DENSE ? 5 : 11, DENSE ? 4 : 6);
   const navGap = lerp(DENSE ? 2 : 6, DENSE ? 2 : 4);
-  const navPadX = lerp(DENSE ? 8 : 13, DENSE ? 6 : 8);
+  const navPadX = lerp(DENSE ? 6 : 10, DENSE ? 5 : 7);
   // Marge latérale de la pilule : un peu plus généreuse en mode compact, où
   // elle se resserre naturellement.
   const navMarginX = lerp(10, 16);
   const radius = lerp(20, 16);
   // Label reveal: fully visible when expanded, gone by mid-shrink
   const labelReveal = Math.max(0, Math.min(1, 1 - shrink * 1.8));
-  const labelHeight = labelReveal * 13;
+  const labelHeight = labelReveal * 12;
   const compact = shrink > 0.5;
 
   return (
@@ -167,8 +167,9 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
           // longueur des libellés (ce qui la laissait étriquée au centre).
           width: `calc(100vw - ${navMarginX * 2}px)`,
           maxWidth: 460,
-          bottom: `calc(env(safe-area-inset-bottom) + ${lerp(16, 12)}px)`,
-          padding: `${lerp(8, 6)}px ${navPadX}px`,
+          // Plus bas qu'avant : on récupère de la hauteur utile pour le contenu.
+          bottom: `calc(env(safe-area-inset-bottom) + ${lerp(6, 4)}px)`,
+          padding: `${lerp(5, 4)}px ${navPadX}px`,
           transition: 'box-shadow 0.3s ease',
           background: darkMode ? 'rgba(24,18,36,0.78)' : 'rgba(255,255,255,0.55)',
           backdropFilter: 'blur(44px) saturate(200%)',
@@ -235,7 +236,7 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
                 style={{
                   height: labelHeight,
                   opacity: labelReveal,
-                  fontSize: 9.5,
+                  fontSize: 9,
                   color: isActive ? activeColor : theme.textMuted,
                 }}
               >
