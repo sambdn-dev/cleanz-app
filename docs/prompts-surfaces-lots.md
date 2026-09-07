@@ -7,17 +7,10 @@ automatique.
 
 ## Un seul message par lot
 
-Chaque lot a son prompt complet, prêt à coller en un seul message ChatGPT :
-
-- `docs/prompts/lot-2.md` — Lot 2 — Cuisine (2/2) & petit entretien (10 images)
-- `docs/prompts/lot-3.md` — Lot 3 — Salle de bain & corps (10 images)
-- `docs/prompts/lot-4.md` — Lot 4 — Chambre, linge & textiles (10 images)
-- `docs/prompts/lot-5.md` — Lot 5 — Salon & pièces de vie (11 images)
-- `docs/prompts/lot-6.md` — Lot 6 — Technique, électronique & appareils uniques (12 images)
-- `docs/prompts/lot-7.md` — Lot 7 — Voiture & moto (10 images)
-- `docs/prompts/lot-8.md` — Lot 8 — Extérieur & jardin (11 images)
-
-Colle tout le contenu du fichier tel quel. ChatGPT produit alors les images une par une dans la même réponse. S'il s'arrête avant la fin (limite d'images par réponse), réponds simplement « continue ». Télécharge chaque image sous le nom indiqué entre parenthèses.
+Chaque lot a son prompt complet dans `docs/prompts/lot-N.md`, au format exact
+qui a produit les 10 images du lot 1 : le bloc de style, puis pour chaque image
+son nom de fichier suivi de sa description. À coller tel quel, en un seul
+message ChatGPT. Télécharger chaque image sous le nom indiqué au-dessus d'elle.
 
 ## Intégration d'un lot
 
