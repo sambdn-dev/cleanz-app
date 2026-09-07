@@ -13,6 +13,7 @@ Chaque lot a son prompt complet, prêt à coller en un seul message ChatGPT :
 - `docs/prompts/lot-3.md` — Lot 3 — Salle de bain & corps (10 images)
 - `docs/prompts/lot-4.md` — Lot 4 — Chambre, linge & textiles (10 images)
 - `docs/prompts/lot-5.md` — Lot 5 — Salon & pièces de vie (11 images)
+- `docs/prompts/lot-6.md` — Lot 6 — Technique, électronique & appareils uniques (12 images)
 - `docs/prompts/lot-7.md` — Lot 7 — Voiture & moto (10 images)
 - `docs/prompts/lot-8.md` — Lot 8 — Extérieur & jardin (11 images)
 
