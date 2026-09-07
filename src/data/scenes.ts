@@ -197,6 +197,16 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'selle-moto': '/images/surfaces/surface-selle-moto.jpg',
   'sieges-auto': '/images/surfaces/surface-sieges-auto.jpg',
   'vitres-auto': '/images/surfaces/surface-vitres-auto.jpg',
+  'barbecue': '/images/surfaces/surface-barbecue.jpg',
+  'canalisations-ext': '/images/surfaces/surface-canalisations-ext.jpg',
+  'mauvaises-herbes': '/images/surfaces/surface-mauvaises-herbes.jpg',
+  'mobilier-de-jardin': '/images/surfaces/surface-mobilier-de-jardin.jpg',
+  'outils-de-jardin': '/images/surfaces/surface-outils-de-jardin.jpg',
+  'piscine': '/images/surfaces/surface-piscine.jpg',
+  'plantes-fleurs': '/images/surfaces/surface-plantes-fleurs.jpg',
+  'terrasse': '/images/surfaces/surface-terrasse.jpg',
+  'toiture': '/images/surfaces/surface-toiture.jpg',
+  'tondeuse': '/images/surfaces/surface-tondeuse.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
