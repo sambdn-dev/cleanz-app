@@ -184,6 +184,19 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'radiateurs': '/images/surfaces/surface-radiateurs.jpg',
   'seche-linge': '/images/surfaces/surface-seche-linge.jpg',
   'telephone': '/images/surfaces/surface-telephone.jpg',
+  'aspirateur-eau-poussiere': '/images/surfaces/surface-aspirateur-eau-poussiere.jpg',
+  'carrosserie': '/images/surfaces/surface-carrosserie.jpg',
+  'casque-moto': '/images/surfaces/surface-casque-moto.jpg',
+  'ceintures': '/images/surfaces/surface-ceintures.jpg',
+  'centrale-vapeur': '/images/surfaces/surface-centrale-vapeur.jpg',
+  'jantes': '/images/surfaces/surface-jantes.jpg',
+  'phares': '/images/surfaces/surface-phares.jpg',
+  'plastiques': '/images/surfaces/surface-plastiques.jpg',
+  'pneus': '/images/surfaces/surface-pneus.jpg',
+  'purificateur-d-air': '/images/surfaces/surface-purificateur-d-air.jpg',
+  'selle-moto': '/images/surfaces/surface-selle-moto.jpg',
+  'sieges-auto': '/images/surfaces/surface-sieges-auto.jpg',
+  'vitres-auto': '/images/surfaces/surface-vitres-auto.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
