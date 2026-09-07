@@ -174,6 +174,16 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'poignees': '/images/surfaces/surface-poignees.jpg',
   'portes': '/images/surfaces/surface-portes.jpg',
   'tapis': '/images/surfaces/surface-tapis.jpg',
+  'aspirateur': '/images/surfaces/surface-aspirateur.jpg',
+  'chaudiere': '/images/surfaces/surface-chaudiere.jpg',
+  'chauffe-eau': '/images/surfaces/surface-chauffe-eau.jpg',
+  'climatisation': '/images/surfaces/surface-climatisation.jpg',
+  'congelateur': '/images/surfaces/surface-congelateur.jpg',
+  'murs-papier-peint': '/images/surfaces/surface-murs-papier-peint.jpg',
+  'ordinateur': '/images/surfaces/surface-ordinateur.jpg',
+  'radiateurs': '/images/surfaces/surface-radiateurs.jpg',
+  'seche-linge': '/images/surfaces/surface-seche-linge.jpg',
+  'telephone': '/images/surfaces/surface-telephone.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
