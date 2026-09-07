@@ -14,9 +14,14 @@ produit les lots 1 et 2 en un seul message ChatGPT (structure à conserver) :
 2. le bloc STYLE COMMUN ;
 3. pour chaque image, son nom de fichier sur une ligne, puis sa description.
 
+**Limite ChatGPT : 10 images maximum par demande.** Un prompt de plus de 10
+images est découpé par ChatGPT en séries de 10 (il demande « fais les 10
+premières »). Les numéros (1) à (10) des fichiers repartent à chaque série :
+déposer une série par dossier, ou indiquer où commence chaque série.
+
 ChatGPT rend les images dans l'ordre. Elles se téléchargent sous des noms
-génériques numérotés (1) à (N) : ce numéro suffit, l'intégration les renomme
-d'après l'ordre du lot.
+génériques numérotés : ce numéro suffit, l'intégration les renomme d'après
+l'ordre du lot après vérification sur une planche-contact.
 
 ## Intégration d'un lot
 
