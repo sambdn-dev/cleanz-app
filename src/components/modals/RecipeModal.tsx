@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
-import { getSceneImage } from '@/data/scenes';
+import { getRecetteImage } from '@/data/scenes';
 import { getImageColor } from '@/data/imageColors';
 import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
@@ -26,8 +26,8 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [comment, setComment] = useState('');
 
-  // Photo dédiée si elle existe, sinon photo-scène générique de la catégorie.
-  const headerImageUrl = recipe.imageUrl ?? getSceneImage(recipe);
+  // Photo dédiée, sinon photo de la surface concernée, sinon scène générique.
+  const headerImageUrl = getRecetteImage(recipe);
   const hasImage = !!headerImageUrl;
   // Gardé pour le repli dégradé (en-tête sans photo / image manquante).
   const useDarkHeaderText = shouldUseDarkText(recipe.gradient);

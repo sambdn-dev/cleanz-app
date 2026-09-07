@@ -109,6 +109,37 @@ const opt = (key: SceneKey, fallback: SceneKey): SceneKey =>
 const norm = (s: string) =>
   s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
+/** « Poêles & casseroles » → « poeles-casseroles » (clé des photos dédiées). */
+export const slugSurface = (nom: string) =>
+  norm(nom).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/**
+ * Photos DÉDIÉES par surface (une vraie photo du sujet, pas une scène
+ * générique partagée). Clé = slug du nom de la surface. Une entrée ici a
+ * priorité sur la scène de repli dans `getSurfaceImage`.
+ *
+ * Même format que les scènes : paysage 3:2, servi en 1200×800. Les appareils
+ * (Électroménager) et les recettes réutilisent ces photos via `getPhotoBySlug`
+ * et l'héritage surface → recette.
+ */
+export const SURFACE_PHOTOS: Record<string, string> = {
+  // Lot 1 — Cuisine (1/2)
+  'lave-vaisselle': '/images/surfaces/surface-lave-vaisselle.jpg',
+  'refrigerateur': '/images/surfaces/surface-refrigerateur.jpg',
+  'micro-ondes': '/images/surfaces/surface-micro-ondes.jpg',
+  'evier': '/images/surfaces/surface-evier.jpg',
+  'poubelles': '/images/surfaces/surface-poubelles.jpg',
+  'plaques-vitroceramique': '/images/surfaces/surface-plaques-vitroceramique.jpg',
+  'hotte': '/images/surfaces/surface-hotte.jpg',
+  'friteuse': '/images/surfaces/surface-friteuse.jpg',
+  'airfryer': '/images/surfaces/surface-airfryer.jpg',
+  'poeles-casseroles': '/images/surfaces/surface-poeles-casseroles.jpg',
+};
+
+/** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
+export const getPhotoBySlug = (nom: string): string | undefined =>
+  SURFACE_PHOTOS[slugSurface(nom)];
+
 /** Clé de scène correspondant à une recette (catégorie + variantes par mots-clés). */
 export function getSceneKey(recette: RecetteComplete): SceneKey {
   const hay = norm([recette.nom, ...(recette.surfaces ?? [])].join(' '));
@@ -163,7 +194,20 @@ export function getRecetteImage(
 ): string | undefined {
   if (darkMode && recette.imageUrlDark) return recette.imageUrlDark;
   if (recette.imageUrl) return recette.imageUrl;
-  return getSceneImage(recette);
+  return getSurfacePhotoForRecette(recette) ?? getSceneImage(recette);
+}
+
+/**
+ * Héritage surface → recette : une recette dont l'une des surfaces déclarées
+ * (« Évier », « Lavabo »…) possède une photo dédiée l'affiche en en-tête, au
+ * lieu de la scène générique. Aucune photo par recette à produire.
+ */
+export function getSurfacePhotoForRecette(recette: RecetteComplete): string | undefined {
+  for (const nom of recette.surfaces ?? []) {
+    const photo = getPhotoBySlug(nom);
+    if (photo) return photo;
+  }
+  return undefined;
 }
 
 /** Clé de scène pour une surface (mots-clés du nom, puis pièce). */
@@ -198,8 +242,10 @@ export function getSurfaceSceneKey(surface: Surface): SceneKey {
   }
 }
 
-/** Photo-scène générique d'une surface, si disponible (sinon undefined → emoji). */
+/** Photo d'une surface : sa photo dédiée si elle existe, sinon la scène générique (sinon undefined → emoji). */
 export function getSurfaceImage(surface: Surface): string | undefined {
+  const dediee = getPhotoBySlug(surface.nom);
+  if (dediee) return dediee;
   const key = pickVariant(getSurfaceSceneKey(surface), surface.id);
   return SCENES_DISPONIBLES.has(key) ? SCENE_FILES[key] : undefined;
 }

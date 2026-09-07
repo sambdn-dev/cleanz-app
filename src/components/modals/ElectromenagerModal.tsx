@@ -1,5 +1,7 @@
 'use client';
 
+import { getPhotoBySlug } from '@/data/scenes';
+
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Electromenager } from '@/types';
@@ -43,6 +45,9 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
   };
 
   const headerGradient = colorMap[appliance.color] || colorMap['bg-blue-500'];
+  // Photo de la surface homonyme (Lave-vaisselle, Hotte, Airfryer…) si elle existe.
+  const headerImageUrl = getPhotoBySlug(appliance.nom);
+  const hasImage = !!headerImageUrl;
 
   const getConsoColor = (pct: number) => {
     if (pct >= 20) return { bg: 'rgba(239, 68, 68, 0.12)', text: '#EF4444', label: 'Élevée' };
@@ -65,11 +70,20 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
       isOpen={true}
       onClose={onClose}
       headerGradient={headerGradient}
+      headerImageUrl={headerImageUrl}
       headerContent={
-        <div className="flex items-center gap-4">
-          <span className="text-5xl">{appliance.emoji}</span>
+        <div
+          className={hasImage ? 'flex flex-col justify-end' : 'flex items-center gap-4'}
+          style={hasImage ? { minHeight: 130 } : undefined}
+        >
+          {!hasImage && <span className="text-5xl">{appliance.emoji}</span>}
           <div className="flex-1">
-            <h2 className="font-display text-xl font-extrabold text-white">{appliance.nom}</h2>
+            <h2
+              className="font-display text-xl font-extrabold text-white"
+              style={hasImage ? { textShadow: '0 1px 3px rgba(0,0,0,0.45)' } : undefined}
+            >
+              {hasImage && <span className="mr-2">{appliance.emoji}</span>}{appliance.nom}
+            </h2>
             <div className="flex items-center gap-3 mt-2 flex-wrap">
               <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/20">
                 <Zap className="w-3.5 h-3.5 text-white" />
