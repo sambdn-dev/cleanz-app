@@ -214,6 +214,12 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'parois-de-douche': '/images/surfaces/surface-parois-de-douche.jpg',
   'vitres-miroirs': '/images/surfaces/surface-vitres-miroirs.jpg',
   'wc': '/images/surfaces/surface-wc.jpg',
+  // Appareils homonymes des familles Matériel (photos portrait 3:4, cadrées en cover)
+  'nettoyeur-vapeur': '/images/materiel/materiel-vapeur.jpg',
+  'aspirateur-balai': '/images/materiel/materiel-aspirateur.jpg',
+  'robot-aspirateur-laveur': '/images/materiel/materiel-robot.jpg',
+  'injecteur-extracteur': '/images/materiel/materiel-injecteur.jpg',
+  'nettoyeur-haute-pression': '/images/materiel/materiel-haute-pression.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
