@@ -10,13 +10,13 @@ export const TIPS: Tip[] = [
   {
     id: 1,
     titre: 'Le vinaigre blanc',
-    contenu: 'Le vinaigre blanc détartre, désinfecte et fait briller. Il remplace 5 produits ménagers chimiques !',
+    contenu: 'Le vinaigre blanc détartre et fait briller. Il remplace 5 produits ménagers chimiques !',
     emoji: '🧴',
     categorie: 'eco'
   },
   {
     id: 2,
-    titre: 'Économies garanties',
+    titre: 'Économies à la clé',
     contenu: 'Passer au ménage naturel permet d\'économiser en moyenne 150€ par an en produits ménagers.',
     emoji: '💰',
     categorie: 'economie'

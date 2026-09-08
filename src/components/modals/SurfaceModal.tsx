@@ -2,10 +2,12 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Surface, RecetteComplete } from '@/types';
-import { ChevronRight, Droplets, Flame, Sparkles, Star, Wind } from 'lucide-react';
+import { ChevronRight, Droplets, Flame, Sparkles, Wind } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
+import { estListable } from '@/data/revue';
+import { PreuveChip } from '@/components/ui/PreuveChip';
 import { getSurfaceImage } from '@/data/scenes';
 
 interface SurfaceModalProps {
@@ -16,7 +18,8 @@ interface SurfaceModalProps {
 
 const getRecettesForSurface = (surfaceId: number): RecetteComplete[] => {
   const recipeIds = RECETTES_PAR_SURFACE[surfaceId] || [];
-  return recipeIds.map((id) => RECETTES.find((r) => r.id === id)).filter(Boolean) as RecetteComplete[];
+  // Les fiches retirées ou fusionnées ne sont plus proposées depuis une surface.
+  return recipeIds.filter(estListable).map((id) => RECETTES.find((r) => r.id === id)).filter(Boolean) as RecetteComplete[];
 };
 
 // Ingrédients recommandés par catégorie
@@ -98,14 +101,6 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
   const ingredients = recettes.length > 0
     ? getIngredientsFromRecettes(recettes)
     : INGREDIENTS_RECOMMANDES[surface.piece] || INGREDIENTS_RECOMMANDES['Cuisine'];
-
-  const renderEfficacite = (note: number) => (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star key={star} className={`w-3 h-3 ${star <= note ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
-      ))}
-    </div>
-  );
 
   const headerGradient = darkMode
     ? 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)'
@@ -282,10 +277,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
                   )}
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    <span className="text-[10px]" style={{ color: theme.textMuted }}>Efficacité :</span>
-                    {renderEfficacite(recette.efficacite)}
-                  </div>
+                  <PreuveChip id={recette.id} compact />
                   {onRecipeClick && <span className="text-[10px] font-medium" style={{ color: ACCENT.brand }}>Voir détails</span>}
                 </div>
               </div>

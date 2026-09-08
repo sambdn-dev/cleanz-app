@@ -6,9 +6,11 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete, Surface, IngredientComplet } from '@/types';
 import { RECETTES } from '@/data/recettes';
+import { estListable } from '@/data/revue';
+import { PreuveChip } from '@/components/ui/PreuveChip';
 import { getRecetteImage } from '@/data/scenes';
 import { getBlur } from '@/data/imageBlur';
-import { Clock, Star, Sparkles, Heart, ListChecks } from 'lucide-react';
+import { Clock, Sparkles, Heart, ListChecks } from 'lucide-react';
 import { Disclaimer } from '@/components/ui/Disclaimer';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge';
@@ -29,32 +31,21 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filtrage des recettes par recherche texte
+  // Catalogue consultable : les fiches retirées ou fusionnées n'apparaissent plus
+  // dans les listes (elles restent ouvrables par un ancien lien, avec explication).
+  const catalogue = RECETTES.filter((r) => estListable(r.id));
   const filteredRecipes = searchQuery
-    ? RECETTES.filter(r => {
+    ? catalogue.filter(r => {
         const query = searchQuery.toLowerCase();
         return r.nom.toLowerCase().includes(query) ||
           r.ingredients.some(ing => ing.nom.toLowerCase().includes(query)) ||
           r.surfaces.some(s => s.toLowerCase().includes(query));
       })
-    : RECETTES;
+    : catalogue;
 
   // Séparer les indispensables du reste
   const indispensables = filteredRecipes.filter(r => r.categorie === 'Indispensable');
   const autresRecettes = filteredRecipes.filter(r => r.categorie !== 'Indispensable');
-
-  // Rendu des étoiles d'efficacité
-  const renderEfficacite = (note: number) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-3 h-3 ${star <= note ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-    );
-  };
 
   // Carte de recette
   const RecipeCard = ({ recipe }: { recipe: RecetteComplete }) => {
@@ -156,7 +147,7 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
               <ListChecks className="w-3 h-3" style={{ color: theme.textMuted }} />
               <span className="text-[10px]" style={{ color: theme.textMuted }}>{recipe.instructions.length} étapes</span>
             </div>
-            {renderEfficacite(recipe.efficacite)}
+            <PreuveChip id={recipe.id} compact />
           </div>
 
           {/* Ingrédients preview */}
@@ -285,7 +276,7 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
       >
         <span className="text-2xl block mb-2">🌿</span>
         <p className="text-xs font-medium" style={{ color: theme.textPrimary }}>
-          {RECETTES.length} recettes 100% naturelles
+          {catalogue.length} recettes au naturel
         </p>
         <p className="text-[10px] mt-1" style={{ color: theme.textMuted }}>
           Sans produits chimiques nocifs

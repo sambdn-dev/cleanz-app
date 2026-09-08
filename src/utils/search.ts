@@ -1,5 +1,6 @@
 import { SURFACES } from '@/data/surfaces';
 import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
+import { estListable } from '@/data/revue';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { SURFACE_ALIASES } from '@/data/searchAliases';
 import { Surface, RecetteComplete, IngredientComplet } from '@/types';
@@ -49,7 +50,7 @@ export const searchAll = (raw: string): SearchResults => {
     const aliases = SURFACE_ALIASES[surface.id] || [];
     const score = scoreHaystack(q, [surface.nom, surface.piece, ...aliases]);
     if (score > 0) {
-      const recipeIds = RECETTES_PAR_SURFACE[surface.id] || [];
+      const recipeIds = (RECETTES_PAR_SURFACE[surface.id] || []).filter(estListable);
       surfaceResults.push({ surface, score, recipeCount: recipeIds.length });
       for (const id of recipeIds) {
         recipeScore.set(id, Math.max(recipeScore.get(id) || 0, score - 10));
@@ -59,6 +60,7 @@ export const searchAll = (raw: string): SearchResults => {
 
   // 2) Recettes en direct (nom + catégorie + badge + surfaces compatibles)
   for (const r of RECETTES) {
+    if (!estListable(r.id)) continue; // fiches retirées ou fusionnées : jamais en suggestion
     const score = scoreHaystack(q, [r.nom, r.categorie, r.badge || '', ...r.surfaces]);
     if (score > 0) recipeScore.set(r.id, Math.max(recipeScore.get(r.id) || 0, score));
   }

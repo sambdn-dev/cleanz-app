@@ -50,7 +50,7 @@ export const UserSpraysProvider = ({ children }: { children: ReactNode }) => {
   ): UserSpray => {
     const now = new Date();
     const days = parseConservationToDays(conservation);
-    const expires = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = days === null ? null : new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
 
     const newSpray: UserSpray = {
       id: genId(),
@@ -59,7 +59,7 @@ export const UserSpraysProvider = ({ children }: { children: ReactNode }) => {
       recipeType,
       name,
       createdAt: now.toISOString(),
-      expiresAt: expires.toISOString(),
+      expiresAt: expires ? expires.toISOString() : null,
     };
 
     setSprays(prev => [...prev, newSpray]);

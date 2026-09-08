@@ -18,7 +18,7 @@ interface Stat {
 const STATS: Stat[] = [
   { emoji: '💰', numericValue: 280, suffix: '€', label: 'économisés / an', tintLight: 'rgba(16,185,129,0.10)', tintDark: 'rgba(16,185,129,0.16)', accent: '#10B981' },
   { emoji: '🌍', numericValue: 85, prefix: '-', suffix: '%', label: 'de plastique', tintLight: 'rgba(59,130,246,0.10)', tintDark: 'rgba(59,130,246,0.16)', accent: '#3B82F6' },
-  { emoji: '🌿', numericValue: 0, label: 'produit toxique', tintLight: 'rgba(236,72,153,0.10)', tintDark: 'rgba(236,72,153,0.16)', accent: '#EC4899' },
+  { emoji: '🌿', numericValue: 0, label: 'ingrédient mystère', tintLight: 'rgba(236,72,153,0.10)', tintDark: 'rgba(236,72,153,0.16)', accent: '#EC4899' },
   { emoji: '✨', numericValue: 7, label: 'essentiels suffisent', tintLight: 'rgba(245,158,11,0.10)', tintDark: 'rgba(245,158,11,0.16)', accent: '#F59E0B' },
 ];
 

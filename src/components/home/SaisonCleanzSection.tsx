@@ -268,7 +268,7 @@ const SAISONS: Record<SaisonKey, Saison> = {
           { emoji: '🍖', titre: 'Barbecue impeccable', texte: 'Frottez la grille encore tiède avec un demi-oignon, puis bicarbonate + vinaigre pour décoller les graisses cuites.' },
           { emoji: '🦟', titre: 'Anti-moustiques naturel', texte: 'Spray eau + vinaigre + HE citronnelle sur les rebords de fenêtres. Efficace et sans chimie.' },
           { emoji: '🏖️', titre: 'Terrasse & salon de jardin', texte: 'Savon noir + cristaux de soude redonnent vie au plastique jauni et au bois grisé.' },
-          { emoji: '🧊', titre: 'Glacière sans odeurs', texte: 'Bicarbonate + jus de citron pour désinfecter avant les pique-niques.' },
+          { emoji: '🧊', titre: 'Glacière sans odeurs', texte: 'Bicarbonate + jus de citron pour nettoyer et désodoriser avant les pique-niques.' },
           { emoji: '👟', titre: 'Baskets fraîches', texte: 'Poudre bicarbonate + maïzena + tea tree la nuit : adieu odeurs de transpiration.' },
         ],
       },
@@ -346,9 +346,9 @@ const SAISONS: Record<SaisonKey, Saison> = {
       {
         label: '🌡️ Air & confort',
         tips: [
-          { icon: <Wind className="w-5 h-5" />, titre: 'Aérer même en hiver', texte: '💨 10 min/jour fenêtres grandes ouvertes (chauffage coupé) : on renouvelle l\'air sans refroidir les murs.\n🦠 Indispensable contre l\'humidité et les virus de l\'air confiné.', schema: <HorairesSchema />, important: true },
+          { icon: <Wind className="w-5 h-5" />, titre: 'Aérer même en hiver', texte: '💨 10 min/jour fenêtres grandes ouvertes (chauffage coupé) : on renouvelle l\'air sans refroidir les murs.\n🌬️ Indispensable contre l\'humidité de l\'air confiné.', schema: <HorairesSchema />, important: true },
           { icon: <Droplets className="w-5 h-5" />, titre: 'Air trop sec', texte: '💧 Le chauffage assèche l\'air : posez un récipient d\'eau sur le radiateur, ajoutez des plantes, et hydratez-vous.\n🌿 Un linge humide sur le radiateur fait office d\'humidificateur.' },
-          { icon: <Sparkles className="w-5 h-5" />, titre: 'Saison des virus', texte: '🦠 Désinfectez les points de contact (poignées, interrupteurs, télécommandes) au vinaigre + HE tea tree.\n🤧 Lavez plus souvent torchons et essuie-mains.' },
+          { icon: <Sparkles className="w-5 h-5" />, titre: 'Points de contact', texte: '🧼 Nettoyez régulièrement poignées, interrupteurs et télécommandes.\n🤧 Lavez plus souvent torchons et essuie-mains.' },
           { icon: <ThermometerSnowflake className="w-5 h-5" />, titre: 'Chauffage malin', texte: '🌡️ 19°C le jour, 17°C la nuit : confort + économies.\n🚪 Fermez les pièces inutilisées et baissez les volets la nuit pour garder la chaleur.' },
         ],
       },

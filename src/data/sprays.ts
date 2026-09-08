@@ -101,9 +101,9 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
   },
   {
     id: 6,
-    nom: 'Désinfectant Naturel',
+    nom: 'Nettoyant vinaigre & huiles essentielles',
     emoji: '🦠',
-    badge: 'Santé',
+    badge: 'Points de contact',
     gradient: 'linear-gradient(135deg, #B0E0E6 0%, #ADD8E6 100%)',
     imageUrl: '/images/sprays/desinfectant.jpg',
     imageUrlDark: '/images/sprays/desinfectant-dark.jpg',
@@ -116,7 +116,7 @@ export const SPRAYS_INDISPENSABLES: Spray[] = [
     instructions: 'Mélangez l\'eau et le vinaigre. Ajoutez les huiles essentielles. Secouez bien.',
     surfaces: ['Poignées', 'Interrupteurs', 'WC', 'Téléphones'],
     precautions: ['Éviter femmes enceintes/enfants -3ans (HE)', 'Aérer après usage'],
-    astuces: ['Le tea tree est antibactérien naturel'],
+    astuces: ['Le tea tree apporte une odeur fraîche et camphrée'],
     conservation: '3 mois'
   },
 ];

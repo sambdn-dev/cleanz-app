@@ -63,9 +63,9 @@ export const FAMILLES_MATERIEL: FamilleMateriel[] = [
     photo: '/images/materiel/materiel-vapeur.jpg',
     nom: 'Nettoyeur vapeur',
     emoji: '💨',
-    tagline: 'Désinfecte tout, sans aucun produit',
+    tagline: 'Nettoie tout, sans aucun produit',
     description:
-      "De l'eau chauffée à 100 °C, rien d'autre. La vapeur dissout le gras, décolle le calcaire et élimine 99,9 % des bactéries — idéal avec des enfants ou des animaux à la maison.",
+      "De l'eau chauffée à 100 °C, rien d'autre. La vapeur dissout le gras et décolle le calcaire, sans aucun résidu — idéal avec des enfants ou des animaux à la maison.",
     avantages: [
       'Zéro produit, zéro résidu : juste de l\'eau',
       'Rentabilisé en quelques mois face aux sprays jetables',

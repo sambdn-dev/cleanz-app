@@ -4,19 +4,26 @@
  */
 
 /**
- * Convertit une durée de conservation en nombre de jours.
- * Ex: "3 mois" -> 90, "6 semaines" -> 42, "1 an" -> 365
+ * Convertit une durée de conservation en nombre de jours, ou `null` quand
+ * aucune date ne peut être calculée honnêtement :
+ *  - méthode immédiate / sans préparation (« à chaque usage », « aussitôt »…) ;
+ *  - texte libre sans durée explicite.
+ * Ex: "3 mois" -> 90, "6 semaines" -> 42, "1 an" -> 365, "Usage immédiat" -> null.
+ *
+ * Revue éditoriale : une date de péremption ne doit jamais être inventée depuis
+ * du texte libre (l'ancien défaut de 90 jours a été retiré).
  */
-export const parseConservationToDays = (conservation: string): number => {
+export const parseConservationToDays = (conservation: string): number | null => {
   const lower = conservation.toLowerCase();
-  const num = parseInt(lower) || 1;
-  if (lower.includes('semaine')) return num * 7;
-  if (lower.includes('mois')) return num * 30;
-  if (lower.includes('an')) return num * 365;
-  if (lower.includes('jour')) return num;
-  // "Préparer à chaque usage" / "immédiat" => usage unique
-  if (lower.includes('usage') || lower.includes('immédiat') || lower.includes('chaque')) return 1;
-  return 90; // Défaut : 3 mois
+  if (/usage|imm[ée]diat|aussit[ôo]t|chaque|sans pr[ée]paration|ne se conserve pas|ne pas conserver/.test(lower)) return null;
+  const m = lower.match(/(\d+)\s*(jour|semaine|mois|an)/);
+  if (!m) return null;
+  const num = parseInt(m[1], 10);
+  const unite = m[2];
+  if (unite === 'jour') return num;
+  if (unite === 'semaine') return num * 7;
+  if (unite === 'mois') return num * 30;
+  return num * 365;
 };
 
 export type FicheType = 'spray' | 'recette';

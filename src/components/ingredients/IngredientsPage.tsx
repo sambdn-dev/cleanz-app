@@ -15,9 +15,9 @@ import { haptic } from '@/utils/haptics';
 
 // 15 fonctions principales uniquement
 const MAIN_FUNCTIONS = [
-  'Détartrant', 'Désinfectant', 'Dégraissant', 'Nettoyant', 'Détachant',
-  'Désodorisant', 'Blanchissant', 'Antibactérien', 'Antifongique', 'Polissant',
-  'Absorbant', 'Insecticide', 'Déboucheur', 'Parfumant', 'Purifiant'
+  'Détartrant', 'Dégraissant', 'Nettoyant', 'Détachant',
+  'Désodorisant', 'Blanchissant', 'Polissant',
+  'Absorbant', 'Insecticide', 'Déboucheur', 'Parfumant'
 ];
 
 interface IngredientsPageProps {

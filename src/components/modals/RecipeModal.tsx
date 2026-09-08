@@ -5,8 +5,11 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete } from '@/types';
 import { getRecetteImage } from '@/data/scenes';
+import { RECETTES } from '@/data/recettes';
+import { getRevue, getStatutRecette, resoudreRecetteId, getNiveauPreuve, LIBELLE_PREUVE } from '@/data/revue';
+import { PreuveChip } from '@/components/ui/PreuveChip';
 import { getImageColor } from '@/data/imageColors';
-import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Star, AlertTriangle, Archive, Heart, MessageCircle, Share2, Ban, FileSearch, ArrowRightLeft } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
 import { Disclaimer } from '@/components/ui/Disclaimer';
@@ -20,8 +23,20 @@ interface RecipeModalProps {
   onClose: () => void;
 }
 
-export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
+export const RecipeModal = ({ recipe: recipeOuverte, onClose }: RecipeModalProps) => {
   const { theme, darkMode } = useTheme();
+
+  // Revue éditoriale : une fiche fusionnée redirige explicitement vers sa fiche
+  // canonique (ancien lien, favori ou QR conservés) ; une fiche retirée n'expose
+  // plus ses anciennes instructions ; une fiche en attente reste lisible avec
+  // un avertissement.
+  const idCanonique = resoudreRecetteId(recipeOuverte.id);
+  const fusionnee = idCanonique !== recipeOuverte.id;
+  const recipe = fusionnee ? (RECETTES.find((r) => r.id === idCanonique) ?? recipeOuverte) : recipeOuverte;
+  const statut = getStatutRecette(recipe.id);
+  const revue = getRevue(recipe.id);
+  const retiree = statut === 'retiree';
+  const enAttente = statut === 'en_attente';
   const { isFavorite, toggleFavorite, getRating, setRating } = useRecipeInteractionsContext();
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [comment, setComment] = useState('');
@@ -60,7 +75,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
     const text = buildShareText({
       title: recipe.nom,
       emoji: recipe.emoji,
-      tagline: `⏱️ ${recipe.temps} · ${recipe.difficulte} · efficacité ${recipe.efficacite}/5`,
+      tagline: `⏱️ ${recipe.temps} · ${recipe.difficulte}`,
       bullets: recipe.ingredients.slice(0, 4).map((i) => i.nom),
       url,
     });
@@ -68,14 +83,6 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
     if (res === 'copied') showShareConfirm('Lien copié ✓');
     else if (res === 'shared') showShareConfirm('Partagé ✓');
   };
-
-  const renderEfficacite = (note: number) => (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star key={star} className={`w-3.5 h-3.5 ${star <= note ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
-      ))}
-    </div>
-  );
 
   return (
     <Modal
@@ -102,7 +109,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
               {hasImage && <span className="mr-2">{recipe.emoji}</span>}
               {recipe.nom}
             </h2>
-            {recipe.badge && (
+            {recipe.badge && !retiree && (
               <span
                 className="inline-block mt-2 text-xs px-2.5 py-0.5 rounded-full font-medium"
                 style={{
@@ -122,11 +129,58 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         items={[
           { label: 'Temps', value: recipe.temps },
           { label: 'Difficulté', value: recipe.difficulte, color: difficultyColor },
-          { label: 'Efficacité', value: renderEfficacite(recipe.efficacite) },
+          { label: 'Preuve', value: <PreuveChip id={recipe.id} compact /> },
         ]}
       />
+      {statut === 'publiee' && (
+        <p className="-mt-3 mb-5 text-[11px] leading-snug" style={{ color: theme.textMuted }}>
+          {LIBELLE_PREUVE[getNiveauPreuve(recipe.id)]} · revue éditoriale du 8 septembre 2026, sans essai physique.
+        </p>
+      )}
+
+      {/* Revue éditoriale : redirection, retrait ou mise en attente */}
+      {fusionnee && (
+        <div className="mb-6">
+          <Callout accent={ACCENT.blue} icon={<ArrowRightLeft className="w-4 h-4" style={{ color: ACCENT.blue }} />} title="Fiche fusionnée">
+            <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+              « {recipeOuverte.nom} » a été fusionnée avec cette fiche, qui en est désormais la version de référence. Vos favoris et QR codes y mènent directement.
+            </p>
+          </Callout>
+        </div>
+      )}
+      {retiree && revue && (
+        <div className="mb-6">
+          <Callout accent={ACCENT.clay} icon={<Ban className="w-4 h-4" style={{ color: ACCENT.clay }} />} title="Méthode retirée du catalogue">
+            {revue.motif && (
+              <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>{revue.motif}</p>
+            )}
+            <p className="text-sm leading-relaxed mt-2 font-semibold" style={{ color: theme.textPrimary }}>
+              Ce que nous recommandons : {revue.action}
+            </p>
+            <p className="text-xs leading-relaxed mt-2" style={{ color: theme.textMuted }}>
+              Les anciennes instructions ne sont plus affichées. Les précautions restent consultables.
+            </p>
+          </Callout>
+        </div>
+      )}
+      {enAttente && revue && (
+        <div className="mb-6">
+          <Callout accent={ACCENT.amber} icon={<FileSearch className="w-4 h-4" style={{ color: ACCENT.amber }} />} title="Fiche en cours de revue">
+            <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+              Objectif retenu : {revue.action}
+            </p>
+            {revue.motif && (
+              <p className="text-xs leading-relaxed mt-2" style={{ color: theme.textMuted }}>{revue.motif}</p>
+            )}
+            <p className="text-xs leading-relaxed mt-2" style={{ color: theme.textMuted }}>
+              Aucune efficacité n&apos;est garantie tant que la méthode n&apos;a pas été validée par des essais.
+            </p>
+          </Callout>
+        </div>
+      )}
 
       {/* Ingrédients & dosages */}
+      {!retiree && (
       <div className="mb-6">
         <SectionTitle accent={accent.bar}>Ingrédients &amp; dosages</SectionTitle>
         <div className="space-y-0">
@@ -148,8 +202,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         </div>
       </div>
 
+      )}
+
       {/* Matériel nécessaire */}
-      {recipe.materiel && recipe.materiel.length > 0 && (
+      {!retiree && recipe.materiel && recipe.materiel.length > 0 && (
         <div className="mb-6">
           <SectionTitle accent={accent.bar}>Matériel</SectionTitle>
           <div className="flex flex-wrap gap-2">
@@ -161,12 +217,15 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       )}
 
       {/* Instructions */}
-      <div className="mb-6">
-        <SectionTitle accent={accent.bar}>Préparation</SectionTitle>
-        <Steps items={recipe.instructions} />
-      </div>
+      {!retiree && (
+        <div className="mb-6">
+          <SectionTitle accent={accent.bar}>Préparation</SectionTitle>
+          <Steps items={recipe.instructions} />
+        </div>
+      )}
 
       {/* Surfaces compatibles */}
+      {!retiree && (
       <div className="mb-6">
         <SectionTitle accent={accent.bar}>Surfaces compatibles</SectionTitle>
         <div className="flex flex-wrap gap-2">
@@ -175,6 +234,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
           ))}
         </div>
       </div>
+      )}
 
       {/* Précautions */}
       {recipe.precautions.length > 0 && (
@@ -191,7 +251,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       )}
 
       {/* Astuces */}
-      {recipe.astuces.length > 0 && (
+      {!retiree && recipe.astuces.length > 0 && (
         <div className="mb-6">
           <Callout accent={accent.bar} icon={<span className="text-base leading-none">💡</span>} title="Le geste en plus">
             {recipe.astuces.map((astuce, index) => (
@@ -205,6 +265,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
       )}
 
       {/* Conservation */}
+      {!retiree && (
       <div
         className="flex items-center gap-3 mb-6 py-3 border-y"
         style={{ borderColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
@@ -213,8 +274,10 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
         <span className="text-xs" style={{ color: theme.textMuted }}>Se conserve</span>
         <span className="text-sm font-medium ml-auto" style={{ color: theme.textPrimary }}>{recipe.conservation}</span>
       </div>
+      )}
 
-      {/* Actions : favori, note, partage */}
+      {/* Actions : favori, note, partage (pas de notation d'une méthode retirée) */}
+      {!retiree && (
       <div className="mb-5">
         {/* Notation + actions */}
         <div
@@ -319,6 +382,7 @@ export const RecipeModal = ({ recipe, onClose }: RecipeModalProps) => {
           )}
         </div>
       </div>
+      )}
 
       <div className="mt-4">
         <Disclaimer variant="compact" />

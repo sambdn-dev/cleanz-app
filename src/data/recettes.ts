@@ -162,10 +162,10 @@ export const RECETTES: RecetteComplete[] = [
   },
   {
     id: 6,
-    nom: 'Désinfectant Naturel',
+    nom: 'Nettoyant vinaigre & huiles essentielles',
     emoji: '🦠',
     categorie: 'Indispensable',
-    badge: 'Santé',
+    badge: 'Points de contact',
     gradient: 'linear-gradient(135deg, #B0E0E6 0%, #ADD8E6 100%)',
     imageUrl: '/images/sprays/desinfectant.jpg',
     // Prompt version sombre (ChatGPT/DALL·E) : « Moody product photography, midnight teal-blue background fading to black on the left. On the right: a glass cork bottle, a clear spray bottle, a small amber essential oil bottle, tea tree sprig, eucalyptus branch. Cool-warm rim lighting. Clean yet cozy atmosphere. Horizontal 3:2 ratio, photorealistic. »
@@ -189,7 +189,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Poignées', 'Interrupteurs', 'WC', 'Téléphones', 'Claviers', 'Télécommandes'],
     precautions: ['Éviter chez femmes enceintes et enfants -3ans (HE)', 'Aérer après usage', 'Ne pas ingérer'],
-    astuces: ['Le tea tree est un antibactérien naturel puissant', 'Idéal en période de maladie'],
+    astuces: ['Le tea tree apporte une odeur fraîche et camphrée'],
     conservation: '3 mois'
   },
 
@@ -229,7 +229,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Spray Anti-Calcaire',
     emoji: '💎',
     categorie: 'Salle de bain',
-    badge: 'Efficace',
+    badge: 'Anti-calcaire',
     gradient: 'linear-gradient(135deg, #11998E 0%, #38EF7D 100%)',
     temps: '5min',
     difficulte: 'Facile',
@@ -403,7 +403,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Anti-Moisissures',
     emoji: '🧫',
     categorie: 'Salle de bain',
-    badge: 'Puissant',
+    badge: 'Dégraissant',
     gradient: 'linear-gradient(135deg, #232526 0%, #414345 100%)',
     temps: '5min',
     difficulte: 'Facile',
@@ -424,7 +424,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Joints de carrelage', 'Joints de douche', 'Rideaux de douche', 'Murs humides'],
     precautions: ['Portez un masque pour les grandes surfaces', 'Aérez bien la pièce', 'Éviter contact avec les yeux'],
-    astuces: ['Le tea tree est antifongique', 'Renouvelez chaque semaine jusqu\'à disparition', 'Traitez la cause de l\'humidité'],
+    astuces: ['Renouvelez chaque semaine jusqu\'à disparition', 'Traitez la cause de l\'humidité'],
     conservation: '3 mois'
   },
   {
@@ -432,7 +432,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Pâte Nettoyante Four',
     emoji: '🔥',
     categorie: 'Cuisine',
-    badge: 'Miracle',
+    badge: 'Classique',
     gradient: 'linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%)',
     temps: '15min + pose',
     difficulte: 'Facile',
@@ -631,7 +631,7 @@ export const RECETTES: RecetteComplete[] = [
   },
   {
     id: 22,
-    nom: 'Spray Désinfectant Express',
+    nom: 'Spray alcool express',
     emoji: '🧴',
     categorie: 'Multi-usage',
     badge: 'Rapide',
@@ -654,7 +654,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Poignées de porte', 'Interrupteurs', 'Téléphones', 'Claviers', 'Télécommandes', 'Plans de travail'],
     precautions: ['Très inflammable - éloigner des flammes', 'Bien aérer la pièce', 'Ne pas utiliser sur écrans'],
-    astuces: ['Sèche très vite sans laisser de traces', 'Idéal en période de grippe/gastro', 'L\'alcool tue 99.9% des germes'],
+    astuces: ['Sèche très vite sans laisser de traces'],
     conservation: '6 mois'
   },
   {
@@ -809,7 +809,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Spray Parois de Douche',
     emoji: '🚿',
     categorie: 'Salle de bain',
-    badge: 'Ultra-puissant',
+    badge: 'Détartrant',
     gradient: 'linear-gradient(135deg, #43E97B 0%, #38F9D7 100%)',
     temps: '10min',
     difficulte: 'Facile',
@@ -891,7 +891,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Carrelage', 'Lino', 'Sols stratifiés'],
     precautions: ['Pas adapté au bois brut'],
-    astuces: ['Une fois tous les 15 jours, passer le Nettoyeur vapeur Karcher afin de désincruster en profondeur les sols', 'Les huiles essentielles apportent une odeur agréable et un pouvoir désinfectant'],
+    astuces: ['Une fois tous les 15 jours, passer le Nettoyeur vapeur Karcher afin de désincruster en profondeur les sols', 'Les huiles essentielles apportent une odeur agréable'],
     conservation: 'À utiliser immédiatement'
   },
   {
@@ -1030,7 +1030,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Robinetterie', 'Vitres', 'Miroirs', 'Interrupteurs', 'Poignées', 'WC', 'Parois de douche', 'Téléphone', 'Écrans', 'Plastiques voiture'],
     precautions: ['Très inflammable - éloigner des flammes et sources de chaleur', 'Utiliser dans un endroit ventilé', 'Ne pas utiliser sur bois vernis ou laqué', 'Éviter le contact prolongé avec les plastiques sensibles'],
-    astuces: ['Idéal pour détruire les mauvaises odeurs sur les textiles (vaporiser à 30cm)', 'Fait briller la robinetterie et les parois de douche sans traces', 'Désinfecte télécommandes, claviers et poignées en quelques secondes', 'Parfait pour nettoyer les ampoules (éteintes et froides !)', 'Excellent pour l\'habitacle de voiture et les bacs de rangement'],
+    astuces: ['Idéal pour détruire les mauvaises odeurs sur les textiles (vaporiser à 30cm)', 'Fait briller la robinetterie et les parois de douche sans traces', 'Nettoie télécommandes, claviers et poignées en quelques secondes', 'Parfait pour nettoyer les ampoules (éteintes et froides !)', 'Excellent pour l\'habitacle de voiture et les bacs de rangement'],
     conservation: '2 ans (garder le flacon bien fermé)'
   },
   {
@@ -1087,7 +1087,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Vaisselle incrustée', 'Tasses tachées', 'Mugs', 'Assiettes', 'Plats à gratin', 'Fonds de casseroles'],
     precautions: ['Ne pas utiliser sur aluminium', 'Tester sur les surfaces délicates', 'Eau chaude, pas bouillante'],
-    astuces: ['L\'astuce de la flemme : zéro effort, résultat garanti !', 'Le percarbonate libère de l\'oxygène actif qui décolle les incrustations', 'Idéal pour les taches de thé ou café dans les tasses', 'Fonctionne aussi sur les plats à gratin très encrassés'],
+    astuces: ['L\'astuce de la flemme : zéro effort', 'Le percarbonate libère de l\'oxygène actif qui décolle les incrustations', 'Idéal pour les taches de thé ou café dans les tasses', 'Fonctionne aussi sur les plats à gratin très encrassés'],
     conservation: 'À préparer à chaque usage'
   },
   {
@@ -1365,7 +1365,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Sièges auto tissu', 'Tapis voiture', 'Moquette auto'],
     precautions: ['Tester sur zone cachée', 'Ne pas détremper', 'Bien faire sécher'],
-    astuces: ['Élimine les taches et les odeurs', 'Le percarbonate désinfecte en profondeur', 'Idéal au changement de saison'],
+    astuces: ['Élimine les taches et les odeurs', 'Le percarbonate blanchit et désodorise', 'Idéal au changement de saison'],
     conservation: 'À préparer à chaque usage'
   },
   // === VINAIGRE BLANC ===
@@ -1401,7 +1401,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Nettoyant Micro-ondes',
     emoji: '📺',
     categorie: 'Cuisine',
-    badge: 'Vapeur magique',
+    badge: 'Vapeur',
     gradient: 'linear-gradient(135deg, #FFF59D 0%, #FFF176 100%)',
     temps: '10min',
     difficulte: 'Facile',
@@ -2005,10 +2005,10 @@ export const RECETTES: RecetteComplete[] = [
   // === HUILES ESSENTIELLES ===
   {
     id: 71,
-    nom: 'Spray Désinfectant Tea Tree',
+    nom: 'Spray tea tree',
     emoji: '🌿',
     categorie: 'Multi-usage',
-    badge: 'Antibactérien',
+    badge: 'Huile essentielle',
     gradient: 'linear-gradient(135deg, #A5D6A7 0%, #81C784 100%)',
     temps: '5min',
     difficulte: 'Facile',
@@ -2028,7 +2028,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Plans de travail', 'Poignées', 'Interrupteurs', 'Sanitaires'],
     precautions: ['Éviter le contact avec les yeux', 'Déconseillé femmes enceintes et enfants -3 ans', 'Ne pas utiliser sur surfaces alimentaires sans rinçage'],
-    astuces: ['Le tea tree est un puissant antibactérien naturel', 'Efficace contre les bactéries et virus', 'Idéal en période de maladie'],
+    astuces: ['Le tea tree a une odeur fraîche et camphrée', 'Nettoyer régulièrement les points de contact reste le geste utile'],
     conservation: '3 mois'
   },
   {
@@ -2036,7 +2036,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Anti-Moisissures Tea Tree',
     emoji: '🧫',
     categorie: 'Salle de bain',
-    badge: 'Antifongique',
+    badge: 'Moisissures',
     gradient: 'linear-gradient(135deg, #80CBC4 0%, #4DB6AC 100%)',
     temps: '30min',
     difficulte: 'Facile',
@@ -2056,7 +2056,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Joints carrelage', 'Parois de douche', 'Rideaux de douche', 'Murs humides'],
     precautions: ['Bien aérer', 'Porter un masque pour les grandes surfaces', 'Renouveler régulièrement en prévention'],
-    astuces: ['Le tea tree est antifongique puissant', 'Élimine les moisissures en profondeur', 'Traiter la cause de l\'humidité pour éviter le retour'],
+    astuces: ['Traiter la cause de l\'humidité pour éviter le retour', 'Aérer et sécher la pièce après usage'],
     conservation: '3 mois'
   },
   {
@@ -2084,7 +2084,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Canapé', 'Rideaux', 'Tapis', 'Matelas'],
     precautions: ['Tester sur zone cachée', 'Éviter les tissus délicats', 'Déconseillé aux personnes asthmatiques'],
-    astuces: ['La lavande est antibactérienne et apaisante', 'Repousse les mites naturellement', 'Idéal pour rafraîchir la literie'],
+    astuces: ['La lavande a une odeur apaisante', 'Idéal pour rafraîchir la literie'],
     conservation: '6 mois'
   },
   {
@@ -2138,7 +2138,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Carrelage', 'Lino', 'Sols durs'],
     precautions: ['Ne pas utiliser sur parquet ciré', 'Éviter le surdosage d\'HE'],
-    astuces: ['Le pin sylvestre assainit et parfume', 'Propriétés antiseptiques reconnues', 'Laisse une odeur de forêt fraîche'],
+    astuces: ['Le pin sylvestre parfume', 'Laisse une odeur de forêt fraîche'],
     conservation: 'À préparer à chaque usage'
   },
   {
@@ -2146,7 +2146,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Spray Purifiant Hiver',
     emoji: '🌡️',
     categorie: 'Multi-usage',
-    badge: 'Antiviral',
+    badge: 'Huile essentielle',
     gradient: 'linear-gradient(135deg, #B2DFDB 0%, #80CBC4 100%)',
     temps: '5min',
     difficulte: 'Facile',
@@ -2166,7 +2166,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Air ambiant', 'Chambres', 'Salon'],
     precautions: ['Éviter chez les femmes enceintes et enfants -3 ans', 'Ne pas vaporiser sur les personnes'],
-    astuces: ['Le ravintsara est l\'HE antivirale par excellence', 'Booste l\'immunité', 'Idéal en période de grippe ou rhume'],
+    astuces: ['Le ravintsara a une odeur fraîche et légèrement camphrée', 'Aérer la pièce après diffusion'],
     conservation: '6 mois'
   },
   {
@@ -2203,7 +2203,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Nettoyage Matelas Vapeur',
     emoji: '🛏️',
     categorie: 'Multi-usage',
-    badge: 'Anti-acariens',
+    badge: 'Literie',
     gradient: 'linear-gradient(135deg, #B3E5FC 0%, #81D4FA 100%)',
     temps: '30min',
     difficulte: 'Facile',
@@ -2216,7 +2216,7 @@ export const RECETTES: RecetteComplete[] = [
       'Aspirez le matelas au préalable',
       'Passez le nettoyeur vapeur lentement sur toute la surface',
       'Insistez sur les zones tachées',
-      'La vapeur (+60°C) tue les acariens',
+      'La vapeur chaude rafraîchit les fibres en profondeur',
       'Laissez bien sécher avant de refaire le lit',
       'Idéalement, laissez les fenêtres ouvertes'
     ],
@@ -2502,7 +2502,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Joints Carrelage Vapeur',
     emoji: '⬜',
     categorie: 'Salle de bain',
-    badge: 'Désinfectant',
+    badge: 'Vapeur',
     gradient: 'linear-gradient(135deg, #B3E5FC 0%, #81D4FA 100%)',
     temps: '20min',
     difficulte: 'Facile',
@@ -2514,14 +2514,14 @@ export const RECETTES: RecetteComplete[] = [
     instructions: [
       'Utilisez la buse fine du nettoyeur vapeur',
       'Passez lentement sur les joints',
-      'La vapeur haute température tue moisissures et bactéries',
+      'La vapeur haute température décolle les moisissures naissantes',
       'Brossez les joints pendant le passage vapeur',
       'Essuyez l\'excédent d\'eau',
       'Laissez sécher, aérez la pièce'
     ],
     surfaces: ['Joints carrelage', 'Joints salle de bain', 'Joints douche', 'Carrelage', 'Robinetterie', 'Pommeau de douche'],
     precautions: ['Ne pas rester trop longtemps au même endroit', 'Attention aux projections chaudes', 'Laisser sécher pour éviter moisissures', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
-    astuces: ['Tue 99% des germes sans produit', 'Idéal contre moisissures naissantes', 'Combiner avec traitement anti-moisissures si tenace'],
+    astuces: ['Sans aucun produit', 'Idéal contre moisissures naissantes', 'Combiner avec un traitement anti-moisissures si tenace'],
     conservation: 'Méthode sans produit'
   },
   {
@@ -2571,7 +2571,7 @@ export const RECETTES: RecetteComplete[] = [
       'La raclette évacue l\'eau immédiatement',
       'Essuyez les bords avec le chiffon microfibre',
       'Aucun produit nécessaire',
-      'Résultat sans traces garanti'
+      'Résultat sans traces sur verre non traité'
     ],
     surfaces: ['Vitres', 'Miroirs', 'Parois de douche', 'Baies vitrées'],
     precautions: ['Ne pas utiliser sur vitres fissurées (choc thermique)', 'Éviter par temps très froid', 'Bien essuyer les bords', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
@@ -2583,7 +2583,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Jouets Enfants Vapeur',
     emoji: '🧸',
     categorie: 'Entretien',
-    badge: 'Hygiène bébé',
+    badge: 'Objets de bébé',
     gradient: 'linear-gradient(135deg, #F8BBD9 0%, #F48FB1 100%)',
     temps: '15min',
     difficulte: 'Facile',
@@ -2596,13 +2596,13 @@ export const RECETTES: RecetteComplete[] = [
       'Sélectionnez les jouets résistants à la chaleur',
       'Passez la vapeur sur toutes les surfaces',
       'Insistez sur les zones de préhension',
-      'La vapeur désinfecte sans produit chimique',
+      'La vapeur nettoie sans produit chimique',
       'Essuyez immédiatement',
       'Laissez sécher complètement avant usage'
     ],
     surfaces: ['Jouets plastique', 'Jouets bois verni', 'Hochets', 'Jouets de bain'],
     precautions: ['Pas sur jouets électroniques', 'Pas sur peluches (lavage machine)', 'Vérifier résistance à la chaleur', 'Laisser refroidir avant de donner à l\'enfant'],
-    astuces: ['Élimine 99,9% des bactéries', 'Aucun résidu chimique', 'Idéal pour bébés qui mettent tout à la bouche'],
+    astuces: ['Aucun résidu chimique', 'Adapté aux objets que les bébés portent à la bouche, après séchage'],
     conservation: 'Méthode sans produit'
   },
   {
@@ -2657,7 +2657,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Canapé tissu', 'Fauteuils', 'Chaises rembourrées', 'Poufs'],
     precautions: ['Tester d\'abord sur zone cachée', 'Ne pas détremper', 'Certains tissus délicats à éviter', 'Bien laisser sécher'],
-    astuces: ['Élimine odeurs et acariens', 'Rafraîchit les couleurs', 'Désinfecte en profondeur'],
+    astuces: ['Élimine les odeurs', 'Rafraîchit les couleurs'],
     conservation: 'Méthode sans produit'
   },
   {
@@ -2679,20 +2679,20 @@ export const RECETTES: RecetteComplete[] = [
       'Sortez-la à l\'extérieur ou dans la douche',
       'Passez la vapeur sur toutes les parois intérieures',
       'Insistez sur le fond et les recoins',
-      'La vapeur tue les bactéries responsables des odeurs',
+      'La vapeur aide à neutraliser les odeurs',
       'Laissez sécher complètement avant utilisation'
     ],
     surfaces: ['Poubelles cuisine', 'Poubelles salle de bain', 'Bacs de tri'],
     precautions: ['Bien laisser sécher', 'Ne pas refermer le couvercle tant qu\'humide'],
-    astuces: ['Élimine 100% des odeurs', 'Tue les bactéries sans produit', 'À faire 1x/mois'],
+    astuces: ['Neutralise les odeurs', 'Sans aucun produit', 'À faire 1x/mois'],
     conservation: 'Méthode sans produit'
   },
   {
     id: 96,
-    nom: 'WC Vapeur Désinfection',
+    nom: 'WC Vapeur',
     emoji: '🚽',
     categorie: 'Salle de bain',
-    badge: 'Hygiène totale',
+    badge: 'Nettoyage complet',
     gradient: 'linear-gradient(135deg, #B2EBF2 0%, #80DEEA 100%)',
     temps: '15min',
     difficulte: 'Facile',
@@ -2711,7 +2711,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['WC', 'Cuvette', 'Abattant', 'Sol WC'],
     precautions: ['Attention aux projections d\'eau chaude', 'Bien aérer après', 'Dans une pièce fermée (WC, salle de bain), portez un masque et aérez bien pendant et après le nettoyage'],
-    astuces: ['Désinfection totale sans produit chimique', 'Élimine calcaire léger', 'La vapeur atteint les zones inaccessibles'],
+    astuces: ['Nettoyage sans produit chimique', 'Élimine le calcaire léger', 'La vapeur atteint les zones inaccessibles'],
     conservation: 'Méthode sans produit'
   },
   {
@@ -2719,7 +2719,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Tapis & Moquette Vapeur',
     emoji: '🧶',
     categorie: 'Multi-usage',
-    badge: 'Anti-acariens',
+    badge: 'Literie',
     gradient: 'linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%)',
     temps: '30min',
     difficulte: 'Facile',
@@ -2733,7 +2733,7 @@ export const RECETTES: RecetteComplete[] = [
       'Passez le nettoyeur vapeur lentement',
       'Procédez par bandes parallèles',
       'N\'insistez pas trop au même endroit',
-      'La vapeur tue acariens et bactéries',
+      'La vapeur rafraîchit le matelas',
       'Laissez sécher complètement (ouvrez les fenêtres)'
     ],
     surfaces: ['Tapis', 'Moquette', 'Descentes de lit'],
@@ -2776,7 +2776,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Planches à Découper Eau Bouillante',
     emoji: '🪵',
     categorie: 'Cuisine',
-    badge: 'Désinfectant',
+    badge: 'Eau bouillante',
     gradient: 'linear-gradient(135deg, #D7CCC8 0%, #BCAAA4 100%)',
     temps: '10min',
     difficulte: 'Facile',
@@ -2797,7 +2797,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Planches à découper bois', 'Planches à découper plastique'],
     precautions: ['Attention aux éclaboussures d\'eau bouillante', 'Ne pas laisser tremper les planches en bois', 'Sécher à la verticale'],
-    astuces: ['L\'eau bouillante tue les bactéries', 'Le citron neutralise les odeurs (poisson, oignon)', 'Le sel nettoie les fibres du bois'],
+    astuces: ['L\'eau bouillante décolle les résidus', 'Le citron neutralise les odeurs (poisson, oignon)', 'Le sel nettoie les fibres du bois'],
     conservation: 'À faire après chaque usage viande/poisson'
   },
   {
@@ -2883,7 +2883,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Joints', 'Joints de carrelage', 'Parois de douche', 'Rideau de douche', 'Murs humides'],
     precautions: ['Aérer la pièce pendant l\'action', 'Tester sur une zone discrète', 'Porter des gants sur grandes surfaces'],
-    astuces: ['Le tea tree est un antifongique naturel puissant', 'Ventilez la salle de bain après chaque douche en prévention', 'Renouvelez 1x/semaine sur joints récidivants'],
+    astuces: ['Ventilez la salle de bain après chaque douche en prévention', 'Renouvelez 1x/semaine sur joints récidivants'],
     conservation: '1 mois à l\'abri de la lumière'
   },
   {
@@ -3205,7 +3205,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Rénovateur Phares Jaunis',
     emoji: '💡',
     categorie: 'Voiture',
-    badge: 'Effet neuf',
+    badge: 'Rénovation',
     gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FFF176 100%)',
     temps: '15min',
     difficulte: 'Moyen',
@@ -3233,7 +3233,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Brillance Pneus Naturelle',
     emoji: '🛞',
     categorie: 'Voiture',
-    badge: 'Aspect neuf',
+    badge: 'Rénovation',
     gradient: 'linear-gradient(135deg, #424242 0%, #212121 100%)',
     temps: '10min',
     difficulte: 'Facile',
@@ -3681,7 +3681,7 @@ export const RECETTES: RecetteComplete[] = [
     ],
     surfaces: ['Baskets', 'Chaussures', 'Bottes', 'Chaussons'],
     precautions: ['Bien tapoter pour retirer la poudre avant de porter', 'Tea tree : éviter le contact prolongé peau nue', 'Conserver le pot au sec'],
-    astuces: ['Le tea tree est antibactérien et anti-mycose', 'La maïzena absorbe l\'humidité, source des odeurs', 'Glissez un sachet de la poudre dans les chaussures rangées'],
+    astuces: ['La maïzena absorbe l\'humidité, source des odeurs', 'Glissez un sachet de la poudre dans les chaussures rangées'],
     conservation: 'Poudre : 6 mois en pot hermétique'
   },
   {
@@ -3825,7 +3825,7 @@ export const RECETTES: RecetteComplete[] = [
       'Versez le bicarbonate puis l\'eau chaude dans la gourde',
       'Fermez, secouez énergiquement 30 secondes, laissez agir 10 min',
       'Passez le goupillon sur les parois et le fond',
-      'Brossez le bouchon et son joint (nid à bactéries n° 1)',
+      'Brossez le bouchon et son joint (zone la plus encrassée)',
       'Odeurs tenaces : 100 ml de vinaigre blanc pur toute une nuit',
       'Fond inaccessible : gros sel + un fond d\'eau, secouez fort (effet gommage)',
       'Rincez 3 fois à l\'eau claire et séchez OUVERT, tête en bas'
@@ -3840,7 +3840,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Nettoyant Écrans Ultra-doux',
     emoji: '🖥️',
     categorie: 'Multi-usage',
-    badge: 'Zéro risque',
+    badge: 'Doux',
     gradient: 'linear-gradient(135deg, #90A4AE 0%, #546E7A 100%)',
     temps: '2min',
     difficulte: 'Facile',
@@ -4158,7 +4158,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Detailing des Interstices',
     emoji: '🖌️',
     categorie: 'Voiture',
-    badge: 'Niveau pro',
+    badge: 'Méthode complète',
     gradient: 'linear-gradient(135deg, #7986CB 0%, #3949AB 100%)',
     temps: '30min',
     difficulte: 'Moyen',
@@ -4217,7 +4217,7 @@ export const RECETTES: RecetteComplete[] = [
     nom: 'Piège à Moucherons & Mouches',
     emoji: '🪰',
     categorie: 'Entretien',
-    badge: 'Redoutable',
+    badge: 'Dégraissant',
     gradient: 'linear-gradient(135deg, #AED581 0%, #558B2F 100%)',
     temps: '5min',
     difficulte: 'Facile',

@@ -31,12 +31,12 @@ const cards = [
   },
   {
     icon: '🏥',
-    title: 'SANTÉ',
+    title: 'TRANSPARENCE',
     value: '0',
     numericValue: 0,
     suffix: '',
-    subtitle: 'toxique',
-    detail: 'Zéro perturbateur endocrinien',
+    subtitle: 'ingrédient mystère',
+    detail: 'Vous savez ce que vous mettez dans vos flacons',
     gradient: 'linear-gradient(135deg, #EC4899 0%, #F472B6 50%, #FBCFE8 100%)',
     bgLight: 'rgba(236,72,153,0.15)',
     dotColor: '#EC4899'

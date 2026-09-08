@@ -34,7 +34,7 @@ export const ASTUCES_DU_JOUR: Astuce[] = [
     duree: '15min',
     note: 4.7,
     ingredients: ['Acide citrique', 'Bicarbonate', 'HE tea tree'],
-    resume: 'Détartrez et désinfectez en un geste',
+    resume: 'Détartrez en un geste',
     instructions: 'Saupoudrez 2 c.à.s de bicarbonate puis 2 c.à.s d\'acide citrique. Ajoutez quelques gouttes de tea tree. Laissez mousser 10min puis frottez.',
     conseil: 'Faites-le le soir et laissez agir toute la nuit pour un résultat optimal.',
     surface: 'WC',

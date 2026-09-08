@@ -6,9 +6,10 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useUserSprays } from '@/contexts/UserSpraysContext';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
 import { RECETTES } from '@/data/recettes';
+import { estListable } from '@/data/revue';
 import { UserSpray, Spray, RecetteComplete } from '@/types';
 import { QRCode, generateQRDataUrl } from '@/components/ui/QRCode';
-import { buildFicheUrl, getDaysUntilExpiry } from '@/utils/sprayUtils';
+import { buildFicheUrl, getDaysUntilExpiry, parseConservationToDays } from '@/utils/sprayUtils';
 import { Confetti } from '@/components/ui/Confetti';
 import { haptic } from '@/utils/haptics';
 import { Plus, Trash2, Calendar, AlertTriangle, QrCode, Check, Printer, X } from 'lucide-react';
@@ -48,7 +49,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
     return RECETTES.find(r => r.id === userSpray.recipeId);
   };
 
-  const currentList = selectedType === 'spray' ? SPRAYS_INDISPENSABLES : RECETTES;
+  const currentList = selectedType === 'spray' ? SPRAYS_INDISPENSABLES : RECETTES.filter((r) => estListable(r.id));
   const selectedRecipe = currentList.find(r => r.id === selectedRecipeId);
 
   const openAddModal = () => {
@@ -96,7 +97,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
     if (!recipe) return;
     const url = getQRUrl(userSpray);
     const qr = await generateQRDataUrl(url, '#2D1F3D', '#FFFFFF');
-    const expiry = new Date(userSpray.expiresAt).toLocaleDateString('fr-FR');
+    const expiry = userSpray.expiresAt ? new Date(userSpray.expiresAt).toLocaleDateString('fr-FR') : null;
     const win = window.open('', '_blank');
     if (!win) return;
     win.document.write(`
@@ -128,7 +129,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
           <div class="brand">🧴 CLEANZ</div>
           <div class="num">#${userSpray.number}</div>
           <div class="name">${userSpray.name}</div>
-          <div class="meta">À utiliser avant le ${expiry}</div>
+          <div class="meta">${expiry ? `À utiliser avant le ${expiry}` : 'Validité non confirmée — préparer la quantité utile'}</div>
           <div class="qr"><img src="${qr}" alt="QR"/></div>
           <div class="scan">Scannez pour voir la recette</div>
         </div>
@@ -189,9 +190,13 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
           {sprays.map((userSpray) => {
             const recipe = getRecipeInfo(userSpray);
             if (!recipe) return null;
-            const daysLeft = getDaysUntilExpiry(userSpray.expiresAt);
-            const isExpired = daysLeft <= 0;
-            const isExpiringSoon = daysLeft > 0 && daysLeft <= 7;
+            // Validité : recalculée depuis la conservation ACTUELLE de la recette.
+            // Une méthode immédiate ou sans durée documentée n'a pas de date
+            // calculée ; un ancien flacon dans ce cas est signalé, pas daté.
+            const validiteConfirmee = parseConservationToDays(recipe.conservation) !== null && !!userSpray.expiresAt;
+            const daysLeft = validiteConfirmee ? getDaysUntilExpiry(userSpray.expiresAt as string) : null;
+            const isExpired = daysLeft !== null && daysLeft <= 0;
+            const isExpiringSoon = daysLeft !== null && daysLeft > 0 && daysLeft <= 7;
             const nameDiffers = userSpray.name !== recipe.nom;
 
             return (
@@ -222,9 +227,9 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
                       </div>
                       <div
                         className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium"
-                        style={{ background: isExpired ? 'rgba(239,68,68,0.15)' : isExpiringSoon ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)', color: isExpired ? '#EF4444' : isExpiringSoon ? '#F59E0B' : '#22C55E' }}
+                        style={{ background: isExpired ? 'rgba(239,68,68,0.15)' : (isExpiringSoon || daysLeft === null) ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)', color: isExpired ? '#EF4444' : (isExpiringSoon || daysLeft === null) ? '#F59E0B' : '#22C55E' }}
                       >
-                        {isExpired ? (<><AlertTriangle className="w-3 h-3" /> Périmé</>) : (<>{daysLeft}j restants</>)}
+                        {isExpired ? (<><AlertTriangle className="w-3 h-3" /> Périmé</>) : daysLeft === null ? (<>Validité non confirmée</>) : (<>{daysLeft}j restants</>)}
                       </div>
                     </div>
                   </button>

@@ -7,6 +7,8 @@ import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsConte
 import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
 import { RecetteComplete, Spray, IngredientComplet } from '@/types';
 import { RECETTES } from '@/data/recettes';
+import { estMettableEnAvant } from '@/data/revue';
+import { PreuveChip } from '@/components/ui/PreuveChip';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { getRecetteImage } from '@/data/scenes';
 import { getBlur } from '@/data/imageBlur';
@@ -141,7 +143,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
                   {renderStars(userRating)}
                 </div>
               ) : (
-                renderStars(recipe.efficacite)
+                <PreuveChip id={recipe.id} compact />
               )}
             </div>
 
@@ -237,7 +239,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
               Nos coups de cœur pour démarrer
             </p>
             <div className="space-y-2.5">
-              {RECETTES.filter((r) => r.categorie === 'Indispensable').slice(0, 3).map((r) => (
+              {RECETTES.filter((r) => r.categorie === 'Indispensable' && estMettableEnAvant(r.id)).slice(0, 3).map((r) => (
                 <button
                   key={r.id}
                   onClick={() => { haptic('light'); onRecipeClick(r); }}

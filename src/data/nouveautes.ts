@@ -71,7 +71,7 @@ export const NOUVEAUTES: Nouveaute[] = [
     date: '2026-07-02',
     emoji: '💨',
     title: 'La vapeur suffit !',
-    description: 'Sur 12 surfaces (four, WC, joints, matelas, canapé…), le nettoyage vapeur seul désinfecte sans aucun produit. Repère le badge « vapeur » sur les surfaces et l\'encart dédié dans leur fiche.',
+    description: 'Sur 12 surfaces (four, WC, joints, matelas, canapé…), le nettoyage vapeur seul suffit, sans aucun produit. Repère le badge « vapeur » sur les surfaces et l\'encart dédié dans leur fiche.',
   },
   {
     id: 17,

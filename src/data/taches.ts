@@ -56,11 +56,10 @@ export const libelleFrequence = (t: Tache): string => {
     if (t.foisParSemaine === 1) return '1× / semaine';
     return `${t.foisParSemaine}× / semaine`;
   }
+  // Le moteur raisonne en semaines : on affiche la vraie période, sans
+  // l'assimiler à un mois ou un trimestre calendaire (4 semaines ≠ 1 mois).
   const p = t.periodeSemaines ?? 1;
-  if (p === 2) return 'Tous les 15 jours';
-  if (p === 4) return '1× / mois';
-  if (p === 8) return 'Tous les 2 mois';
-  if (p >= 12) return '1× / trimestre';
+  if (p === 1) return '1× / semaine';
   return `Toutes les ${p} semaines`;
 };
 
@@ -102,14 +101,14 @@ export const TACHES: Tache[] = [
   { id: 'lave-linge', nom: 'Entretenir le lave-linge', emoji: '🌀', piece: 'Linge', dureeMin: 15, penibilite: 2, periodeSemaines: 4, surfaceId: 30, pardefaut: true },
   { id: 'lave-vaisselle', nom: 'Nettoyer le filtre du lave-vaisselle', emoji: '🧼', piece: 'Cuisine', dureeMin: 10, penibilite: 3, periodeSemaines: 4, surfaceId: 2 },
   { id: 'poubelle-fond', nom: 'Laver les poubelles', emoji: '♻️', piece: 'Commun', dureeMin: 15, penibilite: 3, periodeSemaines: 4, surfaceId: 9 },
-  { id: 'interrupteurs', nom: 'Désinfecter poignées et interrupteurs', emoji: '🔘', piece: 'Commun', dureeMin: 12, penibilite: 1, periodeSemaines: 2, surfaceId: 28 },
+  { id: 'interrupteurs', nom: 'Nettoyer poignées et interrupteurs', emoji: '🔘', piece: 'Commun', dureeMin: 12, penibilite: 1, periodeSemaines: 2, surfaceId: 28 },
   { id: 'papiers', nom: 'Trier les papiers et le courrier', emoji: '📬', piece: 'Commun', dureeMin: 20, penibilite: 2, periodeSemaines: 2 },
   { id: 'cafetiere', nom: 'Détartrer la cafetière', emoji: '☕', piece: 'Cuisine', dureeMin: 15, penibilite: 2, periodeSemaines: 4, surfaceId: 70 },
   { id: 'tapis', nom: 'Nettoyer les tapis', emoji: '🧶', piece: 'Salon', dureeMin: 30, penibilite: 3, periodeSemaines: 8, surfaceId: 25, weekend: true },
-  { id: 'canalisations', nom: 'Déboucher et assainir les canalisations', emoji: '🚿', piece: 'Salle de bain', dureeMin: 15, penibilite: 2, periodeSemaines: 8, surfaceId: 61 },
+  { id: 'canalisations', nom: 'Déboucher et rincer les canalisations', emoji: '🚿', piece: 'Salle de bain', dureeMin: 15, penibilite: 2, periodeSemaines: 8, surfaceId: 61 },
 
   /* --------------------------- TRIMESTRIEL --------------------------- */
-  { id: 'matelas', nom: 'Aspirer et assainir le matelas', emoji: '🛏️', piece: 'Chambre', dureeMin: 25, penibilite: 2, periodeSemaines: 12, surfaceId: 82, weekend: true },
+  { id: 'matelas', nom: 'Aspirer le matelas', emoji: '🛏️', piece: 'Chambre', dureeMin: 25, penibilite: 2, periodeSemaines: 12, surfaceId: 82, weekend: true },
   { id: 'rideaux', nom: 'Laver les rideaux', emoji: '🪟', piece: 'Salon', dureeMin: 30, penibilite: 2, periodeSemaines: 12, surfaceId: 21 },
   { id: 'radiateurs', nom: 'Nettoyer les radiateurs', emoji: '♨️', piece: 'Commun', dureeMin: 25, penibilite: 3, periodeSemaines: 12, surfaceId: 37 },
   { id: 'placards', nom: 'Trier et nettoyer les placards', emoji: '🗄️', piece: 'Commun', dureeMin: 60, penibilite: 2, periodeSemaines: 12, weekend: true },

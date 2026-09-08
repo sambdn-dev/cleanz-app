@@ -176,5 +176,5 @@ export interface UserSpray {
   recipeType: 'spray' | 'recette';
   name: string; // Nom personnalisé ou par défaut
   createdAt: string; // ISO date
-  expiresAt: string; // ISO date (calculée depuis conservation)
+  expiresAt: string | null; // ISO date calculée depuis la conservation, null si non calculable (usage immédiat, durée non documentée)
 }

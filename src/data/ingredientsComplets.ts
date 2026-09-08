@@ -8,10 +8,9 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     emoji: '🧴',
     gradient: 'linear-gradient(135deg, #A8E6CF 0%, #88D8B0 100%)',
     badge: 'Incontournable',
-    fonctions: ['Détartrant', 'Désinfectant', 'Dégraissant', 'Assouplissant'],
-    description: 'Le champion incontesté du ménage naturel ! Acide acétique dilué à 8-14%, il dissout le calcaire et désinfecte naturellement.',
+    fonctions: ['Détartrant', 'Nettoyant', 'Dégraissant', 'Assouplissant'],
+    description: 'Le champion incontesté du ménage naturel ! Acide acétique dilué à 8-14%, il dissout le calcaire et dégraisse légèrement.',
     bienfaits: [
-      'Élimine 99% des bactéries',
       'Dissout le calcaire efficacement',
       'Neutralise les mauvaises odeurs',
       'Alternative écologique à la javel'
@@ -20,7 +19,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Détartrage robinetterie et bouilloire',
       'Nettoyage des vitres sans traces',
       'Assouplissant naturel pour le linge',
-      'Désinfection des surfaces'
+      'Nettoyage des surfaces'
     ],
     surfaces: ['Carrelage', 'Vitres', 'Robinetterie', 'Électroménager', 'Joints'],
     recettesIds: [1, 2, 3, 6, 9, 12, 13, 14, 17, 18, 24, 26, 27, 29, 33, 38, 48, 49, 50, 71, 72],
@@ -113,7 +112,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     emoji: '🧼',
     gradient: 'linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%)',
     badge: 'Traditionnel',
-    fonctions: ['Nettoyant', 'Détachant', 'Antibactérien', 'Hypoallergénique'],
+    fonctions: ['Nettoyant', 'Détachant', 'Hypoallergénique'],
     description: 'Le savon traditionnel par excellence ! Fabriqué à partir d\'huiles végétales, il est ultra-doux et hypoallergénique.',
     bienfaits: [
       'Hypoallergénique',
@@ -218,19 +217,18 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     emoji: '✨',
     gradient: 'linear-gradient(135deg, #E1F5FE 0%, #81D4FA 100%)',
     badge: 'Blanchisseur',
-    fonctions: ['Blanchissant', 'Détachant', 'Désinfectant', 'Désodorisant'],
-    description: 'La « javel écologique » ! Il libère de l\'oxygène actif au contact de l\'eau chaude pour blanchir et désinfecter.',
+    fonctions: ['Blanchissant', 'Détachant', 'Désodorisant'],
+    description: 'La « javel écologique » ! Il libère de l\'oxygène actif au contact de l\'eau chaude pour blanchir et détacher.',
     bienfaits: [
       'Blanchit le linge sans chlore',
       'Détache les taches organiques',
-      'Désinfecte naturellement',
       'Respecte les fibres textiles'
     ],
     utilisations: [
       'Blanchiment du linge',
       'Détachant avant lavage',
       'Nettoyage des joints',
-      'Désinfection des surfaces'
+      'Nettoyage des surfaces'
     ],
     surfaces: ['Textile blanc', 'Joints', 'Terrasse', 'Mobilier jardin'],
     recettesIds: [4, 10, 19, 37, 45, 46, 47],
@@ -252,18 +250,17 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     imageUrl: '/images/ingredients/ing-he-citron.jpg',
     emoji: '🍋',
     gradient: 'linear-gradient(135deg, #FFF9C4 0%, #FDD835 100%)',
-    badge: 'Assainissant',
-    fonctions: ['Parfumant', 'Antibactérien', 'Dégraissant', 'Assainissant'],
-    description: 'Extraite du zeste de citron, cette HE apporte fraîcheur et propriétés antibactériennes à vos produits.',
+    badge: 'Parfumant',
+    fonctions: ['Parfumant', 'Dégraissant'],
+    description: 'Extraite du zeste de citron, cette HE apporte une odeur fraîche à vos produits.',
     bienfaits: [
       'Parfum frais et énergisant',
-      'Propriétés antibactériennes',
       'Aide au dégraissage',
       'Purifie l\'air ambiant'
     ],
     utilisations: [
       'Parfumer les produits ménagers',
-      'Assainir l\'air',
+      'Parfumer l\'air',
       'Renforcer l\'action dégraissante',
       'Désodoriser naturellement'
     ],
@@ -287,20 +284,18 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     imageUrl: '/images/ingredients/ing-he-tea-tree.jpg',
     emoji: '🌿',
     gradient: 'linear-gradient(135deg, #A5D6A7 0%, #66BB6A 100%)',
-    badge: 'Désinfectant',
-    fonctions: ['Antifongique', 'Antibactérien', 'Antiviral', 'Purifiant'],
-    description: 'L\'HE aux propriétés antibactériennes les plus puissantes ! Idéale pour désinfecter et lutter contre les moisissures.',
+    badge: 'Huile essentielle',
+    fonctions: ['Parfumant'],
+    description: 'Huile essentielle à l\'odeur fraîche et camphrée, très utilisée dans les produits ménagers maison.',
     bienfaits: [
-      'Puissant antibactérien naturel',
       'Efficace contre les moisissures',
-      'Action antivirale reconnue',
-      'Assainit les surfaces'
+      'Parfume les surfaces'
     ],
     utilisations: [
-      'Désinfectant surfaces sanitaires',
+      'Nettoyage des sanitaires',
       'Anti-moisissures',
       'Nettoyant WC',
-      'Assainisseur d\'air'
+      'Parfum d\'ambiance'
     ],
     surfaces: ['WC', 'Salle de bain', 'Joints', 'Poubelle'],
     recettesIds: [6, 7, 14, 22, 71, 72],
@@ -329,7 +324,7 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
       'Parfum relaxant et agréable',
       'Propriétés antiseptiques',
       'Repousse naturellement les mites',
-      'Assainit le linge'
+      'Parfume le linge'
     ],
     utilisations: [
       'Assouplissant parfumé',
@@ -357,18 +352,17 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     imageUrl: '/images/ingredients/ing-alcool-menager.jpg',
     emoji: '🔬',
     gradient: 'linear-gradient(135deg, #B2EBF2 0%, #4DD0E1 100%)',
-    badge: 'Désinfectant',
-    fonctions: ['Désinfectant', 'Dégraissant', 'Nettoyant', 'Sèche vite'],
-    description: 'Alcool dénaturé puissant pour désinfecter et faire briller. Sèche sans laisser de traces.',
+    badge: 'Sèche vite',
+    fonctions: ['Dégraissant', 'Nettoyant', 'Sèche vite'],
+    description: 'Alcool dénaturé pour dégraisser et faire briller. Sèche sans laisser de traces.',
     bienfaits: [
       'Sèche très rapidement',
       'Ne laisse pas de traces',
-      'Puissant désinfectant',
       'Dégraisse efficacement'
     ],
     utilisations: [
       'Nettoyant vitres sans traces',
-      'Désinfectant surfaces',
+      'Nettoyage des surfaces',
       'Dégraissant rapide',
       'Nettoyant électronique (dilué)'
     ],
@@ -568,18 +562,17 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     emoji: '💧',
     gradient: 'linear-gradient(135deg, #E3F2FD 0%, #90CAF9 100%)',
     badge: 'Blanchissant',
-    fonctions: ['Blanchissant', 'Désinfectant', 'Détachant', 'Désodorisant'],
-    description: 'Peroxyde d\'hydrogène dilué (10-12 vol), il blanchit et désinfecte en libérant de l\'oxygène.',
+    fonctions: ['Blanchissant', 'Détachant', 'Désodorisant'],
+    description: 'Peroxyde d\'hydrogène dilué (10-12 vol), il blanchit et détache en libérant de l\'oxygène.',
     bienfaits: [
       'Blanchit les joints et textiles',
-      'Désinfecte naturellement',
       'Élimine les taches organiques',
       'Se décompose en eau et oxygène'
     ],
     utilisations: [
       'Blanchiment des joints',
       'Détachant sang et vin',
-      'Désinfectant planches à découper',
+      'Nettoyage des planches à découper',
       'Nettoyant WC'
     ],
     surfaces: ['Joints', 'Textile blanc', 'Planches à découper', 'WC'],
@@ -606,14 +599,14 @@ export const INGREDIENTS_COMPLETS: IngredientComplet[] = [
     fonctions: ['Antiseptique', 'Décongestionnant', 'Répulsif', 'Parfumant'],
     description: 'HE aux propriétés antiseptiques puissantes, elle purifie l\'air et éloigne les insectes.',
     bienfaits: [
-      'Purifie et assainit l\'air',
+      'Parfume l\'air',
       'Propriétés antiseptiques',
       'Repousse les insectes',
       'Parfum frais et vivifiant'
     ],
     utilisations: [
-      'Désinfectant surfaces',
-      'Assainisseur d\'air',
+      'Nettoyage des surfaces',
+      'Parfum d\'ambiance',
       'Répulsif insectes',
       'Nettoyant sanitaires'
     ],
@@ -709,7 +702,6 @@ export const CATEGORIES_INGREDIENTS = [
   { id: 'essentiel', nom: 'Essentiels', emoji: '⭐' },
   { id: 'detartrant', nom: 'Détartrants', emoji: '💎' },
   { id: 'degraissant', nom: 'Dégraissants', emoji: '💪' },
-  { id: 'desinfectant', nom: 'Désinfectants', emoji: '🦠' },
   { id: 'abrasif', nom: 'Abrasifs', emoji: '✨' },
   { id: 'blanchissant', nom: 'Blanchissants', emoji: '🤍' },
   { id: 'parfumant', nom: 'Parfumants', emoji: '🌸' }
