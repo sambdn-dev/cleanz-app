@@ -49,13 +49,17 @@ const ReferenceCard = ({
       }}
     >
       {/* Visuel : photo si dispo, sinon placeholder de marque soigné */}
-      <div className="relative h-24 w-full overflow-hidden" style={{ background: gradient }}>
+      {/* Visuel produit : fond neutre clair (les packshots officiels sont sur blanc), sinon tuile marque en dégradé */}
+      <div
+        className="relative h-24 w-full overflow-hidden"
+        style={{ background: reference.image ? (darkMode ? '#F3F1EC' : '#FFFFFF') : gradient }}
+      >
         {reference.image ? (
           <Image
             src={reference.image}
             alt={`${reference.marque} ${reference.modele}`}
             fill
-            className="object-contain p-2"
+            className="object-contain p-2.5"
             sizes="200px"
             placeholder={getBlur(reference.image) ? 'blur' : 'empty'}
             blurDataURL={getBlur(reference.image)}
