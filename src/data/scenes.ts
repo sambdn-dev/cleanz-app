@@ -207,6 +207,13 @@ export const SURFACE_PHOTOS: Record<string, string> = {
   'terrasse': '/images/surfaces/surface-terrasse.jpg',
   'toiture': '/images/surfaces/surface-toiture.jpg',
   'tondeuse': '/images/surfaces/surface-tondeuse.jpg',
+  'ecrans': '/images/surfaces/surface-ecrans.jpg',
+  'engrais': '/images/surfaces/surface-engrais.jpg',
+  'four': '/images/surfaces/surface-four.jpg',
+  'lave-linge': '/images/surfaces/surface-lave-linge.jpg',
+  'parois-de-douche': '/images/surfaces/surface-parois-de-douche.jpg',
+  'vitres-miroirs': '/images/surfaces/surface-vitres-miroirs.jpg',
+  'wc': '/images/surfaces/surface-wc.jpg',
 };
 
 /** Photo dédiée d'un sujet désigné par son nom (surface ou appareil homonyme). */
