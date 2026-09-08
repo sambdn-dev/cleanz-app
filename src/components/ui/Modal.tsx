@@ -12,13 +12,15 @@ interface ModalProps {
   children: ReactNode;
   headerGradient?: string;
   headerImageUrl?: string;
+  /** Cadrage CSS de la photo (object-position), ex. « center 60% » pour un portrait */
+  headerImagePosition?: string;
   /** Variante sombre/cosy de la photo d'en-tête, utilisée en mode sombre si fournie. */
   headerImageUrlDark?: string;
   headerContent?: ReactNode;
   useDarkHeaderText?: boolean;
 }
 
-export function Modal({ isOpen, onClose, children, headerGradient, headerImageUrl, headerImageUrlDark, headerContent, useDarkHeaderText = false }: ModalProps) {
+export function Modal({ isOpen, onClose, children, headerGradient, headerImageUrl, headerImageUrlDark, headerImagePosition, headerContent, useDarkHeaderText = false }: ModalProps) {
   const { theme, darkMode } = useTheme();
   // En mode sombre, privilégie la photo cosy dédiée si elle existe, sinon repli sur la photo claire.
   const effectiveImageUrl = (darkMode && headerImageUrlDark) ? headerImageUrlDark : headerImageUrl;
@@ -70,6 +72,7 @@ export function Modal({ isOpen, onClose, children, headerGradient, headerImageUr
                   alt=""
                   fill
                   className="object-cover"
+                  style={headerImagePosition ? { objectPosition: headerImagePosition } : undefined}
                   sizes="(max-width: 768px) 100vw, 500px"
                   placeholder={getBlur(effectiveImageUrl!) ? 'blur' : 'empty'}
                   blurDataURL={getBlur(effectiveImageUrl!)}

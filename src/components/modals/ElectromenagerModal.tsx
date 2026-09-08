@@ -48,6 +48,8 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
   // Photo de la surface homonyme (Lave-vaisselle, Hotte, Airfryer…) si elle existe.
   const headerImageUrl = getPhotoBySlug(appliance.nom);
   const hasImage = !!headerImageUrl;
+  // Les photos Matériel sont en portrait : on vise le corps de l'appareil, pas le haut de la scène.
+  const headerImagePosition = headerImageUrl?.includes('/materiel/') ? 'center 62%' : undefined;
 
   const getConsoColor = (pct: number) => {
     if (pct >= 20) return { bg: 'rgba(239, 68, 68, 0.12)', text: '#EF4444', label: 'Élevée' };
@@ -71,6 +73,7 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
       onClose={onClose}
       headerGradient={headerGradient}
       headerImageUrl={headerImageUrl}
+      headerImagePosition={headerImagePosition}
       headerContent={
         <div
           className={hasImage ? 'flex flex-col justify-end' : 'flex items-center gap-4'}
