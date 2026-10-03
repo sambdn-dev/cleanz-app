@@ -14,9 +14,12 @@ const nextConfig: NextConfig = {
     // Sert à « buster » le service worker à chaque déploiement → déclenche
     // la détection de mise à jour (prompt « Nouvelle version disponible »).
     NEXT_PUBLIC_BUILD_ID:
-      process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 8) ||
+      process.env.VERCEL_GIT_COMMIT_SHA ||
       process.env.NEXT_PUBLIC_BUILD_ID ||
       'dev',
+    // La branche d'essai se met à jour aussi depuis l'écran d'accueil du téléphone.
+    NEXT_PUBLIC_PREVIEW_AUTO_UPDATE:
+      process.env.VERCEL_GIT_COMMIT_REF === 'codex/apercu-iphone' ? '1' : '0',
   },
 };
 

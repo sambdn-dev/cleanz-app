@@ -7,10 +7,10 @@ import { fileURLToPath } from 'node:url';
 export const PREVIEW_BRANCH = 'codex/apercu-iphone';
 export const PREVIEW_PORT = 55355;
 
-async function command(program, args, cwd, silent = false) {
+async function command(program, args, cwd, silent = false, extraEnv = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(program, args, {
-      cwd, env: { ...process.env, GIT_TERMINAL_PROMPT: '0', NEXT_TELEMETRY_DISABLED: '1' },
+      cwd, env: { ...process.env, ...extraEnv, GIT_TERMINAL_PROMPT: '0', NEXT_TELEMETRY_DISABLED: '1' },
       stdio: silent ? ['ignore', 'pipe', 'pipe'] : 'inherit',
     });
     let output = '';
@@ -60,9 +60,9 @@ export async function buildCandidate(root, revision) {
       await cp(path.join(root, relative), destination);
     }
     await command('npm', ['ci', '--no-audit', '--no-fund'], directory);
-    await command('npm', ['run', 'build'], directory);
+    await command('npm', ['run', 'build'], directory, false, { NEXT_PUBLIC_BUILD_ID: revision });
     await writeFile(path.join(directory, 'public/preview-version.json'), JSON.stringify({ version: revision }));
-    return { directory, entry: path.join(directory, 'node_modules/next/dist/bin/next'), args: ['start', '--hostname', '127.0.0.1', '--port'] };
+    return { directory, revision, entry: path.join(directory, 'node_modules/next/dist/bin/next'), args: ['start', '--hostname', '127.0.0.1', '--port'] };
   } catch (error) {
     await rm(directory, { recursive: true, force: true });
     throw error;
@@ -80,7 +80,7 @@ async function stopChild(child) {
 
 async function startCandidate(candidate, port) {
   const child = spawn(process.execPath, [candidate.entry, ...candidate.args, String(port)], {
-    cwd: candidate.directory, env: { ...process.env, NEXT_TELEMETRY_DISABLED: '1' }, stdio: 'inherit',
+    cwd: candidate.directory, env: { ...process.env, NEXT_PUBLIC_BUILD_ID: candidate.revision || 'dev', NEXT_TELEMETRY_DISABLED: '1' }, stdio: 'inherit',
   });
   let spawnError;
   child.on('error', error => { spawnError = error; });

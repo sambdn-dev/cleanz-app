@@ -19,10 +19,36 @@ Les profils 18 et Duo sont exploratoires, avec dimensions ajustables : aucun mat
 officiel n’est affirmé. Les 62/34 px sont des repères visuels du cadre, pas une certification
 de toutes les variantes d’iOS. Les sources Apple n’ont pas pu être consultées depuis le cloud.
 
-## Mises à jour automatiques — branche préparée, publication à autoriser
+## Vercel : téléphone et ordinateur, sans ZIP
 
-Branche dédiée : `codex/apercu-iphone`. Elle n’est pas encore poussée sur GitHub.
-Après publication autorisée, `scripts/installer-preview.command` installe une copie Git
+Adresse stable de la branche `codex/apercu-iphone` :
+<https://cleanz-app-git-codex-apercu-iphone-sams-projects-67e025cc.vercel.app/>
+
+Sur téléphone, ouvrir cette adresse dans Safari puis utiliser **Partager → Sur l’écran d’accueil**.
+Le manifeste lance `/` ; la branche active automatiquement la détection des mises à jour,
+y compris en mode web app. Sur ordinateur, ouvrir la même adresse avec `/simulateur.html`.
+La connexion GitHub/Vercel construit et déploie les pushes de cette branche. L’adresse de
+branche suit les nouveaux builds réussis ; les adresses propres à chaque déploiement
+servent à consulter une révision précise et ne sont pas les liens de travail habituels.
+
+`/api/preview-version` renvoie la révision réelle compilée, avec `Cache-Control: no-store`.
+La web app vérifie toutes les 15 secondes quand elle est visible, au retour au premier
+plan et au rétablissement du réseau. Un changement recharge la page ; une saisie en cours
+reporte ce rechargement jusqu’à la sortie du champ. Une coupure ou une réponse invalide
+garde la page ouverte. Le cadre sur ordinateur vérifie toutes les 3 secondes.
+La version n’est pas une date arbitraire : elle vient du SHA Git Vercel ou du SHA injecté
+par le lanceur local. La version du code déjà chargé sert de référence sur téléphone,
+ce qui détecte également un déploiement survenu avant la première vérification.
+
+Les favoris et flacons restent dans le stockage de cette adresse sur cet appareil.
+L’ancienne adresse `https://cleanz-app.vercel.app/`, le serveur Mac et cette adresse
+d’aperçu ont des stockages distincts ; aucune synchronisation de données entre appareils
+ou adresses n’est ajoutée. La branche d’aperçu est déployée par l’intégration existante.
+
+## Mises à jour automatiques locales sur Mac
+
+Branche dédiée publiée : `codex/apercu-iphone`.
+`scripts/installer-preview.command` installe une copie Git
 dans `~/Library/Application Support/Cleanz/apercu`, sans modifier l’ancien ZIP.
 Si le dépôt est privé, son accès GitHub doit être configuré localement sur le Mac.
 Le lanceur garde une adresse fixe : `http://127.0.0.1:55355/simulateur.html`.
@@ -39,8 +65,8 @@ Le modèle choisi est conservé dans la session ; aucune donnée de flacon/favor
 L’adresse fixe utilise la même origine que la première installation sur ce Mac.
 Garder le terminal ouvert ; fermer le lanceur arrête son serveur.
 
-Un push sur cette branche reste nécessaire pour transmettre chaque lot depuis le cloud.
-Aucun push ni déploiement n’est effectué sans autorisation. Les mises à jour de l’app
+Un push sur cette branche transmet chaque lot depuis le cloud, conformément à
+l’autorisation donnée pour cet aperçu. Les mises à jour de l’app
 arrivent automatiquement ; une modification du lanceur lui-même peut demander son redémarrage.
 
 ## Simulateur iOS réel (Mac avec Xcode)
@@ -91,7 +117,8 @@ Lint toujours en échec : 38 erreurs et 7 avertissements avec la nouvelle config
 Ces erreurs concernent les composants existants ; le lint n’est pas présenté comme réussi.
 La validation ne couvre pas Safari/iOS ni les formulations des conseils.
 
-Aucun push, merge ou déploiement réalisé.
+La branche d’aperçu a été poussée et son déploiement Vercel a été confirmé par les statuts
+GitHub et des requêtes HTTP. Aucun merge n’a été effectué.
 
 Contrôles du lot suivant : `node --test scripts/test-preview-sync.mjs` (3 scénarios,
 vrais dépôts Git locaux et serveurs HTTP : succès, build invalide, changements locaux/coupure).
@@ -104,3 +131,12 @@ Le nouveau composant et les scripts passent leur lint ciblé et les types ; le b
 Le lanceur a aussi exécuté un véritable `npm ci` et un build Next isolé, démarré le serveur
 de contrôle puis le serveur à adresse fixe. Les cinq groupes navigateur passent également
 sur cette copie isolée. Les copies générées sont exclues de Git, TypeScript et ESLint.
+
+Lot téléphone : build avec les variables de branche Vercel, types et lint ciblé réussis,
+audit npm toujours à zéro, 3 scénarios de synchronisation et 5 groupes du cadre réussis.
+`node scripts/test-phone-preview.mjs` teste la racine mobile sans paramètre (URL de lancement
+du manifeste), une coupure réseau, une réponse HTML inattendue, une révision inchangée,
+puis une nouvelle révision différée pendant la saisie et appliquée sans perte des données.
+Ces tests réussissent dans Chromium avec un profil mobile ; Safari sur iPhone réel reste
+à vérifier sur l’appareil. L’aperçu permet d’examiner les écrans, sans certifier un déploiement
+App Store ou les capacités matérielles des profils exploratoires.

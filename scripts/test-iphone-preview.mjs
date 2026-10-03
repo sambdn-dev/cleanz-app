@@ -5,8 +5,12 @@ const { chromium, devices } = createRequire(import.meta.url)('playwright');
 const origin = process.env.CLEANZ_BASE_URL || 'http://127.0.0.1:3000';
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', serviceWorkers: 'block' });
-let version = 'initial';
-await context.route('**/preview-version.json', route => route.fulfill({ json: { version } }));
+const response = await fetch(origin + '/api/preview-version');
+assert(response.ok);
+assert.match(response.headers.get('cache-control'), /no-store/);
+const deployedVersion = (await response.json()).version;
+let version = deployedVersion;
+await context.route('**/api/preview-version', route => route.fulfill({ json: { version } }));
 await context.addInitScript(() => {
   if (!localStorage.getItem('__preview_seeded')) {
     localStorage.setItem('cleanz-seen-nouveautes', '999999');
@@ -83,6 +87,7 @@ try {
   assert.equal(await page.getByLabel('Largeur (px)').inputValue(), '420');
   console.log('PASS actualisation automatique du cadre, modèle choisi et données locales conservés');
   const native = await context.newPage();
+  version = deployedVersion;
   native.setDefaultTimeout(10000);
   native.on('pageerror', error => errors.push(error.message));
   await native.goto(origin + '/?apercu=1', { waitUntil: 'networkidle' });
