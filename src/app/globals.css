@@ -210,44 +210,6 @@ body {
   }
 }
 
-/* ---- Splash Screen Animations ---- */
-@keyframes splash-logo {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) translateY(10px);
-  }
-  40% {
-    opacity: 1;
-    transform: scale(1.05) translateY(0);
-  }
-  60% {
-    transform: scale(0.98);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.animate-splash-logo {
-  animation: splash-logo 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes splash-tagline {
-  0% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-splash-tagline {
-  animation: splash-tagline 0.6s ease-out 0.4s forwards;
-  opacity: 0;
-}
-
 @keyframes splash-glow {
   0%, 100% {
     opacity: 0.6;
@@ -261,57 +223,6 @@ body {
 
 .animate-splash-glow {
   animation: splash-glow 2s ease-in-out infinite;
-}
-
-@keyframes splash-dot {
-  0%, 80%, 100% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  40% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-.animate-splash-dot {
-  animation: splash-dot 1s ease-in-out infinite;
-}
-
-@keyframes splash-circle-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(20px, 10px) scale(1.1); }
-}
-
-.animate-splash-circle-1 {
-  animation: splash-circle-1 4s ease-in-out infinite;
-}
-
-@keyframes splash-circle-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-15px, 15px) scale(1.05); }
-}
-
-.animate-splash-circle-2 {
-  animation: splash-circle-2 5s ease-in-out infinite;
-}
-
-@keyframes splash-circle-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(10px, -20px) scale(1.08); }
-}
-
-.animate-splash-circle-3 {
-  animation: splash-circle-3 4.5s ease-in-out infinite;
-}
-
-@keyframes splash-bounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-8px) scale(1.05); }
-}
-
-.animate-splash-bounce {
-  animation: splash-bounce 1.5s ease-in-out infinite;
 }
 
 /* ---- Skeletons (chargement perçu) ---- */
@@ -389,40 +300,70 @@ body {
   .heart-ring,
   .heart-particle,
   .animate-bounce-gentle,
-  .animate-splash-circle-1,
-  .animate-splash-circle-2,
-  .animate-splash-circle-3,
-  .animate-splash-glow,
-  .animate-splash-dot {
+  .animate-splash-glow {
     animation: none !important;
   }
 }
 
-/* ------------------------------------------------------------------ */
-/*  Écran de démarrage : effacement piloté par CSS                     */
-/*                                                                     */
-/*  L'accueil est pré-rendu, donc visible dès la première image. Le    */
-/*  splash doit donc s'effacer sur la même horloge que la peinture —   */
-/*  et surtout PAS attendre l'hydratation JavaScript, qui arrive bien  */
-/*  plus tard sur un téléphone modeste. L'animation démarre avec le    */
-/*  document ; le JavaScript ne fait plus que retirer le nœud ensuite. */
-/* ------------------------------------------------------------------ */
+/* Wordmark-only launch screen. Its exit never depends on JavaScript. */
+.splash-screen {
+  --splash-background: #faf8fc;
+  --splash-gradient: linear-gradient(120deg, #ed72c7 0%, #9860e4 55%, #29b6ca 100%);
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--splash-background);
+  transition: none;
+}
+@media (prefers-color-scheme: dark) {
+  .splash-screen {
+    --splash-background: #151020;
+    --splash-gradient: linear-gradient(120deg, #ff85c0 0%, #b49af5 55%, #5eead4 100%);
+  }
+}
+html[data-splash-theme="light"] .splash-screen {
+  --splash-background: #faf8fc;
+  --splash-gradient: linear-gradient(120deg, #ed72c7 0%, #9860e4 55%, #29b6ca 100%);
+}
+html[data-splash-theme="dark"] .splash-screen {
+  --splash-background: #151020;
+  --splash-gradient: linear-gradient(120deg, #ff85c0 0%, #b49af5 55%, #5eead4 100%);
+}
+.splash-wordmark {
+  font-family: var(--font-sans), sans-serif;
+  font-size: clamp(64px, 18vw, 88px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.065em;
+  padding-right: 0.065em;
+}
+.splash-letter {
+  display: inline-block;
+  background-image: var(--splash-gradient);
+  background-size: 600% 100%;
+  background-position: var(--letter-position) center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: splash-write 420ms cubic-bezier(0.22, 1, 0.36, 1) var(--letter-delay) both;
+  transition: none;
+}
+@keyframes splash-write {
+  from { clip-path: inset(0 100% 0 0); transform: translateY(3px); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
 @keyframes splash-auto-out {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
-
 .splash-auto-out {
-  animation: splash-auto-out 360ms ease-out 620ms forwards;
+  animation: splash-auto-out 240ms ease-out 1050ms forwards;
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .splash-auto-out {
-    animation-duration: 1ms;
-    animation-delay: 250ms;
-  }
+  .splash-letter { animation: none; }
+  .splash-auto-out { animation-duration: 1ms; animation-delay: 250ms; }
 }
 
 /* Matériel — fondu enchaîné du hero et entrée du contenu */

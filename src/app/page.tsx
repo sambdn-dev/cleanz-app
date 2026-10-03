@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Header } from '@/components/layout/Header';
@@ -65,7 +66,8 @@ function HomePageContent() {
   const { theme, darkMode } = useTheme();
   const heat = useHeatAlert();
   const [isLoaded, setIsLoaded] = useState(true);
-  const [activeNavTab, setActiveNavTab] = useState<NavTab>('Accueil');
+  const [activeNavTab, setActiveNavTab] = useState<NavTab | 'Favoris'>('Accueil');
+  const [favoritesOriginTab, setFavoritesOriginTab] = useState<NavTab>('Accueil');
   const [activeCategory, setActiveCategory] = useState('Tout');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllSurfaces, setShowAllSurfaces] = useState(false);
@@ -147,6 +149,13 @@ function HomePageContent() {
     });
   };
 
+  const openFavorites = () => {
+    if (activeNavTab !== 'Favoris') setFavoritesOriginTab(activeNavTab);
+    setAccountPage(null);
+    setActiveNavTab('Favoris');
+    window.scrollTo(0, 0);
+  };
+
   // Handle nav tab change with scroll to top
   const handleNavTabChange = (tab: NavTab) => {
     setActiveNavTab(tab);
@@ -158,7 +167,7 @@ function HomePageContent() {
 
   return (
     <>
-      {/* Splash screen avec image de fond */}
+      {/* Écran d’ouverture : logo animé */}
       {/* Isolé dans sa propre frontière : `useSearchParams` ne doit pas
           désactiver le pré-rendu de tout l'accueil. */}
       <Suspense fallback={null}>
@@ -214,8 +223,11 @@ function HomePageContent() {
 
       {/* Content with safe area padding */}
       <div
-        className="relative z-10 max-w-md mx-auto px-4 pb-20"
-        style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+        className="relative z-10 max-w-md mx-auto px-4"
+        style={{
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          paddingBottom: 'calc(112px + env(safe-area-inset-bottom, 0px))',
+        }}
       >
         {/* Header */}
         <div className={`transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
@@ -336,19 +348,29 @@ function HomePageContent() {
         )}
 
         {activeNavTab === 'Favoris' && (
-          <FavoritesPage
-            onRecipeClick={setSelectedRecipe}
-            onRecipeReference={openRecipeReference}
-            onIngredientClick={setSelectedIngredientComplet}
-            onExploreRecipes={() => handleNavTabChange('Recettes')}
-          />
+          <>
+            <button
+              onClick={() => { setActiveNavTab(favoritesOriginTab); setAccountPage('compte'); window.scrollTo(0, 0); }}
+              aria-label="Retour à Mon compte"
+              className="flex items-center gap-2 min-h-11 mb-3 rounded-xl px-2 text-sm font-semibold"
+              style={{ color: theme.textSecondary }}
+            >
+              <ArrowLeft size={20} aria-hidden="true" />Mon compte
+            </button>
+            <FavoritesPage
+              onRecipeClick={setSelectedRecipe}
+              onRecipeReference={openRecipeReference}
+              onIngredientClick={setSelectedIngredientComplet}
+              onExploreRecipes={() => handleNavTabChange('Recettes')}
+            />
+          </>
         )}
         </PageTransition>
       </div>
       </div>
 
       {/* Bottom Navigation */}
-      <BottomNav activeTab={activeNavTab} onTabChange={handleNavTabChange} />
+      <BottomNav activeTab={activeNavTab === 'Favoris' ? null : activeNavTab} onTabChange={handleNavTabChange} />
 
       {/* Grande alerte canicule (auto pendant les fortes chaleurs + via l'encart) */}
       {heat.isHeat && caniculeModalOpen && (
@@ -421,8 +443,7 @@ function HomePageContent() {
         onNavigate={(page) => {
           setShowAccountMenu(false);
           if (page === 'favoris') {
-            setActiveNavTab('Favoris');
-            window.scrollTo(0, 0);
+            openFavorites();
           } else if (page === 'compte' || page === 'courses' || page === 'appareils') {
             setAccountPage(page);
           }
@@ -433,7 +454,7 @@ function HomePageContent() {
       {accountPage === 'compte' && (
         <AccountPage
           onClose={() => setAccountPage(null)}
-          onOpenFavoris={() => { setAccountPage(null); setActiveNavTab('Favoris'); window.scrollTo(0, 0); }}
+          onOpenFavoris={openFavorites}
         />
       )}
       {accountPage === 'courses' && (

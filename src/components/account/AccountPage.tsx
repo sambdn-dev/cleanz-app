@@ -1,6 +1,6 @@
 'use client';
 
-import { Heart, LogIn } from 'lucide-react';
+import { Heart, LogIn, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
@@ -50,6 +50,20 @@ export const AccountPage = ({ onClose, onOpenFavoris }: AccountPageProps) => {
         <h2 className="font-display text-xl font-extrabold" style={{ color: theme.textPrimary }}>Invité</h2>
         <p className="text-sm" style={{ color: theme.textMuted }}>Bienvenue sur Cleanz</p>
       </div>
+
+      {/* Raccourci favoris */}
+      <button
+        onClick={onOpenFavoris}
+        className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl mb-6 transition-transform active:scale-[0.98]"
+        style={{ background: theme.bgCardSolid, border: `1px solid ${theme.borderLight}` }}
+      >
+        <Heart className="w-5 h-5" style={{ color: '#EC4899', fill: '#EC4899' }} />
+        <span className="flex-1 text-left">
+          <span className="block text-sm font-semibold" style={{ color: theme.textPrimary }}>Mes favoris</span>
+          <span className="block text-xs mt-1" style={{ color: theme.textSecondary }}>Recettes, ingrédients et flacons</span>
+        </span>
+        <ChevronRight className="w-5 h-5" style={{ color: theme.textMuted }} aria-hidden="true" />
+      </button>
 
       {/* Statistiques */}
       <div className="grid grid-cols-3 gap-2.5 mb-5">
@@ -105,15 +119,6 @@ export const AccountPage = ({ onClose, onOpenFavoris }: AccountPageProps) => {
         ))}
       </div>
 
-      {/* Raccourci favoris */}
-      <button
-        onClick={onOpenFavoris}
-        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-transform active:scale-[0.98]"
-        style={{ background: theme.bgCardSolid, border: `1px solid ${theme.borderLight}` }}
-      >
-        <Heart className="w-5 h-5" style={{ color: '#EC4899', fill: '#EC4899' }} />
-        <span className="text-sm font-semibold" style={{ color: theme.textPrimary }}>Mes favoris</span>
-      </button>
     </SubPageShell>
   );
 };

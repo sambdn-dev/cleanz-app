@@ -42,8 +42,9 @@ export const PWAInstallPrompt = () => {
 
   return (
     <div
-      className="fixed bottom-20 left-4 right-4 z-40 rounded-2xl p-4 shadow-lg animate-slideUp"
+      className="fixed left-4 right-4 z-40 rounded-2xl p-4 shadow-lg animate-slideUp"
       style={{
+        bottom: 'calc(100px + env(safe-area-inset-bottom, 0px))',
         background: darkMode
           ? 'linear-gradient(135deg, rgba(45,27,78,0.98) 0%, rgba(30,58,95,0.98) 100%)'
           : 'linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,240,252,0.98) 100%)',

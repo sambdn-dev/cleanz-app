@@ -77,6 +77,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={jakarta.variable} suppressHydrationWarning>
+      <head>
+        {/* Read the saved appearance before the splash is painted. */}
+        <script id="cleanz-splash-theme" dangerouslySetInnerHTML={{ __html: `(function(){var mode;try{mode=localStorage.getItem('cleanz-theme-mode')}catch(e){}var dark=mode==='dark'||(mode!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.splashTheme=dark?'dark':'light'})()` }} />
+      </head>
       <body className="antialiased">
         <ThemeProvider>
           <RecipeInteractionsProvider>

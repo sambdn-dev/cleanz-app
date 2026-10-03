@@ -40,6 +40,11 @@ async function ready(page,path='/'){
  const response=await page.goto(origin+path,{waitUntil:'networkidle',timeout:30000}); assert.equal(response.status(),200);
  await page.locator('.splash-auto-out').waitFor({state:'hidden'});
 }
+async function openFavorites(page) {
+ await page.getByRole('button',{name:'Mon compte',exact:true}).click();
+ await page.getByRole('button',{name:/Mes favoris/}).click();
+ await page.getByRole('heading',{name:'Mes Favoris',exact:true}).waitFor();
+}
 async function run(name,fn){try{await fn();results.push({name,passed:true});console.log('PASS',name)}catch(e){results.push({name,passed:false,error:e.message});console.error('FAIL',name,e.message);}}
 (async()=>{
  browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium',headless:true});
@@ -92,7 +97,7 @@ async function run(name,fn){try{await fn();results.push({name,passed:true});cons
  await run('Flacons/favoris historiques, création sans validité, QR et étiquette',async()=>{
   const {context,page,errors}=await setup({'cleanz-user-sprays':legacyRaw,'cleanz-favorites':JSON.stringify(favorites)});
   try{
-   await ready(page);await page.getByRole('button',{name:'Favoris',exact:true}).click();
+   await ready(page);await openFavorites(page);
    await page.getByRole('heading',{name:'Mes Sprays'}).waitFor();
    for(const item of legacy.slice(0,5))await page.getByRole('heading',{name:item.name,exact:true}).waitFor();
    assert.equal(await page.evaluate(()=>localStorage.getItem('cleanz-user-sprays')),legacyRaw);
@@ -127,7 +132,7 @@ async function run(name,fn){try{await fn();results.push({name,passed:true});cons
    const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('cleanz-user-sprays')));
    assert.deepEqual(after.slice(0,legacy.length),legacy);assert.equal(after.at(-1).expiresAt,null);assert.equal(after.at(-1).number,43);
    await page.reload({waitUntil:'networkidle'});await page.locator('.splash-auto-out').waitFor({state:'hidden'});
-   await page.getByRole('button',{name:'Favoris',exact:true}).click();await page.getByRole('heading',{name:'Nouveau flacon vérifié'}).waitFor();
+   await openFavorites(page);await page.getByRole('heading',{name:'Nouveau flacon vérifié'}).waitFor();
    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('cleanz-user-sprays'))),after);
    await page.screenshot({path:'/tmp/cleanz-publication-flacons.png'});
    assert.deepEqual(errors,[]);
@@ -137,7 +142,7 @@ async function run(name,fn){try{await fn();results.push({name,passed:true});cons
   const raw='[{"id":"ancien-flacon"}';
   const {context,page}=await setup({'cleanz-user-sprays':raw});
   try{
-   await ready(page);await page.getByRole('button',{name:'Favoris',exact:true}).click();
+   await ready(page);await openFavorites(page);
    await page.getByRole('alert').filter({hasText:'illisibles'}).waitFor();
    assert.equal(await page.getByRole('button',{name:'Ajouter',exact:true}).isDisabled(),true);
    const promise=page.waitForEvent('download');await page.getByRole('button',{name:'Télécharger une copie des données'}).click();const download=await promise;
