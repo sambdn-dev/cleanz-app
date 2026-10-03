@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { BrandLogo } from './BrandLogo';
 
 const completeLaunch = () => {
   document.documentElement.dataset.cleanzLaunch = 'complete';
@@ -78,7 +79,7 @@ export const SplashScreen = () => {
         setVisible(false);
       }}
     >
-      <div className="splash-wordmark">cleanz<span className="splash-wordmark-glow" /></div>
+      <BrandLogo className="splash-wordmark" />
     </div>
   );
 };

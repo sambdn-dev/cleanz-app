@@ -223,7 +223,7 @@ function HomePageContent() {
         className="relative z-10 max-w-md mx-auto px-4"
         style={{
           paddingTop: 'env(safe-area-inset-top, 0px)',
-          paddingBottom: 'calc(112px + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: 'calc(88px + env(safe-area-inset-bottom, 0px))',
         }}
       >
         {/* Header */}

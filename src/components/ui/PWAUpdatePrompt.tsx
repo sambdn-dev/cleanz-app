@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { RefreshCw, X } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 export const PWAUpdatePrompt = () => {
   const { darkMode, theme } = useTheme();
@@ -134,8 +135,8 @@ export const PWAUpdatePrompt = () => {
           className="relative px-5 pt-5 pb-5 overflow-hidden"
           style={{
             background: darkMode
-              ? 'linear-gradient(135deg, rgba(255,133,192,0.24) 0%, rgba(167,139,250,0.20) 50%, rgba(94,234,212,0.18) 100%)'
-              : 'linear-gradient(135deg, #FFE5F1 0%, #F0E5FB 50%, #E5F7F3 100%)',
+              ? 'linear-gradient(135deg, rgba(255,133,192,0.20) 0%, rgba(167,139,250,0.18) 100%)'
+              : 'linear-gradient(135deg, #FFE5F1 0%, #F0E5FB 100%)',
           }}
         >
           {/* Blob décoratif */}
@@ -156,12 +157,8 @@ export const PWAUpdatePrompt = () => {
 
           {/* Pastille + label */}
           <div className="relative flex items-center gap-3 mb-3">
-            <div
-              className="w-11 h-11 rounded-2xl overflow-hidden flex-shrink-0"
-              style={{ boxShadow: '0 8px 18px rgba(139,92,246,0.35)' }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icons/icon.svg" alt="Cleanz" className="w-full h-full object-cover" />
+            <div className="flex-shrink-0" role="img" aria-label="Cleanz">
+              <BrandLogo width={88} />
             </div>
             <div>
               <p className="text-[11px] font-black uppercase tracking-widest" style={{ color: theme.accentPink }}>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 interface HeaderProps {
   onAccountClick: () => void;
@@ -19,7 +20,10 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
   const { theme, darkMode } = useTheme();
   // Compute greeting after mount to avoid SSR/client mismatch
   const [greeting, setGreeting] = useState('Bonjour');
-  useEffect(() => setGreeting(getGreeting()), []);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setGreeting(getGreeting()));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <header className="pt-3 pb-3 mb-2">
@@ -32,10 +36,8 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
             {greeting} 👋
           </p>
           <div className="flex items-center gap-1.5 mt-0.5">
-            <h1
-              className="cleanz-brand-text font-display text-[34px] leading-none font-extrabold tracking-tight"
-            >
-              cleanz
+            <h1 aria-label="Cleanz" className="py-1">
+              <BrandLogo />
             </h1>
             <span
               className="self-start mt-1 text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md"

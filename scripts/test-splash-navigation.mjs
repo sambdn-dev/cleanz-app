@@ -80,7 +80,7 @@ try {
       await page.locator('.splash-screen').waitFor({ state: 'hidden', timeout: 7500 });
     } finally { await context.close(); }
   });
-  await check('Barre stable et lisible à 320, 375, 402 et 430 px, en clair et sombre', async () => {
+  await check('Barre compacte à la descente, titres à la remontée : quatre tailles et deux thèmes', async () => {
     for (const width of [320, 375, 402, 430]) for (const saved of ['light', 'dark']) {
       const { context, page, errors } = await open({ width, saved, reduced: true });
       try {
@@ -88,7 +88,7 @@ try {
         const nav = page.getByRole('navigation', { name: 'Navigation principale' });
         assert.deepEqual(await nav.getByRole('button').allTextContents(), tabs);
         const initial = await nav.boundingBox();
-        assert.ok(initial.height >= 76);
+        assert.equal(initial.height, 64);
         for (const button of await nav.getByRole('button').all()) {
           const rect = await button.boundingBox();
           assert.ok(rect.width >= 44 && rect.height >= 44);
@@ -97,13 +97,76 @@ try {
         }
         await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
         await page.waitForTimeout(200);
-        assert.equal((await nav.boundingBox()).height, initial.height);
+        assert.equal((await nav.boundingBox()).height, 54);
+        for (const button of await nav.getByRole('button').all()) {
+          assert.ok((await button.boundingBox()).height >= 44, 'Cible tactile conservée');
+          assert.equal(await button.locator('.cleanz-nav-label').evaluate(el => getComputedStyle(el).opacity), '0');
+        }
+        if (width === 402) await page.screenshot({ path: `${output}/menu-compact-${saved}.png` });
+        await page.evaluate(() => scrollBy(0, -8));
+        await page.waitForTimeout(100);
+        assert.equal((await nav.boundingBox()).height, 54, 'Un petit mouvement ne fait pas clignoter les titres');
+        await page.evaluate(() => scrollBy(0, -24));
+        await page.waitForTimeout(100);
+        assert.equal((await nav.boundingBox()).height, 64, 'Les titres reviennent à la remontée');
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.waitForTimeout(100);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
         assert.equal(await nav.getByRole('button', { name: 'Favoris', exact: true }).count(), 0);
         if (width === 402) await page.screenshot({ path: `${output}/menu-${saved}.png` });
         assert.deepEqual(errors, []);
       } finally { await context.close(); }
     }
+  });
+  await check('Transition continue, sans saut du contenu ; clavier et changement d’onglet', async () => {
+    const { context, page } = await open();
+    try {
+      await page.locator('.splash-screen').waitFor({ state: 'hidden' });
+      await page.getByRole('navigation').getByRole('button', { name: 'Recettes', exact: true }).click();
+      await page.getByText('Spray Multi-usage', { exact: true }).first().waitFor();
+      await page.waitForLoadState('networkidle');
+      const sample = async (destination) => page.evaluate(async destination => {
+        const nav = document.querySelector('nav[aria-label="Navigation principale"]');
+        const heights = [nav.getBoundingClientRect().height];
+        const pageHeight = document.documentElement.scrollHeight;
+        scrollTo(0, destination);
+        const started = performance.now();
+        while (performance.now() - started < 450) {
+          await new Promise(requestAnimationFrame);
+          heights.push(nav.getBoundingClientRect().height);
+          if (document.documentElement.scrollHeight !== pageHeight) throw new Error('Le contenu change de hauteur');
+        }
+        return { heights, scroll: scrollY };
+      }, destination);
+      const down = await sample(350);
+      assert.equal(down.scroll, 350);
+      assert.equal(down.heights.at(-1), 54);
+      assert.ok(down.heights.some(height => height > 54 && height < 64), 'Tailles intermédiaires pendant la transition');
+      assert.ok(down.heights.every((height, index) => index === 0 || height <= down.heights[index - 1] + .01), 'Réduction progressive');
+      const up = await sample(300);
+      assert.equal(up.scroll, 300);
+      assert.equal(up.heights.at(-1), 64);
+      assert.ok(up.heights.every((height, index) => index === 0 || height >= up.heights[index - 1] - .01), 'Ouverture progressive');
+      await page.evaluate(() => {
+        const placeholder = document.createElement('div');
+        placeholder.id = 'loading-section-fixture';
+        placeholder.style.height = '240px';
+        document.body.append(placeholder);
+        scrollTo(0, document.documentElement.scrollHeight);
+      });
+      await page.waitForTimeout(400);
+      assert.equal((await page.getByRole('navigation').boundingBox()).height, 54);
+      await page.evaluate(() => document.getElementById('loading-section-fixture').remove());
+      await page.waitForTimeout(350);
+      assert.equal((await page.getByRole('navigation').boundingBox()).height, 54, 'L’ancrage du navigateur après chargement ne rouvre pas la barre');
+      await page.keyboard.press('Tab');
+      await page.getByRole('navigation').getByRole('button', { name: 'Planning' }).focus();
+      await page.waitForTimeout(350);
+      assert.equal((await page.getByRole('navigation').boundingBox()).height, 64, 'Noms visibles au clavier');
+      await page.keyboard.press('Enter');
+      assert.equal(await page.getByRole('navigation').getByRole('button', { name: 'Planning' }).getAttribute('aria-current'), 'page');
+      assert.equal(await page.evaluate(() => scrollY), 0);
+    } finally { await context.close(); }
   });
   await check('Favoris depuis Mon compte : raccourci, retour, recettes et données conservées', async () => {
     const { context, page, errors } = await open({ reduced: true });
