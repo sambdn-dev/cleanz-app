@@ -1,12 +1,15 @@
 'use client';
 
 import { getPhotoBySlug } from '@/data/scenes';
+import { APPAREIL_RECETTE_IDS } from '@/data/publication-appareils';
+import { getRecipeAccess } from '@/data/publication';
 
 import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Electromenager } from '@/types';
 import { Zap, MapPin, Sparkles, Wrench, CheckCircle2, Lightbulb } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { RecipeModal } from '@/components/modals/RecipeModal';
 import { SectionTitle, Steps, Chip, Callout, ACCENT } from '@/components/ui/ModalParts';
 
 interface ElectromenagerModalProps {
@@ -19,6 +22,13 @@ type TabType = 'nettoyer' | 'entretien';
 export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalProps) => {
   const { theme, darkMode } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('nettoyer');
+  const [showRecipe, setShowRecipe] = useState(false);
+  const recipeId = APPAREIL_RECETTE_IDS[appliance.id];
+  const recipeAccess = recipeId === undefined ? null : getRecipeAccess(recipeId);
+
+  if (showRecipe && recipeId !== undefined) {
+    return <RecipeModal recipeId={recipeId} onClose={() => setShowRecipe(false)} />;
+  }
 
   const colorMap: Record<string, string> = {
     'bg-blue-500': 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
@@ -61,7 +71,7 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
   const consoStyle = getConsoColor(appliance.consoPct);
 
   // Découpe les instructions (chaîne unique) en étapes.
-  const nettoyerSteps = appliance.nettoyer.instructions
+  const nettoyerSteps = (recipeAccess ? '' : appliance.nettoyer.instructions)
     .split(/\.\s+/)
     .map((s) => s.trim())
     .filter(Boolean)
@@ -143,7 +153,28 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
         </button>
       </div>
 
-      {activeTab === 'nettoyer' && (
+      {recipeAccess && (
+        <div role="status">
+          <Callout accent={recipeAccess.available ? ACCENT.brand : ACCENT.clay}
+            title={recipeAccess.available ? 'Consulter la méthode actuelle' : 'Méthode indisponible'}>
+            <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+              {recipeAccess.available
+                ? 'Les conseils de cette fiche appareil sont regroupés dans la fiche actuelle. Consultez-la avant de commencer.'
+                : recipeAccess.message}
+            </p>
+          </Callout>
+          <p className="mt-3 text-xs leading-relaxed" style={{ color: theme.textMuted }}>
+            Les anciennes instructions et leur calendrier ne sont plus proposés ici. Consultez la notice de votre appareil pour les consignes adaptées à votre modèle.
+          </p>
+          <button onClick={() => setShowRecipe(true)}
+            className="mt-4 rounded-xl px-4 py-3 text-sm font-semibold text-white"
+            style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}>
+            {recipeAccess.available ? 'Consulter la fiche actuelle' : 'Consulter le statut de la fiche'}
+          </button>
+        </div>
+      )}
+
+      {!recipeAccess && activeTab === 'nettoyer' && (
         <div className="space-y-6">
           {/* Les conseils de Cleanz */}
           {appliance.conseils && (
@@ -182,7 +213,7 @@ export const ElectromenagerModal = ({ appliance, onClose }: ElectromenagerModalP
         </div>
       )}
 
-      {activeTab === 'entretien' && (
+      {!recipeAccess && activeTab === 'entretien' && (
         <div className="space-y-6">
           {/* Calendrier */}
           <div>

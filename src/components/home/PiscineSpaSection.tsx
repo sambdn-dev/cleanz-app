@@ -5,17 +5,21 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { haptic } from '@/utils/haptics';
 import { getProduitsParCategorie } from '@/data/partenaires';
 import { PartnerProductCard } from '@/components/ui/PartnerProductCard';
+import { RecipeModal } from '@/components/modals/RecipeModal';
+import { getRecipeAccess } from '@/data/publication';
 import { ChevronRight, Waves, Droplets, TestTube2, LifeBuoy } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
 /*  Contenu éditorial                                                  */
 /* ------------------------------------------------------------------ */
-interface Tip {
+type Tip = {
   emoji: string;
   titre: string;
-  texte: string;
   important?: boolean;
-}
+} & (
+  | { recipeId: number; texte?: never }
+  | { recipeId?: never; texte: string }
+);
 
 const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
   {
@@ -24,10 +28,10 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
     tips: [
       {
         emoji: '🧪',
-        titre: "L'analyse hebdo, la base de tout",
+        titre: "Analyse de l’eau",
         important: true,
         texte:
-          "1 bandelette par semaine (15 secondes) et vous évitez 90 % des problèmes.\n\n• pH idéal : entre 7,0 et 7,4 — en dessous l'eau irrite, au-dessus le chlore ne sert plus à rien.\n• Chlore libre : 1 à 2 mg/L.\n• TAC (alcalinité) : 80 à 120 mg/L — c'est lui qui stabilise le pH, corrigez-le en premier.",
+          "Les seuils et corrections dépendent du bassin et de son traitement. Aucune procédure de traitement publiée n’est disponible ici. Consultez les consignes du fabricant ou de votre pisciniste.",
       },
       {
         emoji: '⏱️',
@@ -37,9 +41,8 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
       },
       {
         emoji: '🧼',
-        titre: "Ligne d'eau : pierre d'argile, pas de chimie",
-        texte:
-          "La trace grasse à la ligne d'eau (crèmes solaires, pollens) part très bien à la pierre d'argile ou au bicarbonate en pâte sur une éponge. Sans vider un litre d'eau, sans produit dédié.",
+        titre: "Nettoyer la ligne d’eau",
+        recipeId: 143,
       },
       {
         emoji: '🍂',
@@ -49,9 +52,9 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
       },
       {
         emoji: '❄️',
-        titre: "Hivernage : ne videz jamais complètement",
+        titre: "Préparer l’hivernage",
         texte:
-          "Sous 12 °C d'eau : nettoyage complet, pH équilibré, produit d'hivernage, niveau d'eau abaissé sous les buses, flotteurs antigel. Une piscine vidée l'hiver risque de se soulever avec la pression du sol.",
+          "L’hivernage dépend du bassin, de ses équipements et des conditions locales. Aucune procédure publiée n’est disponible ici. Consultez les consignes du fabricant ou de votre pisciniste.",
       },
     ],
   },
@@ -70,19 +73,18 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
         emoji: '🌡️',
         titre: "À 37 °C, tout va plus vite",
         texte:
-          "La chaleur accélère la prolifération des bactéries ET la consommation de désinfectant. Analysez 2×/semaine (contre 1× pour une piscine), et privilégiez le brome ou l'oxygène actif, plus stables que le chlore à haute température.",
+          "La température fait partie des paramètres à prendre en compte pour l’entretien du spa. Aucune procédure de désinfection publiée n’est disponible ici. Consultez la notice de votre spa et les consignes du produit de traitement.",
       },
       {
         emoji: '🧽',
-        titre: 'Filtre rincé chaque semaine',
-        texte:
-          "Le filtre cartouche se rince au jet 1×/semaine et trempe dans du vinaigre blanc dilué 1×/mois (calcaire + corps gras). Remplacement : 1×/an.",
+        titre: 'Entretenir le filtre',
+        recipeId: 144,
       },
       {
         emoji: '🫧',
         titre: 'La ligne de mousse',
         texte:
-          "De la mousse en surface = résidus de savon et cosmétiques. Douche savonneuse AVANT le spa (et pas après 😉), et un anti-mousse spa en dépannage seulement.",
+          "Des résidus de savon ou de cosmétiques peuvent être présents dans l’eau. Aucun traitement anti-mousse publié n’est disponible ici. Consultez les consignes d’entretien de votre spa.",
       },
     ],
   },
@@ -95,25 +97,25 @@ const TABS: { label: string; icon: React.ReactNode; tips: Tip[] }[] = [
         titre: 'Eau verte (algues)',
         important: true,
         texte:
-          "1. Brossez parois et fond.\n2. Vérifiez puis corrigez le pH (7,0–7,4).\n3. Traitement choc (chlore ou oxygène actif).\n4. Filtration 24h/24 pendant 48 h.\n5. Floculant si l'eau reste trouble, puis aspirez le dépôt.",
+          "Aucune procédure de traitement de l’eau verte publiée n’est disponible ici. Faites identifier la cause et le traitement adapté à votre installation par votre pisciniste.",
       },
       {
         emoji: '🌫️',
         titre: 'Eau trouble ou laiteuse',
         texte:
-          "Souvent un pH trop haut ou une filtration insuffisante. Corrigez le pH, filtrez en continu 24 h, nettoyez le filtre. Persistant → floculant adapté à votre filtre.",
+          "Aucune procédure de traitement de l’eau trouble publiée n’est disponible ici. La cause doit être identifiée avant de choisir un traitement adapté au bassin et au filtre.",
       },
       {
         emoji: '👃',
-        titre: "Forte odeur de chlore = manque de chlore",
+        titre: "Forte odeur de chlore",
         texte:
-          "Contre-intuitif : l'odeur vient des chloramines, du chlore « usé » saturé de matières organiques. La solution n'est pas d'arrêter le chlore mais de faire un traitement choc pour tout oxyder, puis de laisser filtrer.",
+          "Une odeur ne suffit pas à déterminer le traitement à appliquer. Aucune procédure publiée n’est disponible ici. Consultez votre pisciniste pour interpréter les mesures de l’eau.",
       },
       {
         emoji: '🟤',
         titre: 'Dépôts marron sur les parois',
         texte:
-          "Probables métaux (fer, cuivre) apportés par l'eau de remplissage. Un séquestrant métaux les neutralise. Ne frottez pas au chlore pur : ça fixe la tache.",
+          "Aucune méthode publiée n’est disponible ici pour traiter ces dépôts. Faites identifier leur nature et le revêtement avant de choisir une intervention avec votre pisciniste.",
       },
     ],
   },
@@ -126,6 +128,7 @@ export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) 
   const { theme, darkMode } = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const [open, setOpen] = useState<number | null>(0);
+  const [selectedRecipeId, setSelectedRecipeId] = useState<number | null>(null);
 
   const accent = darkMode ? '#5EEAD4' : '#0891B2';
   const tab = TABS[activeTab];
@@ -202,11 +205,11 @@ export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) 
         <div className="p-3 space-y-1.5">
           {tab.tips.map((tip, i) => {
             const isOpen = open === i;
+            const access = typeof tip.recipeId === 'number' ? getRecipeAccess(tip.recipeId) : null;
             return (
-              <button
+              <div
                 key={`${activeTab}-${i}`}
-                onClick={() => toggle(i)}
-                className="w-full text-left rounded-xl transition-all active:scale-[0.99]"
+                className="w-full text-left rounded-xl"
                 style={{
                   background: darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)',
                   border: tip.important
@@ -214,7 +217,12 @@ export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) 
                     : `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : `${accent}26`}`,
                 }}
               >
-                <div className="flex items-center gap-2.5 py-2.5 px-3">
+                <button
+                  type="button"
+                  onClick={() => toggle(i)}
+                  aria-expanded={isOpen}
+                  className="w-full text-left flex items-center gap-2.5 py-2.5 px-3 transition-all active:scale-[0.99]"
+                >
                   <span className="text-lg flex-shrink-0" aria-hidden>{tip.emoji}</span>
                   <span className="flex-1 text-[15px] font-semibold" style={{ color: theme.textPrimary }}>
                     {tip.titre}
@@ -224,15 +232,29 @@ export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) 
                     className="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200"
                     style={{ color: theme.textMuted, transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
                   />
-                </div>
+                </button>
                 {isOpen && (
                   <div className="animate-accordion-in">
                     <p className="px-3 pb-2.5 text-[14px] leading-relaxed whitespace-pre-line" style={{ color: theme.textSecondary }}>
-                      {tip.texte}
+                      {access
+                        ? access.available
+                          ? 'Consultez la fiche actuelle et ses précautions avant de commencer.'
+                          : access.message
+                        : tip.texte}
                     </p>
+                    {access?.available && typeof tip.recipeId === 'number' && (
+                      <button
+                        type="button"
+                        onClick={() => { haptic('light'); setSelectedRecipeId(tip.recipeId); }}
+                        className="mx-3 mb-3 px-3 py-2 rounded-xl text-sm font-semibold"
+                        style={{ background: `${accent}20`, color: accent }}
+                      >
+                        Consulter la fiche
+                      </button>
+                    )}
                   </div>
                 )}
-              </button>
+              </div>
             );
           })}
         </div>
@@ -252,6 +274,9 @@ export const PiscineSpaSection = ({ embedded = false }: { embedded?: boolean }) 
           </div>
         </div>
       </div>
+      {selectedRecipeId !== null && (
+        <RecipeModal recipeId={selectedRecipeId} onClose={() => setSelectedRecipeId(null)} />
+      )}
     </div>
   );
 };

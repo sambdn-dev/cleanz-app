@@ -7,6 +7,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Surface } from '@/types';
 import { getSurfaceImage } from '@/data/scenes';
 import { getBlur } from '@/data/imageBlur';
+import { getRecipeAccess } from '@/data/publication';
 
 interface SurfacesGridProps {
   surfaces: Surface[];
@@ -38,6 +39,8 @@ export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClic
     const img = getSurfaceImage(surface);
     const [err, setErr] = useState(false);
     const showPhoto = !!img && !err;
+    const hasPublishedSteamRecipe = surface.vapeurOk && typeof surface.vapeurRecetteId === 'number'
+      && getRecipeAccess(surface.vapeurRecetteId).available;
 
     return (
       <button
@@ -76,13 +79,13 @@ export const SurfacesGrid = ({ surfaces, showAll, onToggleShowAll, onSurfaceClic
             <span className="absolute top-1.5 left-2 text-base" style={{ filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.5))' }}>
               {surface.emoji}
             </span>
-            {/* Badge vapeur : la vapeur seule suffit sur cette surface */}
-            {surface.vapeurOk && (
+            {/* Signale une fiche accessible ; ne garantit pas la compatibilité du support. */}
+            {hasPublishedSteamRecipe && (
               <span
                 className="absolute top-1.5 right-1.5 text-[8px] font-black uppercase tracking-wide px-1.5 py-0.5 rounded-full text-white"
                 style={{ background: 'rgba(13,148,136,0.85)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
               >
-                💨 vapeur
+                💨 fiche vapeur
               </span>
             )}
             <span

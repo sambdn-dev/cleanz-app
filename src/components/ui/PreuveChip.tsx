@@ -29,8 +29,8 @@ export const PreuveChip = ({ id, compact = false }: { id: number; compact?: bool
   } else if (statut === 'fusionnee') {
     texte = 'Fusionnée';
     tone = 'neutre';
-  } else if (statut === 'en_attente') {
-    texte = 'En revue';
+  } else if (statut === 'en_attente' || statut === 'suspendue') {
+    texte = statut === 'suspendue' ? 'Suspendue' : 'En revue';
     tone = 'attente';
   } else {
     texte = compact ? LIBELLE_PREUVE_COURT[preuve] : LIBELLE_PREUVE[preuve];

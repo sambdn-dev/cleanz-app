@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { RecetteComplete, Surface, IngredientComplet } from '@/types';
-import { RECETTES } from '@/data/recettes';
-import { estListable } from '@/data/revue';
+import { getPublishedRecipes } from '@/data/publication';
 import { PreuveChip } from '@/components/ui/PreuveChip';
 import { getRecetteImage } from '@/data/scenes';
 import { getBlur } from '@/data/imageBlur';
@@ -30,10 +29,8 @@ export const RecipesPage = ({ onRecipeClick, onSurfaceClick, onIngredientClick }
   const { isFavorite, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filtrage des recettes par recherche texte
-  // Catalogue consultable : les fiches retirées ou fusionnées n'apparaissent plus
-  // dans les listes (elles restent ouvrables par un ancien lien, avec explication).
-  const catalogue = RECETTES.filter((r) => estListable(r.id));
+  // Le catalogue ne contient que les versions actuellement publiées.
+  const catalogue = getPublishedRecipes();
   const filteredRecipes = searchQuery
     ? catalogue.filter(r => {
         const query = searchQuery.toLowerCase();

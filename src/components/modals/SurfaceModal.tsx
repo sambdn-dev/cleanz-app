@@ -5,8 +5,8 @@ import { Surface, RecetteComplete } from '@/types';
 import { ChevronRight, Droplets, Flame, Sparkles, Wind } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, MetaBar, ACCENT } from '@/components/ui/ModalParts';
-import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
-import { estListable } from '@/data/revue';
+import { RECETTES_PAR_SURFACE } from '@/data/recettes';
+import { getPublishedRecipes } from '@/data/publication';
 import { PreuveChip } from '@/components/ui/PreuveChip';
 import { getSurfaceImage } from '@/data/scenes';
 
@@ -18,57 +18,7 @@ interface SurfaceModalProps {
 
 const getRecettesForSurface = (surfaceId: number): RecetteComplete[] => {
   const recipeIds = RECETTES_PAR_SURFACE[surfaceId] || [];
-  // Les fiches retirées ou fusionnées ne sont plus proposées depuis une surface.
-  return recipeIds.filter(estListable).map((id) => RECETTES.find((r) => r.id === id)).filter(Boolean) as RecetteComplete[];
-};
-
-// Ingrédients recommandés par catégorie
-const INGREDIENTS_RECOMMANDES: Record<string, { nom: string; emoji: string }[]> = {
-  Cuisine: [
-    { nom: 'Bicarbonate', emoji: '⚪' },
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Savon noir', emoji: '⚫' },
-    { nom: 'Cristaux de soude', emoji: '💎' },
-  ],
-  'Salle de bain': [
-    { nom: 'Acide citrique', emoji: '🍋' },
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Bicarbonate', emoji: '⚪' },
-    { nom: 'Percarbonate', emoji: '✨' },
-  ],
-  Chambre: [
-    { nom: 'Bicarbonate', emoji: '⚪' },
-    { nom: 'Savon de Marseille', emoji: '🧼' },
-    { nom: 'Percarbonate', emoji: '✨' },
-  ],
-  Salon: [
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Bicarbonate', emoji: '⚪' },
-    { nom: 'Savon noir', emoji: '⚫' },
-  ],
-  Buanderie: [
-    { nom: 'Percarbonate', emoji: '✨' },
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Savon de Marseille', emoji: '🧼' },
-  ],
-  Électronique: [
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Alcool ménager', emoji: '🔬' },
-  ],
-  Véhicule: [
-    { nom: 'Savon noir', emoji: '⚫' },
-    { nom: 'Vinaigre blanc', emoji: '🧴' },
-    { nom: 'Bicarbonate', emoji: '⚪' },
-  ],
-  Extérieur: [
-    { nom: 'Savon noir', emoji: '⚫' },
-    { nom: 'Bicarbonate', emoji: '⚪' },
-    { nom: 'Cristaux de soude', emoji: '💎' },
-  ],
-  Corps: [
-    { nom: 'Savon de Marseille', emoji: '🧼' },
-    { nom: 'Bicarbonate', emoji: '⚪' },
-  ],
+  return getPublishedRecipes(recipeIds);
 };
 
 const getIngredientsFromRecettes = (recettes: RecetteComplete[]): { nom: string; emoji: string }[] => {
@@ -87,7 +37,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
   const { theme, darkMode } = useTheme();
   const recettes = getRecettesForSurface(surface.id);
   const vapeurRecette = surface.vapeurRecetteId
-    ? RECETTES.find((r) => r.id === surface.vapeurRecetteId)
+    ? getPublishedRecipes([surface.vapeurRecetteId])[0]
     : undefined;
   // Identité teal de la vapeur, réutilisée partout dans la carte (icône, pastilles, séparateur).
   const vapeurAccent = darkMode ? '#5EEAD4' : '#0D9488';
@@ -98,9 +48,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
   const headerImageUrl = getSurfaceImage(surface);
   const hasImage = !!headerImageUrl;
 
-  const ingredients = recettes.length > 0
-    ? getIngredientsFromRecettes(recettes)
-    : INGREDIENTS_RECOMMANDES[surface.piece] || INGREDIENTS_RECOMMANDES['Cuisine'];
+  const ingredients = getIngredientsFromRecettes(recettes);
 
   const headerGradient = darkMode
     ? 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)'
@@ -144,7 +92,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
       />
 
       {/* La vapeur suffit — mise en avant du nettoyage 100% eau */}
-      {surface.vapeurOk && (
+      {surface.vapeurOk && vapeurRecette && (
         <div className="mb-6">
           <div
             className="rounded-2xl overflow-hidden relative"
@@ -295,16 +243,16 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
             }}
           >
             <span className="text-3xl mb-2 block">🌱</span>
-            <p className="text-sm font-medium mb-1" style={{ color: theme.textPrimary }}>Astuces en préparation</p>
+            <p className="text-sm font-medium mb-1" style={{ color: theme.textPrimary }}>Aucune méthode publiée pour cette surface</p>
             <p className="text-xs" style={{ color: theme.textMuted }}>
-              L&apos;équipe Cleanz ajoute de nouvelles astuces naturelles régulièrement. De nouvelles astuces pour cette surface arrivent très bientôt !
+              Consultez les consignes du fabricant en attendant une méthode adaptée. Les fiches indisponibles ne sont pas proposées à la préparation.
             </p>
           </div>
         </div>
       )}
 
       {/* Ingrédients recommandés */}
-      <div>
+      {ingredients.length > 0 && <div>
         <SectionTitle accent={ACCENT.amber}>Ingrédients recommandés</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {ingredients.map((ing, index) => (
@@ -318,7 +266,7 @@ export const SurfaceModal = ({ surface, onClose, onRecipeClick }: SurfaceModalPr
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </Modal>
   );
 };

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { Plus, Trash2, Sparkles, Search, ShoppingBag } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
-import { RECETTES } from '@/data/recettes';
+import { getPublishedRecipes } from '@/data/publication';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { normalize, splitHighlight } from '@/utils/search';
 import { haptic } from '@/utils/haptics';
@@ -41,6 +41,7 @@ const emojiFor = (label: string): string => {
 export const ShoppingListPage = ({ onClose }: { onClose: () => void }) => {
   const { theme, darkMode } = useTheme();
   const { favorites } = useRecipeInteractionsContext();
+  const favoriteRecipes = getPublishedRecipes(favorites);
   const [items, setItems] = useState<Item[]>(() => (typeof window !== 'undefined' ? loadItems() : []));
   const [input, setInput] = useState('');
   const [focused, setFocused] = useState(false);
@@ -104,10 +105,9 @@ export const ShoppingListPage = ({ onClose }: { onClose: () => void }) => {
 
   const addFromFavorites = () => {
     haptic('light');
-    const favRecipes = RECETTES.filter((r) => favorites.includes(r.id));
     const known = new Set(items.map((i) => normalize(i.label)));
     const toAdd: Item[] = [];
-    favRecipes.forEach((r) =>
+    favoriteRecipes.forEach((r) =>
       r.ingredients.forEach((ing) => {
         const name = ing.nom.replace(/\s*\(.*?\)\s*/g, '').trim(); // retire « (optionnel) » etc.
         if (name && !known.has(normalize(name))) {
@@ -281,12 +281,12 @@ export const ShoppingListPage = ({ onClose }: { onClose: () => void }) => {
       {/* Générer depuis les favoris */}
       <button
         onClick={addFromFavorites}
-        disabled={favorites.length === 0}
+        disabled={favoriteRecipes.length === 0}
         className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold mb-5 transition-transform active:scale-[0.98] disabled:opacity-40"
         style={{ background: darkMode ? 'rgba(139,92,246,0.15)' : 'rgba(139,92,246,0.08)', color: '#A78BFA', border: `1px solid ${theme.borderLight}` }}
       >
         <Sparkles className="w-4 h-4" />
-        Importer depuis mes recettes favorites
+        Importer depuis mes recettes favorites disponibles
       </button>
 
       {items.length === 0 ? (

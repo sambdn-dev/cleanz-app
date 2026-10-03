@@ -7,7 +7,7 @@ import { getBlur } from '@/data/imageBlur';
 import { haptic } from '@/utils/haptics';
 import {
   Sun, Leaf, Snowflake, Flower2, ChevronRight, Wind, Moon, ThermometerSnowflake,
-  GlassWater, Dumbbell, ShowerHead, Clock, Brush, Droplets, Sparkles, Wand2,
+  GlassWater, Dumbbell, ShowerHead, Clock, Droplets, Sparkles, Wand2,
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -108,39 +108,6 @@ const VentilationSchema = () => (
     ))}
     <text x="116" y="118" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.85">ventilateur</text>
     <text x="206" y="62" textAnchor="end" fontSize="8.5" fill="currentColor" opacity="0.85">air chaud 🔥</text>
-  </svg>
-);
-
-const BlancMeudonSchema = () => (
-  <svg viewBox="0 0 220 100" className="w-full h-auto" role="img" aria-label="Le blanc de Meudon sur la vitre réfléchit la chaleur du soleil">
-    <circle cx="32" cy="30" r="11" fill="currentColor" opacity="0.9" />
-    <g opacity="0.7">
-      <animate attributeName="opacity" values="0.3;0.85;0.3" dur="2.4s" repeatCount="indefinite" />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => {
-        const r = (a * Math.PI) / 180;
-        return (
-          <line key={i} x1={32 + 14 * Math.cos(r)} y1={30 + 14 * Math.sin(r)} x2={32 + 19 * Math.cos(r)} y2={30 + 19 * Math.sin(r)} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        );
-      })}
-    </g>
-    <rect x="120" y="20" width="54" height="56" rx="3" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="1.5" />
-    <line x1="147" y1="20" x2="147" y2="76" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-    <line x1="120" y1="48" x2="174" y2="48" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-    <g opacity="0.5" fill="currentColor">
-      <circle cx="132" cy="34" r="3" /><circle cx="160" cy="38" r="2.4" /><circle cx="138" cy="61" r="2.6" /><circle cx="162" cy="62" r="3" /><circle cx="150" cy="30" r="2" />
-    </g>
-    <path d="M 45 31 L 116 37" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="7 6" opacity="0.85">
-      <animate attributeName="stroke-dashoffset" from="26" to="0" dur="1s" repeatCount="indefinite" />
-    </path>
-    <path d="M 116 45 L 50 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="7 6" opacity="0.85">
-      <animate attributeName="stroke-dashoffset" from="0" to="26" dur="1s" repeatCount="indefinite" />
-    </path>
-    <polygon points="56,59 46,65 55,69" fill="currentColor" />
-    <path d="M 174 48 L 202 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 5" opacity="0.3">
-      <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1.4s" repeatCount="indefinite" />
-    </path>
-    <text x="86" y="88" textAnchor="middle" fontSize="8.5" fill="currentColor" opacity="0.9">chaleur réfléchie</text>
-    <text x="188" y="42" textAnchor="middle" fontSize="7" fill="currentColor" opacity="0.55">lumière</text>
   </svg>
 );
 
@@ -265,11 +232,7 @@ const SAISONS: Record<SaisonKey, Saison> = {
       {
         label: '🧹 Ménage',
         tips: [
-          { emoji: '🍖', titre: 'Barbecue impeccable', texte: 'Frottez la grille encore tiède avec un demi-oignon, puis bicarbonate + vinaigre pour décoller les graisses cuites.' },
-          { emoji: '🦟', titre: 'Anti-moustiques naturel', texte: 'Spray eau + vinaigre + HE citronnelle sur les rebords de fenêtres. Efficace et sans chimie.' },
-          { emoji: '🏖️', titre: 'Terrasse & salon de jardin', texte: 'Savon noir + cristaux de soude redonnent vie au plastique jauni et au bois grisé.' },
-          { emoji: '🧊', titre: 'Glacière sans odeurs', texte: 'Bicarbonate + jus de citron pour nettoyer et désodoriser avant les pique-niques.' },
-          { emoji: '👟', titre: 'Baskets fraîches', texte: 'Poudre bicarbonate + maïzena + tea tree la nuit : adieu odeurs de transpiration.' },
+          { emoji: '🧹', titre: 'Trouver une fiche de nettoyage', texte: 'Consultez les fiches du catalogue pour le barbecue, la terrasse ou la glacière. Lisez les précautions et les matériaux concernés avant de commencer.' },
         ],
       },
       {
@@ -277,7 +240,6 @@ const SAISONS: Record<SaisonKey, Saison> = {
         tips: [
           { icon: <Clock className="w-5 h-5" />, titre: 'Quand ouvrir les fenêtres', texte: '🌅 Matin 6h-9h : ouvrir en grand (air frais)\n☀️ 10h-21h : tout fermer (volets, rideaux)\n🌙 Soir 21h-6h : rouvrir pour la nuit\nBloquer la chaleur AVANT qu\'elle n\'entre = -5°C !', schema: <HorairesSchema />, important: true },
           { icon: <Wind className="w-5 h-5" />, titre: 'Créer un courant d\'air', texte: 'Ouvrez 2 fenêtres opposées (nord-sud ou est-ouest) pour créer un courant d\'air traversant.\n💨 Astuce : placez un ventilateur juste devant une fenêtre, tourné vers l\'extérieur, pour chasser l\'air chaud plus vite.\n🌙 Le soir et la nuit = le moment idéal pour évacuer la chaleur accumulée.', schema: <VentilationSchema /> },
-          { icon: <Brush className="w-5 h-5" />, titre: 'Blanc de Meudon sur vitres', texte: 'Mélangez Blanc de Meudon + eau jusqu\'à obtenir une pâte liquide. Tapotez avec une éponge sur toutes les vitres exposées au soleil. La couche blanche laisse passer la lumière mais réfléchit la chaleur. Pour nettoyer : un coup d\'éponge et d\'eau, ça part tout seul !', schema: <BlancMeudonSchema /> },
           { icon: <Droplets className="w-5 h-5" />, titre: 'Rafraîchir toits & terrasses', texte: '💧 Arrosez les tuiles, dalles et murs encore brûlants — plusieurs fois par jour, même en plein soleil.\n🌡️ Au contact des surfaces chaudes, l\'eau s\'évapore aussitôt et emporte la chaleur : la surface, l\'air autour et les pièces situées sous un toit plein sud se rafraîchissent d\'un coup.\n🔁 À renouveler dès que le soleil tape fort, et le soir pour faire retomber la chaleur emmagasinée dans la journée.', schema: <ToitFraisSchema /> },
           { icon: <GlassWater className="w-5 h-5" />, titre: 'S\'hydrater correctement', texte: '💧 Boire 1,5 à 2L par jour, AVANT d\'avoir soif\n🚫 Éviter l\'eau GLACÉE (choc thermique)\n✅ Eau fraîche ou température ambiante\n🍉 Manger des fruits d\'eau (pastèque, melon, concombre)', important: true },
           { icon: <Dumbbell className="w-5 h-5" />, titre: 'Sport & efforts physiques', texte: '⚠️ En canicule : ÉVITER tout effort entre 11h et 21h\n✅ Si sport : tôt le matin (avant 8h) ou tard le soir\n💧 S\'hydrater toutes les 15 min\n🏠 Privilégier des activités calmes à l\'ombre' },
@@ -303,9 +265,9 @@ const SAISONS: Record<SaisonKey, Saison> = {
       {
         label: '🍂 Ménage',
         tips: [
-          { emoji: '🍂', titre: 'Feuilles & terrasse', texte: 'Ramassez les feuilles mortes régulièrement : mouillées, elles deviennent glissantes et tachent les dalles. Brossez ensuite au savon noir.' },
-          { emoji: '🪟', titre: 'Vitres avant l\'hiver', texte: 'Profitez des derniers jours doux pour faire les vitres au vinaigre blanc — on en profitera tout l\'hiver quand la lumière se fait rare.' },
-          { emoji: '🧥', titre: 'Ranger les vêtements d\'été', texte: 'Lavez tout AVANT de ranger (les taches invisibles attirent les mites). Glissez des sachets de lavande ou des blocs de cèdre dans les placards.' },
+          { emoji: '🍂', titre: 'Feuilles & terrasse', texte: 'Ramassez les feuilles mortes régulièrement : mouillées, elles deviennent glissantes et tachent les dalles.' },
+          { emoji: '🪟', titre: 'Vitres avant l\'hiver', texte: 'Profitez des derniers jours doux pour faire les vitres — on en profitera tout l\'hiver quand la lumière se fait rare.' },
+          { emoji: '🧥', titre: 'Ranger les vêtements d\'été', texte: 'Lavez tout AVANT de ranger (les taches invisibles attirent les mites).' },
           { emoji: '🛋️', titre: 'Grand nettoyage intérieur', texte: 'Tapis, rideaux et canapé : un nettoyage en profondeur avant de fermer les fenêtres pour l\'hiver = un air intérieur plus sain.' },
           { emoji: '🔥', titre: 'Préparer le chauffage', texte: 'Dépoussiérez radiateurs et grilles, et faites vérifier la chaudière avant les premiers froids (entretien annuel obligatoire).' },
         ],
@@ -315,7 +277,7 @@ const SAISONS: Record<SaisonKey, Saison> = {
         tips: [
           { icon: <Droplets className="w-5 h-5" />, titre: 'Lutter contre l\'humidité', texte: '💨 Aérez 10 min/jour même quand il pleut (l\'air extérieur est moins humide que l\'air confiné).\n🌫️ Un absorbeur d\'humidité dans les pièces sans fenêtre.', important: true },
           { icon: <Wind className="w-5 h-5" />, titre: 'Anti-condensation', texte: '🪟 Essuyez la condensation sur les vitres le matin pour éviter moisissures et bois gonflé.\n🍳 Couvrez les casseroles et activez la hotte en cuisinant.' },
-          { icon: <Sparkles className="w-5 h-5" />, titre: 'Anti-moisissures', texte: '🍄 Dès les premiers points noirs sur les joints ou les angles : vinaigre blanc pur, on laisse agir 30 min, on frotte.\n🌬️ Décollez les meubles des murs froids pour laisser l\'air circuler.' },
+          { icon: <Sparkles className="w-5 h-5" />, titre: 'Laisser circuler l’air', texte: '🌬️ Décollez les meubles des murs froids pour laisser l\'air circuler.' },
           { icon: <Moon className="w-5 h-5" />, titre: 'Acariens & literie', texte: '🛏️ Lavez draps et housses à 60°C, aérez la literie.\n☀️ Profitez des éclaircies pour sortir oreillers et couettes.' },
         ],
       },
@@ -337,7 +299,6 @@ const SAISONS: Record<SaisonKey, Saison> = {
         label: '❄️ Ménage',
         tips: [
           { emoji: '🧤', titre: 'Sols & boue', texte: 'Un paillasson efficace + nettoyage fréquent : le sel de déneigement et la boue abîment les sols. Sur le parquet, essuyez vite (le sel laisse des traces blanches).' },
-          { emoji: '🪟', titre: 'Vitres embuées', texte: 'Vinaigre blanc + une pointe de liquide vaisselle : nettoie ET laisse un léger film anti-buée naturel.' },
           { emoji: '🔥', titre: 'Radiateurs propres', texte: 'Un radiateur dépoussiéré diffuse mieux la chaleur (et consomme moins). Passez un goupillon ou un sèche-cheveux derrière les ailettes.' },
           { emoji: '🎄', titre: 'Après les fêtes', texte: 'Taches de bougie : grattez le surplus, posez un papier absorbant et passez le fer tiède dessus. Aiguilles de sapin : aspirez, puis ruban adhésif pour les dernières.' },
           { emoji: '🧥', titre: 'Doudounes & plaids', texte: 'Lavage doux + 2-3 balles de tennis dans le sèche-linge pour regonfler le duvet. Évitez l\'adoucissant (il écrase les plumes).' },
@@ -369,7 +330,7 @@ const SAISONS: Record<SaisonKey, Saison> = {
       {
         label: '🌸 Grand ménage',
         tips: [
-          { emoji: '🪟', titre: 'Vitres impeccables', texte: 'Choisissez un jour nuageux (le soleil sèche trop vite et laisse des traces). Vinaigre blanc + microfibre ou raclette.' },
+          { emoji: '🪟', titre: 'Planifier les vitres', texte: 'Choisissez un jour nuageux (le soleil sèche trop vite et laisse des traces).' },
           { emoji: '🧺', titre: 'Rideaux & textiles', texte: 'Après l\'hiver, lavez rideaux, voilages, housses de coussin et plaids : ils ont accumulé poussière et air confiné.' },
           { emoji: '🛋️', titre: 'Désencombrer', texte: 'Le grand tri de printemps : on vide, on trie, on donne. Plus facile de nettoyer en profondeur quand c\'est dégagé.' },
           { emoji: '🌿', titre: 'Aérer à fond', texte: 'Ouvrez tout en grand plusieurs fois par jour pour renouveler l\'air après des mois fenêtres fermées.' },

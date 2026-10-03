@@ -13,32 +13,38 @@ export const PWAUpdatePrompt = () => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
     let registration: ServiceWorkerRegistration | null = null;
+    let disposed = false;
+    const workerListeners = new Map<ServiceWorker, () => void>();
 
-    // URL stable : le CONTENU de /sw.js change à chaque déploiement (SHA intégré),
-    // donc registration.update() détecte la MAJ sans recharger la page.
-    // updateViaCache:'none' force le navigateur à toujours re-télécharger le script.
+    const promptFor = (worker: ServiceWorker | null) => {
+      if (!disposed && worker && navigator.serviceWorker.controller) {
+        setWaitingWorker(worker);
+        setShowUpdateModal(true);
+      }
+    };
+    const onUpdateFound = () => {
+      const newWorker = registration?.installing;
+      if (!newWorker) return;
+      const onStateChange = () => {
+        if (newWorker.state === 'installed') promptFor(newWorker);
+      };
+      workerListeners.set(newWorker, onStateChange);
+      newWorker.addEventListener('statechange', onStateChange);
+    };
+
+    // Version éditoriale et build intégrés au script ; vérification sans cache HTTP.
     navigator.serviceWorker
       .register('/sw.js', { updateViaCache: 'none' })
       .then((reg) => {
+        if (disposed) return;
         registration = reg;
-
-        const promptFor = (worker: ServiceWorker | null) => {
-          if (worker && navigator.serviceWorker.controller) {
-            setWaitingWorker(worker);
-            setShowUpdateModal(true);
-          }
-        };
 
         // Un worker est déjà en attente (MAJ détectée avant le montage)
         if (reg.waiting) promptFor(reg.waiting);
 
         // Nouvelle version trouvée → on guette son passage à "installed"
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker?.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed') promptFor(newWorker);
-          });
-        });
+        reg.addEventListener('updatefound', onUpdateFound);
+        onUpdateFound();
 
         // Vérifie tout de suite
         reg.update().catch(() => {});
@@ -54,10 +60,12 @@ export const PWAUpdatePrompt = () => {
     // Recharger dans ce cas faisait charger la page DEUX FOIS à chaque première
     // ouverture — la cause principale de la lenteur au démarrage. On ne recharge
     // donc que s'il y avait déjà un worker aux commandes (vraie mise à jour).
-    const avaitUnControleur = !!navigator.serviceWorker.controller;
+    let avaitUnControleur = !!navigator.serviceWorker.controller;
     let refreshing = false;
     const onControllerChange = () => {
-      if (!avaitUnControleur) return;
+      const doitActualiser = avaitUnControleur;
+      avaitUnControleur = !!navigator.serviceWorker.controller;
+      if (!doitActualiser) return;
       if (!refreshing) {
         refreshing = true;
         window.location.reload();
@@ -67,15 +75,26 @@ export const PWAUpdatePrompt = () => {
 
     // Vérifie une MAJ régulièrement ET quand l'app revient au premier plan
     // (essentiel pour une PWA qu'on rouvre depuis l'écran d'accueil).
-    const checkForUpdate = () => registration?.update().catch(() => {});
-    const interval = setInterval(checkForUpdate, 30 * 1000);
-    const onVisible = () => { if (document.visibilityState === 'visible') checkForUpdate(); };
+    const checkForUpdate = (remindWaiting = false) => {
+      if (!registration) return;
+      if (remindWaiting) promptFor(registration.waiting);
+      registration.update().catch(() => {});
+    };
+    const interval = setInterval(() => checkForUpdate(), 30 * 1000);
+    // « Plus tard » reste possible ; au prochain retour, rappeler une MAJ en attente.
+    const onVisible = () => { if (document.visibilityState === 'visible') checkForUpdate(true); };
+    const onOnline = () => checkForUpdate(true);
     document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('online', onOnline);
 
     return () => {
+      disposed = true;
       clearInterval(interval);
       document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('online', onOnline);
       navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
+      registration?.removeEventListener('updatefound', onUpdateFound);
+      workerListeners.forEach((listener, worker) => worker.removeEventListener('statechange', listener));
     };
   }, []);
 
@@ -149,7 +168,7 @@ export const PWAUpdatePrompt = () => {
                 Mise à jour
               </p>
               <p className="text-[11px] font-semibold" style={{ color: theme.textMuted }}>
-                Une version plus fraîche est prête
+                Les conseils ont pu évoluer
               </p>
             </div>
           </div>
@@ -166,8 +185,8 @@ export const PWAUpdatePrompt = () => {
         {/* Corps */}
         <div className="px-5 pt-4 pb-5">
           <p className="text-sm leading-relaxed mb-5" style={{ color: theme.textSecondary }}>
-            De nouvelles recettes et améliorations vous attendent. Actualisez pour en profiter
-            en un instant.
+            Actualisez pour consulter le statut actuel des conseils et les dernières corrections.
+            Vos flacons et favoris enregistrés sur cet appareil seront conservés.
           </p>
 
           {/* Boutons (CTA principal plus large) */}

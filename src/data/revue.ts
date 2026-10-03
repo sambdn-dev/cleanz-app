@@ -184,38 +184,67 @@ export const REVUE: Record<number, FicheRevue> = {
 
 /**
  *  - publiee   : fiche consultable normalement
- *  - en_attente: fiche P0 conservée en lecture avec un avertissement, sans mise en avant
+ *  - en_attente: fiche P0 ou sans autorisation explicite, sans accès à la préparation
+ *  - suspendue : diffusion arrêtée à la suite d'une nouvelle revue documentaire
  *  - fusionnee : l'ancien identifiant redirige explicitement vers la fiche canonique
  *  - retiree   : la version actuelle n'est plus active ; motif et orientation affichés
  */
-export type StatutRecette = 'publiee' | 'en_attente' | 'fusionnee' | 'retiree';
+export type StatutRecette = 'publiee' | 'en_attente' | 'suspendue' | 'fusionnee' | 'retiree';
+
+/**
+ * Décision de diffusion du 3 octobre 2026, distincte de la validation physique.
+ * Reprend les fiches publiées du registre audité, sauf les quatre nouveaux P0.
+ * Une nouvelle entrée dans REVUE n'est donc jamais publiée automatiquement.
+ * Les entrées générées de REVUE ci-dessus restent l'archive de revue initiale.
+ */
+const PUBLICATIONS_EXPLICITES = new Set([
+  1, 3, 4, 5, 9, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 34, 36, 37, 38, 39,
+  40, 41, 42, 43, 44, 45, 48, 49, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 63,
+  64, 65, 68, 73, 75, 79, 82, 83, 85, 86, 90, 91, 94, 95, 98, 101, 103, 104,
+  105, 106, 108, 109, 110, 111, 113, 114, 119, 123, 127, 128, 130, 133, 134,
+  136, 137, 139, 140, 141, 142, 147, 148, 149,
+]);
+
+/** Suspensions documentaires selon Cleanz_Audit_150_Recettes.csv du 02/10/2026. */
+export const SUSPENSIONS_RECETTES: Readonly<Record<number, string>> = {
+  13: 'La méthode et la compatibilité avec les canalisations doivent être revues.',
+  30: 'Les consignes doivent être revues selon la finition du sol et sa sensibilité à l’humidité.',
+  97: 'Les consignes vapeur et les affirmations concernant les acariens doivent être revues.',
+  107: 'La méthode doit être revue selon les matériaux et finitions du pommeau.',
+};
 
 export const getRevue = (id: number): FicheRevue | undefined => REVUE[id];
 
 export const getStatutRecette = (id: number): StatutRecette => {
   const r = REVUE[id];
-  if (!r) return 'publiee';
+  if (!r) return 'en_attente';
+  if (SUSPENSIONS_RECETTES[id]) return 'suspendue';
   if (r.decision === 'retirer') return 'retiree';
   if (r.decision === 'fusionner') return 'fusionnee';
   if (r.priorite === 'P0') return 'en_attente';
-  return 'publiee';
+  return PUBLICATIONS_EXPLICITES.has(id) ? 'publiee' : 'en_attente';
 };
 
-/** Identifiant canonique : suit les fusions (chaîne bornée pour éviter toute boucle). */
-export const resoudreRecetteId = (id: number): number => {
+/** Une fusion n'ouvre que sa destination explicite, publiée et sans cycle. */
+export const resoudreRecetteId = (id: number): number | null => {
+  const visites = new Set<number>();
   let courant = id;
-  for (let i = 0; i < 5; i++) {
+  while (!visites.has(courant)) {
+    visites.add(courant);
+    const statut = getStatutRecette(courant);
+    if (statut === 'publiee') return courant;
+    if (statut !== 'fusionnee') return null;
     const r = REVUE[courant];
-    if (r?.decision === 'fusionner' && r.fusionDans) courant = r.fusionDans;
-    else break;
+    if (!Number.isSafeInteger(r?.fusionDans) || r.fusionDans! <= 0) return null;
+    courant = r.fusionDans!;
   }
-  return courant;
+  return null;
 };
 
 /** Une fiche apparaît dans les listes (catalogue, surfaces, recherche, création de flacon) ? */
 export const estListable = (id: number): boolean => {
   const s = getStatutRecette(id);
-  return s === 'publiee' || s === 'en_attente';
+  return s === 'publiee';
 };
 
 /** Une fiche peut être mise en avant (sélections éditoriales, accueil) ? */

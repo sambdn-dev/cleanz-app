@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Heart } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet } from '@/types';
+import { getPublishedRecipes } from '@/data/publication';
 import { EcoScore } from '@/components/ui/EcoScore';
 import { HeartBurst } from '@/components/ui/HeartBurst';
 import { haptic } from '@/utils/haptics';
@@ -25,6 +26,7 @@ export const IngredientCard = ({
 }: IngredientCardProps) => {
   const { theme, darkMode } = useTheme();
   const [burst, setBurst] = useState(0);
+  const recipeCount = getPublishedRecipes(ingredient.recettesIds).length;
 
   const cardBg = darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.9)';
   const cardBorder = darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
@@ -128,7 +130,7 @@ export const IngredientCard = ({
         <div className="flex flex-col items-end gap-2 flex-shrink-0">
           <FavButton size="md" />
           <span className="text-[11px] whitespace-nowrap" style={{ color: theme.textMuted }}>
-            {ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}
+            {recipeCount} recette{recipeCount > 1 ? 's' : ''}
           </span>
         </div>
       </div>
@@ -206,7 +208,7 @@ export const IngredientCard = ({
 
       {/* Recettes */}
       <div className="text-xs" style={{ color: theme.textMuted }}>
-        {ingredient.recettesIds.length} recette{ingredient.recettesIds.length > 1 ? 's' : ''}
+        {recipeCount} recette{recipeCount > 1 ? 's' : ''}
       </div>
     </div>
   );

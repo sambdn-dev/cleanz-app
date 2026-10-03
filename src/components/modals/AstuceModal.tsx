@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { Astuce } from '@/types';
+import { ASTUCES_DU_JOUR, ASTUCE_RECETTE_IDS } from '@/data/astuces';
+import { RecipeModal } from '@/components/modals/RecipeModal';
 import { Star, Heart, Share2, MessageCircle } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Steps, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
@@ -17,6 +19,32 @@ interface AstuceModalProps {
 }
 
 export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
+  const { theme } = useTheme();
+  const recipeId = ASTUCE_RECETTE_IDS[astuce.id];
+  if (typeof recipeId === 'number') {
+    return <RecipeModal recipeId={recipeId} onClose={onClose} />;
+  }
+
+  // Seul le conseil mécanique identifié peut exposer des étapes hors catalogue.
+  // On relit la donnée actuelle : un objet ancien ne réintroduit pas sa formule.
+  const conseilMecanique = astuce.id === 7 ? ASTUCES_DU_JOUR.find(({ id }) => id === 7) : undefined;
+  if (conseilMecanique) return <ConseilMecaniqueModal astuce={conseilMecanique} onClose={onClose} />;
+
+  return (
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      headerContent={<h2 className="font-display text-xl font-extrabold text-white">Astuce indisponible</h2>}
+    >
+      <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+        Cette ancienne astuce ne dispose pas de fiche de référence adaptée au matériau.
+        Ses ingrédients et instructions ne sont plus proposés. Votre lien est conservé.
+      </p>
+    </Modal>
+  );
+};
+
+const ConseilMecaniqueModal = ({ astuce, onClose }: AstuceModalProps) => {
   const { theme, darkMode } = useTheme();
   const useDarkHeaderText = shouldUseDarkText(astuce.gradient);
   const { isFavorite, toggleFavorite, getRating, setRating } = useRecipeInteractionsContext();
@@ -100,7 +128,7 @@ export const AstuceModal = ({ astuce, onClose }: AstuceModalProps) => {
 
       {/* Ingrédients */}
       <div className="mb-6">
-        <SectionTitle accent={ACCENT.sage}>Ingrédients nécessaires</SectionTitle>
+        <SectionTitle accent={ACCENT.sage}>Matériel nécessaire</SectionTitle>
         <div className="flex flex-wrap gap-2">
           {astuce.ingredients.map((ing, index) => (
             <Chip key={index} tone="sage">{ing}</Chip>

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Cleanz — aperçu iPhone</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; overflow: hidden; scrollbar-width: none; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    body { font-family: system-ui, sans-serif; color: #fff; background: #171123; }
+    main { height: 100dvh; display: grid; grid-template-columns: 310px 1fr; }
+    aside { padding: 32px 28px; align-self: center; max-height: 100dvh; overflow-y: auto; scrollbar-width: none; }
+    .brand { color: #f0abfc; font-weight: 750; letter-spacing: .04em; font-size: 13px; }
+    h1 { font-size: 30px; line-height: 1.2; margin: 18px 0 12px; }
+    p { color: #c9bed7; line-height: 1.55; font-size: 13px; }
+    label { display: block; margin-top: 20px; font-size: 12px; color: #c9bed7; }
+    select, button, .open, input { font: inherit; border-radius: 12px; padding: 11px 12px; }
+    select, input { width: 100%; margin: 8px 0 10px; color: #fff; background: #2a203b; border: 1px solid #554566; }
+    select { font-size: 14px; }
+    button { width: 100%; background: #df9bea; color: #21152b; border: 0; cursor: pointer; font-weight: 650; font-size: 14px; }
+    .open { display: block; text-align: center; color: #f0abfc; margin-top: 8px; font-size: 13px; }
+    :focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+    .note { font-size: 11px; margin-top: 18px; }
+    .details { margin: 0 0 16px; font-size: 12px; }
+    .dimensions { color: #efcff7; font-variant-numeric: tabular-nums; }
+    .badge { display: inline-block; margin: 4px 0 8px; padding: 4px 8px; border: 1px solid #716035; border-radius: 8px; color: #ffe1a3; font-size: 11px; }
+    .custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .custom label { margin-top: 0; }
+    [hidden] { display: none !important; }
+    .stage { min-width: 0; height: 100dvh; overflow: hidden; display: grid; place-items: center; background: radial-gradient(ellipse, #352346, #171123 75%); }
+    .space { position: relative; }
+    .phone { position: relative; transform-origin: top left; background: #100d16; padding: 9px; border-radius: 62px; box-shadow: 0 0 0 1px #94849f, 0 0 0 4px #241d30, 0 28px 90px #0008; }
+    .screen { position: relative; overflow: hidden; border-radius: 53px; isolation: isolate; background: #fff0f5; --ink: #21152b; }
+    iframe { display: block; border: 0; background: #fff0f5; }
+    .status { position: absolute; inset: 0 0 auto; height: 62px; z-index: 2; pointer-events: none; color: var(--ink); }
+    .clock { position: absolute; top: 21px; left: 33px; font-size: 16px; line-height: 20px; font-weight: 650; letter-spacing: -.5px; }
+    .indicators { position: absolute; right: 28px; top: 23px; display: flex; align-items: center; gap: 6px; }
+    .indicators svg { display: block; }
+    .island { position: absolute; width: 126px; height: 37px; left: 50%; top: 11px; transform: translateX(-50%); border-radius: 24px; background: #030305; box-shadow: inset 0 0 0 1px #121217; }
+    .lens { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, #132951 0, #071123 35%, #020206 70%); box-shadow: inset 0 0 0 2px #08090e; }
+    .home-area { position: absolute; bottom: 0; left: 0; right: 0; height: 25px; z-index: 2; pointer-events: none; background: linear-gradient(transparent, var(--home-bg, #ffe5f1)); }
+    .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 5px; background: var(--ink); }
+    .hardware { position: absolute; background: #6c5e76; width: 3px; border-radius: 3px; pointer-events: none; }
+    .action { left: -5px; top: 106px; height: 25px; }
+    .volume-up { left: -5px; top: 157px; height: 48px; }
+    .volume-down { left: -5px; top: 218px; height: 48px; }
+    .power { right: -5px; top: 183px; height: 75px; }
+    .error { position: absolute; z-index: 4; inset: 80px 20px auto; padding: 20px; border-radius: 16px; background: #291c3c; color: #fff; font-size: 14px; line-height: 1.5; }
+    @media (max-width: 740px) {
+      main { grid-template-columns: 1fr; grid-template-rows: auto minmax(0,1fr); }
+      aside { padding: 12px 16px; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 0 12px; }
+      .brand, h1, .intro, .note, .open, aside > label { display: none; }
+      select { grid-column: 1; margin: 0; }
+      button { grid-column: 2; grid-row: 1; width: auto; }
+      .details { margin: 8px 0 0; grid-column: 1 / -1; }
+      .custom { grid-column: 1 / -1; }
+      .stage { height: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <aside>
+      <div class="brand">CLEANZ</div>
+      <h1>Cleanz sur iPhone</h1>
+      <p class="intro">Explore la vraie app, avec les contours et les zones réservées de l’écran.</p>
+      <label for="model">Modèle d’iPhone</label>
+      <select id="model" aria-label="Modèle d’iPhone">
+        <optgroup label="iPhone 16">
+          <option value="16">iPhone 16</option>
+          <option value="16-plus">iPhone 16 Plus</option>
+          <option value="16-pro" selected>iPhone 16 Pro</option>
+          <option value="16-pro-max">iPhone 16 Pro Max</option>
+        </optgroup>
+        <optgroup label="iPhone 17">
+          <option value="17">iPhone 17</option>
+          <option value="17-pro">iPhone 17 Pro</option>
+          <option value="17-pro-max">iPhone 17 Pro Max</option>
+        </optgroup>
+        <optgroup label="Profils exploratoires">
+          <option value="18">iPhone 18 · à confirmer</option>
+          <option value="duo-closed">iPhone Duo · fermé (concept)</option>
+          <option value="duo-open">iPhone Duo · ouvert (concept)</option>
+        </optgroup>
+      </select>
+      <div class="details" aria-live="polite">
+        <div id="dimensions" class="dimensions"></div>
+        <span id="badge" class="badge" hidden>Profil exploratoire</span>
+        <p id="profile-note"></p>
+      </div>
+      <div id="custom" class="custom" hidden>
+        <label for="width">Largeur (px)<input id="width" type="number" min="320" max="1200" step="1" value="402"></label>
+        <label for="height">Hauteur (px)<input id="height" type="number" min="640" max="1600" step="1" value="874"></label>
+      </div>
+      <button id="reload" type="button">Recharger l’app</button>
+      <a class="open" href="/" target="_blank" rel="noopener">Ouvrir l’app</a>
+      <p class="note">Aperçu plein écran dans le navigateur de ton ordinateur. Pour tester Safari/iOS, utilise le Simulateur d’Apple avec Xcode.</p>
+    </aside>
+    <section class="stage" aria-label="Aperçu de Cleanz">
+      <div class="space">
+        <div class="phone">
+          <i class="hardware action" aria-hidden="true"></i>
+          <i class="hardware volume-up" aria-hidden="true"></i>
+          <i class="hardware volume-down" aria-hidden="true"></i>
+          <i class="hardware power" aria-hidden="true"></i>
+          <div class="screen">
+            <iframe src="/" title="Cleanz — écran iPhone" allow="geolocation; clipboard-write"></iframe>
+            <div class="status" aria-hidden="true">
+              <span class="clock">9:41</span>
+              <span class="island"><span class="lens"></span></span>
+              <span class="indicators">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect y="8" width="3" height="4" rx="1"/><rect x="4" y="6" width="3" height="6" rx="1"/><rect x="8" y="3" width="3" height="9" rx="1"/><rect x="12" width="3" height="12" rx="1"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 3a11 11 0 0 1 14 0M4 6a6 6 0 0 1 8 0M7 9a1.5 1.5 0 0 1 2 0"/></svg>
+                <svg width="27" height="13" viewBox="0 0 27 13" fill="currentColor"><rect x=".5" y=".5" width="23" height="12" rx="3" fill="none" stroke="currentColor" opacity=".55"/><rect x="2.5" y="2.5" width="19" height="8" rx="1.5"/><path d="M25 4v5a2.5 2.5 0 0 0 0-5" opacity=".55"/></svg>
+              </span>
+            </div>
+            <div class="home-area" aria-hidden="true"><span class="home-indicator"></span></div>
+            <div id="error" class="error" role="alert" hidden>Ouvre cet aperçu depuis le lanceur Cleanz sur ton ordinateur. L’application a besoin de son serveur local.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module">
+    // Dimensions plein écran CSS des profils Playwright 1.62.1, et non viewport Safari avec ses barres.
+    const profiles = {
+      '16': { width: 393, height: 852 },
+      '16-plus': { width: 430, height: 932 },
+      '16-pro': { width: 402, height: 874 },
+      '16-pro-max': { width: 440, height: 956 },
+      '17': { width: 402, height: 874 },
+      '17-pro': { width: 402, height: 874 },
+      '17-pro-max': { width: 440, height: 956 },
+      '18': { width: 402, height: 874, exploratory: true },
+      'duo-closed': { width: 402, height: 874, exploratory: true },
+      'duo-open': { width: 768, height: 1024, exploratory: true },
+    };
+    const model = document.querySelector('#model');
+    try {
+      const savedModel = sessionStorage.getItem('cleanz-preview-model');
+      if (profiles[savedModel]) model.value = savedModel;
+    } catch { /* L'aperçu reste utilisable sans stockage. */ }
+    const stage = document.querySelector('.stage');
+    const space = document.querySelector('.space');
+    const phone = document.querySelector('.phone');
+    const screen = document.querySelector('.screen');
+    const app = document.querySelector('iframe');
+    const widthInput = document.querySelector('#width');
+    const heightInput = document.querySelector('#height');
+    const error = document.querySelector('#error');
+    let dimensions = profiles[model.value];
+    let observer;
+    let themeObserver;
+    const safeArea = value => value.replace(/env\(safe-area-inset-(top|bottom)(?:\s*,\s*[^)]*)?\)/g, (_, edge) => `var(--preview-safe-${edge}, 0px)`);
+
+    function fit() {
+      const { width, height } = dimensions;
+      const outerWidth = width + 18;
+      const outerHeight = height + 18;
+      const scale = Math.max(.1, Math.min(1, (stage.clientWidth - 56) / outerWidth, (stage.clientHeight - 48) / outerHeight));
+      app.width = width;
+      app.height = height;
+      phone.style.width = `${outerWidth}px`;
+      phone.style.height = `${outerHeight}px`;
+      phone.style.transform = `scale(${scale})`;
+      space.style.width = `${outerWidth * scale}px`;
+      space.style.height = `${outerHeight * scale}px`;
+      document.querySelector('#dimensions').textContent = `${width} × ${height} · plein écran`;
+    }
+    function selectProfile() {
+      try { sessionStorage.setItem('cleanz-preview-model', model.value); } catch { /* Stockage facultatif. */ }
+      dimensions = { ...profiles[model.value] };
+      const exploratory = Boolean(dimensions.exploratory);
+      if (exploratory) {
+        try {
+          const saved = JSON.parse(sessionStorage.getItem(`cleanz-preview-size-${model.value}`));
+          if (Number.isInteger(saved?.width) && saved.width >= 320 && saved.width <= 1200 &&
+              Number.isInteger(saved?.height) && saved.height >= 640 && saved.height <= 1600) {
+            dimensions = { ...dimensions, ...saved };
+          }
+        } catch { /* Dimensions par défaut si aucun réglage valide n'existe. */ }
+      }
+      document.querySelector('#badge').hidden = !exploratory;
+      document.querySelector('#custom').hidden = !exploratory;
+      document.querySelector('#profile-note').textContent = exploratory
+        ? 'Dimensions à confirmer. Ce profil permet d’explorer le responsive ; il ne décrit pas un appareil officiel.'
+        : 'Dynamic Island · zones réservées en haut et en bas.';
+      widthInput.value = dimensions.width;
+      heightInput.value = dimensions.height;
+      fit();
+    }
+    function patchInline(element) {
+      const original = element.getAttribute('style');
+      if (original && original.includes('env(safe-area-inset-')) element.setAttribute('style', safeArea(original));
+    }
+    function patchTree(element) {
+      if (!(element instanceof app.contentWindow.Element)) return;
+      patchInline(element);
+      element.querySelectorAll('[style]').forEach(patchInline);
+    }
+    function patchRules(rules) {
+      for (const rule of rules) {
+        if (rule.style && rule.style.cssText.includes('env(safe-area-inset-')) rule.style.cssText = safeArea(rule.style.cssText);
+        if (rule.cssRules) patchRules(rule.cssRules);
+      }
+    }
+    function prepareApp() {
+      observer?.disconnect();
+      themeObserver?.disconnect();
+      try {
+        const doc = app.contentDocument;
+        if (!doc?.body || app.contentWindow.location.origin !== location.origin) throw new Error('App inaccessible');
+        error.hidden = true;
+        const style = doc.createElement('style');
+        style.id = 'cleanz-iphone-preview';
+        style.textContent = `:root { --preview-safe-top: 62px; --preview-safe-bottom: 34px; }
+          html, body, * { scrollbar-width: none !important; }
+          *::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }`;
+        doc.head.append(style);
+        for (const sheet of doc.styleSheets) {
+          try { patchRules(sheet.cssRules); } catch { /* Les polices externes ne sont pas modifiées. */ }
+        }
+        patchTree(doc.documentElement);
+        const updateTheme = () => {
+          const dark = doc.documentElement.classList.contains('dark');
+          screen.style.setProperty('--ink', dark ? '#fff' : '#21152b');
+          screen.style.setProperty('--home-bg', dark ? '#1e1038' : '#ffe5f1');
+        };
+        updateTheme();
+        observer = new MutationObserver(changes => {
+          for (const change of changes) {
+            if (change.type === 'attributes') patchInline(change.target);
+            else change.addedNodes.forEach(patchTree);
+          }
+        });
+        observer.observe(doc.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['style'] });
+        themeObserver = new MutationObserver(updateTheme);
+        themeObserver.observe(doc.documentElement, { attributes: true, attributeFilter: ['class'] });
+      } catch { error.hidden = false; }
+    }
+    app.addEventListener('load', prepareApp);
+    if (app.contentDocument?.readyState === 'complete') prepareApp();
+    new ResizeObserver(fit).observe(stage);
+    model.addEventListener('change', selectProfile);
+    [widthInput, heightInput].forEach(input => input.addEventListener('input', () => {
+      if (!widthInput.checkValidity() || !heightInput.checkValidity() || !widthInput.value || !heightInput.value) return;
+      dimensions = { ...dimensions, width: Number(widthInput.value), height: Number(heightInput.value) };
+      try { sessionStorage.setItem(`cleanz-preview-size-${model.value}`, JSON.stringify(dimensions)); } catch { /* Stockage facultatif. */ }
+      fit();
+    }));
+    document.querySelector('#reload').addEventListener('click', () => {
+      try { app.contentWindow.location.reload(); } catch { error.hidden = false; }
+    });
+    if (location.protocol === 'file:') error.hidden = false;
+    selectProfile();
+    // Le lanceur fournit la révision de son dernier build réussi, sur la même origine.
+    // Un changement recharge le cadre ; les flacons/favoris du navigateur sont conservés.
+    let version;
+    let checking = false;
+    async function checkVersion() {
+      if (checking || document.hidden || location.protocol === 'file:') return;
+      checking = true;
+      try {
+        const response = await fetch('/preview-version.json', { cache: 'no-store' });
+        if (!response.ok) return;
+        const next = (await response.json()).version;
+        if (typeof next !== 'string' || !next) return;
+        if (version && version !== next) location.reload();
+        else version = next;
+      } catch { /* Une interruption réseau ne ferme pas l'aperçu ouvert. */ }
+      finally { checking = false; }
+    }
+    void checkVersion();
+    setInterval(checkVersion, 3000);
+    document.addEventListener('visibilitychange', checkVersion);
+  </script>
+</body>
+</html>

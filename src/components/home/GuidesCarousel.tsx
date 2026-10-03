@@ -76,7 +76,7 @@ export const GuidesCarousel = ({ heatActive = false }: GuidesCarouselProps) => {
       emoji: '🏊',
       kicker: 'Extérieur',
       titre: 'Piscine & Spa',
-      description: "Eau claire toute la saison : pH, filtration, ligne d'eau, SOS eau verte.",
+      description: "Entretien mécanique, repères et statut des fiches piscine et spa.",
       gradient: 'linear-gradient(135deg, #22D3EE 0%, #0891B2 100%)',
       image: '/images/scenes/guide-piscine.jpg',
     },

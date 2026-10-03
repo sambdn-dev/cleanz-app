@@ -2,11 +2,11 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { SectionTitle } from '@/components/ui/SectionTitle';
-import { ASTUCES_DU_JOUR } from '@/data/astuces';
+import { getPublishedAstuces } from '@/data/astuces';
 import { Astuce } from '@/types';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 import { haptic } from '@/utils/haptics';
-import { Star, Clock, ChevronRight } from 'lucide-react';
+import { Clock, ChevronRight } from 'lucide-react';
 
 interface AstucesSectionProps {
   onAstuceClick: (astuce: Astuce) => void;
@@ -46,14 +46,6 @@ const AstuceCard = ({ astuce, onClick }: { astuce: Astuce; onClick: () => void }
             aria-hidden
           >
             {astuce.emoji}
-          </span>
-          {/* Note */}
-          <span
-            className="flex items-center gap-1 px-2 py-1 rounded-full"
-            style={{ background: chipBg, backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
-          >
-            <Star className="w-3 h-3" style={{ color: darkText ? '#B45309' : '#FDE047', fill: darkText ? '#B45309' : '#FDE047' }} />
-            <span className="text-[11px] font-bold" style={{ color: headText }}>{astuce.note}</span>
           </span>
         </div>
       </div>
@@ -104,14 +96,15 @@ const AstuceCard = ({ astuce, onClick }: { astuce: Astuce; onClick: () => void }
 };
 
 export const AstucesSection = ({ onAstuceClick }: AstucesSectionProps) => {
+  const astuces = getPublishedAstuces();
   return (
     <div className="mb-5">
-      <SectionTitle badge="Recettes express">
+      <SectionTitle badge="À découvrir">
         <span className="text-base mr-2">✨</span>Astuces du jour
       </SectionTitle>
 
       <div className="flex gap-3 overflow-x-auto scrollbar-hide edge-fade-x -mx-4 px-4 pt-1 pb-3 snap-x snap-mandatory">
-        {ASTUCES_DU_JOUR.map((astuce) => (
+        {astuces.map((astuce) => (
           <div key={astuce.id} className="snap-start">
             <AstuceCard astuce={astuce} onClick={() => onAstuceClick(astuce)} />
           </div>

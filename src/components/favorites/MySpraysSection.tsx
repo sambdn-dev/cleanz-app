@@ -5,33 +5,27 @@ import { createPortal } from 'react-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useUserSprays } from '@/contexts/UserSpraysContext';
 import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
-import { RECETTES } from '@/data/recettes';
-import { estListable } from '@/data/revue';
-import { UserSpray, Spray, RecetteComplete } from '@/types';
+import { getPublishedRecipes, getRecipeAccess } from '@/data/publication';
+import type { UserSpray } from '@/types';
 import { QRCode, generateQRDataUrl } from '@/components/ui/QRCode';
-import { buildFicheUrl, getDaysUntilExpiry, parseConservationToDays } from '@/utils/sprayUtils';
+import { buildFicheUrl, getHistoricalExpiryLabel, escapeLabelHtml } from '@/utils/sprayUtils';
 import { Confetti } from '@/components/ui/Confetti';
 import { haptic } from '@/utils/haptics';
-import { Plus, Trash2, Calendar, AlertTriangle, QrCode, Check, Printer, X } from 'lucide-react';
+import { Plus, Trash2, Calendar, QrCode, Check, Printer, X, Download } from 'lucide-react';
 
 interface MySpraysSectionProps {
-  onSprayClick: (spray: Spray) => void;
-  onRecipeClick: (recipe: RecetteComplete) => void;
+  onRecipeReference: (reference: { id: number; type: 'spray' | 'recette' }) => void;
 }
 
-export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSectionProps) => {
+export const MySpraysSection = ({ onRecipeReference }: MySpraysSectionProps) => {
   const { theme, darkMode } = useTheme();
-  const { sprays, addSpray, removeSpray, getNextNumber } = useUserSprays();
+  const { sprays, addSpray, removeSpray, getNextNumber, isLoaded, canWrite, storageError, storageWarning, recoveryData } = useUserSprays();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedRecipeId, setSelectedRecipeId] = useState<number | null>(null);
   const [selectedType, setSelectedType] = useState<'spray' | 'recette'>('spray');
   const [customName, setCustomName] = useState('');
   const [showQR, setShowQR] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-
-  // Pour le portal (évite le SSR mismatch)
-  useEffect(() => setMounted(true), []);
 
   // Bloque le scroll de fond quand la modale est ouverte
   useEffect(() => {
@@ -41,15 +35,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
     }
   }, [showAddModal]);
 
-  // Récupère la recette source d'un flacon
-  const getRecipeInfo = (userSpray: UserSpray): Spray | RecetteComplete | undefined => {
-    if (userSpray.recipeType === 'spray') {
-      return SPRAYS_INDISPENSABLES.find(s => s.id === userSpray.recipeId);
-    }
-    return RECETTES.find(r => r.id === userSpray.recipeId);
-  };
-
-  const currentList = selectedType === 'spray' ? SPRAYS_INDISPENSABLES : RECETTES.filter((r) => estListable(r.id));
+  const currentList = selectedType === 'spray' ? SPRAYS_INDISPENSABLES : getPublishedRecipes();
   const selectedRecipe = currentList.find(r => r.id === selectedRecipeId);
 
   const openAddModal = () => {
@@ -68,7 +54,8 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
   const handleAdd = () => {
     if (!selectedRecipe) return;
     const name = customName.trim() || selectedRecipe.nom;
-    const newSpray = addSpray(selectedRecipe.id, selectedType, name, selectedRecipe.conservation);
+    const newSpray = addSpray(selectedRecipe.id, selectedType, name);
+    if (!newSpray) return;
     setShowAddModal(false);
     setSelectedRecipeId(null);
     setCustomName('');
@@ -80,10 +67,17 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
   };
 
   const handleSprayCardClick = (userSpray: UserSpray) => {
-    const recipe = getRecipeInfo(userSpray);
-    if (!recipe) return;
-    if (userSpray.recipeType === 'spray') onSprayClick(recipe as Spray);
-    else onRecipeClick(recipe as RecetteComplete);
+    onRecipeReference({ id: userSpray.recipeId, type: userSpray.recipeType });
+  };
+
+  const downloadRecovery = () => {
+    if (recoveryData === null) return;
+    const url = URL.createObjectURL(new Blob([recoveryData], { type: 'application/json' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'cleanz-flacons-recuperation.json';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const getQRUrl = (userSpray: UserSpray) => {
@@ -93,11 +87,13 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
 
   // Impression d'une étiquette autocollante pour le flacon
   const handlePrint = async (userSpray: UserSpray) => {
-    const recipe = getRecipeInfo(userSpray);
-    if (!recipe) return;
+    const access = getRecipeAccess(userSpray.recipeId, userSpray.recipeType);
+    const status = access.available
+      ? (access.redirected ? `Fiche fusionnée — destination actuelle : ${access.recipe.nom}` : 'Fiche actuelle publiée')
+      : access.message;
     const url = getQRUrl(userSpray);
     const qr = await generateQRDataUrl(url, '#2D1F3D', '#FFFFFF');
-    const expiry = userSpray.expiresAt ? new Date(userSpray.expiresAt).toLocaleDateString('fr-FR') : null;
+    const expiry = getHistoricalExpiryLabel(userSpray.expiresAt);
     const win = window.open('', '_blank');
     if (!win) return;
     win.document.write(`
@@ -128,10 +124,12 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         <div class="label">
           <div class="brand">🧴 CLEANZ</div>
           <div class="num">#${userSpray.number}</div>
-          <div class="name">${userSpray.name}</div>
-          <div class="meta">${expiry ? `À utiliser avant le ${expiry}` : 'Validité non confirmée — préparer la quantité utile'}</div>
+          <div class="name">${escapeLabelHtml(userSpray.name)}</div>
+          <div class="meta">${escapeLabelHtml(expiry)}</div>
+          <div class="meta">${escapeLabelHtml(status)}</div>
+          <div class="meta">Composition historique non enregistrée. La fiche actuelle ne permet pas d’identifier le contenu de ce flacon.</div>
           <div class="qr"><img src="${qr}" alt="QR"/></div>
-          <div class="scan">Scannez pour voir la recette</div>
+          <div class="scan">Scannez pour consulter le statut et la fiche actuelle</div>
         </div>
       </body></html>
     `);
@@ -156,6 +154,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         </div>
         <button
           onClick={openAddModal}
+          disabled={!isLoaded || !canWrite}
           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all active:scale-95"
           style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)', color: 'white', boxShadow: '0 4px 12px rgba(20,184,166,0.3)' }}
         >
@@ -163,11 +162,27 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         </button>
       </div>
       <p className="text-xs mb-4" style={{ color: theme.textMuted }}>
-        Numérotez vos flacons et collez le QR code pour ne plus jamais les confondre.
+        Conservez le nom et le numéro de vos flacons. Le QR ouvre le statut actuel de leur fiche.
       </p>
 
+      {(storageError || storageWarning) && (
+        <div className="mb-4 rounded-xl p-3 text-xs" style={{ background: 'rgba(245,158,11,0.12)', color: theme.textPrimary }}>
+          {storageError && <p role="alert">{storageError}</p>}
+          {storageWarning && <p role="status">{storageWarning}</p>}
+          {recoveryData !== null && (
+            <button onClick={downloadRecovery} className="mt-2 inline-flex items-center gap-1.5 font-semibold underline">
+              <Download className="h-3.5 w-3.5" /> Télécharger une copie des données
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Empty state */}
-      {sprays.length === 0 ? (
+      {!isLoaded ? (
+        <p role="status" className="py-4 text-sm" style={{ color: theme.textMuted }}>Chargement des flacons…</p>
+      ) : sprays.length === 0 && !canWrite ? (
+        <p className="py-4 text-sm" style={{ color: theme.textMuted }}>Vos données restent conservées dans ce navigateur.</p>
+      ) : sprays.length === 0 ? (
         <div
           className="p-6 rounded-2xl text-center"
           style={{ background: darkMode ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.6)', border: `1px dashed ${darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'}` }}
@@ -179,6 +194,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
           </p>
           <button
             onClick={openAddModal}
+            disabled={!canWrite}
             className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold"
             style={{ background: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)', color: 'white' }}
           >
@@ -187,51 +203,47 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
         </div>
       ) : (
         <div className="space-y-3">
-          {sprays.map((userSpray) => {
-            const recipe = getRecipeInfo(userSpray);
-            if (!recipe) return null;
-            // Validité : recalculée depuis la conservation ACTUELLE de la recette.
-            // Une méthode immédiate ou sans durée documentée n'a pas de date
-            // calculée ; un ancien flacon dans ce cas est signalé, pas daté.
-            const validiteConfirmee = parseConservationToDays(recipe.conservation) !== null && !!userSpray.expiresAt;
-            const daysLeft = validiteConfirmee ? getDaysUntilExpiry(userSpray.expiresAt as string) : null;
-            const isExpired = daysLeft !== null && daysLeft <= 0;
-            const isExpiringSoon = daysLeft !== null && daysLeft > 0 && daysLeft <= 7;
-            const nameDiffers = userSpray.name !== recipe.nom;
+          {sprays.map((userSpray, index) => {
+            const access = getRecipeAccess(userSpray.recipeId, userSpray.recipeType);
+            // The source summary describes the reference, never the bottle's physical contents.
+            const source = access.requested;
+            const status = access.available
+              ? (access.redirected ? 'Fiche fusionnée — destination publiée' : 'Fiche actuelle publiée')
+              : access.message;
 
             return (
               <div
-                key={userSpray.id}
+                key={`${userSpray.id}-${index}`}
                 className="rounded-2xl overflow-hidden"
-                style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)', border: `1px solid ${isExpired ? 'rgba(239,68,68,0.35)' : isExpiringSoon ? 'rgba(245,158,11,0.35)' : (darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)')}` }}
+                style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'}` }}
               >
                 <div className="p-4 flex gap-3">
                   {/* Number badge */}
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: recipe.gradient }}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: source?.gradient ?? 'linear-gradient(135deg, #64748B, #475569)' }}>
                     <span className="text-white font-black text-lg">#{userSpray.number}</span>
                   </div>
 
                   {/* Info (clickable -> recipe) */}
                   <button className="flex-1 min-w-0 text-left" onClick={() => handleSprayCardClick(userSpray)}>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">{recipe.emoji}</span>
+                      <span className="text-lg">{source?.emoji ?? '🧴'}</span>
                       <h3 className="font-bold text-sm truncate" style={{ color: theme.textPrimary }}>{userSpray.name}</h3>
                     </div>
-                    {nameDiffers && (
-                      <p className="text-[10px] truncate" style={{ color: theme.textMuted }}>d'après « {recipe.nom} »</p>
+                    <p className="text-[11px] mt-1" style={{ color: access.available ? theme.textSecondary : '#D97706' }}>{status}</p>
+                    {access.available && access.redirected && (
+                      <p className="text-[11px] mt-1" style={{ color: theme.textMuted }}>Fiche actuelle : « {access.recipe.nom} ».</p>
                     )}
+                    <p className="text-[11px] mt-1" style={{ color: theme.textMuted }}>Composition historique non enregistrée. La fiche actuelle ne permet pas d’identifier le contenu de ce flacon.</p>
                     <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" style={{ color: theme.textMuted }} />
                         <span className="text-[10px]" style={{ color: theme.textMuted }}>{new Date(userSpray.createdAt).toLocaleDateString('fr-FR')}</span>
                       </div>
-                      <div
-                        className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium"
-                        style={{ background: isExpired ? 'rgba(239,68,68,0.15)' : (isExpiringSoon || daysLeft === null) ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)', color: isExpired ? '#EF4444' : (isExpiringSoon || daysLeft === null) ? '#F59E0B' : '#22C55E' }}
-                      >
-                        {isExpired ? (<><AlertTriangle className="w-3 h-3" /> Périmé</>) : daysLeft === null ? (<>Validité non confirmée</>) : (<>{daysLeft}j restants</>)}
-                      </div>
+                      <span className="text-[10px]" style={{ color: theme.textSecondary }}>
+                        {getHistoricalExpiryLabel(userSpray.expiresAt)}
+                      </span>
                     </div>
+                    <p className="mt-2 text-[11px] font-semibold underline" style={{ color: theme.textSecondary }}>Voir le statut et la fiche actuelle</p>
                   </button>
 
                   {/* Actions */}
@@ -246,7 +258,8 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
                     </button>
                     <button
                       onClick={() => removeSpray(userSpray.id)}
-                      aria-label="Supprimer"
+                      disabled={!canWrite}
+                      aria-label={`Supprimer le flacon ${userSpray.number}`}
                       className="w-9 h-9 rounded-xl flex items-center justify-center transition-all active:scale-90"
                       style={{ background: darkMode ? 'rgba(239,68,68,0.15)' : 'rgba(239,68,68,0.1)' }}
                     >
@@ -263,14 +276,14 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
                     </div>
                     <p className="text-[11px] text-center" style={{ color: theme.textMuted }}>
                       Collez ce QR sur le flacon <span className="font-bold">#{userSpray.number}</span>.<br />
-                      Scannez-le avec l'appareil photo pour rouvrir la recette.
+                      Scannez-le pour consulter le statut et la fiche actuelle. Ce lien ne permet pas d’identifier la composition du flacon.
                     </p>
                     <button
                       onClick={() => handlePrint(userSpray)}
                       className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
                       style={{ background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', color: theme.textPrimary }}
                     >
-                      <Printer className="w-4 h-4" /> Imprimer l'étiquette
+                      <Printer className="w-4 h-4" /> Imprimer l’étiquette
                     </button>
                   </div>
                 )}
@@ -281,7 +294,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
       )}
 
       {/* Add Modal — rendu via portal pour passer AU-DESSUS de la nav pill */}
-      {showAddModal && mounted && createPortal(
+      {showAddModal && createPortal(
         <div className="fixed inset-0 z-[200] flex items-end justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
           <div
@@ -332,7 +345,7 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm truncate" style={{ color: theme.textPrimary }}>{recipe.nom}</p>
-                    <p className="text-[10px]" style={{ color: theme.textMuted }}>Conservation : {recipe.conservation}</p>
+                    <p className="text-[10px]" style={{ color: theme.textMuted }}>Durée de conservation non validée</p>
                   </div>
                   {selectedRecipeId === recipe.id && <Check className="w-5 h-5 text-teal-500 flex-shrink-0" />}
                 </button>
@@ -355,10 +368,12 @@ export const MySpraysSection = ({ onSprayClick, onRecipeClick }: MySpraysSection
               </div>
             )}
 
+            <p className="mb-3 text-xs" style={{ color: theme.textMuted }}>La publication d’une fiche ne valide ni son efficacité ni sa conservation. Aucune date de validité ne sera calculée.</p>
+            {storageError && <p role="alert" className="mb-3 text-sm" style={{ color: theme.textPrimary }}>{storageError}</p>}
             {/* Confirm */}
             <button
               onClick={handleAdd}
-              disabled={!selectedRecipe}
+              disabled={!selectedRecipe || !canWrite}
               className="w-full py-3.5 rounded-xl text-sm font-bold transition-all disabled:opacity-50"
               style={{ background: selectedRecipe ? 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)' : (darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'), color: selectedRecipe ? 'white' : theme.textMuted }}
             >

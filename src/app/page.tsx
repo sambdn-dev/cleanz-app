@@ -54,28 +54,12 @@ import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
 import { SplashScreen } from '@/components/ui/SplashScreen';
 import { LazySection } from '@/components/ui/LazySection';
 import { LiensPartages } from '@/components/layout/LiensPartages';
+import { PreviewAutoReload } from '@/components/layout/PreviewAutoReload';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { SURFACES, SURFACES_POPULAIRES } from '@/data/surfaces';
-import { SPRAYS_INDISPENSABLES } from '@/data/sprays';
-import { ASTUCES_DU_JOUR } from '@/data/astuces';
-import { parseFicheParam } from '@/utils/sprayUtils';
+import type { ParsedFiche } from '@/utils/sprayUtils';
 import { useHeatAlert } from '@/hooks/useHeatAlert';
 import { Surface, Spray, Ingredient, Electromenager, Astuce, RecetteComplete, IngredientComplet } from '@/types';
-
-// Fonction pour générer un slug à partir du nom
-const generateSlug = (name: string): string => {
-  return name
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // Remove accents
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-};
-
-// Fonction pour trouver une astuce par slug
-const findAstuceBySlug = (slug: string): Astuce | undefined => {
-  return ASTUCES_DU_JOUR.find(a => generateSlug(a.titre) === slug);
-};
 
 function HomePageContent() {
   const { theme, darkMode } = useTheme();
@@ -120,6 +104,14 @@ function HomePageContent() {
   const [selectedAppliance, setSelectedAppliance] = useState<Electromenager | null>(null);
   const [selectedAstuce, setSelectedAstuce] = useState<Astuce | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<RecetteComplete | null>(null);
+  const [selectedReference, setSelectedReference] = useState<ParsedFiche | null>(null);
+
+  const openRecipeReference = (reference: ParsedFiche) => {
+    setSelectedRecipe(null);
+    setSelectedSpray(null);
+    setSelectedAstuce(null);
+    setSelectedReference(reference);
+  };
 
   // Les liens partagés sont traités par <LiensPartages/> (voir le rendu) :
   // il isole `useSearchParams`, qui sinon empêcherait le pré-rendu de l'accueil.
@@ -170,9 +162,9 @@ function HomePageContent() {
       {/* Isolé dans sa propre frontière : `useSearchParams` ne doit pas
           désactiver le pré-rendu de tout l'accueil. */}
       <Suspense fallback={null}>
+        <PreviewAutoReload />
         <LiensPartages
-          onSpray={setSelectedSpray}
-          onRecette={setSelectedRecipe}
+          onRecipeReference={openRecipeReference}
           onAstuce={setSelectedAstuce}
           onMeteoDebug={setMeteoDebug}
         />
@@ -346,7 +338,7 @@ function HomePageContent() {
         {activeNavTab === 'Favoris' && (
           <FavoritesPage
             onRecipeClick={setSelectedRecipe}
-            onSprayClick={setSelectedSpray}
+            onRecipeReference={openRecipeReference}
             onIngredientClick={setSelectedIngredientComplet}
             onExploreRecipes={() => handleNavTabChange('Recettes')}
           />
@@ -376,6 +368,10 @@ function HomePageContent() {
       <PWAUpdatePrompt />
 
       {/* Modals */}
+      {selectedReference && (
+        <RecipeModal recipeId={selectedReference.id} recipeType={selectedReference.type}
+          onClose={() => setSelectedReference(null)} />
+      )}
       {selectedSpray && (
         <SprayModal spray={selectedSpray} onClose={() => setSelectedSpray(null)} />
       )}

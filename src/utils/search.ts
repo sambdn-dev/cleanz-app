@@ -1,6 +1,6 @@
 import { SURFACES } from '@/data/surfaces';
-import { RECETTES, RECETTES_PAR_SURFACE } from '@/data/recettes';
-import { estListable } from '@/data/revue';
+import { RECETTES_PAR_SURFACE } from '@/data/recettes';
+import { getPublishedRecipes } from '@/data/publication';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { SURFACE_ALIASES } from '@/data/searchAliases';
 import { Surface, RecetteComplete, IngredientComplet } from '@/types';
@@ -23,8 +23,6 @@ const scoreHaystack = (q: string, haystacks: string[]): number => {
   return best;
 };
 
-const RECIPE_BY_ID = new Map(RECETTES.map((r) => [r.id, r]));
-
 export interface SurfaceResult { surface: Surface; score: number; recipeCount: number; }
 export interface RecipeResult { recipe: RecetteComplete; score: number; }
 export interface IngredientResult { ingredient: IngredientComplet; score: number; }
@@ -44,30 +42,31 @@ export const searchAll = (raw: string): SearchResults => {
 
   const surfaceResults: SurfaceResult[] = [];
   const recipeScore = new Map<number, number>();
+  const publishedRecipes = getPublishedRecipes();
+  const recipeById = new Map(publishedRecipes.map((r) => [r.id, r]));
 
   // 1) Surfaces (nom + pièce + alias) — propage le score à leurs recettes
   for (const surface of SURFACES) {
     const aliases = SURFACE_ALIASES[surface.id] || [];
     const score = scoreHaystack(q, [surface.nom, surface.piece, ...aliases]);
     if (score > 0) {
-      const recipeIds = (RECETTES_PAR_SURFACE[surface.id] || []).filter(estListable);
-      surfaceResults.push({ surface, score, recipeCount: recipeIds.length });
-      for (const id of recipeIds) {
+      const surfaceRecipes = getPublishedRecipes(RECETTES_PAR_SURFACE[surface.id] || []);
+      surfaceResults.push({ surface, score, recipeCount: surfaceRecipes.length });
+      for (const { id } of surfaceRecipes) {
         recipeScore.set(id, Math.max(recipeScore.get(id) || 0, score - 10));
       }
     }
   }
 
   // 2) Recettes en direct (nom + catégorie + badge + surfaces compatibles)
-  for (const r of RECETTES) {
-    if (!estListable(r.id)) continue; // fiches retirées ou fusionnées : jamais en suggestion
+  for (const r of publishedRecipes) {
     const score = scoreHaystack(q, [r.nom, r.categorie, r.badge || '', ...r.surfaces]);
     if (score > 0) recipeScore.set(r.id, Math.max(recipeScore.get(r.id) || 0, score));
   }
 
   const recipeResults: RecipeResult[] = [];
   for (const [id, score] of recipeScore) {
-    const recipe = RECIPE_BY_ID.get(id);
+    const recipe = recipeById.get(id);
     if (recipe) recipeResults.push({ recipe, score });
   }
 

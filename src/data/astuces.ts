@@ -1,95 +1,94 @@
 import { Astuce } from '@/types';
+import { getRecipeAccess } from '@/data/publication';
+import { slugify } from '@/utils/share';
+
+/**
+ * Raccourcis d'usage vers les fiches du catalogue : leurs anciennes formules
+ * divergentes sont supprimées, pas fusionnées avec les ingrédients du catalogue.
+ * Ces correspondances ne constituent pas une validation des formulations.
+ * Baskets (5) reste sans cible : l'ancienne astuce ne distinguait ni cuir ni toile,
+ * contrairement aux recettes 84 et 108. La raclette (7) est un conseil mécanique.
+ */
+export const ASTUCE_RECETTE_IDS: Readonly<Record<number, number | null>> = {
+  1: 15, // Nettoyage du four.
+  2: 3, // Nettoyage des vitres.
+  3: 34, // Détartrage des WC.
+  4: 49, // Nettoyage du micro-ondes.
+  5: null, // Aucune correspondance suffisamment précise.
+  6: 20, // Nettoyage des joints de carrelage.
+};
+
+// Compatibilité des liens déjà partagés ; ces libellés ne sont plus affichés.
+const ANCIENS_SLUGS: Readonly<Record<string, number>> = {
+  'four-eclatant': 1,
+  'vitres-sans-traces': 2,
+  'wc-etincelants': 3,
+  'micro-ondes-propre': 4,
+  'baskets-blanches': 5,
+  'joints-blanchis': 6,
+  'poils-d-animaux-envoles': 7,
+};
+
+const raccourci = (
+  id: number, titre: string, emoji: string, surface: string, gradient: string,
+): Astuce => ({
+  id, titre, emoji, surface, gradient,
+  duree: '',
+  note: 0,
+  ingredients: [],
+  resume: 'Consultez la fiche actuelle et ses précautions avant de commencer.',
+  instructions: '',
+  conseil: '',
+});
 
 export const ASTUCES_DU_JOUR: Astuce[] = [
-  {
-    id: 1,
-    titre: 'Four éclatant',
-    emoji: '🔥',
-    duree: '2h',
-    note: 4.8,
-    ingredients: ['Bicarbonate', 'Vinaigre', 'Eau'],
-    resume: 'Dégraissez votre four naturellement sans effort',
-    instructions: 'Mélangez bicarbonate + eau pour faire une pâte. Appliquez sur les parois du four. Laissez agir 2h. Vaporisez du vinaigre et essuyez avec une éponge humide.',
-    conseil: 'Pour les taches tenaces, laissez agir toute la nuit !',
-    surface: 'Four',
-    gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)'
-  },
-  {
-    id: 2,
-    titre: 'Vitres sans traces',
-    emoji: '🪟',
-    duree: '10min',
-    note: 4.9,
-    ingredients: ['Vinaigre blanc', 'Eau', 'Journal'],
-    resume: 'Des vitres cristallines comme chez le pro',
-    instructions: 'Mélangez 1/3 vinaigre + 2/3 eau dans un spray. Vaporisez sur la vitre. Essuyez avec du papier journal froissé en mouvements circulaires.',
-    conseil: 'Nettoyez par temps nuageux pour éviter les traces de séchage rapide.',
-    surface: 'Vitres',
-    gradient: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)'
-  },
-  {
-    id: 3,
-    titre: 'WC étincelants',
-    emoji: '🚽',
-    duree: '15min',
-    note: 4.7,
-    ingredients: ['Acide citrique', 'Bicarbonate', 'HE tea tree'],
-    resume: 'Détartrez en un geste',
-    instructions: 'Saupoudrez 2 c.à.s de bicarbonate puis 2 c.à.s d\'acide citrique. Ajoutez quelques gouttes de tea tree. Laissez mousser 10min puis frottez.',
-    conseil: 'Faites-le le soir et laissez agir toute la nuit pour un résultat optimal.',
-    surface: 'WC',
-    gradient: 'linear-gradient(135deg, #11998E 0%, #38EF7D 100%)'
-  },
-  {
-    id: 4,
-    titre: 'Micro-ondes propre',
-    emoji: '📺',
-    duree: '5min',
-    note: 4.6,
-    ingredients: ['Citron', 'Eau'],
-    resume: 'Nettoyage vapeur express sans frotter',
-    instructions: 'Coupez un citron en deux dans un bol d\'eau. Faites chauffer 5 minutes à puissance max. La vapeur décolle les saletés, il ne reste qu\'à essuyer !',
-    conseil: 'Gardez la porte fermée 2 minutes après pour que la vapeur agisse bien.',
-    surface: 'Micro-ondes',
-    gradient: 'linear-gradient(135deg, #FA709A 0%, #FEE140 100%)'
-  },
-  {
-    id: 5,
-    titre: 'Baskets blanches',
-    emoji: '👟',
-    duree: '1h',
-    note: 4.9,
-    ingredients: ['Bicarbonate', 'Eau oxygénée', 'Liquide vaisselle'],
-    resume: 'Rendez leur éclat à vos baskets',
-    instructions: 'Mélangez 1 c.à.s de bicarbonate + 1/2 c.à.s d\'eau oxygénée + 1/2 c.à.s de liquide vaisselle. Appliquez à la brosse à dents. Laissez sécher au soleil.',
-    conseil: 'Le soleil active le blanchiment, c\'est magique !',
-    surface: 'Baskets',
-    gradient: 'linear-gradient(135deg, #A8EDEA 0%, #FED6E3 100%)'
-  },
-  {
-    id: 6,
-    titre: 'Joints blanchis',
-    emoji: '⬜',
-    duree: '30min',
-    note: 4.5,
-    ingredients: ['Percarbonate', 'Eau chaude', 'Brosse'],
-    resume: 'Retrouvez des joints comme neufs',
-    instructions: 'Dissolvez 2 c.à.s de percarbonate dans 1L d\'eau chaude. Appliquez sur les joints avec une brosse. Laissez agir 20min puis rincez.',
-    conseil: 'L\'eau doit être à minimum 40°C pour activer le percarbonate.',
-    surface: 'Joints',
-    gradient: 'linear-gradient(135deg, #89F7FE 0%, #66A6FF 100%)'
-  },
+  raccourci(1, 'Nettoyer le four', '🔥', 'Four', 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)'),
+  raccourci(2, 'Nettoyer les vitres', '🪟', 'Vitres', 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)'),
+  raccourci(3, 'Détartrer les WC', '🚽', 'WC', 'linear-gradient(135deg, #11998E 0%, #38EF7D 100%)'),
+  raccourci(4, 'Nettoyer le micro-ondes', '📺', 'Micro-ondes', 'linear-gradient(135deg, #FA709A 0%, #FEE140 100%)'),
+  raccourci(5, 'Nettoyer les baskets', '👟', 'Baskets', 'linear-gradient(135deg, #A8EDEA 0%, #FED6E3 100%)'),
+  raccourci(6, 'Nettoyer les joints', '⬜', 'Joints', 'linear-gradient(135deg, #89F7FE 0%, #66A6FF 100%)'),
   {
     id: 7,
-    titre: 'Poils d\'animaux envolés',
+    titre: 'Retirer les poils d’animaux',
     emoji: '🐾',
     duree: '5min',
     note: 4.8,
     ingredients: ['Raclette à douche'],
-    resume: 'Décollez les poils de chien et de chat des tapis, canapés et sièges auto, sans aspirateur',
-    instructions: 'Passez la raclette à douche en caoutchouc sur le tapis, le canapé ou les sièges de voiture, toujours dans le même sens. Le caoutchouc crée une charge statique qui agglomère les poils en petits tas. Ramassez les amas formés, puis aspirez ou retirez-les à la main.',
-    conseil: 'Sur les sièges de voiture, humidifiez très légèrement la raclette : les poils incrustés remontent d\'un seul coup. Tellement plus simple et efficace !',
+    resume: 'Un geste mécanique pour ramasser les poils sur les textiles compatibles.',
+    instructions: 'Passez la raclette à douche en caoutchouc sur le tapis, le canapé ou les sièges de voiture, toujours dans le même sens. Ramassez les amas formés, puis aspirez ou retirez-les à la main.',
+    conseil: 'Vérifiez les consignes d’entretien du textile et essayez d’abord sur une zone discrète.',
     surface: 'Tapis & sièges',
-    gradient: 'linear-gradient(135deg, #D4A373 0%, #BC8A5F 100%)'
-  }
+    gradient: 'linear-gradient(135deg, #D4A373 0%, #BC8A5F 100%)',
+  },
 ];
+
+/** Les aperçus reprennent seulement les métadonnées de la fiche admissible. */
+export function getPublishedAstuces(): Astuce[] {
+  return ASTUCES_DU_JOUR.flatMap((astuce) => {
+    if (astuce.id === 7) return [astuce];
+    const recipeId = ASTUCE_RECETTE_IDS[astuce.id];
+    if (typeof recipeId !== 'number') return [];
+    const access = getRecipeAccess(recipeId);
+    if (!access.available) return [];
+    return [{
+      ...astuce,
+      titre: access.recipe.nom,
+      duree: access.recipe.temps,
+      ingredients: access.recipe.ingredients.map(({ nom }) => nom),
+    }];
+  });
+}
+
+/** Un ancien lien garde une entrée, même si sa recette est désormais bloquée. */
+export function findAstuceBySlug(slug: string): Astuce | undefined {
+  const legacyId = ANCIENS_SLUGS[slug];
+  return ASTUCES_DU_JOUR.find((astuce) => astuce.id === legacyId || slugify(astuce.titre) === slug)
+    ?? ASTUCES_DU_JOUR.find((astuce) => {
+      const recipeId = ASTUCE_RECETTE_IDS[astuce.id];
+      if (typeof recipeId !== 'number') return false;
+      const access = getRecipeAccess(recipeId);
+      const titre = access.available ? access.recipe.nom : access.requested?.nom;
+      return titre !== undefined && slugify(titre) === slug;
+    });
+}

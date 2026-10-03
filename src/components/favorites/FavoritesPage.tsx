@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRecipeInteractionsContext } from '@/contexts/RecipeInteractionsContext';
 import { useIngredientFavoritesContext } from '@/contexts/IngredientFavoritesContext';
-import { RecetteComplete, Spray, IngredientComplet } from '@/types';
-import { RECETTES } from '@/data/recettes';
-import { estMettableEnAvant } from '@/data/revue';
+import { RecetteComplete, IngredientComplet } from '@/types';
+import { getRecipeAccess, getPublishedRecipes } from '@/data/publication';
 import { PreuveChip } from '@/components/ui/PreuveChip';
 import { INGREDIENTS_COMPLETS } from '@/data/ingredientsComplets';
 import { getRecetteImage } from '@/data/scenes';
@@ -20,19 +19,26 @@ import { haptic } from '@/utils/haptics';
 
 interface FavoritesPageProps {
   onRecipeClick: (recipe: RecetteComplete) => void;
-  onSprayClick: (spray: Spray) => void;
+  onRecipeReference: (reference: { id: number; type: 'spray' | 'recette' }) => void;
   onIngredientClick: (ingredient: IngredientComplet) => void;
   /** Navigation vers l'onglet Recettes (CTA de l'état vide) */
   onExploreRecipes?: () => void;
 }
 
-export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, onExploreRecipes }: FavoritesPageProps) => {
+export const FavoritesPage = ({ onRecipeClick, onRecipeReference, onIngredientClick, onExploreRecipes }: FavoritesPageProps) => {
   const { theme, darkMode } = useTheme();
   const { favorites, toggleFavorite, getRating } = useRecipeInteractionsContext();
   const ingFav = useIngredientFavoritesContext();
 
-  // Récupérer les recettes favorites
-  const favoriteRecipes = RECETTES.filter(recipe => favorites.includes(recipe.id));
+  // Les IDs des favoris restent inchangés, même après retrait ou fusion.
+  // Le namespace 10000+ est réservé aux astuces dans le stockage historique.
+  const favoriteRecipes = favorites.filter((id) => id < 10000).map((id) => ({ id, access: getRecipeAccess(id) }));
+  const availableFavorites = favoriteRecipes.flatMap(({ id, access }) =>
+    access.available ? [{ id, recipe: access.recipe, originalName: access.redirected ? access.requested?.nom : undefined }] : []
+  );
+  const unavailableFavorites = favoriteRecipes.flatMap(({ id, access }) =>
+    access.available ? [] : [{ id, access }]
+  );
   // Récupérer les ingrédients favoris
   const favoriteIngredients = INGREDIENTS_COMPLETS.filter(ing => ingFav.isFavorite(ing.id));
 
@@ -49,8 +55,9 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
   );
 
   // Carte de recette favorite
-  const FavoriteCard = ({ recipe }: { recipe: RecetteComplete }) => {
-    const userRating = getRating(recipe.id);
+  const FavoriteCard = ({ recipe, favoriteId, originalName }: { recipe: RecetteComplete; favoriteId: number; originalName?: string }) => {
+    // Une note donnée à l'ancienne fiche ne valide pas sa remplaçante.
+    const userRating = originalName ? null : getRating(favoriteId);
     const [imgError, setImgError] = useState(false);
     // Photo dédiée si elle existe, sinon photo-scène de la catégorie (repli emoji)
     const heroImg = getRecetteImage(recipe, darkMode);
@@ -58,12 +65,12 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
     const handleFavoriteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
       haptic('light');
-      toggleFavorite(recipe.id);
+      toggleFavorite(favoriteId);
     };
 
     return (
       <div
-        onClick={() => { haptic('light'); onRecipeClick(recipe); }}
+        onClick={() => { haptic('light'); onRecipeReference({ id: favoriteId, type: 'recette' }); }}
         className="p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] active:brightness-95 relative"
         style={{
           background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)',
@@ -112,6 +119,11 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
             <h3 className="font-bold text-sm leading-tight" style={{ color: theme.textPrimary }}>
               {recipe.nom}
             </h3>
+            {originalName && (
+              <p className="text-xs mt-1" style={{ color: theme.textMuted }}>
+                Le favori « {originalName} » a été fusionné avec cette fiche.
+              </p>
+            )}
 
             {/* Badge */}
             {recipe.badge && (
@@ -182,7 +194,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
   return (
     <div className="pt-2 pb-4">
       {/* Section Mes Sprays */}
-      <MySpraysSection onSprayClick={onSprayClick} onRecipeClick={onRecipeClick} />
+      <MySpraysSection onRecipeReference={onRecipeReference} />
 
       {/* Header Favoris */}
       <div className="mb-5">
@@ -239,7 +251,7 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
               Nos coups de cœur pour démarrer
             </p>
             <div className="space-y-2.5">
-              {RECETTES.filter((r) => r.categorie === 'Indispensable' && estMettableEnAvant(r.id)).slice(0, 3).map((r) => (
+              {getPublishedRecipes().filter((r) => r.categorie === 'Indispensable').slice(0, 3).map((r) => (
                 <button
                   key={r.id}
                   onClick={() => { haptic('light'); onRecipeClick(r); }}
@@ -270,19 +282,57 @@ export const FavoritesPage = ({ onRecipeClick, onSprayClick, onIngredientClick, 
       ) : (
         <>
           {/* Recettes favorites */}
-          {favoriteRecipes.length > 0 && (
+          {availableFavorites.length > 0 && (
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-4 h-4 text-pink-500" />
-                <h2 className="font-bold text-sm" style={{ color: theme.textPrimary }}>Recettes</h2>
-                <span className="text-xs" style={{ color: theme.textMuted }}>{favoriteRecipes.length}</span>
+                <h2 className="font-bold text-sm" style={{ color: theme.textPrimary }}>Recettes disponibles</h2>
+                <span className="text-xs" style={{ color: theme.textMuted }}>{availableFavorites.length}</span>
               </div>
               <div className="space-y-3">
-                {favoriteRecipes.map((recipe) => (
-                  <FavoriteCard key={recipe.id} recipe={recipe} />
+                {availableFavorites.map(({ id, recipe, originalName }) => (
+                  <FavoriteCard key={id} recipe={recipe} favoriteId={id} originalName={originalName} />
                 ))}
               </div>
             </div>
+          )}
+
+          {unavailableFavorites.length > 0 && (
+            <section className="mb-6" aria-label="Favoris indisponibles">
+              <h2 className="font-bold text-sm mb-2" style={{ color: theme.textPrimary }}>
+                Favoris indisponibles · {unavailableFavorites.length}
+              </h2>
+              <p className="text-xs mb-3" style={{ color: theme.textMuted }}>
+                Vos favoris sont conservés. Leurs anciennes instructions ne sont plus proposées.
+              </p>
+              <div className="space-y-3">
+                {unavailableFavorites.map(({ id, access }) => (
+                  <div key={id} className="p-4 rounded-2xl" style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.7)', border: `1px solid ${theme.borderLight}` }}>
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-bold text-sm" style={{ color: theme.textPrimary }}>
+                        {access.requested?.emoji ?? '📄'} {access.requested?.nom ?? `Recette #${id}`}
+                      </h3>
+                      <button
+                        onClick={() => toggleFavorite(id)}
+                        aria-label={`Retirer ${access.requested?.nom ?? `la recette #${id}`} des favoris`}
+                        className="p-1.5 rounded-full"
+                      >
+                        <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
+                      </button>
+                    </div>
+                    {access.requested && <PreuveChip id={id} compact />}
+                    <p className="text-xs mt-2" style={{ color: theme.textSecondary }}>{access.message}</p>
+                    <button
+                      onClick={() => onRecipeReference({ id, type: 'recette' })}
+                      className="text-xs font-semibold mt-3 underline underline-offset-2"
+                      style={{ color: theme.textPrimary }}
+                    >
+                      Consulter le statut
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
           )}
 
           {/* Ingrédients favoris */}

@@ -1,5 +1,5 @@
 /**
- * Test end-to-end de la feature "Mes Sprays".
+ * Tests des utilitaires et du véritable encodage/décodage QR de « Mes Sprays ».
  * Lancer avec: npx tsx scripts/test-sprays.mts
  */
 import QRCode from 'qrcode';
@@ -13,6 +13,7 @@ import {
 } from '../src/utils/sprayUtils.ts';
 import { SPRAYS_INDISPENSABLES } from '../src/data/sprays.ts';
 import { RECETTES } from '../src/data/recettes.ts';
+import { getRecipeAccess, SPRAY_RECIPE_IDS } from '../src/data/publication.ts';
 
 let passed = 0;
 let failed = 0;
@@ -22,11 +23,11 @@ const assert = (cond: boolean, msg: string) => {
 };
 
 console.log('\n1) parseConservationToDays');
-assert(parseConservationToDays('3 mois') === 90, '"3 mois" => 90 jours');
-assert(parseConservationToDays('6 semaines') === 42, '"6 semaines" => 42 jours');
-assert(parseConservationToDays('1 an') === 365, '"1 an" => 365 jours');
-assert(parseConservationToDays('Préparer à chaque usage') === 1, '"à chaque usage" => 1 jour');
-assert(parseConservationToDays('') === 90, 'vide => défaut 90 jours');
+assert(parseConservationToDays('3 mois') === null, '"3 mois" sans preuve ne donne pas de validité');
+assert(parseConservationToDays('6 semaines') === null, '"6 semaines" sans preuve ne donne pas de validité');
+assert(parseConservationToDays('1 an') === null, '"1 an" sans preuve ne donne pas de validité');
+assert(parseConservationToDays('Préparer à chaque usage') === null, '"à chaque usage" ne donne pas de validité');
+assert(parseConservationToDays('') === null, 'vide => aucune validité inventée');
 
 console.log('\n2) parseFicheParam / buildFicheUrl (aller-retour)');
 assert(JSON.stringify(parseFicheParam('spray-3')) === JSON.stringify({ type: 'spray', id: 3 }), '"spray-3" parsé');
@@ -45,10 +46,12 @@ assert(getDaysUntilExpiry('2026-06-10T12:00:00Z', now) === -4, 'périmé => nég
 
 console.log('\n4) Résolution scan -> recette (données réelles)');
 // Simule un flacon pour chaque spray + quelques recettes, et vérifie que le scan retrouve la fiche
-for (const spray of SPRAYS_INDISPENSABLES) {
-  const fiche = parseFicheParam(`spray-${spray.id}`);
-  const found = fiche && SPRAYS_INDISPENSABLES.find(s => s.id === fiche.id);
-  assert(!!found && found.id === spray.id, `scan spray-${spray.id} -> "${spray.nom}"`);
+for (const key of Object.keys(SPRAY_RECIPE_IDS)) {
+  const id = Number(key);
+  const fiche = parseFicheParam(`spray-${id}`);
+  const access = fiche && getRecipeAccess(fiche.id, fiche.type);
+  assert(!!access && access.requested?.id === id && access.available === ![2, 6].includes(id),
+    `scan spray-${id} -> identité conservée et publication contrôlée`);
 }
 const sampleRecettes = RECETTES.slice(0, 3);
 for (const r of sampleRecettes) {

@@ -5,7 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { IngredientComplet, RecetteComplete } from '@/types';
 import { Modal } from '@/components/ui/Modal';
 import { SectionTitle, Chip, Callout, MetaBar, ACCENT } from '@/components/ui/ModalParts';
-import { RECETTES } from '@/data/recettes';
+import { getPublishedRecipes } from '@/data/publication';
 import { shouldUseDarkText } from '@/utils/gradientUtils';
 import { Leaf, Euro, AlertTriangle, ChevronRight, ChevronDown } from 'lucide-react';
 
@@ -21,7 +21,7 @@ export function IngredientDetailModal({ ingredient, onClose, onRecipeClick }: In
 
   const useDarkHeaderText = shouldUseDarkText(ingredient.gradient);
   const hasImage = !!ingredient.imageUrl;
-  const recettesAssociees = RECETTES.filter((r) => ingredient.recettesIds.includes(r.id));
+  const recettesAssociees = getPublishedRecipes(ingredient.recettesIds);
 
   const ecoLeaves = (
     <span className="flex items-center gap-0.5">

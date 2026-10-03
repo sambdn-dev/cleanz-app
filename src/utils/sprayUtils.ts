@@ -4,27 +4,26 @@
  */
 
 /**
- * Convertit une durée de conservation en nombre de jours, ou `null` quand
- * aucune date ne peut être calculée honnêtement :
- *  - méthode immédiate / sans préparation (« à chaque usage », « aussitôt »…) ;
- *  - texte libre sans durée explicite.
- * Ex: "3 mois" -> 90, "6 semaines" -> 42, "1 an" -> 365, "Usage immédiat" -> null.
- *
- * Revue éditoriale : une date de péremption ne doit jamais être inventée depuis
- * du texte libre (l'ancien défaut de 90 jours a été retiré).
+ * @deprecated Free text is not validated shelf-life data. Kept for compatibility;
+ * no wording or numeric duration is sufficient to calculate an expiry date.
  */
-export const parseConservationToDays = (conservation: string): number | null => {
-  const lower = conservation.toLowerCase();
-  if (/usage|imm[ée]diat|aussit[ôo]t|chaque|sans pr[ée]paration|ne se conserve pas|ne pas conserver/.test(lower)) return null;
-  const m = lower.match(/(\d+)\s*(jour|semaine|mois|an)/);
-  if (!m) return null;
-  const num = parseInt(m[1], 10);
-  const unite = m[2];
-  if (unite === 'jour') return num;
-  if (unite === 'semaine') return num * 7;
-  if (unite === 'mois') return num * 30;
-  return num * 365;
+export const parseConservationToDays = (conservation: string): null => {
+  void conservation;
+  return null;
 };
+
+/** Old estimates remain stored but never become a guarantee or a countdown. */
+export const getHistoricalExpiryLabel = (expiresAt: string | null): string => {
+  if (expiresAt === null) return 'Durée de conservation non validée';
+  const date = new Date(expiresAt);
+  const displayed = Number.isNaN(date.getTime()) ? 'date non reconnue' : date.toLocaleDateString('fr-FR');
+  return `Ancienne estimation non validée : ${displayed}`;
+};
+
+/** Bottle names are user input; never interpolate them as markup in labels. */
+export const escapeLabelHtml = (value: string): string => value.replace(/[&<>"']/g, character => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+})[character]!);
 
 export type FicheType = 'spray' | 'recette';
 
