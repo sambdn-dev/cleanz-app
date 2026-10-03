@@ -1,354 +1,264 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import { Check, ChevronRight, House, Plus, Search, SlidersHorizontal, Sparkles, Wrench, X } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Card } from '@/components/ui/Card';
-import { SectionTitle } from '@/components/ui/SectionTitle';
-import { ELECTROMENAGERS, PIECES, ENERGY_TIPS, EnergyTip, Piece } from '@/data/electromenager';
-import { Electromenager } from '@/types';
-import { ApplianceIcon } from '@/components/appareils/ApplianceIcons';
-import { Zap, Home, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ELECTROMENAGERS, PIECES, type Piece } from '@/data/electromenager';
+import { APPAREIL_RECETTE_IDS } from '@/data/publication-appareils';
+import { getRecipeAccess } from '@/data/publication';
+import { getPhotoBySlug } from '@/data/scenes';
+import type { Electromenager } from '@/types';
+import { haptic } from '@/utils/haptics';
+import { ApplianceIcon } from './ApplianceIcons';
+import { useOwnedDevices } from './useOwnedDevices';
 
-// Couleur pleine (trait des icônes) pour chaque classe Tailwind d'appareil
-const SOLID_COLOR: Record<string, string> = {
-  'bg-blue-500': '#3B82F6', 'bg-blue-400': '#60A5FA', 'bg-blue-600': '#2563EB',
-  'bg-cyan-500': '#06B6D4', 'bg-cyan-400': '#22D3EE',
-  'bg-emerald-500': '#10B981', 'bg-emerald-400': '#34D399',
-  'bg-orange-500': '#F97316', 'bg-orange-400': '#FB923C',
-  'bg-violet-500': '#8B5CF6', 'bg-purple-500': '#A855F7', 'bg-fuchsia-500': '#D946EF',
-  'bg-amber-700': '#B45309', 'bg-amber-500': '#F59E0B',
-  'bg-red-500': '#EF4444', 'bg-rose-500': '#F43F5E',
-  'bg-sky-500': '#0EA5E9', 'bg-sky-600': '#0284C7',
-  'bg-gray-500': '#6B7280', 'bg-slate-500': '#64748B',
-  'bg-teal-500': '#14B8A6', 'bg-teal-600': '#0D9488',
-  'bg-indigo-500': '#6366F1', 'bg-indigo-400': '#818CF8',
-};
+const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-500';
+const normalise = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('fr');
 
 interface AppareilsPageProps {
   onApplianceClick: (appliance: Electromenager) => void;
 }
 
-// Composant isolé pour les tips (évite re-renders)
-const EnergyTipsCarousel = () => {
-  const { theme, darkMode } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextTip = () => {
-    setCurrentIndex((prev) => (prev + 1) % ENERGY_TIPS.length);
-  };
-
-  const prevTip = () => {
-    setCurrentIndex((prev) => (prev - 1 + ENERGY_TIPS.length) % ENERGY_TIPS.length);
-  };
-
-  const currentTip = ENERGY_TIPS[currentIndex];
-
-  const categoryColors: Record<EnergyTip['categorie'], string> = {
-    eco: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.15)',
-    astuce: darkMode ? 'rgba(139, 92, 246, 0.2)' : 'rgba(139, 92, 246, 0.15)',
-    sante: darkMode ? 'rgba(236, 72, 153, 0.2)' : 'rgba(236, 72, 153, 0.15)',
-    economie: darkMode ? 'rgba(251, 191, 36, 0.2)' : 'rgba(251, 191, 36, 0.15)'
-  };
-
-  const categoryTextColors: Record<EnergyTip['categorie'], string> = {
-    eco: '#22C55E',
-    astuce: '#8B5CF6',
-    sante: '#EC4899',
-    economie: '#FBBF24'
-  };
-
-  const categoryLabels: Record<EnergyTip['categorie'], string> = {
-    eco: 'Écologie',
-    astuce: 'Astuce',
-    sante: 'Santé',
-    economie: 'Économie'
-  };
-
-  return (
-    <div className="mb-6">
-      <SectionTitle icon={Zap} iconColor="text-amber-500">
-        Le saviez-vous ?
-      </SectionTitle>
-
-      <div
-        className="relative p-5 rounded-2xl overflow-hidden"
-        style={{
-          background: darkMode
-            ? 'linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(34, 197, 94, 0.15) 100%)'
-            : 'linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%)',
-          border: darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)'
-        }}
-      >
-        {/* Category badge */}
-        <span
-          className="inline-block text-[10px] px-2.5 py-1 rounded-full font-semibold mb-3"
-          style={{
-            background: categoryColors[currentTip.categorie],
-            color: categoryTextColors[currentTip.categorie]
-          }}
-        >
-          {categoryLabels[currentTip.categorie]}
-        </span>
-
-        {/* Content */}
-        <div className="flex items-start gap-3 mb-4">
-          <span className="text-3xl">{currentTip.emoji}</span>
-          <div className="flex-1">
-            <h3 className="font-bold text-sm mb-1" style={{ color: theme.textPrimary }}>
-              {currentTip.titre}
-            </h3>
-            <p className="text-xs leading-relaxed" style={{ color: theme.textSecondary }}>
-              {currentTip.contenu}
-            </p>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={prevTip}
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-            style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-            }}
-          >
-            <ChevronLeft className="w-4 h-4" style={{ color: theme.textMuted }} />
-          </button>
-
-          {/* Dots */}
-          <div className="flex gap-1.5">
-            {ENERGY_TIPS.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex ? 'w-4' : ''
-                }`}
-                style={{
-                  background: index === currentIndex
-                    ? 'linear-gradient(135deg, #FBBF24 0%, #22C55E 100%)'
-                    : darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'
-                }}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={nextTip}
-            className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-            style={{
-              background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-            }}
-          >
-            <ChevronRight className="w-4 h-4" style={{ color: theme.textMuted }} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Composant carte appareil
 const ApplianceCard = ({
-  appliance,
-  onClick
+  appliance, owned, editing, selectionDisabled, onOpen, onToggle,
 }: {
   appliance: Electromenager;
-  onClick: () => void;
+  owned: boolean;
+  editing: boolean;
+  selectionDisabled: boolean;
+  onOpen: () => void;
+  onToggle: () => void;
 }) => {
   const { theme, darkMode } = useTheme();
-
-  const solid = SOLID_COLOR[appliance.color] || '#3B82F6';
-  // Voile de fond teinté dérivé de la couleur de l'appareil (~15% sombre / ~10% clair)
-  const tint = solid + (darkMode ? '26' : '1A');
+  const photo = getPhotoBySlug(appliance.nom);
+  const recipeId = APPAREIL_RECETTE_IDS[appliance.id];
+  const unavailable = recipeId !== undefined && !getRecipeAccess(recipeId).available;
+  const accent = darkMode ? '#C4B5FD' : '#6D28D9';
 
   return (
-    <Card
-      hoverable
-      onClick={onClick}
-      className="p-4 relative overflow-hidden"
+    <article
+      className="relative min-w-0 overflow-hidden rounded-[22px] transition-shadow"
+      style={{ background: theme.bgCardSolid, border: `1px solid ${theme.borderCard}`, boxShadow: theme.shadowCard }}
     >
-      {/* Voile décoratif teinté */}
-      <div className="absolute inset-0 opacity-60" style={{ background: tint }} />
-
-      {/* Emoji discret dans le coin */}
-      <span className="absolute top-2 right-2.5 text-sm leading-none opacity-70 z-10" aria-hidden>
-        {appliance.emoji}
-      </span>
-
-      <div className="relative z-10 flex flex-col items-center">
-        <ApplianceIcon id={appliance.id} color={solid} size={44} className="mb-2" />
-        <span
-          className="text-xs font-semibold line-clamp-1 text-center"
-          style={{ color: theme.textPrimary }}
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`${unavailable ? 'Voir le statut' : 'Voir la fiche'} de ${appliance.nom}`}
+        className="block h-full w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-violet-500"
+      >
+        <div className="relative h-[122px] overflow-hidden" style={{ background: darkMode ? '#34204E' : '#EEE7FA' }}>
+          {photo ? (
+            <Image
+              src={photo}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 45vw, 220px"
+              className="object-cover"
+              style={{ objectPosition: photo.includes('/materiel/') ? 'center 62%' : 'center' }}
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <ApplianceIcon id={appliance.id} color={accent} size={68} />
+            </div>
+          )}
+          {owned && !editing && (
+            <span className="absolute bottom-2 left-2 flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-bold"
+              style={{ color: '#FFFFFF', background: '#5B21B6' }}>
+              <Check size={11} aria-hidden="true" /> Chez moi
+            </span>
+          )}
+        </div>
+        <div className="px-3 pb-3 pt-3">
+          <span className="mb-1 block text-[11px] font-medium" style={{ color: theme.textSecondary }}>{appliance.piece}</span>
+          <h3 className="min-h-[42px] break-words font-bold leading-[1.4]" style={{ color: theme.textPrimary, fontSize: 15 }}>{appliance.nom}</h3>
+          <span className="mt-3 flex min-h-[28px] items-center justify-between gap-1 border-t pt-2 text-[11px] font-semibold"
+            style={{ color: accent, borderColor: theme.borderLight }}>
+            {unavailable ? 'Voir le statut' : 'Voir la fiche'}
+            <ChevronRight size={15} aria-hidden="true" className="shrink-0" />
+          </span>
+        </div>
+      </button>
+      {editing && (
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-label={`${owned ? 'Retirer' : 'Ajouter'} ${appliance.nom} ${owned ? 'de' : 'à'} mes appareils`}
+          aria-pressed={owned}
+          disabled={selectionDisabled}
+          className={`absolute right-2 top-2 flex h-[44px] w-[44px] items-center justify-center rounded-full border-2 shadow-md disabled:opacity-50 ${FOCUS}`}
+          style={{ color: owned ? '#FFFFFF' : '#5B21B6', background: owned ? '#6D28D9' : '#FFFFFF', borderColor: '#FFFFFF' }}
         >
-          {appliance.nom}
-        </span>
-      </div>
-    </Card>
+          {owned ? <Check size={20} aria-hidden="true" /> : <Plus size={20} aria-hidden="true" />}
+        </button>
+      )}
+    </article>
   );
 };
 
-// Page principale
 export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
   const { theme, darkMode } = useTheme();
+  const { owned, storageStatus, toggle } = useOwnedDevices();
+  const [view, setView] = useState<'mine' | 'catalog'>(() => ELECTROMENAGERS.some((a) => owned.includes(a.id)) ? 'mine' : 'catalog');
   const [selectedPiece, setSelectedPiece] = useState<Piece>('Toutes');
+  const [query, setQuery] = useState('');
+  const [editing, setEditing] = useState(false);
+  const accent = darkMode ? '#C4B5FD' : '#6D28D9';
+  const subtle = darkMode ? 'rgba(196,181,253,0.09)' : 'rgba(109,40,217,0.06)';
+  const mine = ELECTROMENAGERS.filter((a) => owned.includes(a.id));
+  const base = view === 'mine' ? mine : ELECTROMENAGERS;
+  const emptyInventory = view === 'mine' && mine.length === 0 && !query.trim() && selectedPiece === 'Toutes';
+  const filtered = useMemo(() => {
+    const term = normalise(query.trim());
+    return ELECTROMENAGERS.filter((appliance) => (
+      (view === 'catalog' || owned.includes(appliance.id)) &&
+      (selectedPiece === 'Toutes' || appliance.piece === selectedPiece) &&
+      (!term || normalise(`${appliance.nom} ${appliance.piece}`).includes(term))
+    ));
+  }, [owned, query, selectedPiece, view]);
 
-  // Filtrer les appareils par pièce
-  const filteredAppliances = useMemo(() => {
-    if (selectedPiece === 'Toutes') return ELECTROMENAGERS;
-    return ELECTROMENAGERS.filter(a => a.piece === selectedPiece);
-  }, [selectedPiece]);
+  const beginSelection = () => {
+    setEditing(true);
+    setView('catalog');
+    setQuery('');
+    setSelectedPiece('Toutes');
+  };
 
-  // Emojis pour les pièces
-  const pieceEmojis: Record<string, string> = {
-    'Toutes': '🏠',
-    'Cuisine': '🍳',
-    'Buanderie': '🧺',
-    'Salon': '🛋️',
-    'Salle de bain': '🚿',
-    'Garage': '🚗',
-    'Rangement': '📦'
+  const switchView = (next: 'mine' | 'catalog') => {
+    setView(next);
+    setSelectedPiece('Toutes');
+    setEditing(false);
   };
 
   return (
-    <div className="pt-2">
-      {/* Room filter tabs */}
-      <div className="mb-4">
-        <div className="flex gap-2 overflow-x-auto py-2 -mx-4 px-4 scrollbar-hide">
-          {PIECES.map((piece) => {
-            const isActive = selectedPiece === piece;
-            const count = piece === 'Toutes'
-              ? ELECTROMENAGERS.length
-              : ELECTROMENAGERS.filter(a => a.piece === piece).length;
-
-            return (
-              <button
-                key={piece}
-                onClick={() => setSelectedPiece(piece)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full whitespace-nowrap transition-all ${
-                  isActive ? 'shadow-sm' : ''
-                }`}
-                style={{
-                  background: isActive
-                    ? 'linear-gradient(135deg, #FF69B4 0%, #B794F4 50%, #4FD1C5 100%)'
-                    : darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
-                  color: isActive ? 'white' : theme.textSecondary,
-                  border: isActive ? 'none' : darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)'
-                }}
-              >
-                <span className="text-base">{pieceEmojis[piece]}</span>
-                <span className="text-sm font-medium">{piece}</span>
-                {count > 0 && (
-                  <span
-                    className="text-[10px] px-1.5 py-0.5 rounded-full font-semibold"
-                    style={{
-                      background: isActive ? 'rgba(255,255,255,0.3)' : darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)',
-                      color: isActive ? 'white' : theme.textMuted
-                    }}
-                  >
-                    {count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+    <section className="pb-3 pt-3" aria-labelledby="appareils-title">
+      <div className="mb-5 flex items-start justify-between gap-3">
+        <div>
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: accent }}>Prendre soin de la maison</p>
+          <h2 id="appareils-title" className="font-display font-extrabold tracking-tight" style={{ color: theme.textPrimary, fontSize: 29 }}>Appareils</h2>
+          <p className="mt-1 max-w-[260px] text-[13px] leading-relaxed" style={{ color: theme.textSecondary }}>Les bons gestes pour les faire durer.</p>
+        </div>
+        <div className="mt-3 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl" style={{ background: subtle, color: accent }}>
+          <Wrench size={24} strokeWidth={1.7} aria-hidden="true" />
         </div>
       </div>
 
-      {/* Appliances grid */}
-      <div className="mb-6">
-        <SectionTitle icon={Home} iconColor="text-pink-500">
-          {selectedPiece === 'Toutes' ? 'Tous les appareils' : selectedPiece}
-        </SectionTitle>
-
-        <div className="grid grid-cols-3 gap-3">
-          {filteredAppliances.map((appliance) => (
-            <ApplianceCard
-              key={appliance.id}
-              appliance={appliance}
-              onClick={() => onApplianceClick(appliance)}
-            />
-          ))}
-        </div>
-
-        {filteredAppliances.length === 0 && (
-          <div
-            className="text-center py-8"
-            style={{ color: theme.textMuted }}
-          >
-            <span className="text-4xl block mb-2">🔍</span>
-            <p className="text-sm">Aucun appareil dans cette pièce</p>
-          </div>
+      <div className="relative mb-4 flex min-h-[50px] items-center rounded-2xl border" style={{ background: theme.bgInput, borderColor: theme.borderLight }}>
+        <Search size={19} className="ml-4 shrink-0" style={{ color: theme.textSecondary }} aria-hidden="true" />
+        <label htmlFor="appareils-search" className="sr-only">Rechercher un appareil</label>
+        <input
+          id="appareils-search"
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Rechercher un appareil"
+          autoComplete="off"
+          className={`min-w-0 flex-1 rounded-2xl bg-transparent px-3 py-3 [&::-webkit-search-cancel-button]:hidden ${FOCUS}`}
+          style={{ color: theme.textPrimary, fontSize: 16 }}
+        />
+        {query && (
+          <button type="button" onClick={() => setQuery('')} aria-label="Effacer la recherche" className={`mr-1 flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-xl ${FOCUS}`} style={{ color: theme.textSecondary }}>
+            <X size={18} aria-hidden="true" />
+          </button>
         )}
       </div>
 
-      {/* Energy consumption overview */}
-      <div className="mb-6">
-        <SectionTitle icon={Zap} iconColor="text-amber-500">
-          Répartition énergétique
-        </SectionTitle>
-
-        <div
-          className="p-4 rounded-2xl"
-          style={{
-            background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
-            border: darkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)'
-          }}
-        >
-          {/* Stacked bar */}
-          <div className="h-4 rounded-full overflow-hidden flex mb-4">
-            {ELECTROMENAGERS.sort((a, b) => b.consoPct - a.consoPct).map((appliance, index) => {
-              const colors = [
-                '#EF4444', '#F97316', '#FBBF24', '#84CC16',
-                '#22C55E', '#14B8A6', '#06B6D4', '#3B82F6',
-                '#6366F1', '#8B5CF6', '#A855F7', '#EC4899'
-              ];
-              return (
-                <div
-                  key={appliance.id}
-                  style={{
-                    width: `${appliance.consoPct}%`,
-                    background: colors[index % colors.length],
-                    minWidth: appliance.consoPct > 0 ? '4px' : '0'
-                  }}
-                  title={`${appliance.nom}: ${appliance.consoPct}%`}
-                />
-              );
-            })}
-          </div>
-
-          {/* Legend */}
-          <div className="grid grid-cols-2 gap-2">
-            {ELECTROMENAGERS
-              .sort((a, b) => b.consoPct - a.consoPct)
-              .slice(0, 6)
-              .map((appliance, index) => {
-                const colors = [
-                  '#EF4444', '#F97316', '#FBBF24', '#84CC16',
-                  '#22C55E', '#14B8A6'
-                ];
-                return (
-                  <div key={appliance.id} className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ background: colors[index] }}
-                    />
-                    <span className="text-[10px]" style={{ color: theme.textSecondary }}>
-                      {appliance.emoji} {appliance.nom}
-                    </span>
-                    <span className="text-[10px] font-bold ml-auto" style={{ color: theme.textPrimary }}>
-                      {appliance.consoPct}%
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
+      <div className="mb-4 flex gap-1 rounded-2xl p-1" role="group" aria-label="Afficher les appareils" style={{ background: darkMode ? 'rgba(15,8,30,0.32)' : 'rgba(255,255,255,0.45)' }}>
+        {(['mine', 'catalog'] as const).map((tab) => (
+          <button
+            type="button"
+            key={tab}
+            aria-pressed={view === tab}
+            onClick={() => switchView(tab)}
+            className={`flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-[12px] font-bold transition-colors ${FOCUS}`}
+            style={{ background: view === tab ? (darkMode ? '#58407F' : '#FFFFFF') : 'transparent', color: view === tab ? accent : theme.textSecondary, boxShadow: view === tab ? '0 2px 8px rgba(45,20,70,0.08)' : 'none' }}
+          >
+            {tab === 'mine' ? 'Mes appareils' : 'Tout explorer'}
+            <span className="rounded-full px-1.5 py-0.5 text-[10px]" style={{ background: view === tab ? subtle : 'transparent' }}>{tab === 'mine' ? mine.length : ELECTROMENAGERS.length}</span>
+          </button>
+        ))}
       </div>
 
-      {/* Energy tips carousel */}
-      <EnergyTipsCarousel />
-    </div>
+      {storageStatus !== 'ready' && (
+        <p role="status" className="mb-4 rounded-2xl border p-3 text-[12px] leading-relaxed" style={{ color: theme.textSecondary, background: theme.bgCard, borderColor: theme.borderLight }}>
+          {storageStatus === 'invalid'
+            ? 'Votre sélection enregistrée ne peut pas être lue. Elle a été conservée ; vous pouvez toujours consulter les fiches.'
+            : 'La sélection ne peut pas être enregistrée sur cet appareil pour le moment. Vous pouvez toujours consulter les fiches.'}
+        </p>
+      )}
+
+      {!editing && view === 'catalog' && mine.length === 0 && storageStatus === 'ready' && (
+        <div className="mb-4 flex items-center justify-between gap-2 rounded-2xl border px-3 py-2" style={{ background: subtle, borderColor: theme.borderLight }}>
+          <h3 className="text-[12px] font-bold" style={{ color: theme.textPrimary }}>Et chez vous ?</h3>
+          <button type="button" onClick={beginSelection} className={`flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl px-3 text-[11px] font-bold text-white ${FOCUS}`} style={{ background: '#6D28D9' }}>
+            Ajouter mes appareils <Plus size={15} aria-hidden="true" />
+          </button>
+        </div>
+      )}
+
+      <div className="mb-3 flex min-h-[44px] items-center justify-between gap-2">
+        <div>
+          <h3 className="text-[14px] font-bold" style={{ color: theme.textPrimary }}>{editing ? 'Votre équipement' : view === 'mine' ? 'Chez vous' : 'Les fiches appareils'}</h3>
+          <p className="mt-0.5 text-[11px]" style={{ color: theme.textSecondary }}>{editing ? `${mine.length} appareil${mine.length !== 1 ? 's' : ''} sélectionné${mine.length !== 1 ? 's' : ''}` : `${filtered.length} fiche${filtered.length !== 1 ? 's' : ''}${query || selectedPiece !== 'Toutes' ? ' trouvée' + (filtered.length !== 1 ? 's' : '') : ' à découvrir'}`}</p>
+        </div>
+        {editing ? (
+          <button type="button" onClick={() => { setEditing(false); if (mine.length > 0) setView('mine'); }} className={`min-h-[44px] shrink-0 rounded-xl px-4 text-[12px] font-bold text-white ${FOCUS}`} style={{ background: '#6D28D9' }}>
+            Terminer
+          </button>
+        ) : (mine.length > 0 || view === 'mine') && storageStatus === 'ready' ? (
+          <button type="button" onClick={beginSelection} className={`flex min-h-[44px] items-center gap-1.5 rounded-xl px-2 text-[11px] font-semibold ${FOCUS}`} style={{ color: accent }}>
+            <SlidersHorizontal size={15} aria-hidden="true" /> {mine.length ? 'Modifier mes appareils' : 'Ajouter mes appareils'}
+          </button>
+        ) : null}
+      </div>
+
+      <div className="-mx-4 mb-4 flex gap-2 overflow-x-auto px-4 py-2 scrollbar-hide" role="group" aria-label="Filtrer par pièce">
+        {PIECES.filter((piece) => piece === 'Toutes' || base.some((a) => a.piece === piece)).map((piece) => (
+          <button
+            type="button"
+            key={piece}
+            aria-label={`Pièce : ${piece}`}
+            aria-pressed={selectedPiece === piece}
+            onClick={() => setSelectedPiece(piece)}
+            className={`min-h-[44px] shrink-0 rounded-full border px-4 text-[12px] font-semibold transition-colors ${FOCUS}`}
+            style={{ background: selectedPiece === piece ? '#6D28D9' : theme.bgCard, color: selectedPiece === piece ? '#FFFFFF' : theme.textSecondary, borderColor: selectedPiece === piece ? '#6D28D9' : theme.borderLight }}
+          >
+            {piece === 'Toutes' ? 'Toutes les pièces' : piece}
+          </button>
+        ))}
+      </div>
+
+      {filtered.length > 0 ? (
+        <div className="grid grid-cols-2 items-stretch gap-3">
+          {filtered.map((appliance) => (
+            <ApplianceCard
+              key={appliance.id}
+              appliance={appliance}
+              owned={owned.includes(appliance.id)}
+              editing={editing}
+              selectionDisabled={storageStatus !== 'ready'}
+              onOpen={() => onApplianceClick(appliance)}
+              onToggle={() => { if (toggle(appliance.id)) haptic('selection'); }}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-[24px] border px-5 py-8 text-center" style={{ background: theme.bgCard, borderColor: theme.borderLight }}>
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl" style={{ background: subtle, color: accent }}>
+            {emptyInventory ? <House size={26} aria-hidden="true" /> : <Search size={26} aria-hidden="true" />}
+          </div>
+          <h3 className="text-[15px] font-bold" style={{ color: theme.textPrimary }}>{emptyInventory ? 'Votre maison, vos appareils' : 'Aucun appareil trouvé'}</h3>
+          <p className="mx-auto mt-2 max-w-[260px] text-[12px] leading-relaxed" style={{ color: theme.textSecondary }}>{emptyInventory ? 'Ajoutez votre équipement pour retrouver ici les fiches qui vous sont utiles.' : 'Essayez un autre nom ou une autre pièce.'}</p>
+          <button type="button" onClick={emptyInventory ? beginSelection : () => { setQuery(''); setSelectedPiece('Toutes'); }} disabled={emptyInventory && storageStatus !== 'ready'} className={`mt-5 min-h-[44px] rounded-xl px-5 text-[12px] font-bold text-white disabled:opacity-50 ${FOCUS}`} style={{ background: '#6D28D9' }}>
+            {emptyInventory ? 'Choisir mes appareils' : 'Réinitialiser les filtres'}
+          </button>
+        </div>
+      )}
+
+      <div className="mt-5 flex items-start gap-2 px-1 text-[11px] leading-relaxed" style={{ color: theme.textSecondary }}>
+        <Sparkles size={14} className="mt-0.5 shrink-0" style={{ color: accent }} aria-hidden="true" />
+        <p>Chaque modèle a ses particularités. Consultez aussi la notice de votre appareil.</p>
+      </div>
+    </section>
   );
 };

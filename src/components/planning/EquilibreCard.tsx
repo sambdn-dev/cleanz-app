@@ -2,7 +2,7 @@
 
 import { useTheme } from '@/contexts/ThemeContext';
 import { Membre, BilanMembre, formatDuree } from '@/utils/repartition';
-import { Scale, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Scale, CheckCircle2, AlertTriangle, ChevronDown } from 'lucide-react';
 
 interface EquilibreCardProps {
   membres: Membre[];
@@ -21,164 +21,57 @@ interface Ligne {
 
 export const EquilibreCard = ({ membres, cumul, bilanSemaine }: EquilibreCardProps) => {
   const { theme, darkMode } = useTheme();
-
   const totalCumul = membres.reduce((s, m) => s + (cumul.get(m.id) ?? 0), 0);
   const totalParts = membres.reduce((s, m) => s + Math.max(0, m.part), 0) || membres.length;
-  // Sous ce seuil (≈ une demi-journée de ménage), le réalisé n'est pas encore
-  // représentatif : afficher « 100 % / 0 % » après une seule tâche cochée
-  // serait alarmiste. On continue donc de montrer la répartition prévue.
+  // En dessous de ce seuil, le réalisé n'est pas assez représentatif : on
+  // conserve la répartition prévue plutôt qu'un déséquilibre après une tâche.
   const SEUIL_FIABLE = 250;
   const aDesDonnees = totalCumul >= SEUIL_FIABLE;
-
-  // Tant que rien n'est coché, on montre la répartition PRÉVUE de la semaine.
   const lignes: Ligne[] = aDesDonnees
-    ? membres.map((m) => ({
-        membre: m,
-        points: cumul.get(m.id) ?? 0,
-        partReelle: Math.round(((cumul.get(m.id) ?? 0) / totalCumul) * 100),
-        partVisee: Math.round((Math.max(0, m.part) / totalParts) * 100),
-      }))
-    : bilanSemaine.map((b) => ({
-        membre: b.membre,
-        points: b.charge,
-        partReelle: b.partReelle,
-        partVisee: b.partVisee,
-      }));
-
+    ? membres.map((m) => ({ membre: m, points: cumul.get(m.id) ?? 0, partReelle: Math.round(((cumul.get(m.id) ?? 0) / totalCumul) * 100), partVisee: Math.round((Math.max(0, m.part) / totalParts) * 100) }))
+    : bilanSemaine.map((b) => ({ membre: b.membre, points: b.charge, partReelle: b.partReelle, partVisee: b.partVisee }));
   const ecartMax = Math.max(0, ...lignes.map((l) => l.partReelle - l.partVisee));
   const enTete = lignes.find((l) => l.partReelle - l.partVisee === ecartMax);
-
   const solo = membres.length === 1;
   const parfait = ecartMax <= 2;
   const correct = ecartMax <= 6;
-
   const minutesSemaine = bilanSemaine.reduce((s, b) => s + b.minutes, 0);
+  const accent = darkMode ? '#D8B4FE' : '#6D28D9';
 
   return (
-    <div
-      className="rounded-3xl p-4 mb-4"
-      style={{
-        background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
-        border: `1px solid ${theme.borderCard}`,
-        boxShadow: theme.shadowCard,
-      }}
-    >
-      <div className="flex items-center gap-2 mb-3">
-        <Scale className="w-4 h-4" style={{ color: theme.accentPink }} />
-        <h2 className="font-display text-base font-extrabold" style={{ color: theme.textPrimary }}>
-          {solo ? 'Ma charge' : 'Équilibre du foyer'}
-        </h2>
-        <span className="text-[11px] ml-auto" style={{ color: theme.textMuted }}>
-          {aDesDonnees ? 'Travail réalisé' : 'Prévu cette semaine'}
+    <details className="group overflow-hidden rounded-3xl" style={{ background: darkMode ? 'rgba(39,25,65,0.94)' : 'rgba(255,255,255,0.9)', border: `1px solid ${theme.borderCard}` }}>
+      <summary className="flex min-h-[76px] cursor-pointer list-none items-center gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl" style={{ background: darkMode ? 'rgba(216,180,254,0.1)' : '#F4EFFB', color: accent }}><Scale className="h-5 w-5" /></span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold" style={{ color: theme.textPrimary }}>{solo ? 'Ma charge' : 'Équilibre du foyer'}</span>
+          <span className="mt-0.5 block text-xs leading-5" style={{ color: theme.textSecondary }}>{solo ? `${formatDuree(minutesSemaine)} prévues cette semaine` : aDesDonnees ? 'Consulter les efforts réalisés' : 'Voir la répartition de la semaine'}</span>
         </span>
-      </div>
-
-      {/* Barre segmentée */}
-      {!solo && (
-        <div
-          className="flex h-3 rounded-full overflow-hidden mb-3"
-          style={{ background: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)' }}
-        >
-          {lignes.map((l) => (
-            <div
-              key={l.membre.id}
-              className="h-full transition-all duration-500"
-              style={{
-                width: `${Math.max(2, l.partReelle)}%`,
-                background: l.membre.couleur,
-              }}
-              title={`${l.membre.prenom} · ${l.partReelle}%`}
-            />
-          ))}
+        <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" style={{ color: theme.textSecondary }} />
+      </summary>
+      <div className="px-4 pb-4">
+        <p className="mb-3 text-xs font-semibold" style={{ color: theme.textSecondary }}>{aDesDonnees ? 'Effort réalisé · historique des tâches cochées' : 'Effort prévu · semaine affichée'}</p>
+        {!solo && <div className="mb-4 flex h-2.5 overflow-hidden rounded-full" style={{ background: darkMode ? 'rgba(255,255,255,0.08)' : '#EEE6F8' }} aria-hidden>{lignes.map((l) => <div key={l.membre.id} className="h-full transition-all duration-500" style={{ width: `${Math.max(2, l.partReelle)}%`, background: l.membre.couleur }} />)}</div>}
+        <div className="space-y-3">
+          {lignes.map((l) => {
+            const ecart = l.partReelle - l.partVisee;
+            return (
+              <div key={l.membre.id} className="flex items-center gap-2.5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-lg" style={{ background: `${l.membre.couleur}18`, border: `1px solid ${l.membre.couleur}55` }} aria-hidden>{l.membre.emoji}</span>
+                <div className="min-w-0 flex-1">
+                  <p className="break-words text-sm font-bold" style={{ color: theme.textPrimary }}>{l.membre.prenom || 'Membre du foyer'}</p>
+                  <p className="mt-0.5 text-xs" style={{ color: theme.textSecondary }}>{l.points} points d&apos;effort{!solo && ` · objectif ${l.partVisee} %`}</p>
+                </div>
+                {!solo && <div className="shrink-0 text-right"><p className="text-sm font-extrabold tabular-nums" style={{ color: accent }}>{l.partReelle} %</p><p className="mt-0.5 text-[11px]" style={{ color: Math.abs(ecart) <= 2 ? (darkMode ? '#6EE7C1' : '#047857') : theme.textSecondary }}>{Math.abs(ecart) <= 2 ? 'À l’équilibre' : `${ecart > 0 ? '+' : ''}${ecart} pts d’écart`}</p></div>}
+              </div>
+            );
+          })}
         </div>
-      )}
-
-      {/* Détail par membre */}
-      <div className="space-y-2">
-        {lignes.map((l) => {
-          const ecart = l.partReelle - l.partVisee;
-          return (
-            <div key={l.membre.id} className="flex items-center gap-2.5">
-              <span
-                className="w-8 h-8 rounded-xl flex items-center justify-center text-base flex-shrink-0"
-                style={{ background: `${l.membre.couleur}22`, border: `1.5px solid ${l.membre.couleur}` }}
-                aria-hidden
-              >
-                {l.membre.emoji}
-              </span>
-              <span
-                className="text-[14px] font-bold flex-1 min-w-0 truncate"
-                style={{ color: theme.textPrimary }}
-              >
-                {l.membre.prenom}
-              </span>
-              <span className="text-[12px] font-medium" style={{ color: theme.textMuted }}>
-                {l.points} pts
-              </span>
-              {!solo && (
-                <span
-                  className="text-[12px] font-black tabular-nums w-[42px] text-right"
-                  style={{ color: l.membre.couleur }}
-                >
-                  {l.partReelle}%
-                </span>
-              )}
-              {!solo && (
-                <span
-                  className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full w-[46px] text-center"
-                  style={{
-                    background:
-                      Math.abs(ecart) <= 2
-                        ? 'rgba(52,211,153,0.16)'
-                        : darkMode
-                          ? 'rgba(255,255,255,0.07)'
-                          : 'rgba(0,0,0,0.05)',
-                    color: Math.abs(ecart) <= 2 ? '#059669' : theme.textMuted,
-                  }}
-                >
-                  {ecart > 0 ? `+${ecart}` : ecart}
-                </span>
-              )}
-            </div>
-          );
-        })}
+        <div className="mt-4 flex items-start gap-2 border-t pt-3" style={{ borderColor: theme.borderLight }}>
+          {solo || parfait ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: darkMode ? '#6EE7C1' : '#047857' }} /> : <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: correct ? (darkMode ? '#FCD34D' : '#92400E') : (darkMode ? '#FDA4AF' : '#BE123C') }} />}
+          <p className="text-xs leading-5" style={{ color: theme.textSecondary }}>{solo ? 'Avancez à votre rythme : chaque tâche cochée compte.' : parfait ? 'La charge est équilibrée par rapport aux objectifs du foyer.' : `${enTete?.membre.prenom || 'Un membre'} dépasse son objectif de ${ecartMax} points de pourcentage${aDesDonnees ? ' dans l’historique réalisé' : ' cette semaine'}.`}</p>
+        </div>
+        <p className="mt-3 text-xs leading-5" style={{ color: theme.textSecondary }}>L&apos;effort tient compte du temps et de la pénibilité : durée × pénibilité = points. Les tâches les plus contraignantes tournent chaque semaine.</p>
       </div>
-
-      {/* Verdict */}
-      <div
-        className="flex items-center gap-2 mt-3 pt-3"
-        style={{ borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}` }}
-      >
-        {solo ? (
-          <>
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: '#10B981' }} />
-            <p className="text-[12px] leading-snug" style={{ color: theme.textSecondary }}>
-              <strong style={{ color: theme.textPrimary }}>{formatDuree(minutesSemaine)}</strong> de
-              ménage prévues cette semaine.
-            </p>
-          </>
-        ) : parfait ? (
-          <>
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: '#10B981' }} />
-            <p className="text-[12px] leading-snug" style={{ color: theme.textSecondary }}>
-              <strong style={{ color: theme.textPrimary }}>Parfaitement équilibré.</strong> Chacun
-              est sur son objectif.
-            </p>
-          </>
-        ) : (
-          <>
-            <AlertTriangle
-              className="w-4 h-4 flex-shrink-0"
-              style={{ color: correct ? '#F59E0B' : '#EF4444' }}
-            />
-            <p className="text-[12px] leading-snug" style={{ color: theme.textSecondary }}>
-              <strong style={{ color: theme.textPrimary }}>{enTete?.membre.prenom}</strong> a{' '}
-              {ecartMax} % de charge de plus que son objectif
-              {aDesDonnees ? '' : ' cette semaine'}.
-            </p>
-          </>
-        )}
-      </div>
-    </div>
+    </details>
   );
 };
