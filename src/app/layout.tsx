@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { RecipeInteractionsProvider } from "@/contexts/RecipeInteractionsContext";
 import { IngredientFavoritesProvider } from "@/contexts/IngredientFavoritesContext";
 import { UserSpraysProvider } from "@/contexts/UserSpraysContext";
+import { SplashScreen } from "@/components/ui/SplashScreen";
+import { LAUNCH_STYLES, THEME_BOOTSTRAP } from "@/lib/launch-screen";
 import "./globals.css";
 
 // Police principale : moderne, douce et premium (corps + interface)
@@ -78,10 +80,11 @@ export default function RootLayout({
   return (
     <html lang="fr" className={jakarta.variable} suppressHydrationWarning>
       <head>
-        {/* Read the saved appearance before the splash is painted. */}
-        <script id="cleanz-splash-theme" dangerouslySetInnerHTML={{ __html: `(function(){var mode;try{mode=localStorage.getItem('cleanz-theme-mode')}catch(e){}var dark=mode==='dark'||(mode!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.splashTheme=dark?'dark':'light'})()` }} />
+        <style id="cleanz-launch-styles" dangerouslySetInnerHTML={{ __html: LAUNCH_STYLES }} />
+        <script id="cleanz-splash-theme" dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
       <body className="antialiased">
+        <SplashScreen />
         <ThemeProvider>
           <RecipeInteractionsProvider>
             <IngredientFavoritesProvider>

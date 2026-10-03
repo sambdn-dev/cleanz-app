@@ -33,14 +33,7 @@ export const Header = ({ onAccountClick }: HeaderProps) => {
           </p>
           <div className="flex items-center gap-1.5 mt-0.5">
             <h1
-              className="font-display text-[34px] leading-none font-extrabold tracking-tight bg-clip-text text-transparent"
-              style={{
-                backgroundImage: darkMode
-                  ? 'linear-gradient(120deg, #FF85C0 0%, #A78BFA 55%, #5EEAD4 100%)'
-                  : 'linear-gradient(120deg, #FF69B4 0%, #8B5CF6 55%, #06B6D4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
+              className="cleanz-brand-text font-display text-[34px] leading-none font-extrabold tracking-tight"
             >
               cleanz
             </h1>

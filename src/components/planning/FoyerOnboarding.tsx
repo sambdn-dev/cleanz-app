@@ -74,7 +74,7 @@ export const FoyerOnboarding = ({ onCreer }: FoyerOnboardingProps) => {
           </div>
           {membres.length < 6 && <button type="button" onClick={ajouter} className="mt-4 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl text-sm font-bold" style={{ background: darkMode ? 'rgba(216,180,254,0.1)' : '#F4EFFB', color: accent }}><Plus className="h-4 w-4" />Ajouter une personne</button>}
         </section>
-        <button type="submit" className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl font-display text-[16px] font-extrabold active:scale-[0.98] transition-transform" style={{ background: darkMode ? '#D8B4FE' : '#6D28D9', color: darkMode ? '#26143E' : '#fff', boxShadow: darkMode ? undefined : '0 8px 20px rgba(109,40,217,0.18)' }}>Créer mon planning<ArrowRight className="h-5 w-5" /></button>
+        <button type="submit" className="cleanz-gradient-button flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl font-display text-[16px] font-extrabold active:scale-[0.98] transition-transform">Créer mon planning<ArrowRight className="h-5 w-5" /></button>
       </form>
       <p className="mt-3 px-2 text-center text-xs leading-5" style={{ color: theme.textSecondary }}>Votre foyer reste enregistré sur ce téléphone.<br />Personnes et tâches modifiables à tout moment.</p>
     </div>

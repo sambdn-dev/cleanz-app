@@ -62,26 +62,16 @@ export const BottomNav = ({ activeTab, onTabChange }: BottomNavProps) => {
               onClick={() => { haptic('selection'); onTabChange(label); }}
               aria-label={label}
               aria-current={isActive ? 'page' : undefined}
-              className="relative flex flex-col items-center justify-center rounded-[20px] active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2"
+              className={`relative flex flex-col items-center justify-center rounded-[20px] border border-transparent active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 ${isActive ? 'cleanz-gradient-button cleanz-gradient-button--selected' : ''}`}
               style={{
                 flex: '1 1 0',
                 minWidth: 0,
                 height: 60,
                 gap: 5,
-                color: isActive ? theme.accentPink : theme.textSecondary,
+                color: isActive ? 'var(--brand-action-ink)' : theme.textSecondary,
                 outlineColor: theme.accentPink,
               }}
             >
-              <span
-                className="absolute inset-0 rounded-[20px] transition-opacity duration-200"
-                style={{
-                  opacity: isActive ? 1 : 0,
-                  background: darkMode
-                    ? 'linear-gradient(135deg, rgba(255,133,192,0.22), rgba(94,234,212,0.18))'
-                    : 'linear-gradient(135deg, rgba(255,105,180,0.16), rgba(79,209,197,0.14))',
-                  boxShadow: `inset 0 0 0 1px ${darkMode ? 'rgba(255,133,192,0.35)' : 'rgba(255,105,180,0.28)'}`,
-                }}
-              />
               <Icon className="relative shrink-0" size={23} strokeWidth={isActive ? 2.2 : 1.8}
                 fill={isActive ? 'currentColor' : 'none'} fillOpacity={isActive ? 0.15 : 0} aria-hidden="true" />
               <span className="relative font-semibold leading-none whitespace-nowrap" style={{ fontSize: 11 }}>{label}</span>

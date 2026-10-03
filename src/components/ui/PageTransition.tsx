@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react';
  * Donner une `key` distincte (ex: l'onglet actif) pour rejouer l'animation
  * à chaque changement d'onglet.
  */
-export function PageTransition({ children }: { children: React.ReactNode }) {
-  const [shown, setShown] = useState(false);
+export function PageTransition({ children, animate = true }: { children: React.ReactNode; animate?: boolean }) {
+  const [shown, setShown] = useState(!animate);
 
   useEffect(() => {
+    if (!animate) return;
     const r = requestAnimationFrame(() => setShown(true));
     return () => cancelAnimationFrame(r);
-  }, []);
+  }, [animate]);
 
   return (
     <div

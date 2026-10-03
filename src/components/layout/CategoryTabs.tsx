@@ -22,13 +22,10 @@ export const CategoryTabs = ({ activeTab, onTabChange }: CategoryTabsProps) => {
           <button
             key={tab}
             onClick={() => onTabChange(tab)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all flex-shrink-0"
+            aria-pressed={isActive}
+            className={`min-h-[44px] ${isActive ? 'cleanz-gradient-button cleanz-gradient-button--selected' : ''} flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all flex-shrink-0`}
             style={isActive
-              ? {
-                  background: 'linear-gradient(135deg, #FF69B4 0%, #DDA0DD 50%, #4FD1C5 100%)',
-                  color: 'white',
-                  boxShadow: '0 2px 8px rgba(255,105,180,0.3)'
-                }
+              ? undefined
               : {
                   background: darkMode
                     ? 'rgba(255,255,255,0.08)'

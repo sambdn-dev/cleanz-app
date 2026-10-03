@@ -122,6 +122,7 @@ const HeroSlide = ({ spray, priority }: { spray: Spray; priority: boolean }) => 
             placeholder={blur ? 'blur' : 'empty'}
             blurDataURL={blur}
             priority={priority}
+            data-launch-image={priority ? true : undefined}
             draggable={false}
           />
           {/* Voile à gauche pour la lisibilité du texte (clair en jour, sombre en nuit) */}

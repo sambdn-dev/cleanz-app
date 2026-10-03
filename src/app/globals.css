@@ -15,6 +15,11 @@
   --accent-pink: #FF69B4;
   --accent-cyan: #4FD1C5;
   --shadow-card: 0 4px 20px rgba(255,105,180,0.08);
+  --brand-text: linear-gradient(110deg, #cc56bd 0%, #835aeb 24%, #249cce 46%, #39af94 64%, #a5a53b 79%, #cc56bd 100%);
+  --brand-border: linear-gradient(125deg, #ec7dce 0%, #a895f5 32%, #6ccee9 61%, #b3e594 83%, #edb7dc 100%);
+  --brand-action-surface: #fffbff;
+  --brand-action-ink: #4c255e;
+  --brand-action-halo: rgba(167, 103, 234, 0.12);
 }
 
 .dark {
@@ -31,6 +36,11 @@
   --accent-pink: #FF85C0;
   --accent-cyan: #5EEAD4;
   --shadow-card: 0 4px 25px rgba(182,130,255,0.18);
+  --brand-text: linear-gradient(110deg, #ff9de3 0%, #c8b9ff 24%, #a5e6ff 46%, #bdfbc9 64%, #f3f7a3 79%, #ff9de3 100%);
+  --brand-border: linear-gradient(125deg, #f49ce7 0%, #b2a5ff 32%, #85e2ff 61%, #c3f69e 83%, #f5bae1 100%);
+  --brand-action-surface: #271b3b;
+  --brand-action-ink: #f8f1ff;
+  --brand-action-halo: rgba(174, 122, 255, 0.18);
 }
 
 html {
@@ -305,65 +315,40 @@ body {
   }
 }
 
-/* Wordmark-only launch screen. Its exit never depends on JavaScript. */
-.splash-screen {
-  --splash-background: #faf8fc;
-  --splash-gradient: linear-gradient(120deg, #ed72c7 0%, #9860e4 55%, #29b6ca 100%);
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: grid;
-  place-items: center;
-  background: var(--splash-background);
-  transition: none;
-}
-@media (prefers-color-scheme: dark) {
-  .splash-screen {
-    --splash-background: #151020;
-    --splash-gradient: linear-gradient(120deg, #ff85c0 0%, #b49af5 55%, #5eead4 100%);
-  }
-}
-html[data-splash-theme="light"] .splash-screen {
-  --splash-background: #faf8fc;
-  --splash-gradient: linear-gradient(120deg, #ed72c7 0%, #9860e4 55%, #29b6ca 100%);
-}
-html[data-splash-theme="dark"] .splash-screen {
-  --splash-background: #151020;
-  --splash-gradient: linear-gradient(120deg, #ff85c0 0%, #b49af5 55%, #5eead4 100%);
-}
-.splash-wordmark {
-  font-family: var(--font-sans), sans-serif;
-  font-size: clamp(64px, 18vw, 88px);
-  font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.065em;
-  padding-right: 0.065em;
-}
-.splash-letter {
-  display: inline-block;
-  background-image: var(--splash-gradient);
-  background-size: 600% 100%;
-  background-position: var(--letter-position) center;
+/* Shared brand treatment: continuous color inside type, fine gradient borders. */
+.cleanz-brand-text {
+  background-image: var(--brand-text);
+  background-size: 220% 100%;
+  background-position: 35% 50%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  animation: splash-write 420ms cubic-bezier(0.22, 1, 0.36, 1) var(--letter-delay) both;
-  transition: none;
 }
-@keyframes splash-write {
-  from { clip-path: inset(0 100% 0 0); transform: translateY(3px); }
-  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+.cleanz-gradient-button {
+  border: 1px solid transparent;
+  background: linear-gradient(var(--brand-action-surface), var(--brand-action-surface)) padding-box,
+    var(--brand-border) border-box;
+  color: var(--brand-action-ink);
+  box-shadow: 0 3px 12px var(--brand-action-halo);
+  transition: box-shadow 180ms ease, transform 180ms ease;
 }
-@keyframes splash-auto-out {
-  to { opacity: 0; visibility: hidden; pointer-events: none; }
+@media (hover: hover) {
+  .cleanz-gradient-button:hover:not(:disabled) {
+    box-shadow: 0 0 0 2px var(--brand-action-halo), 0 5px 18px var(--brand-action-halo);
+  }
 }
-.splash-auto-out {
-  animation: splash-auto-out 240ms ease-out 1050ms forwards;
+.cleanz-gradient-button:focus-visible {
+  outline: 2px solid var(--brand-action-ink);
+  outline-offset: 3px;
 }
+.cleanz-gradient-button:disabled { opacity: 0.5; }
+.cleanz-gradient-button--selected {
+  box-shadow: 0 0 0 1px var(--brand-action-halo), 0 3px 14px var(--brand-action-halo);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .splash-letter { animation: none; }
-  .splash-auto-out { animation-duration: 1ms; animation-delay: 250ms; }
+  .cleanz-gradient-button { transition: none; }
 }
 
 /* Matériel — fondu enchaîné du hero et entrée du contenu */

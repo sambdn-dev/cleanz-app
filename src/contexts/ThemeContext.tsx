@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useSyncExternalStore, useEffect, ReactNode } from 'react';
 import { Theme } from '@/types';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
@@ -60,58 +60,70 @@ export const useTheme = () => {
   return context;
 };
 
+const THEME_KEY = 'cleanz-theme-mode';
+const THEME_EVENT = 'cleanz:theme-change';
+let sessionMode: ThemeMode | undefined;
+
+function readThemeSnapshot(): string {
+  let mode = sessionMode;
+  if (!mode) {
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'light' || saved === 'dark' || saved === 'system') mode = saved;
+    } catch { /* A restricted store still supports the system appearance. */ }
+  }
+  mode ||= 'system';
+  const dark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  return `${mode}:${dark ? 'dark' : 'light'}`;
+}
+
+function subscribeTheme(listener: () => void) {
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== THEME_KEY) return;
+    sessionMode = undefined;
+    listener();
+  };
+  media.addEventListener('change', listener);
+  window.addEventListener(THEME_EVENT, listener);
+  window.addEventListener('storage', onStorage);
+  return () => {
+    media.removeEventListener('change', listener);
+    window.removeEventListener(THEME_EVENT, listener);
+    window.removeEventListener('storage', onStorage);
+  };
+}
+
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [themeMode, setThemeModeState] = useState<ThemeMode>('system');
-  const [systemPrefersDark, setSystemPrefersDark] = useState(false);
+  // The server snapshot preserves hydration. React then reads the real saved
+  // appearance before the launch overlay reveals the first interactive screen.
+  const snapshot = useSyncExternalStore(subscribeTheme, readThemeSnapshot, () => 'system:light');
+  const [mode, appearance] = snapshot.split(':');
+  const themeMode = mode as ThemeMode;
+  const darkMode = appearance === 'dark';
 
-  // Detect system preference
   useEffect(() => {
-    // Check initial system preference
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    setSystemPrefersDark(mediaQuery.matches);
-
-    // Listen for system preference changes
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSystemPrefersDark(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  // Load saved theme mode from localStorage
-  useEffect(() => {
-    const savedMode = localStorage.getItem('cleanz-theme-mode') as ThemeMode | null;
-    if (savedMode && ['system', 'light', 'dark'].includes(savedMode)) {
-      setThemeModeState(savedMode);
-    }
-  }, []);
-
-  // Calculate actual dark mode based on themeMode and system preference
-  const darkMode = themeMode === 'system' ? systemPrefersDark : themeMode === 'dark';
-
-  // Update document class when darkMode changes
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
+    // Read the live preference even during the initial server-snapshot pass:
+    // never undo the dark class already set by the pre-paint bootstrap script.
+    const dark = readThemeSnapshot().endsWith(':dark');
+    const root = document.documentElement;
+    root.classList.toggle('dark', dark);
+    root.dataset.splashTheme = dark ? 'dark' : 'light';
+    root.style.colorScheme = dark ? 'dark' : 'light';
+    document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach(meta => {
+      meta.content = dark ? '#1E1038' : '#FFE5F1';
+    });
+  }, [snapshot]);
 
   const setThemeMode = (mode: ThemeMode) => {
-    setThemeModeState(mode);
-    localStorage.setItem('cleanz-theme-mode', mode);
+    sessionMode = mode;
+    try { localStorage.setItem(THEME_KEY, mode); } catch { /* Keep this session's selection. */ }
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
-
-  // Legacy toggle function (cycles through: system -> light -> dark -> system)
   const toggleTheme = () => {
     const modes: ThemeMode[] = ['system', 'light', 'dark'];
-    const currentIndex = modes.indexOf(themeMode);
-    const nextMode = modes[(currentIndex + 1) % modes.length];
-    setThemeMode(nextMode);
+    setThemeMode(modes[(modes.indexOf(themeMode) + 1) % modes.length]);
   };
-
   const theme = darkMode ? themes.dark : themes.light;
 
   return (

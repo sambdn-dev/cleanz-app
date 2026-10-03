@@ -190,7 +190,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
       {!editing && view === 'catalog' && mine.length === 0 && storageStatus === 'ready' && (
         <div className="mb-4 flex items-center justify-between gap-2 rounded-2xl border px-3 py-2" style={{ background: subtle, borderColor: theme.borderLight }}>
           <h3 className="text-[12px] font-bold" style={{ color: theme.textPrimary }}>Et chez vous ?</h3>
-          <button type="button" onClick={beginSelection} className={`flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl px-3 text-[11px] font-bold text-white ${FOCUS}`} style={{ background: '#6D28D9' }}>
+          <button type="button" onClick={beginSelection} className={`flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl px-3 text-[11px] font-bold cleanz-gradient-button ${FOCUS}`}>
             Ajouter mes appareils <Plus size={15} aria-hidden="true" />
           </button>
         </div>
@@ -202,7 +202,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
           <p className="mt-0.5 text-[11px]" style={{ color: theme.textSecondary }}>{editing ? `${mine.length} appareil${mine.length !== 1 ? 's' : ''} sélectionné${mine.length !== 1 ? 's' : ''}` : `${filtered.length} fiche${filtered.length !== 1 ? 's' : ''}${query || selectedPiece !== 'Toutes' ? ' trouvée' + (filtered.length !== 1 ? 's' : '') : ' à découvrir'}`}</p>
         </div>
         {editing ? (
-          <button type="button" onClick={() => { setEditing(false); if (mine.length > 0) setView('mine'); }} className={`min-h-[44px] shrink-0 rounded-xl px-4 text-[12px] font-bold text-white ${FOCUS}`} style={{ background: '#6D28D9' }}>
+          <button type="button" onClick={() => { setEditing(false); if (mine.length > 0) setView('mine'); }} className={`min-h-[44px] shrink-0 rounded-xl px-4 text-[12px] font-bold cleanz-gradient-button ${FOCUS}`}>
             Terminer
           </button>
         ) : (mine.length > 0 || view === 'mine') && storageStatus === 'ready' ? (
@@ -249,7 +249,7 @@ export const AppareilsPage = ({ onApplianceClick }: AppareilsPageProps) => {
           </div>
           <h3 className="text-[15px] font-bold" style={{ color: theme.textPrimary }}>{emptyInventory ? 'Votre maison, vos appareils' : 'Aucun appareil trouvé'}</h3>
           <p className="mx-auto mt-2 max-w-[260px] text-[12px] leading-relaxed" style={{ color: theme.textSecondary }}>{emptyInventory ? 'Ajoutez votre équipement pour retrouver ici les fiches qui vous sont utiles.' : 'Essayez un autre nom ou une autre pièce.'}</p>
-          <button type="button" onClick={emptyInventory ? beginSelection : () => { setQuery(''); setSelectedPiece('Toutes'); }} disabled={emptyInventory && storageStatus !== 'ready'} className={`mt-5 min-h-[44px] rounded-xl px-5 text-[12px] font-bold text-white disabled:opacity-50 ${FOCUS}`} style={{ background: '#6D28D9' }}>
+          <button type="button" onClick={emptyInventory ? beginSelection : () => { setQuery(''); setSelectedPiece('Toutes'); }} disabled={emptyInventory && storageStatus !== 'ready'} className={`mt-5 min-h-[44px] rounded-xl px-5 text-[12px] font-bold cleanz-gradient-button disabled:opacity-50 ${FOCUS}`}>
             {emptyInventory ? 'Choisir mes appareils' : 'Réinitialiser les filtres'}
           </button>
         </div>

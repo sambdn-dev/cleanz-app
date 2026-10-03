@@ -47,26 +47,28 @@ try {
           for (const animation of el.getAnimations({ subtree: true })) { animation.pause(); animation.currentTime = 0; }
         });
         assert.equal(await page.locator('html').getAttribute('data-splash-theme'), test.expected);
-        assert.equal(await splash.evaluate(el => getComputedStyle(el).backgroundColor), test.expected === 'dark' ? 'rgb(21, 16, 32)' : 'rgb(250, 248, 252)');
+        assert.equal(await splash.evaluate(el => getComputedStyle(el).backgroundColor), test.expected === 'dark' ? 'rgb(13, 12, 19)' : 'rgb(250, 250, 252)');
         assert.equal(await splash.innerText(), 'cleanz');
         assert.equal(await splash.locator('img').count(), 0);
         assert.equal(requests.some(url => url.includes('splash-bg')), false);
-        await splash.evaluate(el => {
-          for (const span of el.querySelectorAll('.splash-letter')) {
-            for (const animation of span.getAnimations()) animation.currentTime = 250;
-          }
+        const mark = page.locator('.splash-wordmark');
+        const before = await mark.boundingBox();
+        await mark.evaluate(el => {
+          for (const animation of el.getAnimations()) animation.currentTime = 200;
         });
-        const clips = await page.locator('.splash-letter').evaluateAll(spans => spans.map(el => getComputedStyle(el).clipPath));
-        assert.notEqual(clips[0], clips[5], 'La révélation avance de gauche à droite');
-        await splash.evaluate(el => {
-          for (const span of el.querySelectorAll('.splash-letter')) {
-            for (const animation of span.getAnimations()) animation.currentTime = 920;
-          }
+        const startColor = await mark.evaluate(el => getComputedStyle(el, '::after').backgroundPosition);
+        await mark.evaluate(el => {
+          for (const animation of el.getAnimations()) animation.currentTime = 1300;
         });
+        const endColor = await mark.evaluate(el => getComputedStyle(el, '::after').backgroundPosition);
+        assert.notEqual(startColor, endColor, 'Le dégradé se déplace dans le logo entier');
+        assert.deepEqual(await mark.boundingBox(), before, 'Les lettres restent immobiles');
+        assert.equal(await mark.locator('.splash-letter').count(), 0, 'Aucune découpe des lettres');
+        assert.notEqual(await mark.evaluate(el => getComputedStyle(el, '::after').maskImage), 'none');
         await page.evaluate(() => document.fonts.ready);
         if (!test.saved && !test.denied) await page.screenshot({ path: `${output}/logo-${test.expected}.png` });
-        await splash.evaluate(el => { for (const animation of el.getAnimations({ subtree: true })) animation.play(); });
-        await splash.waitFor({ state: 'hidden', timeout: 2500 });
+        await splash.evaluate(el => { for (const animation of el.getAnimations()) animation.finish(); });
+        await splash.waitFor({ state: 'hidden', timeout: 1000 });
         assert.notEqual(await page.evaluate(() => document.elementFromPoint(innerWidth / 2, innerHeight / 2)?.closest('.splash-screen')?.className || null), 'splash-auto-out splash-screen');
       } finally { await context.close(); }
     }
@@ -74,8 +76,8 @@ try {
   await check('Animations réduites : logo immédiatement lisible et sortie sans JavaScript', async () => {
     const { context, page } = await open({ reduced: true, blockJS: true });
     try {
-      assert.deepEqual(await page.locator('.splash-letter').evaluateAll(spans => spans.map(el => getComputedStyle(el).animationName)), Array(6).fill('none'));
-      await page.locator('.splash-screen').waitFor({ state: 'hidden', timeout: 700 });
+      assert.equal(await page.locator('.splash-wordmark').evaluate(el => getComputedStyle(el).animationName), 'none');
+      await page.locator('.splash-screen').waitFor({ state: 'hidden', timeout: 7500 });
     } finally { await context.close(); }
   });
   await check('Barre stable et lisible à 320, 375, 402 et 430 px, en clair et sombre', async () => {

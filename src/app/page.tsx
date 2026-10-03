@@ -52,7 +52,6 @@ const ImpactStrip = dynamic(() => import('@/components/home/ImpactStrip').then((
 const WhatsNewModal = dynamic(() => import('@/components/ui/WhatsNewModal').then((m) => m.WhatsNewModal), { ssr: false });
 import { PWAInstallPrompt } from '@/components/ui/PWAInstallPrompt';
 import { PWAUpdatePrompt } from '@/components/ui/PWAUpdatePrompt';
-import { SplashScreen } from '@/components/ui/SplashScreen';
 import { LazySection } from '@/components/ui/LazySection';
 import { LiensPartages } from '@/components/layout/LiensPartages';
 import { PreviewAutoReload } from '@/components/layout/PreviewAutoReload';
@@ -179,8 +178,6 @@ function HomePageContent() {
         />
       </Suspense>
 
-      <SplashScreen />
-
       {/* Nouveautés (s'affiche après le splash si features non vues) */}
       <WhatsNewModal />
 
@@ -234,7 +231,7 @@ function HomePageContent() {
           <Header onAccountClick={() => setShowAccountMenu(true)} />
         </div>
 
-        <PageTransition key={activeNavTab}>
+        <PageTransition key={activeNavTab} animate={activeNavTab !== 'Accueil'}>
         {activeNavTab === 'Accueil' && (
           <>
             {/* Diagnostic météo (uniquement avec ?meteo=debug) */}

@@ -54,8 +54,7 @@ export const AccountPage = ({ onClose, onOpenFavoris }: AccountPageProps) => {
       {/* Raccourci favoris */}
       <button
         onClick={onOpenFavoris}
-        className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl mb-6 transition-transform active:scale-[0.98]"
-        style={{ background: theme.bgCardSolid, border: `1px solid ${theme.borderLight}` }}
+        className="cleanz-gradient-button w-full flex items-center gap-3 px-4 py-4 rounded-2xl mb-6 transition-transform active:scale-[0.98]"
       >
         <Heart className="w-5 h-5" style={{ color: '#EC4899', fill: '#EC4899' }} />
         <span className="flex-1 text-left">
