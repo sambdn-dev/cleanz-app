@@ -48,7 +48,8 @@ arrivent automatiquement ; une modification du lanceur lui-même peut demander s
 `scripts/iphone-ios.command` propose uniquement les iPhone disponibles dans les runtimes
 iOS installés de Xcode. Il ouvre la vraie application dans Safari du Simulateur d’Apple,
 avec `?apercu=1` pour recharger après une mise à jour réussie. Aucun modèle fictif n’est ajouté
-à Xcode. Safari du Simulateur a son propre stockage ; les données du navigateur Mac y restent.
+à Xcode. Safari du Simulateur a son propre stockage, distinct de celui du navigateur Mac.
+Ces deux stockages ne sont pas synchronisés.
 Ce parcours nécessite Xcode complet et un runtime iOS ; il n’a pas été exécuté dans le cloud Linux.
 
 ## Sur Mac
@@ -100,3 +101,6 @@ Les 3 scénarios Git/serveurs et les 5 groupes navigateur réussissent : dimensi
 zones réservées, défilement/modales/thème, concepts ajustables, actualisation du cadre
 avec modèle/données conservés, actualisation de la vraie app avec `?apercu=1`.
 Le nouveau composant et les scripts passent leur lint ciblé et les types ; le build réussit.
+Le lanceur a aussi exécuté un véritable `npm ci` et un build Next isolé, démarré le serveur
+de contrôle puis le serveur à adresse fixe. Les cinq groupes navigateur passent également
+sur cette copie isolée. Les copies générées sont exclues de Git, TypeScript et ESLint.
